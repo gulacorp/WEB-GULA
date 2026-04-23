@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Gula Crew</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Akira Expanded';
+            src: url('Akira Expanded Demo.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Aveline';
+            src: url('AvelineRegular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --gula-orange: #FF5800;
+            --bg-dark: #000000;
+            --input-bg: #111111;
+            --accent-white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Akira Expanded', 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            min-height: 100vh;
+        }
+
+        .card {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 30px;
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 30px;
+            border: 2px solid var(--gula-orange);
+            box-shadow: 0 0 30px rgba(255, 88, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--gula-orange);
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .profile-section {
+            margin-bottom: 30px;
+        }
+
+        .profile-section h3 {
+            color: var(--gula-orange);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mission-category {
+            margin-bottom: 30px;
+        }
+
+        .mission-category h3 {
+            color: var(--gula-orange);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mission-item {
+            background: rgba(255, 88, 0, 0.05);
+            border: 1px solid var(--gula-orange);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .mission-item h4 {
+            color: #ffffff;
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .mission-description {
+            color: #ccc;
+            margin: 0 0 15px 0;
+            font-size: 0.9rem;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 88, 0, 0.1);
+            border: 2px solid #FF5800;
+            color: #ffffff;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        .btn-mission {
+            background: #FF5800;
+            color: black;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn-mission:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 88, 0, 0.4);
+        }
+
+        .referral-code {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .referral-code p {
+            margin: 0;
+            font-size: 1.6rem;
+            color: #FFD700;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .referral-code .description {
+            font-size: 0.8rem;
+            color: #ccc;
+            margin: 8px 0 0 0;
+        }
+
+        .stats p {
+            margin: 10px 0;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        .stats strong {
+            color: var(--gula-orange);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>MI PERFIL</h2>
+        
+        <div class="profile-section">
+            <h3>Información Personal</h3>
+            <p><strong>Nombre:</strong> <span id="pName">--</span></p>
+            <p><strong>Apellido:</strong> <span id="pLastName">--</span></p>
+            <p><strong>Nivel:</strong> <span id="pLevel" style="color: var(--gula-orange); font-weight: 900;">--</span></p>
+            <p><strong>Puntos:</strong> <span id="pPoints" style="color: #FFD700; font-weight: bold;">0</span></p>
+        </div>
+
+        <div class="mission-category">
+            <h3>EDITAR CONTACTO</h3>
+            
+            <div class="mission-item">
+                <h4>Correo Electrónico</h4>
+                <p class="mission-description">Actualiza tu email para recibir notificaciones y ofertas exclusivas.</p>
+                <input type="email" id="pEmailInput" placeholder="Nuevo email">
+                <button class="btn-mission" onclick="saveEmail()">Guardar Email</button>
+            </div>
+            
+            <div class="mission-item">
+                <h4>Número de Teléfono</h4>
+                <p class="mission-description">Añade o cambia tu número de teléfono para confirmaciones y beneficios.</p>
+                <input type="tel" id="pPhoneInput" placeholder="Nuevo teléfono">
+                <button class="btn-mission" onclick="savePhone()">Guardar Teléfono</button>
+            </div>
+        </div>
+
+        <div class="mission-category">
+            <h3>CÓDIGO DE REFERIDOS</h3>
+            
+            <div class="mission-item">
+                <h4>Tu Código Personal</h4>
+                <p class="mission-description">Comparte este código con amigos para ganar +20 pts por cada registro.</p>
+                <div class="referral-code">
+                    <p id="pReferralCode">GULA-XXXX</p>
+                    <p class="description">Comparte y gana +20 pts por cada amigo</p>
+                </div>
+                <button class="btn-mission" onclick="copyReferralCode()">Copiar Código</button>
+            </div>
+        </div>
+
+        <div class="mission-category">
+            <h3>CÓDIGO QR - ESCANEA EN SALA</h3>
+            <div class="mission-item" style="text-align: center;">
+                <h4>Tu Código QR Personal</h4>
+                <p class="mission-description">Escanea este código en sala para agregar puntos o revisar tu perfil.</p>
+                <div id="qrContainer" style="display: flex; justify-content: center; padding: 20px; background: #ffffff; border-radius: 12px; margin: 20px 0;"></div>
+                <button class="btn-mission" onclick="downloadQR()">Descargar QR</button>
+            </div>
+        </div>
+
+        <div class="profile-section stats">
+            <h3>Estadísticas</h3>
+            <p><strong>Amigos Referidos:</strong> <span id="pReferralCount">0</span></p>
+            <p><strong>Bonus por Referidos:</strong> <span id="pReferralBonus" style="color: #FFD700; font-weight: bold;">0 pts</span></p>
+            <p><strong>Fecha Registro:</strong> <span id="pDate">--</span></p>
+            <p><strong>Código Miembro:</strong> <span id="pCode" style="font-family: monospace; color: #FF5800; font-weight: bold;">--</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Cargar datos del usuario desde localStorage
+        function loadProfileData() {
+            const userData = localStorage.getItem('currentUser');
+            if (!userData) {
+                alert('No se encontraron datos del usuario. Por favor accede primero.');
+                window.close();
+                return;
+            }
+
+            const user = JSON.parse(userData);
+
+            // Información personal
+            document.getElementById('pName').innerText = user.nombre || '--';
+            document.getElementById('pLastName').innerText = user.apellido || '--';
+            document.getElementById('pLevel').innerText = getLevelName(user.puntos || 0);
+            document.getElementById('pPoints').innerText = user.puntos || 0;
+
+            // Inputs con valores actuales
+            document.getElementById('pEmailInput').value = user.email || '';
+            document.getElementById('pPhoneInput').value = user.telefono || '';
+
+            // Código de referencia
+            if (!user.referralCode) {
+                user.referralCode = generateReferralCode();
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            }
+            document.getElementById('pReferralCode').innerText = user.referralCode;
+
+            // Estadísticas
+            const refCount = user.referralCount || 0;
+            document.getElementById('pReferralCount').innerText = refCount;
+            document.getElementById('pReferralBonus').innerText = (refCount * 20) + ' pts';
+            document.getElementById('pDate').innerText = user.fecha || '--';
+            document.getElementById('pCode').innerText = user.id || '--';
+            
+            // Generar QR único
+            generateQR();
+        }
+
+        function getLevelName(points) {
+            if (points >= 1200) return 'FOUNDERS';
+            if (points >= 700) return 'HIGH CREW';
+            if (points >= 250) return 'CREW';
+            return 'NEOPHYTE';
+        }
+
+        function generateReferralCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = 'GULA-';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function saveEmail() {
+            const email = document.getElementById('pEmailInput').value.trim();
+            if (!email) return alert('Introduce un email válido');
+
+            const userData = localStorage.getItem('currentUser');
+            if (!userData) return alert('Usuario no encontrado');
+
+            const user = JSON.parse(userData);
+            user.email = email;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+
+            // Actualizar base de datos
+            const database = JSON.parse(localStorage.getItem('gula_crew_db') || '[]');
+            const idx = database.findIndex(u => u.id === user.id);
+            if (idx !== -1) {
+                database[idx] = user;
+                localStorage.setItem('gula_crew_db', JSON.stringify(database));
+            }
+
+            alert('Email actualizado con éxito.');
+        }
+
+        function savePhone() {
+            const phone = document.getElementById('pPhoneInput').value.trim();
+            if (!phone) return alert('Introduce un teléfono válido');
+
+            const userData = localStorage.getItem('currentUser');
+            if (!userData) return alert('Usuario no encontrado');
+
+            const user = JSON.parse(userData);
+            user.telefono = phone;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+
+            // Actualizar base de datos
+            const database = JSON.parse(localStorage.getItem('gula_crew_db') || '[]');
+            const idx = database.findIndex(u => u.id === user.id);
+            if (idx !== -1) {
+                database[idx] = user;
+                localStorage.setItem('gula_crew_db', JSON.stringify(database));
+            }
+
+            alert('Teléfono actualizado con éxito.');
+        }
+
+        function copyReferralCode() {
+            const code = document.getElementById('pReferralCode').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Código copiado: ' + code);
+            }).catch(() => {
+                alert('Código: ' + code);
+            });
+        }
+
+        function generateQR() {
+            const userData = localStorage.getItem('currentUser');
+            if (!userData) return;
+            
+            const user = JSON.parse(userData);
+            // QR contendrá: código del miembro + email
+            const qrData = `GULA|${user.id}|${user.email}|${user.nombre}`;
+            
+            // Limpiar contenedor anterior
+            document.getElementById('qrContainer').innerHTML = '';
+            
+            // Generar nuevo QR
+            new QRCode(document.getElementById('qrContainer'), {
+                text: qrData,
+                width: 300,
+                height: 300,
+                colorDark: '#FF5800',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function downloadQR() {
+            const userData = localStorage.getItem('currentUser');
+            if (!userData) return alert('Usuario no encontrado');
+            
+            const user = JSON.parse(userData);
+            const canvas = document.querySelector('#qrContainer canvas');
+            if (!canvas) return alert('QR no generado aún');
+            
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `QR_${user.id}.png`;
+            link.click();
+        }
+
+        // Cargar datos al cargar la página
+        window.onload = loadProfileData;
+    </script>
+</body>
+</html>

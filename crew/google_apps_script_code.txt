@@ -1,0 +1,638 @@
+// Google Apps Script for Gula Crew Registration
+const SPREADSHEET_ID = '1jpeHZVu43-9OqsAaj8f5Ri3rwb5WV0Jwf8q61RNT9Eg';
+const SHEET_NAME = 'FormResponses';
+const MISSIONS_SHEET_NAME = 'Missions';
+const EVENTS_SHEET_NAME = 'Events';
+const GMAIL_FROM = 'marketing@thegulacorp.com'; // Gmail address used by Apps Script
+const SENDER_NAME = 'Club Gula';
+
+function doPost(e) {
+  try {
+    console.log('doPost called with:', e);
+    
+    const ss = getSpreadsheet();
+    console.log('Spreadsheet accessed:', ss.getId());
+    
+    let sheet = ss.getSheetByName(SHEET_NAME);
+    if (!sheet) {
+      console.log('Creating sheet:', SHEET_NAME);
+      sheet = ss.insertSheet(SHEET_NAME);
+    }
+
+    const body = e.postData && e.postData.contents ? JSON.parse(e.postData.contents) : [];
+    console.log('Parsed body:', body);
+
+    // Check if email already exists
+    const rows = sheet.getDataRange().getValues();
+    console.log('Sheet has', rows.length, 'rows');
+    
+    const header = rows[0].map(c => c.toString().toLowerCase().trim());
+    const emailIdx = header.indexOf('email');
+    const email = body[2] || '';
+    
+    if (email) {
+      console.log('Checking for existing email:', email);
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const rowEmail = (row[emailIdx] || '').toString().trim().toLowerCase();
+        console.log('Comparing with row', i, 'email:', rowEmail);
+        if (rowEmail === email.toLowerCase()) {
+          console.log('Email already exists!');
+          // Return existing user data instead of error
+          const existingUser = {
+            nombre: row[0] || '',
+            apellido: row[1] || '',
+            email: row[2] || '',
+            zip: row[3] || '',
+            telefono: row[4] || '',
+            puntos: Number(row[5]) || 0,
+            instagramFollow: row[6] || '',
+            id: row[7] || '',
+            fecha: row[8] || ''
+          };
+          return ContentService
+            .createTextOutput(JSON.stringify({ 
+              status: 'email_exists', 
+              message: 'Email ya registrado',
+              existingUser: existingUser
+            }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+      }
+    }
+
+    // Add header row if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      console.log('Adding header row');
+      sheet.appendRow(['Nombre','Apellido','Email','Codigo Postal','Telefono','Puntaje','Instagram Follow','MemberID','Timestamp']);
+    }
+
+    // Array order: [NOMBRE, APELLIDO, EMAIL, CODIGO POSTAL, TELEFONO, PUNTAJE, INSTAGRAM, FECHA, USER CODE]
+    const row = [
+      body[0] || '',  // Nombre
+      body[1] || '',  // Apellido
+      body[2] || '',  // Email
+      body[3] || '',  // Codigo Postal
+      body[4] || '',  // Telefono
+      body[5] || 0,   // Puntaje
+      body[6] || 'NO', // Instagram Follow
+      body[8] || '',  // MemberID (USER CODE)
+      body[7] || ''   // Timestamp (FECHA)
+    ];
+    
+    console.log('Appending row:', row);
+    sheet.appendRow(row);
+
+    console.log('Success! Row added.');
+    
+    // Send welcome email via Gmail
+    const nombre = body[0] || '';
+    const memberId = body[8] || '';
+    const puntos = Number(body[5]) || 0;
+    const fecha = body[7] || new Date().toLocaleDateString('es-ES');
+    
+    if (email && nombre) {
+      try {
+        console.log('Attempting to send email to:', email, 'for:', nombre);
+        console.log('Email function starting...');
+        sendWelcomeEmail(email, nombre, memberId, puntos, fecha);
+        console.log('Email function completed successfully');
+      } catch (emailErr) {
+        console.error('Email sending error (caught):', emailErr.toString());
+        console.error('Error message:', emailErr.message);
+        console.error('Error stack:', emailErr.stack);
+        // Don't fail registration if email fails
+      }
+    } else {
+      console.warn('Skipping email - email or nombre missing. Email:', email, 'Nombre:', nombre);
+    }
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'ok' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    console.error('doPost error:', err);
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// Function to send welcome email using MailApp (supports all parameters)
+function sendWelcomeEmail(recipientEmail, nombre, memberId, puntos, fecha) {
+  const subject = '¡Bienvenido a GULA Rewards! Acceso VIP + 20% Descuento';
+  
+  const htmlBody = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenido a GULA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #0a0a0a; color: #ffffff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; background: #000000; border-left: 4px solid #FF5800; border-right: 4px solid #FF5800; }
+    .header { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); padding: 40px 24px; text-align: center; border-bottom: 1px solid rgba(255, 88, 0, 0.2); }
+    .logo { font-size: 42px; font-weight: 900; letter-spacing: 3px; color: #FF5800; margin-bottom: 8px; font-family: 'Courier New', monospace; }
+    .subtitle { color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; font-family: 'Inter', sans-serif; }
+    .content { padding: 32px 24px; }
+    .welcome-text { font-size: 18px; color: #FF5800; font-weight: 700; margin-bottom: 12px; font-family: 'Inter', sans-serif; }
+    .greeting { font-size: 14px; color: #d0d0d0; margin-bottom: 28px; font-family: 'Inter', sans-serif; }
+    .code-section { background: #0f0f0f; border: 1px solid #FF5800; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 28px; }
+    .code-label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-family: 'Inter', sans-serif; }
+    .code-value { font-size: 32px; font-weight: 900; color: #FF5800; letter-spacing: 3px; font-family: 'Courier New', monospace; margin-bottom: 6px; }
+    .code-hint { font-size: 12px; color: #666; font-family: 'Inter', sans-serif; }
+    .benefits { background: rgba(255, 88, 0, 0.08); border-left: 3px solid #FF5800; padding: 20px; border-radius: 8px; margin-bottom: 28px; }
+    .benefits-title { color: #FF5800; font-size: 14px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; font-family: 'Inter', sans-serif; }
+    .benefit-item { color: #ccc; font-size: 13px; margin-bottom: 8px; padding-left: 20px; position: relative; font-family: 'Inter', sans-serif; }
+    .benefit-item:before { content: '✓'; position: absolute; left: 0; color: #FF5800; font-weight: 700; }
+    .next-steps { background: #0f0f0f; border: 1px solid #222; border-radius: 8px; padding: 20px; margin-bottom: 28px; }
+    .steps-title { color: #FF5800; font-size: 14px; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; font-family: 'Inter', sans-serif; }
+    .step { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; font-family: 'Inter', sans-serif; }
+    .step-number { background: #FF5800; color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+    .step-text { color: #ccc; }
+    .cta-button { display: inline-block; background: linear-gradient(135deg, #FF5800 0%, #FF7020 100%); color: #000; padding: 16px 48px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 24px; font-family: 'Inter', sans-serif; box-shadow: 0 4px 12px rgba(255, 88, 0, 0.3); }
+    .cta-section { text-align: center; }
+    .footer { background: #0a0a0a; border-top: 1px solid rgba(255, 88, 0, 0.15); color: #666; font-size: 11px; text-align: center; padding: 20px 24px; font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">GULA</div>
+      <div class="subtitle">Rewards Club</div>
+    </div>
+
+    <div class="content">
+      <div class="welcome-text">¡Bienvenido al Crew, ${nombre}!</div>
+      <div class="greeting">Tu membresía premium está activada. Acceso exclusivo a descuentos y promociones.</div>
+
+      <div class="code-section">
+        <div class="code-label">Tu Código de Miembro</div>
+        <div class="code-value">${memberId}</div>
+        <div class="code-hint">Guárdalo • Lo necesitarás para acceder al dashboard</div>
+      </div>
+
+      <div class="benefits">
+        <div class="benefits-title">Tus Beneficios</div>
+        <div class="benefit-item">20% Descuento en tu próximo pedido</div>
+        <div class="benefit-item">Acceso a grupo WhatsApp exclusivo</div>
+        <div class="benefit-item">Misiones semanales con recompensas</div>
+        <div class="benefit-item">Puntos para canjear en futuras compras</div>
+      </div>
+
+      <div class="next-steps">
+        <div class="steps-title">Cómo Acceder al Dashboard</div>
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-text">Regresa a la página de Gula Crew</div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-text">Ingresa tu código: <strong>${memberId}</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-text">¡Accede y disfruta de todos tus beneficios!</div>
+        </div>
+        <div class="cta-section">
+          <a href="https://gulacorp.github.io/Gula-Club/" class="cta-button">Ir al Dashboard</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p style="margin-bottom: 8px; font-family: 'Inter', sans-serif;">© 2026 GULA. Rewards Club</p>
+      <p style="font-family: 'Inter', sans-serif;">
+        <a href="https://instagram.com/thegulacorp" style="color: #FF5800; text-decoration: none;">Instagram</a>
+      </p>
+      <p style="margin-top: 12px; color: #555; font-family: 'Inter', sans-serif;">Este email fue enviado automáticamente desde tu registro en GULA Rewards</p>
+    </div>
+  </div>
+</body>
+</html>`;
+  
+  console.log('=== SEND EMAIL DEBUG ===');
+  console.log('Recipient:', recipientEmail);
+  console.log('Subject:', subject);
+  console.log('Nombre:', nombre);
+  console.log('MemberId:', memberId);
+  console.log('HTML length:', htmlBody.length);
+  
+  try {
+    console.log('Attempting MailApp.sendEmail...');
+    const options = {
+      htmlBody: htmlBody,
+      name: SENDER_NAME
+    };
+    
+    console.log('Options:', options);
+    const result = MailApp.sendEmail(recipientEmail, subject, '', options);
+    console.log('MailApp.sendEmail result:', result);
+    console.log('✅ Welcome email sent successfully to:', recipientEmail);
+    return true;
+  } catch (err) {
+    console.error('❌ MailApp.sendEmail failed:', err.toString());
+    console.error('Error type:', err.name);
+    console.error('Error message:', err.message);
+    
+    // Fallback: Try simple email without HTML
+    try {
+      console.log('Attempting fallback: simple text email...');
+      const simpleText = `¡BIENVENIDO AL CREW, ${nombre}!\n\nTu código de miembro es: ${memberId}\n\n✓ 20% descuento en próximo pedido\n✓ Acceso a grupo WhatsApp\n✓ ${puntos} puntos para canjear\n\nGuarda tu código. ¡Lo necesitarás en tu próxima compra!\n\nFecha de registro: ${fecha}\n\nGULA Rewards Club`;
+      MailApp.sendEmail(recipientEmail, subject, simpleText);
+      console.log('✅ Fallback email sent (text only)');
+      return true;
+    } catch (fallbackErr) {
+      console.error('❌ Fallback email also failed:', fallbackErr.toString());
+      throw fallbackErr;
+    }
+  }
+}
+
+// Additional email function for promotions/notifications
+function sendPromotionalEmail(recipientEmail, subject, htmlContent) {
+  try {
+    MailApp.sendEmail(recipientEmail, subject, '', {
+      htmlBody: htmlContent,
+      name: SENDER_NAME,
+      replyTo: GMAIL_FROM
+    });
+    console.log('Promotional email sent to:', recipientEmail);
+  } catch (err) {
+    console.error('Failed to send promotional email:', err);
+    throw err;
+  }
+}
+
+function doGet(e) {
+  try {
+    const action = (e.parameter && e.parameter.action) || 'query';
+    
+    switch (action) {
+      case 'leaderboard':
+        return getLeaderboard();
+      case 'missions':
+        return getMissions();
+      case 'events':
+        return getEvents();
+      case 'testPost':
+        return testPost();
+      case 'initializePermissions':
+        return initializePermissions();
+      case 'testEmail':
+        return testEmailDiagnostics(e);
+      case 'clearData':
+        // Security: require a password parameter
+        const password = e.parameter.password || '';
+        if (password === 'GULA_CLEAR_2026') {
+          return clearAllData();
+        } else {
+          return createJsonOutput({status:'error', message:'Contraseña incorrecta'});
+        }
+      case 'register':
+        return registerViaGet(e);
+      case 'query':
+      default:
+        return queryMembers(e);
+    }
+  } catch (err) {
+    return createJsonOutput({status:'error', message: err.toString()});
+  }
+}
+
+// Diagnostic function for email testing
+function testEmailDiagnostics(e) {
+  console.log('=== EMAIL DIAGNOSTICS ===');
+  const diagnostics = {
+    timestamp: new Date().toISOString(),
+    userEmail: Session.getActiveUser().getEmail(),
+    tests: {}
+  };
+  
+  try {
+    // Test 1: Can we access MailApp?
+    console.log('Test 1: MailApp availability');
+    diagnostics.tests.mailAppAvailable = typeof MailApp !== 'undefined';
+    
+    // Test 2: Try to send a test email
+    const testEmail = e.parameter.email || Session.getActiveUser().getEmail();
+    console.log('Test 2: Sending test email to', testEmail);
+    
+    const testSubject = '[TEST] GULA Email System - ' + new Date().toLocaleString();
+    const testBody = 'Este es un email de prueba del sistema GULA.\n\nSi recibes esto, el sistema de emails funciona correctamente.';
+    const testHtml = '<html><body style="font-family:Arial"><h2>✅ Sistema de Emails Funcionando</h2><p>Este es un email de prueba.</p><p>Timestamp: ' + new Date().toISOString() + '</p></body></html>';
+    
+    MailApp.sendEmail(testEmail, testSubject, testBody, {
+      htmlBody: testHtml,
+      name: SENDER_NAME
+    });
+    
+    diagnostics.tests.emailSent = true;
+    diagnostics.testEmailTo = testEmail;
+    diagnostics.message = '✅ Email de prueba enviado exitosamente. Revisa tu bandeja de entrada (incluyendo spam).';
+    
+  } catch (err) {
+    console.error('Email test error:', err);
+    diagnostics.tests.emailSent = false;
+    diagnostics.error = err.toString();
+    diagnostics.errorMessage = err.message;
+    diagnostics.message = '❌ Error al enviar email: ' + err.toString();
+  }
+  
+  console.log('Diagnostics:', diagnostics);
+  return createJsonOutput(diagnostics);
+}
+
+// Function to clear all user data from the sheet
+function clearAllData() {
+  try {
+    const ss = getSpreadsheet();
+    const sheet = ss.getSheetByName(SHEET_NAME);
+    
+    if (!sheet) {
+      return createJsonOutput({status:'error', message:'Sheet no encontrada'});
+    }
+    
+    const lastRow = sheet.getLastRow();
+    console.log('Current rows in sheet:', lastRow);
+    
+    if (lastRow <= 1) {
+      // Only header or empty
+      return createJsonOutput({status:'ok', message:'La base de datos ya estaba vacía'});
+    }
+    
+    // Delete all rows except header (rows 2 to lastRow)
+    if (lastRow > 1) {
+      sheet.deleteRows(2, lastRow - 1);
+      console.log('Deleted rows 2 to', lastRow);
+    }
+    
+    console.log('Data cleared successfully');
+    return createJsonOutput({
+      status:'ok', 
+      message:'Base de datos limpiada exitosamente',
+      rowsDeleted: lastRow - 1
+    });
+  } catch (err) {
+    console.error('Error clearing data:', err);
+    return createJsonOutput({status:'error', message: err.toString()});
+  }
+}
+
+function getLeaderboard() {
+  const ss = getSpreadsheet();
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    return createJsonOutput({status:'error', message:'Sheet no encontrada'});
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) {
+    return createJsonOutput({status:'ok', leaderboard: []});
+  }
+
+  const header = rows[0].map(c => c.toString().toLowerCase().trim());
+  const nameIdx = header.indexOf('nombre');
+  const lastNameIdx = header.indexOf('apellido');
+  const emailIdx = header.indexOf('email');
+  const pointsIdx = header.indexOf('puntaje');
+  const codeIdx = header.indexOf('memberid');
+
+  const users = [];
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    users.push({
+      nombre: row[nameIdx] || '',
+      apellido: row[lastNameIdx] || '',
+      email: row[emailIdx] || '',
+      puntos: Number(row[pointsIdx]) || 0,
+      id: row[codeIdx] || ''
+    });
+  }
+
+  // Sort by points descending
+  users.sort((a, b) => b.puntos - a.puntos);
+
+  return createJsonOutput({status:'ok', leaderboard: users});
+}
+
+function getMissions() {
+  const ss = getSpreadsheet();
+  let sheet = ss.getSheetByName(MISSIONS_SHEET_NAME);
+  if (!sheet) {
+    // Try to create sheet, but don't fail if we can't
+    try {
+      sheet = ss.insertSheet(MISSIONS_SHEET_NAME);
+      sheet.appendRow(['ID', 'Title', 'Description', 'Points', 'Mission Type', 'Active']);
+      // Add default missions
+      const defaultMissions = [
+        ['mission1', 'Seguir en Instagram', 'Sigue a @gula en Instagram y gana 10 puntos', 10, 'Misiones de Comunidad', 'YES'],
+        ['mission2', 'Invitar amigo', 'Invita a un amigo a unirse y gana 20 puntos', 20, 'Misiones de Comunidad', 'YES'],
+        ['mission3', 'Primera compra', 'Realiza tu primera compra y gana 50 puntos', 50, 'Misiones Semanales', 'YES'],
+        ['mission4', 'Review en Google', 'Deja una reseña en Google y gana 15 puntos', 15, 'Misiones de Comunidad', 'YES'],
+        ['mission5', 'Compra flash hoy', 'Compra cualquier producto hoy y gana doble puntos', 0, 'Misiones Flash', 'YES']
+      ];
+      defaultMissions.forEach(mission => sheet.appendRow(mission));
+    } catch (e) {
+      console.warn('Could not create missions sheet:', e);
+      return createJsonOutput({status:'error', message:'No se pudo acceder a la hoja de misiones'});
+    }
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) {
+    return createJsonOutput({status:'ok', missions: {}});
+  }
+
+  const header = rows[0].map(c => c.toString().toLowerCase().trim());
+  const idIdx = header.indexOf('id');
+  const titleIdx = header.indexOf('title');
+  const descIdx = header.indexOf('description');
+  const pointsIdx = header.indexOf('points');
+  const typeIdx = header.indexOf('mission type');
+  const activeIdx = header.indexOf('active');
+
+  const missionsByType = {
+    'Misiones Semanales': [],
+    'Misiones Flash': [],
+    'Misiones de Comunidad': []
+  };
+
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    // Mostrar todas las misiones siempre (sin filtrar por Active)
+    const missionType = row[typeIdx] || 'Misiones de Comunidad'; // Default to community if not specified
+    if (missionsByType[missionType]) {
+      missionsByType[missionType].push({
+        id: row[idIdx] || '',
+        title: row[titleIdx] || '',
+        description: row[descIdx] || '',
+        points: Number(row[pointsIdx]) || 0,
+        type: missionType
+      });
+    }
+  }
+
+  return createJsonOutput({status:'ok', missions: missionsByType});
+}
+
+function getEvents() {
+  const ss = getSpreadsheet();
+  let sheet = ss.getSheetByName(EVENTS_SHEET_NAME);
+  if (!sheet) {
+    // Try to create sheet, but don't fail if we can't
+    try {
+      sheet = ss.insertSheet(EVENTS_SHEET_NAME);
+      sheet.appendRow(['ID', 'Title', 'Description', 'Date', 'Location', 'Points', 'Active']);
+      // Add default events
+      const defaultEvents = [
+        ['event1', 'Noche de Karaoke', 'Únete a nuestra noche de karaoke especial', '2024-12-15', 'Tienda Centro', 25, 'YES'],
+        ['event2', 'Taller de Coctelería', 'Aprende a hacer cócteles con nuestros expertos', '2024-12-20', 'Tienda Norte', 30, 'YES']
+      ];
+      defaultEvents.forEach(event => sheet.appendRow(event));
+    } catch (e) {
+      console.warn('Could not create events sheet:', e);
+      return createJsonOutput({status:'error', message:'No se pudo acceder a la hoja de eventos'});
+    }
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) {
+    return createJsonOutput({status:'ok', events: []});
+  }
+
+  const header = rows[0].map(c => c.toString().toLowerCase().trim());
+  const idIdx = header.indexOf('id');
+  const titleIdx = header.indexOf('title');
+  const descIdx = header.indexOf('description');
+  const dateIdx = header.indexOf('date');
+  const locationIdx = header.indexOf('location');
+  const pointsIdx = header.indexOf('points');
+  const activeIdx = header.indexOf('active');
+
+  const events = [];
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    if ((row[activeIdx] || '').toString().toUpperCase() === 'YES') {
+      events.push({
+        id: row[idIdx] || '',
+        title: row[titleIdx] || '',
+        description: row[descIdx] || '',
+        date: row[dateIdx] || '',
+        location: row[locationIdx] || '',
+        points: Number(row[pointsIdx]) || 0
+      });
+    }
+  }
+
+  return createJsonOutput({status:'ok', events});
+}
+
+function queryMembers(e){
+  const ss = getSpreadsheet();
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    return createJsonOutput({status:'error', message:'Sheet no encontrada'});
+  }
+
+  const code = (e.parameter.memberCode || e.parameter.code || '').toString().trim().toUpperCase();
+  const email = (e.parameter.email || '').toString().trim().toLowerCase();
+
+  if (!code && !email) {
+    return createJsonOutput({status:'ready'});
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  const header = rows[0].map(c => c.toString().toLowerCase().trim());
+  const emailIdx = header.indexOf('email');
+  const codeIdx = header.indexOf('memberid');
+
+  const members = [];
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const rowCode = (row[codeIdx] || '').toString().trim().toUpperCase();
+    const rowEmail = (row[emailIdx] || '').toString().trim().toLowerCase();
+    if ((code && rowCode === code) || (email && rowEmail === email)) {
+      members.push({
+        nombre: row[0] || '',
+        apellido: row[1] || '',
+        email: row[2] || '',
+        zip: row[3] || '',
+        telefono: row[4] || '',
+        puntos: Number(row[5]) || 0,
+        instagramFollow: row[6] || '',
+        id: row[7] || '',
+        fecha: row[8] || ''
+      });
+    }
+  }
+
+  return createJsonOutput({status:'ok', members});
+}
+
+function createJsonOutput(payload) {
+  return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function getSpreadsheet() {
+  return SpreadsheetApp.openById(SPREADSHEET_ID);
+}
+
+// Helper to test access
+function testOpen(){
+  try{
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const info = { id: ss.getId(), url: ss.getUrl(), sheets: ss.getSheets().map(s=>s.getName()) };
+    return createJsonOutput({status:'ok', info: info});
+  } catch (err) {
+    return createJsonOutput({status:'error', message:err.toString()});
+  }
+}
+
+// Test POST endpoint
+function testPost(){
+  try {
+    const testData = ['Test', 'User', 'test' + Date.now() + '@email.com', '12345', '123456789', 10, 'SI', '2023-10-01', 'TEST-' + Date.now()];
+    const mockEvent = { postData: { contents: JSON.stringify(testData) } };
+    return doPost(mockEvent);
+  } catch (err) {
+    return createJsonOutput({status:'error', message: err.toString()});
+  }
+}
+
+// Initialize permissions - run this manually first
+function initializePermissions(){
+  try {
+    const ss = getSpreadsheet();
+    console.log('Permissions initialized for spreadsheet:', ss.getId());
+    return createJsonOutput({status:'ok', message:'Permissions initialized successfully'});
+  } catch (err) {
+    console.error('Permission initialization error:', err);
+    return createJsonOutput({status:'error', message: err.toString()});
+  }
+}
+
+// Alternative registration via GET parameters (fallback for POST issues)
+function registerViaGet(e){
+  try {
+    // Convert GET parameters to array format expected by doPost
+    const data = [
+      e.parameter.nombre || '',
+      e.parameter.apellido || '',
+      e.parameter.email || '',
+      e.parameter.zip || '',
+      e.parameter.telefono || '',
+      parseInt(e.parameter.puntos) || 0,
+      e.parameter.instagram || 'NO',
+      e.parameter.fecha || '',
+      e.parameter.memberId || ''
+    ];
+    
+    const mockEvent = { postData: { contents: JSON.stringify(data) } };
+    return doPost(mockEvent);
+  } catch (err) {
+    return createJsonOutput({status:'error', message: err.toString()});
+  }
+}

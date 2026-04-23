@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Tu Tienda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_CzhZyojSwkVTiPBfQPEt2esM4swrJeobgmSMeuUUheMU', {api_host:'https://us.posthog.com', person_profiles:'identified_only'});
+    </script>
+    <style>
+        :root{--gula-orange:#FF5800;--gula-orange-light:#FF7A29;--bg-dark:#0a0a0a;--text-primary:#fff;--text-secondary:#b0b0b0;--border-color:rgba(255,88,0,0.2)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+        .card{background:rgba(20,20,20,0.9);border:2px solid var(--gula-orange);border-radius:24px;padding:50px 40px;max-width:560px;width:100%;text-align:center;box-shadow:0 0 60px rgba(255,88,0,0.15)}
+        .logo{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--gula-orange);letter-spacing:4px;margin-bottom:8px}
+        .tipo-badge{display:inline-block;background:linear-gradient(135deg,var(--gula-orange),var(--gula-orange-light));color:#000;padding:6px 20px;border-radius:50px;font-weight:900;font-size:0.85rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:30px}
+        h1{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;margin-bottom:10px}
+        .cp-display{background:rgba(255,88,0,0.1);border:1.5px dashed rgba(255,88,0,0.4);border-radius:12px;padding:15px;margin:20px 0;font-size:1.1rem;color:var(--text-secondary)}
+        .cp-display strong{color:var(--gula-orange)}
+        .platforms{display:flex;flex-direction:column;gap:14px;margin:30px 0}
+        .platform-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 20px;border-radius:14px;text-decoration:none;font-weight:900;font-size:1rem;text-transform:uppercase;letter-spacing:1px;transition:all 0.3s;border:2px solid transparent}
+        .platform-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+        .platform-btn.uber{background:#000;color:#fff;border-color:#333}
+        .platform-btn.uber:hover{border-color:#fff;box-shadow:0 10px 30px rgba(255,255,255,0.1)}
+        .platform-btn.glovo{background:#FFC244;color:#000}
+        .platform-btn.glovo:hover{box-shadow:0 10px 30px rgba(255,194,68,0.3)}
+        .platform-btn.justeat{background:#FF8000;color:#fff}
+        .platform-btn.justeat:hover{box-shadow:0 10px 30px rgba(255,128,0,0.3)}
+        .platform-btn.direct{background:linear-gradient(135deg,var(--gula-orange),var(--gula-orange-light));color:#000}
+        .platform-btn.direct:hover{box-shadow:0 10px 30px rgba(255,88,0,0.4)}
+        .divider{color:var(--text-secondary);font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:5px 0;display:flex;align-items:center;gap:10px}
+        .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,88,0,0.2)}
+        .back-link{color:var(--text-secondary);text-decoration:none;font-size:0.85rem;margin-top:20px;display:inline-block;transition:color 0.3s}
+        .back-link:hover{color:var(--gula-orange)}
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">GULA</div>
+    <div class="tipo-badge" id="tipoBadge">PEDIR AHORA</div>
+    <h1>¿Dónde quieres pedir?</h1>
+    <div class="cp-display" id="cpDisplay">Detectando tu tienda más cercana…</div>
+
+    <div id="deliverySection" style="display:none">
+        <div class="platforms">
+            <a href="https://www.ubereats.com/es/search?q=gula" target="_blank" rel="noopener" class="platform-btn uber" onclick="track('ubereats')">
+                <i class="fas fa-motorcycle"></i> Pedir en Uber Eats
+            </a>
+            <a href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" rel="noopener" class="platform-btn glovo" onclick="track('glovo')">
+                <i class="fas fa-box"></i> Pedir en Glovo
+            </a>
+            <a href="https://www.just-eat.es/busqueda?q=gula" target="_blank" rel="noopener" class="platform-btn justeat" onclick="track('justeat')">
+                <i class="fas fa-utensils"></i> Pedir en Just Eat
+            </a>
+        </div>
+    </div>
+
+    <div id="presencialSection" style="display:none">
+        <div class="platforms">
+            <div class="platform-btn direct" style="cursor:default">
+                <i class="fas fa-store"></i> Recoge en tienda
+            </div>
+        </div>
+        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:10px">Muestra este código en caja para acumular tus puntos CREW</p>
+    </div>
+
+    <a href="/" class="back-link">← Volver al inicio</a>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const cp = params.get('cp') || '';
+    const tipo = params.get('tipo') || 'delivery';
+    const tienda = params.get('tienda') || '';
+
+    const badge = document.getElementById('tipoBadge');
+    const cpDisplay = document.getElementById('cpDisplay');
+
+    const tipos = { delivery:'🛵 Delivery', takeaway:'🛍 Para Llevar', sala:'🪑 Comer en Sala' };
+    badge.textContent = tipos[tipo] || 'PEDIR AHORA';
+
+    if (tienda && cp) {
+        cpDisplay.innerHTML = `<strong>${tienda}</strong><br><small style="color:var(--text-secondary)">CP: ${cp}</small>`;
+    } else if (cp) {
+        cpDisplay.innerHTML = `Tu tienda más cercana para el CP <strong>${cp}</strong>`;
+    } else {
+        cpDisplay.innerHTML = 'Selecciona cómo quieres tu pedido';
+    }
+
+    if (tipo === 'delivery') {
+        document.getElementById('deliverySection').style.display = 'block';
+    } else {
+        document.getElementById('presencialSection').style.display = 'block';
+    }
+
+    function track(platform) {
+        posthog.capture('order_platform_click', { platform, tipo, cp, tienda });
+    }
+
+    posthog.capture('tienda_page_view', { tipo, cp, tienda });
+</script>
+</body>
+</html>
