@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Política de Privacidad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root{--gula-orange:#FF5800;--bg-dark:#0a0a0a;--text-primary:#fff;--text-secondary:#b0b0b0;--border-color:rgba(255,88,0,0.2)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary)}
+        header{background:rgba(10,10,10,0.98);border-bottom:1px solid var(--border-color);padding:20px 40px;display:flex;justify-content:space-between;align-items:center}
+        .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;text-decoration:none}
+        .back-btn{color:var(--text-secondary);text-decoration:none;font-size:0.9rem;font-weight:600;transition:color 0.3s}
+        .back-btn:hover{color:var(--gula-orange)}
+        .container{max-width:800px;margin:0 auto;padding:60px 40px}
+        h1{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--gula-orange);letter-spacing:3px;margin-bottom:10px}
+        .updated{color:var(--text-secondary);font-size:0.85rem;margin-bottom:40px}
+        h2{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gula-orange);letter-spacing:2px;margin:30px 0 12px}
+        p,li{color:var(--text-secondary);line-height:1.8;font-size:0.95rem;margin-bottom:12px}
+        ul{padding-left:20px}
+        a{color:var(--gula-orange);text-decoration:none}
+        a:hover{text-decoration:underline}
+        .table-data{width:100%;border-collapse:collapse;margin:15px 0}
+        .table-data th{background:rgba(255,88,0,0.15);color:var(--text-primary);padding:10px 14px;text-align:left;font-size:0.85rem;font-weight:700}
+        .table-data td{color:var(--text-secondary);padding:10px 14px;font-size:0.9rem;border-bottom:1px solid rgba(255,88,0,0.1)}
+        footer{border-top:1px solid var(--border-color);padding:30px 40px;text-align:center;color:var(--text-secondary);font-size:0.85rem}
+        footer a{color:var(--text-secondary);text-decoration:none;margin:0 10px}footer a:hover{color:var(--gula-orange)}
+    </style>
+</head>
+<body>
+<header>
+    <a href="/" class="nav-logo">GULA</a>
+    <a href="/" class="back-btn">← Volver al inicio</a>
+</header>
+<div class="container">
+    <h1>Política de Privacidad</h1>
+    <p class="updated">Última actualización: Abril 2026</p>
+
+    <h2>1. Responsable del Tratamiento</h2>
+    <p><strong>GULA Corp S.L.</strong> · Murcia, España · <a href="mailto:marketing@thegulacorp.com">marketing@thegulacorp.com</a></p>
+
+    <h2>2. Datos que Recopilamos</h2>
+    <table class="table-data">
+        <thead><tr><th>Dato</th><th>Finalidad</th><th>Base Legal</th></tr></thead>
+        <tbody>
+            <tr><td>Nombre y apellido</td><td>Identificación en el Club GULA</td><td>Consentimiento</td></tr>
+            <tr><td>Email</td><td>Comunicaciones y envío de puntos/promos</td><td>Consentimiento</td></tr>
+            <tr><td>Teléfono</td><td>Contacto opcional (suma puntos)</td><td>Consentimiento</td></tr>
+            <tr><td>Código postal</td><td>Localizar tienda más cercana</td><td>Interés legítimo</td></tr>
+            <tr><td>Datos de navegación (PostHog)</td><td>Análisis de uso y mejora del servicio</td><td>Interés legítimo</td></tr>
+            <tr><td>Datos de pago (Stripe)</td><td>Procesamiento de pagos</td><td>Ejecución contrato</td></tr>
+        </tbody>
+    </table>
+
+    <h2>3. Finalidades del Tratamiento</h2>
+    <ul>
+        <li>Gestionar tu membresía en el Club GULA (puntos, niveles, promociones).</li>
+        <li>Enviarte comunicaciones comerciales y promociones personalizadas (solo si das tu consentimiento).</li>
+        <li>Mejorar el servicio y la experiencia de usuario en la web.</li>
+        <li>Gestionar consultas, solicitudes y formularios de contacto.</li>
+        <li>Procesar pagos a través de plataformas seguras certificadas.</li>
+    </ul>
+
+    <h2>4. Conservación de los Datos</h2>
+    <p>Conservamos tus datos mientras seas miembro activo del Club GULA. Puedes solicitar la baja en cualquier momento. Los datos de facturación se conservan durante 7 años por obligación legal fiscal.</p>
+
+    <h2>5. Compartición con Terceros</h2>
+    <p>No vendemos ni cedemos tus datos. Trabajamos con proveedores de servicios bajo acuerdos de tratamiento de datos:</p>
+    <ul>
+        <li><strong>Supabase</strong> (base de datos) — servidores en la UE.</li>
+        <li><strong>Stripe</strong> (pagos) — certificado PCI DSS.</li>
+        <li><strong>Resend</strong> (emails transaccionales).</li>
+        <li><strong>PostHog</strong> (analytics) — sin datos personales identificables.</li>
+    </ul>
+
+    <h2>6. Tus Derechos (RGPD)</h2>
+    <p>Tienes derecho a: <strong>acceso, rectificación, supresión, portabilidad, limitación y oposición</strong> al tratamiento de tus datos. Para ejercerlos, escribe a <a href="mailto:marketing@thegulacorp.com">marketing@thegulacorp.com</a> con asunto "RGPD".</p>
+    <p>También puedes presentar reclamación ante la <a href="https://www.aepd.es" target="_blank" rel="noopener">Agencia Española de Protección de Datos (AEPD)</a>.</p>
+
+    <h2>7. Seguridad</h2>
+    <p>Aplicamos medidas técnicas y organizativas apropiadas para proteger tus datos: conexiones cifradas (HTTPS), acceso controlado por roles, y almacenamiento en infraestructura certificada.</p>
+</div>
+<footer>
+    <p><a href="/">Inicio</a> · <a href="/legal.html">Aviso Legal</a> · <a href="/cookies.html">Cookies</a> · <a href="/contacto.html">Contacto</a></p>
+    <p style="margin-top:10px">© 2026 GULA Corp S.L.</p>
+</footer>
+</body>
+</html>

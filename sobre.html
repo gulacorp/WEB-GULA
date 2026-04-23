@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Sobre Nosotros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gula-orange: #FF5800;
+            --gula-orange-light: #FF7A29;
+            --bg-dark: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px solid rgba(255, 88, 0, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--gula-orange);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 20px rgba(255, 88, 0, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--gula-orange);
+        }
+
+        main {
+            padding-top: 120px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--gula-orange), var(--gula-orange-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .story-section {
+            margin-bottom: 4rem;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .story-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1) 0%, rgba(255, 88, 0, 0.05) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--gula-orange);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: rgba(255, 88, 0, 0.08);
+            border: 1.5px solid rgba(255, 88, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gula-orange);
+            box-shadow: 0 20px 40px rgba(255, 88, 0, 0.2);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--gula-orange);
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .value-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1.5px solid rgba(255, 88, 0, 0.3);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .story-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .story-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+        <nav class="nav-links">
+            <a href="gulatemplate.html">Inicio</a>
+            <a href="sobre.html" style="color: var(--gula-orange);">Sobre Nosotros</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Sobre GULA</h1>
+
+            <div class="story-section">
+                <div class="story-content">
+                    <div class="story-text">
+                        <h2>Nuestra Historia</h2>
+                        <p>
+                            GULA nació de la pasión por crear burgers excepcionales que combinan calidad premium, 
+                            ingredientes frescos y un servicio impecable. Desde nuestros inicios, nos hemos dedicado 
+                            a revolucionar la experiencia de las burgers en España.
+                        </p>
+                        <p>
+                            Cada burger es preparada con dedicación, utilizando técnicas tradicionales y modernas 
+                            para lograr el equilibrio perfecto entre sabor, textura y presentación.
+                        </p>
+                    </div>
+                    <div class="story-image">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                </div>
+
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-leaf"></i></div>
+                        <h3>Ingredientes Frescos</h3>
+                        <p>Seleccionamos los mejores ingredientes, trabajando directamente con proveedores locales para garantizar la máxima calidad.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-heart"></i></div>
+                        <h3>Pasión por la Calidad</h3>
+                        <p>Cada detalle importa. Desde la selección de la carne hasta el emplatado final, todo se hace con amor y dedicación.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-users"></i></div>
+                        <h3>Equipo Comprometido</h3>
+                        <p>Nuestro equipo está formado por profesionales apasionados que comparten la visión de ofrecer experiencias excepcionales.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-star"></i></div>
+                        <h3>Excelencia en Servicio</h3>
+                        <p>Nos esforzamos por superar las expectativas de nuestros clientes en cada visita, creando momentos memorables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GULA - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
