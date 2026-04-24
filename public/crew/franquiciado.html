@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GULA - Solicitar Franquicia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -39,16 +39,16 @@
         .nav-btn-primary:hover { transform: scale(1.05); }
         main{padding-top:80px;min-height:100vh}
         .page-hero{padding:80px 40px 60px;text-align:center;background:linear-gradient(135deg,rgba(255,88,0,0.12) 0%,transparent 100%);position:relative;overflow:hidden}
-        .page-hero::before{content:'GULA';position:absolute;font-family:'Bebas Neue',sans-serif;font-size:30vw;font-weight:900;color:rgba(255,88,0,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap}
-        .page-hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:4px;color:var(--gula-orange);position:relative}
+        .page-hero::before{content:'GULA';position:absolute;font-family:'Aveline',sans-serif;font-size:30vw;font-weight:900;color:rgba(255,88,0,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap}
+        .page-hero h1{font-family:'Aveline',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:4px;color:var(--gula-orange);position:relative}
         .page-hero p{color:var(--text-secondary);font-size:1.1rem;margin-top:1rem;max-width:600px;margin-left:auto;margin-right:auto;position:relative}
         .stats{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;padding:40px;background:rgba(255,88,0,0.05);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}
         .stat{text-align:center}
-        .stat-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--gula-orange);letter-spacing:2px}
+        .stat-num{font-family:'Aveline',sans-serif;font-size:3rem;color:var(--gula-orange);letter-spacing:2px}
         .stat-label{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-top:4px}
         .container{max-width:1100px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start}
         .form-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:20px;padding:40px}
-        .form-card h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:8px}
+        .form-card h2{font-family:'Aveline',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:8px}
         .form-card p{color:var(--text-secondary);font-size:0.9rem;margin-bottom:30px}
         .form-group{margin-bottom:18px}
         label{display:block;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:8px}
@@ -177,9 +177,7 @@
         </div>
     </div>
 </main>
-<footer>
-    <p>© 2026 GULA Corp · <a href="legal.html">Legal</a> · <a href="privacidad.html">Privacidad</a> · <a href="contacto.html">Contacto</a></p>
-</footer>
+<script src="footer.js" defer></script>
 <script>
     document.getElementById('franqForm').addEventListener('submit', async (e) => {
         e.preventDefault();

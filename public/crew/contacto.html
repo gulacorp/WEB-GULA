@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GULA - Contacto</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
         posthog.init('phc_CzhZyojSwkVTiPBfQPEt2esM4swrJeobgmSMeuUUheMU', {api_host:'https://us.posthog.com', person_profiles:'identified_only'});
     </script>
     <style>
+        @font-face { font-family: 'Aveline'; src: url('AvelineRegular.otf') format('opentype'); font-display: swap; }
+        @font-face { font-family: 'Akira Expanded'; src: url('Akira Expanded Demo.otf') format('opentype'); font-display: swap; }
         :root{--gula-orange:#FF5800;--gula-orange-light:#FF7A29;--bg-dark:#0a0a0a;--text-primary:#fff;--text-secondary:#b0b0b0;--border-color:rgba(255,88,0,0.2)}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden}
@@ -37,21 +39,21 @@
         .nav-btn-primary:hover { transform: scale(1.05); }
         main{padding-top:80px;min-height:100vh}
         .page-hero{padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,rgba(255,88,0,0.08) 0%,transparent 100%)}
-        .page-hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5rem);letter-spacing:4px;color:var(--gula-orange)}
+        .page-hero h1{font-family:'Aveline',sans-serif;font-size:clamp(3rem,7vw,5rem);letter-spacing:4px;color:var(--gula-orange)}
         .page-hero p{color:var(--text-secondary);font-size:1.1rem;margin-top:1rem}
         .container{max-width:1100px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start}
         .info-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:20px;padding:40px}
-        .info-card h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:30px}
+        .info-card h2{font-family:'Aveline',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:30px}
         .info-item{display:flex;gap:15px;align-items:flex-start;margin-bottom:25px}
         .info-icon{width:44px;height:44px;background:rgba(255,88,0,0.15);border:1.5px solid rgba(255,88,0,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--gula-orange);font-size:1rem;flex-shrink:0}
         .info-text strong{display:block;font-weight:700;margin-bottom:4px}
         .info-text span{color:var(--text-secondary);font-size:0.9rem}
         .tiendas{margin-top:30px}
-        .tiendas h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gula-orange);margin-bottom:15px}
+        .tiendas h3{font-family:'Aveline',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gula-orange);margin-bottom:15px}
         .tienda-item{background:rgba(255,88,0,0.05);border:1px solid rgba(255,88,0,0.15);border-radius:10px;padding:12px 15px;margin-bottom:10px;font-size:0.9rem}
         .tienda-item strong{color:var(--gula-orange);display:block;margin-bottom:3px}
         .form-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:20px;padding:40px}
-        .form-card h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:30px}
+        .form-card h2{font-family:'Aveline',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:30px}
         .form-group{margin-bottom:18px}
         label{display:block;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:8px}
         input,textarea,select{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,88,0,0.3);border-radius:12px;color:var(--text-primary);padding:14px 16px;font-size:0.95rem;font-family:'Inter',sans-serif;transition:border-color 0.3s;outline:none}
@@ -148,9 +150,7 @@
         </div>
     </div>
 </main>
-<footer>
-    <p>© 2026 GULA Corp · <a href="legal.html">Legal</a> · <a href="privacidad.html">Privacidad</a> · <a href="cookies.html">Cookies</a></p>
-</footer>
+<script src="footer.js" defer></script>
 <script>
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
