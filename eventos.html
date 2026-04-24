@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Eventos | Catering y Celebraciones</title>
+    <meta name="description" content="Catering GULA para eventos corporativos, cumpleaños, celebraciones y reuniones. Experiencia gastronómica premium en tu ocasión especial.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @font-face { font-family: 'Akira Expanded'; src: url('Akira Expanded Demo.otf') format('opentype'); font-display: swap; }
+        @font-face { font-family: 'Aveline'; src: url('AvelineRegular.otf') format('opentype'); font-display: swap; }
+        :root { --gula-orange:#FF5800; --gula-orange-light:#FF7A29; --bg-dark:#000; --bg-card:#111; --text-primary:#fff; --text-secondary:#b0b0b0; --border-color:rgba(255,88,0,0.3); --border-color-strong:rgba(255,88,0,0.6); }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden;line-height:1.6}
+
+        /* NAVBAR — estándar único */
+        nav{position:fixed;top:0;width:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border-bottom:2px solid var(--border-color);padding:0 40px;z-index:1000;display:flex;justify-content:space-between;align-items:center;height:80px;box-shadow:0 8px 32px rgba(255,88,0,0.1);overflow:hidden}
+        nav::before{content:'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G';position:absolute;left:0;top:50%;transform:translateY(-50%);font-family:'Aveline',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,88,0,0.08);white-space:nowrap;letter-spacing:20px;animation:slideHorizontal 20s linear infinite;z-index:-1;pointer-events:none}
+        @keyframes slideHorizontal{0%{transform:translateY(-50%) translateX(0)}100%{transform:translateY(-50%) translateX(-50%)}}
+        .nav-logo{font-family:'Aveline',sans-serif;font-size:1.8rem;font-weight:900;color:var(--gula-orange);letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.3s ease}
+        .nav-logo:hover{transform:scale(1.05);text-shadow:0 0 20px rgba(255,88,0,0.5)}
+        .nav-center{display:flex;gap:40px;align-items:center;list-style:none}
+        .nav-center a{font-family:'Akira Expanded',sans-serif;color:var(--text-primary);text-decoration:none;font-size:0.95rem;font-weight:600;position:relative;transition:color 0.3s ease;letter-spacing:1px;text-transform:uppercase}
+        .nav-center a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gula-orange),#FF7A29);transition:width 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 10px rgba(255,88,0,0.5)}
+        .nav-center a:hover{color:var(--gula-orange);text-shadow:0 0 15px rgba(255,88,0,0.5)}
+        .nav-center a:hover::after{width:100%}
+        .nav-right{display:flex;gap:20px;align-items:center}
+        .search-bar{background:rgba(17,17,17,0.6);backdrop-filter:blur(10px);border:1.5px solid var(--border-color);color:var(--text-primary);padding:10px 15px;border-radius:50px;width:200px;font-size:0.9rem;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+        .search-bar::placeholder{color:rgba(255,255,255,0.4)}
+        .search-bar:focus{outline:none;border-color:var(--gula-orange);box-shadow:0 0 20px rgba(255,88,0,0.3)}
+        .cart-icon{position:relative;cursor:pointer;font-size:1.3rem;color:var(--gula-orange);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+        .cart-icon:hover{transform:scale(1.2);filter:drop-shadow(0 0 15px rgba(255,88,0,0.5))}
+        .cart-count{position:absolute;top:-8px;right:-8px;background:var(--gula-orange);color:#000;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900}
+        .nav-btn-outline{background:transparent;color:#FF5800;padding:10px 20px;border-radius:25px;font-family:'Akira Expanded',sans-serif;font-weight:900;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;transition:all 0.3s;border:2px solid #FF5800}
+        .nav-btn-outline:hover{background:#FF5800;color:#000}
+        .nav-btn-primary{background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000;padding:10px 20px;border-radius:25px;font-family:'Akira Expanded',sans-serif;font-weight:900;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;transition:all 0.3s}
+        .nav-btn-primary:hover{transform:scale(1.05)}
+
+        main{padding-top:80px;min-height:100vh}
+
+        /* HERO */
+        .service-hero{padding:120px 40px 80px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,rgba(255,88,0,0.15) 0%,transparent 70%)}
+        .service-hero::before{content:'';position:absolute;inset:0;background:url('images/burger-cheese-bacon.png') center/cover no-repeat;opacity:0.08;filter:blur(3px);z-index:-1}
+        .service-hero .eyebrow{font-family:'Akira Expanded',sans-serif;color:var(--gula-orange);font-size:0.85rem;letter-spacing:4px;text-transform:uppercase;margin-bottom:20px;animation:fadeInUp 0.8s ease-out}
+        .service-hero h1{font-family:'Aveline',sans-serif;font-size:clamp(3rem,8vw,6rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;line-height:1.1;margin-bottom:24px;animation:fadeInUp 0.8s ease-out 0.2s both}
+        .service-hero h1 .highlight{color:var(--gula-orange);text-shadow:0 0 30px rgba(255,88,0,0.5)}
+        .service-hero p{font-size:1.3rem;color:var(--text-secondary);max-width:700px;margin:0 auto;font-weight:300;animation:fadeInUp 0.8s ease-out 0.4s both}
+
+        /* STATS */
+        .stats-strip{display:flex;justify-content:center;gap:80px;flex-wrap:wrap;padding:50px 40px;background:rgba(255,88,0,0.04);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}
+        .stat{text-align:center}
+        .stat-num{font-family:'Aveline',sans-serif;font-size:3rem;color:var(--gula-orange);font-weight:900;letter-spacing:2px}
+        .stat-label{font-family:'Akira Expanded',sans-serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-secondary);margin-top:8px}
+
+        /* SECTIONS */
+        section.content-block{padding:100px 40px;max-width:1200px;margin:0 auto}
+        .section-header{text-align:center;margin-bottom:60px}
+        .section-title{font-family:'Aveline',sans-serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;position:relative;display:inline-block}
+        .section-title .highlight{color:var(--gula-orange);text-shadow:0 0 20px rgba(255,88,0,0.3)}
+        .section-title::after{content:'';position:absolute;bottom:-10px;left:0;width:100%;height:3px;background:linear-gradient(90deg,transparent,var(--gula-orange),transparent);animation:shimmer 2s infinite}
+        .section-description{font-size:1.1rem;color:var(--text-secondary);max-width:700px;margin:0 auto;font-weight:300}
+
+        /* FEATURE GRID */
+        .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-top:40px}
+        .feature-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:20px;padding:40px 30px;backdrop-filter:blur(10px);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden}
+        .feature-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gula-orange),transparent);transform:translateX(-100%);transition:transform 0.6s}
+        .feature-card:hover{transform:translateY(-8px);border-color:var(--border-color-strong);box-shadow:0 20px 60px rgba(255,88,0,0.2)}
+        .feature-card:hover::before{transform:translateX(100%)}
+        .feature-icon{width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,rgba(255,88,0,0.15),rgba(255,122,41,0.05));display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--gula-orange);font-size:1.5rem;border:1px solid var(--border-color)}
+        .feature-card h3{font-family:'Aveline',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+        .feature-card p{color:var(--text-secondary);font-size:0.95rem;font-weight:300;line-height:1.7}
+
+        /* TWO COLUMN */
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:60px}
+        .two-col .col-text h2{font-family:'Aveline',sans-serif;font-size:2.5rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;line-height:1.1}
+        .two-col .col-text h2 .highlight{color:var(--gula-orange)}
+        .two-col .col-text p{color:var(--text-secondary);font-size:1rem;margin-bottom:20px;font-weight:300}
+        .two-col .col-image{position:relative;border-radius:20px;overflow:hidden;border:1.5px solid var(--border-color);aspect-ratio:4/5;background:var(--bg-card)}
+        .two-col .col-image img{width:100%;height:100%;object-fit:cover}
+        .two-col .col-image::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 50%,rgba(255,88,0,0.15));pointer-events:none}
+        @media (max-width:768px){.two-col{grid-template-columns:1fr;gap:40px}}
+
+        /* CTA */
+        .cta-block{padding:100px 40px;background:linear-gradient(135deg,rgba(255,88,0,0.1),transparent);text-align:center;border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}
+        .cta-block h2{font-family:'Aveline',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+        .cta-block h2 .highlight{color:var(--gula-orange)}
+        .cta-block p{color:var(--text-secondary);font-size:1.1rem;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto;font-weight:300}
+        .primary-btn{font-family:'Akira Expanded',sans-serif;background:linear-gradient(135deg,var(--gula-orange),#FF7A29);color:#000;padding:16px 50px;border-radius:50px;border:2px solid var(--gula-orange);font-weight:900;cursor:pointer;font-size:1rem;text-transform:uppercase;letter-spacing:2px;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);text-decoration:none;display:inline-block;box-shadow:0 0 30px rgba(255,88,0,0.4)}
+        .primary-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 40px rgba(255,88,0,0.6)}
+
+        /* FOOTER */
+        footer{background:rgba(0,0,0,0.95);border-top:2px solid var(--border-color);padding:60px 40px 30px}
+        .footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:40px}
+        .footer-section h4{color:var(--gula-orange);font-size:1rem;font-weight:900;margin-bottom:20px;font-family:'Akira Expanded',sans-serif;text-transform:uppercase;letter-spacing:2px}
+        .footer-section ul{list-style:none}
+        .footer-section ul li{margin-bottom:10px}
+        .footer-section ul li a{color:var(--text-secondary);text-decoration:none;transition:color 0.3s ease;font-weight:300;font-size:0.95rem}
+        .footer-section ul li a:hover{color:var(--gula-orange)}
+        .footer-bottom{border-top:1px solid var(--border-color);padding-top:30px;text-align:center;max-width:1200px;margin:0 auto;color:var(--text-secondary);font-weight:300;font-size:0.85rem}
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes shimmer{0%,100%{opacity:0.5}50%{opacity:1}}
+        .reveal{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1)}
+        .reveal.revealed{opacity:1;transform:translateY(0)}
+
+        /* RESPONSIVE */
+        @media (max-width:968px){.nav-center{display:none}.search-bar{display:none}}
+        @media (max-width:640px){nav{padding:0 20px}.nav-btn-outline{display:none}section.content-block{padding:60px 20px}.cta-block{padding:60px 20px}}
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="gulatemplate.html" class="nav-logo">GULA</a>
+        <ul class="nav-center">
+            <li><a href="gulatemplate.html">Inicio</a></li>
+            <li><a href="sobre.html">Nosotros</a></li>
+            <li><a href="marketplace.html">Menú</a></li>
+            <li><a href="franquicias.html">Franquicias</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <div class="nav-right">
+            <input type="search" class="search-bar" placeholder="Buscar...">
+            <div class="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></div>
+            <a href="franquiciado.html" class="nav-btn-outline">Hazte Franquiciado</a>
+            <a href="CLUBGULA.html" class="nav-btn-primary">Club GULA</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="service-hero">
+            <div class="eyebrow">Servicio Gula</div>
+            <h1><span class="highlight">Eventos</span></h1>
+            <p>Lleva la experiencia GULA a tu celebración. Catering, corners y cocinas móviles para eventos corporativos, cumpleaños y reuniones especiales.</p>
+        </section>
+
+        <div class="stats-strip">
+            <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Invitados mínimo</div></div>
+            <div class="stat"><div class="stat-num">72h</div><div class="stat-label">Antelación mínima</div></div>
+            <div class="stat"><div class="stat-num">100%</div><div class="stat-label">A medida</div></div>
+        </div>
+
+        <section class="content-block">
+            <div class="section-header reveal">
+                <h2 class="section-title">Tipos de <span class="highlight">Eventos</span></h2>
+                <p class="section-description">Adaptamos nuestra propuesta a cada ocasión. Cada evento se diseña a medida, coordinado con nuestro equipo central.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
+                    <h3>Corporativos</h3>
+                    <p>Lanzamientos, reuniones, team buildings, aniversarios de empresa. Propuesta ejecutiva y menú adaptado al perfil profesional.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-cake-candles"></i></div>
+                    <h3>Celebraciones Privadas</h3>
+                    <p>Cumpleaños, despedidas, aniversarios. Menús personalizables con combos exclusivos y opciones para todos los gustos.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-people-group"></i></div>
+                    <h3>Eventos Sociales</h3>
+                    <p>Ferias, festivales, activaciones de marca. Corners GULA con producción en vivo y atención rápida para gran volumen.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-handshake-simple"></i></div>
+                    <h3>Privatización de Tienda</h3>
+                    <p>Reserva una de nuestras tiendas en exclusiva. Experiencia completa sin otros clientes, con servicio dedicado para tu grupo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-block" style="padding-top:0">
+            <div class="two-col">
+                <div class="col-text reveal">
+                    <h2>Cómo <span class="highlight">Contratar</span></h2>
+                    <p><strong style="color:var(--gula-orange)">1. Cuéntanos tu evento</strong><br>Fecha, número de invitados, ubicación y tipo de celebración.</p>
+                    <p><strong style="color:var(--gula-orange)">2. Propuesta personalizada</strong><br>Nuestro equipo te envía menú, logística y presupuesto adaptado en 48h.</p>
+                    <p><strong style="color:var(--gula-orange)">3. Coordinación previa</strong><br>Acordamos montaje, horarios, necesidades técnicas y protocolo.</p>
+                    <p><strong style="color:var(--gula-orange)">4. El día del evento</strong><br>Llegamos, montamos y servimos. Tú solo disfrutas.</p>
+                    <a href="contacto.html" class="primary-btn" style="margin-top:20px">Solicitar Propuesta</a>
+                </div>
+                <div class="col-image reveal">
+                    <img src="images/combo-sinner.png" alt="GULA Eventos">
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-block reveal">
+            <h2>Haz tu evento <span class="highlight">Memorable</span></h2>
+            <p>Contáctanos con los detalles de tu celebración y te preparamos una propuesta a medida en menos de 48 horas.</p>
+            <a href="contacto.html" class="primary-btn">Contactar</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>GULA</h4>
+                <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.6;font-weight:300">Creamos la mejor experiencia gastronómica de calidad estimulando tu humanidad.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="gulatemplate.html">Inicio</a></li>
+                    <li><a href="sobre.html">Nosotros</a></li>
+                    <li><a href="marketplace.html">Menú</a></li>
+                    <li><a href="CLUBGULA.html">Club GULA</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="dinein.html">Dine In</a></li>
+                    <li><a href="takeaway.html">Take Away</a></li>
+                    <li><a href="delivery.html">Delivery</a></li>
+                    <li><a href="eventos.html">Eventos</a></li>
+                    <li><a href="franquicias.html">Franquicias</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacidad.html">Privacidad</a></li>
+                    <li><a href="legal.html">Legal</a></li>
+                    <li><a href="cookies.html">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 GULA Corp. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

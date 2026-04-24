@@ -519,6 +519,34 @@
             color: var(--gula-orange);
         }
 
+        /* CHECKOUT ACCORDION */
+        .checkout-section { border-top: 1px solid rgba(255,88,0,0.2); padding: 16px 0; }
+        .checkout-toggle { display: flex; justify-content: space-between; align-items: center; width: 100%; background: transparent; border: none; color: #fff; font-family: 'Akira Expanded', sans-serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; padding: 8px 0; transition: color 0.3s; }
+        .checkout-toggle:hover { color: var(--gula-orange); }
+        .checkout-toggle .chevron { transition: transform 0.3s; color: var(--gula-orange); }
+        .checkout-toggle.open .chevron { transform: rotate(180deg); }
+        .checkout-toggle .label-value { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--text-secondary); text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: auto; margin-right: 12px; }
+        .checkout-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .checkout-body.open { max-height: 800px; padding-top: 12px; }
+        .method-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 8px; }
+        .method-option { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 10px; background: rgba(20,20,20,0.6); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 12px; cursor: pointer; transition: all 0.3s; color: #fff; font-family: 'Akira Expanded', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .method-option i { font-size: 1.3rem; color: var(--gula-orange); }
+        .method-option:hover { border-color: var(--gula-orange); background: rgba(255,88,0,0.08); transform: translateY(-2px); }
+        .method-option.selected { border-color: var(--gula-orange); background: rgba(255,88,0,0.15); box-shadow: 0 0 20px rgba(255,88,0,0.2); }
+        .payment-field { margin-bottom: 12px; }
+        .payment-field label { display: block; font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'Akira Expanded', sans-serif; }
+        .payment-field input, .payment-field select { width: 100%; padding: 10px 14px; background: rgba(20,20,20,0.6); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 10px; color: #fff; font-family: 'Inter', sans-serif; font-size: 0.9rem; transition: border-color 0.3s; }
+        .payment-field input:focus, .payment-field select:focus { outline: none; border-color: var(--gula-orange); }
+        .payment-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .club-gate { background: linear-gradient(135deg, rgba(255,88,0,0.1), rgba(255,122,41,0.04)); border: 1.5px solid var(--gula-orange); border-radius: 14px; padding: 20px; text-align: center; margin-bottom: 14px; }
+        .club-gate.hidden { display: none; }
+        .club-gate h3 { font-family: 'Aveline', sans-serif; color: var(--gula-orange); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .club-gate p { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 14px; }
+        .club-gate a { display: inline-block; background: linear-gradient(135deg, var(--gula-orange), #FF7A29); color: #000; padding: 10px 24px; border-radius: 25px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; transition: transform 0.3s; }
+        .club-gate a:hover { transform: scale(1.05); }
+        .logged-user { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: rgba(255,88,0,0.08); border: 1px solid rgba(255,88,0,0.3); border-radius: 12px; margin-bottom: 14px; font-size: 0.85rem; }
+        .logged-user i { color: var(--gula-orange); font-size: 1.1rem; }
+
         .checkout-btn {
             background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
             color: #000;
@@ -563,7 +591,8 @@
             border: 2px solid transparent;
         }
 
-        .platform-btn:hover { transform: translateY(-3px); }
+        .platform-btn { cursor: default; user-select: none; }
+        .platform-btn:hover { transform: translateY(-2px); opacity: 0.9; }
         .platform-btn.uber { background: #000; color: #fff; border-color: #333; }
         .platform-btn.uber:hover { border-color: #fff; box-shadow: 0 8px 25px rgba(255,255,255,0.1); }
         .platform-btn.glovo { background: #FFC244; color: #000; }
@@ -637,12 +666,13 @@
         <div class="marketplace-header">
             <h1>Nuestra <span class="highlight">Carta</span></h1>
             <p>Descubre los mejores sabores de GULA</p>
+            <p style="color:var(--text-secondary);font-size:0.95rem;margin-top:-10px;margin-bottom:20px;">Disponibles en los siguientes servicios. Elige cómo quieres recibir tu pedido al pagar.</p>
             <div class="order-platforms">
-                <a href="https://www.ubereats.com/es/search?q=gula" target="_blank" rel="noopener" class="platform-btn uber" onclick="posthog.capture('order_click',{platform:'ubereats'})"><i class="fas fa-motorcycle"></i> Uber Eats</a>
-                <a href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" rel="noopener" class="platform-btn glovo" onclick="posthog.capture('order_click',{platform:'glovo'})"><i class="fas fa-box"></i> Glovo</a>
-                <a href="https://www.just-eat.es/busqueda?q=gula" target="_blank" rel="noopener" class="platform-btn justeat" onclick="posthog.capture('order_click',{platform:'justeat'})"><i class="fas fa-utensils"></i> Just Eat</a>
-                <a href="/crew/marketplace.html" class="platform-btn outline"><i class="fas fa-shopping-bag"></i> Para Llevar</a>
-                <a href="/crew/marketplace.html" class="platform-btn outline"><i class="fas fa-chair"></i> En Sala</a>
+                <div class="platform-btn uber" aria-label="Uber Eats disponible"><i class="fas fa-motorcycle"></i> Uber Eats</div>
+                <div class="platform-btn glovo" aria-label="Glovo disponible"><i class="fas fa-box"></i> Glovo</div>
+                <div class="platform-btn justeat" aria-label="Just Eat disponible"><i class="fas fa-utensils"></i> Just Eat</div>
+                <div class="platform-btn outline" aria-label="Para llevar disponible"><i class="fas fa-shopping-bag"></i> Para Llevar</div>
+                <div class="platform-btn outline" aria-label="En sala disponible"><i class="fas fa-chair"></i> En Sala</div>
             </div>
         </div>
 
@@ -684,18 +714,97 @@
                     <span id="total">0.00&#8364;</span>
                 </div>
             </div>
-            <button class="checkout-btn" id="checkoutBtn" style="display: none;" onclick="proceedToCheckout()">Proceder al Pago</button>
+
+            <div id="checkoutFlow" style="display:none; padding: 0 1.5rem;">
+                <!-- Club GULA Gate -->
+                <div class="club-gate" id="clubGate">
+                    <h3>Acceso Club GULA</h3>
+                    <p>Necesitas tu cuenta para completar la compra y acumular puntos en cada pedido.</p>
+                    <a href="CLUBGULA.html">Entrar al Club</a>
+                </div>
+                <div class="logged-user" id="loggedUser" style="display:none;">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Conectado como <strong id="userName">Usuario</strong></span>
+                </div>
+
+                <!-- Método dropdown -->
+                <div class="checkout-section">
+                    <button class="checkout-toggle" onclick="toggleAccordion('method')" id="methodToggle">
+                        <span>Método</span>
+                        <span class="label-value" id="methodValue">Seleccionar</span>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </button>
+                    <div class="checkout-body" id="methodBody">
+                        <div class="method-options">
+                            <div class="method-option" data-method="ubereats" onclick="selectMethod(this, 'Uber Eats', 'ubereats')">
+                                <i class="fas fa-motorcycle"></i>
+                                <span>Uber Eats</span>
+                            </div>
+                            <div class="method-option" data-method="glovo" onclick="selectMethod(this, 'Glovo', 'glovo')">
+                                <i class="fas fa-box"></i>
+                                <span>Glovo</span>
+                            </div>
+                            <div class="method-option" data-method="justeat" onclick="selectMethod(this, 'Just Eat', 'justeat')">
+                                <i class="fas fa-utensils"></i>
+                                <span>Just Eat</span>
+                            </div>
+                            <div class="method-option" data-method="takeaway" onclick="selectMethod(this, 'Para Llevar', 'takeaway')">
+                                <i class="fas fa-shopping-bag"></i>
+                                <span>Para Llevar</span>
+                            </div>
+                            <div class="method-option" data-method="dinein" onclick="selectMethod(this, 'En Sala', 'dinein')">
+                                <i class="fas fa-chair"></i>
+                                <span>En Sala</span>
+                            </div>
+                        </div>
+                        <div class="payment-field" id="storeSelectField" style="display:none; margin-top:14px;">
+                            <label>Tienda</label>
+                            <select id="storeSelect">
+                                <option value="">Selecciona la tienda</option>
+                                <option value="mostoles">Móstoles — C. Río Segura, 30</option>
+                                <option value="valencia">Valencia — C/ de Cadis, 41</option>
+                                <option value="cartagena">Cartagena — C. Jiménez de la Espada, 17</option>
+                                <option value="sevilla">Sevilla — C. Chucena, Edificio Alcaitán</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos de pago dropdown -->
+                <div class="checkout-section">
+                    <button class="checkout-toggle" onclick="toggleAccordion('payment')" id="paymentToggle">
+                        <span>Datos de pago</span>
+                        <span class="label-value" id="paymentValue">Añadir</span>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </button>
+                    <div class="checkout-body" id="paymentBody">
+                        <div class="payment-field">
+                            <label>Titular de la tarjeta</label>
+                            <input type="text" id="cardHolder" placeholder="Nombre como aparece en la tarjeta" autocomplete="cc-name">
+                        </div>
+                        <div class="payment-field">
+                            <label>Número de tarjeta</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
+                        </div>
+                        <div class="payment-row">
+                            <div class="payment-field">
+                                <label>Vencimiento</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp">
+                            </div>
+                            <div class="payment-field">
+                                <label>CVC</label>
+                                <input type="text" id="cardCvc" placeholder="123" maxlength="4" autocomplete="cc-csc">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="checkout-btn" id="checkoutBtn" style="display: none;" onclick="proceedToCheckout()">Finalizar Pedido</button>
         </div>
     </div>
 
-    <footer class="marketplace-footer">
-        <p>
-            <a href="/crew/legal.html">Aviso Legal</a> |
-            <a href="/crew/privacidad.html">Privacidad</a> |
-            <a href="/crew/cookies.html">Cookies</a>
-        </p>
-        <p>&copy; 2024 GULA Corp. Todos los derechos reservados.</p>
-    </footer>
+    <script src="footer.js" defer></script>
 
     <script>
         let products = [];
@@ -816,6 +925,7 @@
                 `;
                 document.getElementById('cartSummary').style.display = 'none';
                 document.getElementById('checkoutBtn').style.display = 'none';
+                const flow = document.getElementById('checkoutFlow'); if (flow) flow.style.display = 'none';
             } else {
                 cartItems.innerHTML = cart.map((item, index) => `
                     <div class="cart-item" style="animation: fadeInUp ${0.3 + index * 0.05}s ease;">
@@ -843,11 +953,13 @@
                 document.getElementById('total').textContent = total.toFixed(2) + '&#8364;';
                 document.getElementById('cartSummary').style.display = 'block';
                 document.getElementById('checkoutBtn').style.display = 'block';
+                const flow = document.getElementById('checkoutFlow'); if (flow) { flow.style.display = 'block'; if (typeof refreshClubGate === 'function') refreshClubGate(); }
             }
         }
 
         function openCart() {
             document.getElementById('cartModal').classList.add('active');
+            if (typeof showCheckoutFlow === 'function') showCheckoutFlow();
         }
 
         function closeCart() {
@@ -860,17 +972,107 @@
             }
         }
 
+        // CHECKOUT STATE
+        let selectedMethod = null;
+        let selectedMethodKey = null;
+
+        function toggleAccordion(which) {
+            const toggle = document.getElementById(which + 'Toggle');
+            const body = document.getElementById(which + 'Body');
+            const isOpen = body.classList.toggle('open');
+            toggle.classList.toggle('open', isOpen);
+        }
+
+        function selectMethod(el, label, key) {
+            document.querySelectorAll('.method-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMethod = label;
+            selectedMethodKey = key;
+            document.getElementById('methodValue').textContent = label;
+            const storeField = document.getElementById('storeSelectField');
+            // Tienda obligatoria para takeaway y dinein
+            storeField.style.display = (key === 'takeaway' || key === 'dinein') ? 'block' : 'none';
+        }
+
+        function getClubUser() {
+            try {
+                const raw = localStorage.getItem('currentUser') || localStorage.getItem('gula_club_user');
+                return raw ? JSON.parse(raw) : null;
+            } catch { return null; }
+        }
+
+        function refreshClubGate() {
+            const user = getClubUser();
+            const gate = document.getElementById('clubGate');
+            const logged = document.getElementById('loggedUser');
+            const displayName = user ? (user.nombre || user.name || user.email || '') : '';
+            if (user && displayName) {
+                gate.classList.add('hidden');
+                logged.style.display = 'flex';
+                document.getElementById('userName').textContent = displayName;
+            } else {
+                gate.classList.remove('hidden');
+                logged.style.display = 'none';
+            }
+        }
+
+        function showCheckoutFlow() {
+            document.getElementById('checkoutFlow').style.display = cart.length > 0 ? 'block' : 'none';
+            refreshClubGate();
+        }
+
         function proceedToCheckout() {
+            const user = getClubUser();
+            if (!user) {
+                alert('Necesitas acceder a tu Club GULA antes de completar la compra.');
+                window.location.href = 'CLUBGULA.html';
+                return;
+            }
+            if (!selectedMethodKey) {
+                alert('Selecciona un método de entrega.');
+                toggleAccordion('method');
+                return;
+            }
+            const needsStore = (selectedMethodKey === 'takeaway' || selectedMethodKey === 'dinein');
+            if (needsStore && !document.getElementById('storeSelect').value) {
+                alert('Selecciona la tienda donde recogerás o consumirás el pedido.');
+                return;
+            }
+            const needsCard = !['ubereats', 'glovo', 'justeat'].includes(selectedMethodKey);
+            if (needsCard) {
+                const holder = document.getElementById('cardHolder').value.trim();
+                const number = document.getElementById('cardNumber').value.trim();
+                const expiry = document.getElementById('cardExpiry').value.trim();
+                const cvc = document.getElementById('cardCvc').value.trim();
+                if (!holder || !number || !expiry || !cvc) {
+                    alert('Completa los datos de pago.');
+                    toggleAccordion('payment');
+                    return;
+                }
+            }
+
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const taxes = total * 0.21;
             const finalTotal = total + taxes;
-            
-            alert(`Procediendo al pago...\n\nTotal: ${finalTotal.toFixed(2)}&#8364;\n\n(Integracion con Stripe pendiente)`);
-            posthog.capture('checkout_initiated', { total: finalTotal, items: cart.length });
+
+            if (['ubereats', 'glovo', 'justeat'].includes(selectedMethodKey)) {
+                const urls = {
+                    ubereats: 'https://www.ubereats.com/es/search?q=gula',
+                    glovo: 'https://glovoapp.com/es/es/search/?query=gula',
+                    justeat: 'https://www.just-eat.es/busqueda?q=gula'
+                };
+                if (typeof posthog !== 'undefined') posthog.capture('checkout_redirect', { method: selectedMethodKey, total: finalTotal });
+                window.open(urls[selectedMethodKey], '_blank', 'noopener');
+                return;
+            }
+
+            if (typeof posthog !== 'undefined') posthog.capture('checkout_completed', { method: selectedMethodKey, total: finalTotal, items: cart.length });
+            alert(`Pedido confirmado\n\nMétodo: ${selectedMethod}\nTotal: ${finalTotal.toFixed(2)}€\n\nTe enviaremos los detalles al correo de tu Club GULA.`);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             initializeProducts();
+            refreshClubGate();
             
             document.getElementById('searchBar').addEventListener('input', function(e) {
                 const query = e.target.value.toLowerCase();
