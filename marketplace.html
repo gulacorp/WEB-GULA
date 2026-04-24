@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GULA - Marketplace Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <title>GULA - Carta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://js.stripe.com/v3/"></script>
     <script>
@@ -64,11 +64,6 @@
             }
         }
 
-        @keyframes slideHorizontal {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-        }
-
         nav {
             position: fixed;
             top: 0;
@@ -83,7 +78,6 @@
             align-items: center;
             height: 80px;
             box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1);
-            overflow: hidden;
         }
 
         .nav-logo {
@@ -95,6 +89,7 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
         }
 
         .nav-logo:hover {
@@ -110,10 +105,10 @@
         }
 
         .nav-center a {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Akira Expanded', sans-serif;
             color: var(--accent-white);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 400;
             position: relative;
             transition: color 0.3s ease;
@@ -214,7 +209,7 @@
 
         .marketplace-header h1 {
             font-size: 3.5rem;
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Aveline', sans-serif;
             margin-bottom: 1rem;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -248,7 +243,7 @@
             color: var(--text-secondary);
             cursor: pointer;
             border-radius: 50px;
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Akira Expanded', sans-serif;
             font-weight: 400;
             letter-spacing: 1px;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -304,13 +299,6 @@
             font-size: 4rem;
         }
 
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-
         .product-badge {
             position: absolute;
             top: 15px;
@@ -337,7 +325,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 0.8rem;
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Akira Expanded', sans-serif;
         }
 
         .product-title {
@@ -381,7 +369,7 @@
             font-size: 1.6rem;
             font-weight: 900;
             color: var(--gula-orange);
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Aveline', sans-serif;
         }
 
         .add-to-cart-btn {
@@ -446,12 +434,12 @@
         }
 
         .cart-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Aveline', sans-serif;
             background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
         }
 
         .close-btn {
@@ -543,7 +531,7 @@
             font-size: 1rem;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             letter-spacing: 2px;
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Akira Expanded', sans-serif;
             box-shadow: 0 5px 20px rgba(255, 88, 0, 0.2);
         }
 
@@ -552,22 +540,6 @@
             box-shadow: 0 15px 40px rgba(255, 88, 0, 0.4);
         }
 
-        .nav-crew-btn {
-            background: transparent;
-            color: #fff;
-            padding: 9px 18px;
-            border-radius: 50px;
-            border: 2px solid var(--gula-orange);
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.82rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-        .nav-crew-btn:hover { background: var(--gula-orange); color: #000; }
-
         .order-platforms {
             display: flex;
             gap: 10px;
@@ -575,6 +547,7 @@
             flex-wrap: wrap;
             margin-top: 1.8rem;
         }
+
         .platform-btn {
             display: inline-flex;
             align-items: center;
@@ -589,6 +562,7 @@
             transition: all 0.3s;
             border: 2px solid transparent;
         }
+
         .platform-btn:hover { transform: translateY(-3px); }
         .platform-btn.uber { background: #000; color: #fff; border-color: #333; }
         .platform-btn.uber:hover { border-color: #fff; box-shadow: 0 8px 25px rgba(255,255,255,0.1); }
@@ -606,8 +580,27 @@
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
+
         .marketplace-footer a { color: var(--text-secondary); text-decoration: none; margin: 0 10px; }
         .marketplace-footer a:hover { color: var(--gula-orange); }
+
+        .nav-crew-btn {
+            background: transparent;
+            color: #fff;
+            padding: 9px 18px;
+            border-radius: 50px;
+            border: 2px solid var(--gula-orange);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-decoration: none;
+            font-family: 'Akira Expanded', sans-serif;
+        }
+        .nav-crew-btn:hover { background: var(--gula-orange); color: #000; }
 
         @media (max-width: 768px) {
             nav { padding: 0 20px; height: 70px; }
@@ -621,21 +614,22 @@
 </head>
 <body>
     <nav>
-        <div class="nav-logo" onclick="window.location.href='/'">GULA</div>
+        <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
         <ul class="nav-center">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/menu.html" style="color:var(--gula-orange)">Carta</a></li>
-            <li><a href="/franquicias.html">Franquicias</a></li>
-            <li><a href="/sobre.html">Nosotros</a></li>
-            <li><a href="/contacto.html">Contacto</a></li>
+            <li><a href="gulatemplate.html">Inicio</a></li>
+            <li><a href="sobre.html">Nosotros</a></li>
+            <li><a href="marketplace.html" style="color:var(--gula-orange)">Menú</a></li>
+            <li><a href="franquicias.html">Franquicias</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
         </ul>
         <div class="nav-right">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar en la carta...">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
             <div class="cart-icon" onclick="openCart()">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="cartCount">0</span>
             </div>
-            <button class="nav-crew-btn" onclick="window.location.href='/crew/CLUBGULA.html'">Club Gula</button>
+            <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+            <a href="CLUBGULA.html" class="nav-btn-primary">Club GULA</a>
         </div>
     </nav>
 
@@ -647,8 +641,8 @@
                 <a href="https://www.ubereats.com/es/search?q=gula" target="_blank" rel="noopener" class="platform-btn uber" onclick="posthog.capture('order_click',{platform:'ubereats'})"><i class="fas fa-motorcycle"></i> Uber Eats</a>
                 <a href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" rel="noopener" class="platform-btn glovo" onclick="posthog.capture('order_click',{platform:'glovo'})"><i class="fas fa-box"></i> Glovo</a>
                 <a href="https://www.just-eat.es/busqueda?q=gula" target="_blank" rel="noopener" class="platform-btn justeat" onclick="posthog.capture('order_click',{platform:'justeat'})"><i class="fas fa-utensils"></i> Just Eat</a>
-                <a href="/tienda.html?tipo=takeaway" class="platform-btn outline"><i class="fas fa-shopping-bag"></i> Para Llevar</a>
-                <a href="/tienda.html?tipo=sala" class="platform-btn outline"><i class="fas fa-chair"></i> En Sala</a>
+                <a href="/crew/marketplace.html" class="platform-btn outline"><i class="fas fa-shopping-bag"></i> Para Llevar</a>
+                <a href="/crew/marketplace.html" class="platform-btn outline"><i class="fas fa-chair"></i> En Sala</a>
             </div>
         </div>
 
@@ -664,65 +658,100 @@
         <div class="products-grid" id="productsGrid"></div>
     </div>
 
-    <div class="cart-modal" id="cartModal">
-        <div class="cart-content">
+    <div class="cart-modal" id="cartModal" onclick="closeCartOutside(event)">
+        <div class="cart-content" onclick="event.stopPropagation()">
             <div class="cart-header">
                 <h2>Tu Pedido</h2>
-                <button class="close-btn" onclick="closeCart()">✕</button>
+                <button class="close-btn" onclick="closeCart()">&#10005;</button>
             </div>
             <div class="cart-items" id="cartItems">
                 <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
                     <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"><i class="fas fa-shopping-bag"></i></div>
-                    <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito está vacío</p>
+                    <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito esta vacio</p>
                 </div>
             </div>
             <div class="cart-summary" id="cartSummary" style="display: none;">
                 <div class="summary-row">
                     <span>Subtotal</span>
-                    <span id="subtotal">0.00€</span>
+                    <span id="subtotal">0.00&#8364;</span>
                 </div>
                 <div class="summary-row">
                     <span>Impuestos (21%)</span>
-                    <span id="taxes">0.00€</span>
+                    <span id="taxes">0.00&#8364;</span>
                 </div>
                 <div class="summary-row">
                     <span>Total</span>
-                    <span id="total">0.00€</span>
+                    <span id="total">0.00&#8364;</span>
                 </div>
             </div>
-            <button class="checkout-btn" id="checkoutBtn" style="display: none;">Proceder al Pago</button>
+            <button class="checkout-btn" id="checkoutBtn" style="display: none;" onclick="proceedToCheckout()">Proceder al Pago</button>
         </div>
     </div>
+
+    <footer class="marketplace-footer">
+        <p>
+            <a href="/crew/legal.html">Aviso Legal</a> |
+            <a href="/crew/privacidad.html">Privacidad</a> |
+            <a href="/crew/cookies.html">Cookies</a>
+        </p>
+        <p>&copy; 2024 GULA Corp. Todos los derechos reservados.</p>
+    </footer>
 
     <script>
         let products = [];
         let cart = [];
 
+        const PRODUCT_IMAGES = {
+            1: 'images/burger3.png',
+            2: 'images/burger4.png',
+            3: 'images/burger2.png',
+            4: 'images/burger-cheese-bacon.png',
+            5: 'images/burger-cheese.png',
+            6: 'images/burger-popes.png',
+            7: 'images/burger-spicy.png',
+            8: 'images/burger-sinner.png',
+            9: 'images/burger-trufa.png',
+            10: 'images/burger1.png',
+            11: 'images/slider-golden.png',
+            12: 'images/alitas.png',
+            13: 'images/fritas-bacon.png',
+            14: 'images/fritas1.png',
+            15: 'images/fritas-trufadas.png',
+            16: 'images/fritas2.png',
+            17: 'images/pollo-frito.png',
+            18: 'images/cheesecake2.png',
+            19: 'images/cheesecake1.png',
+            20: 'images/combo2.png',
+            21: 'images/combo1.png',
+            22: 'images/combo-sinner.png',
+            23: 'images/combo3.png'
+        };
+
         function initializeProducts() {
             products = [
-                { id: 1, title: 'BBK', category: 'burgers', price: 13.90, description: 'Doble smash, queso cheddar, bacon bits', rating: 4.9 },
-                { id: 2, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, description: 'Pollo crujiente con salsas premium', rating: 4.8 },
-                { id: 3, title: 'Buffalo Ranch (Carne)', category: 'burgers', price: 13.90, description: 'Salsa buffalo con carne premium', rating: 4.7 },
-                { id: 4, title: 'Cheese Bacon', category: 'burgers', price: 13.90, description: 'Queso cheddar y bacon crujiente', rating: 4.8 },
-                { id: 5, title: 'Cheeseburger', category: 'burgers', price: 11.90, description: 'Clásico con queso derretido', rating: 4.6 },
-                { id: 6, title: "Pope's", category: 'burgers', price: 12.90, description: 'Receta especial premium', rating: 4.7 },
-                { id: 7, title: 'Spicy V', category: 'burgers', price: 13.90, description: 'Picante y vegetal, muy sabrosa', rating: 4.5 },
-                { id: 8, title: 'The Sinner', category: 'burgers', price: 13.90, description: 'Pecadosamente deliciosa', rating: 4.9 },
-                { id: 9, title: 'The Trufa Corp', category: 'burgers', price: 14.90, description: 'Salsa trufada premium', rating: 4.9 },
-                { id: 10, title: 'Trufa Corp Chicken', category: 'burgers', price: 13.90, description: 'Pollo con salsa trufada', rating: 4.8 },
-                { id: 11, title: 'Golden Slider', category: 'sliders', price: 7.90, description: 'Mini burger premium', rating: 4.7 },
-                { id: 12, title: 'Alitas', category: 'sides', price: 8.50, description: 'Alitas de pollo barbacoa crujientes', rating: 4.6 },
-                { id: 13, title: 'Fritas Bacon & Queso', category: 'sides', price: 6.50, description: 'Patatas con bacon y queso', rating: 4.5 },
-                { id: 14, title: 'Fritas Buffalo Ranch', category: 'sides', price: 7.50, description: 'Patatas fritas, salsa buffalo premium', rating: 4.7 },
-                { id: 15, title: 'Fritas Trufadas', category: 'sides', price: 6.50, description: 'Patatas crujientes con salsa trufa', rating: 4.8 },
-                { id: 16, title: 'Nuestras Fritas', category: 'sides', price: 3.40, description: 'Patatas crujientes al punto de sal', rating: 4.5 },
-                { id: 17, title: 'Pollo Frito', category: 'sides', price: 9.90, description: 'Pollo crujiente y jugoso', rating: 4.7 },
-                { id: 18, title: 'Cheesecake Dinosaurus', category: 'postres', price: 6.50, description: 'Cheesecake con chocolate blanco', rating: 4.8 },
-                { id: 19, title: 'Cheesecake Lotus', category: 'postres', price: 6.50, description: 'Cheesecake con dulce de leche', rating: 4.9 },
-                { id: 20, title: 'Pleasure for Two', category: 'combos', price: 30.90, description: '2 burgers + sides + bebidas + postres', rating: 4.9 },
-                { id: 21, title: 'Sin City', category: 'combos', price: 69.00, description: '4 burgers + entrantes + bebidas + postres', rating: 5.0 },
-                { id: 22, title: 'Sinner Combo', category: 'combos', price: 14.90, description: 'The Sinner + sides + bebida', rating: 4.7 },
-                { id: 23, title: 'The Golden Bite', category: 'combos', price: 20.00, description: 'Burger premium + entrante + bebida', rating: 4.8 },
+                { id: 1, title: 'BBK', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[1], description: 'Doble smash, queso cheddar, bacon bits', rating: 4.9 },
+                    { id: 2, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Pollo crujiente con salsas premium', rating: 4.8 },
+                { id: 3, title: 'Buffalo Ranch (Carne)', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Salsa buffalo con carne premium', rating: 4.7 },
+                { id: 4, title: 'Cheese Bacon', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[4], description: 'Queso cheddar y bacon crujiente', rating: 4.8 },
+                { id: 5, title: 'Cheeseburger', category: 'burgers', price: 11.90, image: PRODUCT_IMAGES[5], description: 'Clasico con queso derretido', rating: 4.6 },
+                { id: 6, title: "Pope's", category: 'burgers', price: 12.90, image: PRODUCT_IMAGES[6], description: 'Receta especial premium', rating: 4.7 },
+                { id: 7, title: 'Spicy V', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[7], description: 'Picante y vegetal, muy sabrosa', rating: 4.5 },
+                { id: 8, title: 'The Sinner', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[8], description: 'Pecadosamente deliciosa', rating: 4.9 },
+                { id: 9, title: 'The Trufa Corp', category: 'burgers', price: 14.90, image: PRODUCT_IMAGES[9], description: 'Salsa trufada premium', rating: 4.9 },
+                { id: 10, title: 'Trufa Corp Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[10], description: 'Pollo con salsa trufada', rating: 4.8 },
+                { id: 11, title: 'Golden Slider', category: 'sliders', price: 7.90, image: PRODUCT_IMAGES[11], description: 'Mini burger premium', rating: 4.7 },
+                { id: 12, title: 'Alitas', category: 'sides', price: 8.50, image: PRODUCT_IMAGES[12], description: 'Alitas de pollo barbacoa crujientes', rating: 4.6 },
+                { id: 13, title: 'Fritas Bacon & Queso', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[13], description: 'Patatas con bacon y queso', rating: 4.5 },
+                { id: 14, title: 'Fritas Buffalo Ranch', category: 'sides', price: 7.50, image: PRODUCT_IMAGES[14], description: 'Patatas fritas, salsa buffalo premium', rating: 4.7 },
+                { id: 15, title: 'Fritas Trufadas', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[15], description: 'Patatas crujientes con salsa trufa', rating: 4.8 },
+                { id: 16, title: 'Nuestras Fritas', category: 'sides', price: 3.40, image: PRODUCT_IMAGES[16], description: 'Patatas crujientes al punto de sal', rating: 4.5 },
+                { id: 17, title: 'Pollo Frito', category: 'sides', price: 9.90, image: PRODUCT_IMAGES[17], description: 'Pollo crujiente y jugoso', rating: 4.7 },
+                { id: 18, title: 'Cheesecake Dinosaurus', category: 'postres', price: 6.50, image: PRODUCT_IMAGES[18], description: 'Cheesecake con chocolate blanco', rating: 4.8 },
+                { id: 19, title: 'Cheesecake Lotus', category: 'postres', price: 6.50, image: PRODUCT_IMAGES[19], description: 'Cheesecake con dulce de leche', rating: 4.9 },
+                { id: 20, title: 'Pleasure for Two', category: 'combos', price: 30.90, image: PRODUCT_IMAGES[20], description: '2 burgers + sides + bebidas + postres', rating: 4.9 },
+                { id: 21, title: 'Sin City', category: 'combos', price: 69.00, image: PRODUCT_IMAGES[21], description: '4 burgers + entrantes + bebidas + postres', rating: 5.0 },
+                { id: 22, title: 'Sinner Combo', category: 'combos', price: 14.90, image: PRODUCT_IMAGES[22], description: 'The Sinner + sides + bebida', rating: 4.7 },
+                { id: 23, title: 'The Golden Bite', category: 'combos', price: 20.00, image: PRODUCT_IMAGES[23], description: 'Burger premium + entrante + bebida', rating: 4.8 },
             ];
             renderProducts(products);
         }
@@ -732,6 +761,7 @@
             grid.innerHTML = productsToShow.map(product => `
                 <div class="product-card" data-category="${product.category}">
                     <div class="product-image">
+                        <img src="${product.image || ''}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px 15px 0 0;" onerror="this.style.display='none'">
                         <span class="product-badge">Premium</span>
                     </div>
                     <div class="product-content">
@@ -739,11 +769,11 @@
                         <div class="product-title">${product.title}</div>
                         <div class="product-description">${product.description}</div>
                         <div class="product-rating">
-                            <span class="star">${'⭐'.repeat(Math.floor(product.rating))}</span>
+                            <span class="star">${'&#11088;'.repeat(Math.floor(product.rating))}</span>
                             <span class="rating-text">${product.rating}</span>
                         </div>
                         <div class="product-footer">
-                            <div class="product-price">${product.price.toFixed(2)}€</div>
+                            <div class="product-price">${product.price.toFixed(2)}&#8364;</div>
                             <button class="add-to-cart-btn" onclick="addToCart(${product.id})"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
@@ -768,6 +798,7 @@
                 cart.push({ ...product, quantity: 1 });
             }
             updateCartUI();
+            posthog.capture('add_to_cart', { product: product.title, price: product.price });
         }
 
         function updateCartUI() {
@@ -780,7 +811,7 @@
                 cartItems.innerHTML = `
                     <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
                         <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"><i class="fas fa-shopping-bag"></i></div>
-                        <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito está vacío</p>
+                        <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito esta vacio</p>
                     </div>
                 `;
                 document.getElementById('cartSummary').style.display = 'none';
@@ -795,11 +826,11 @@
                                     x${item.quantity}
                                 </span>
                                 <span style="margin-left: 10px; opacity: 0.7;">
-                                    ${item.price.toFixed(2)}€ c/u
+                                    ${item.price.toFixed(2)}&#8364; c/u
                                 </span>
                             </p>
                         </div>
-                        <div class="cart-item-price">${(item.price * item.quantity).toFixed(2)}€</div>
+                        <div class="cart-item-price">${(item.price * item.quantity).toFixed(2)}&#8364;</div>
                     </div>
                 `).join('');
                 
@@ -807,9 +838,9 @@
                 const taxes = subtotal * 0.21;
                 const total = subtotal + taxes;
                 
-                document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '€';
-                document.getElementById('taxes').textContent = taxes.toFixed(2) + '€';
-                document.getElementById('total').textContent = total.toFixed(2) + '€';
+                document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '&#8364;';
+                document.getElementById('taxes').textContent = taxes.toFixed(2) + '&#8364;';
+                document.getElementById('total').textContent = total.toFixed(2) + '&#8364;';
                 document.getElementById('cartSummary').style.display = 'block';
                 document.getElementById('checkoutBtn').style.display = 'block';
             }
@@ -823,24 +854,33 @@
             document.getElementById('cartModal').classList.remove('active');
         }
 
+        function closeCartOutside(event) {
+            if (event.target === document.getElementById('cartModal')) {
+                closeCart();
+            }
+        }
+
+        function proceedToCheckout() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const taxes = total * 0.21;
+            const finalTotal = total + taxes;
+            
+            alert(`Procediendo al pago...\n\nTotal: ${finalTotal.toFixed(2)}&#8364;\n\n(Integracion con Stripe pendiente)`);
+            posthog.capture('checkout_initiated', { total: finalTotal, items: cart.length });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             initializeProducts();
-            // PostHog: track add to cart
-            document.getElementById('productsGrid').addEventListener('click', function(e) {
-                const btn = e.target.closest('.add-to-cart-btn');
-                if (btn) posthog.capture('add_to_cart');
+            
+            document.getElementById('searchBar').addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                const filtered = products.filter(p => 
+                    p.title.toLowerCase().includes(query) || 
+                    p.description.toLowerCase().includes(query)
+                );
+                renderProducts(filtered);
             });
         });
-
-        document.getElementById('searchBar').addEventListener('input', function() {
-            const q = this.value.toLowerCase().trim();
-            if (!q) { renderProducts(products); return; }
-            renderProducts(products.filter(p => p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)));
-        });
     </script>
-
-    <footer class="marketplace-footer">
-        <p>© 2026 GULA Corp · <a href="/legal.html">Legal</a> · <a href="/privacidad.html">Privacidad</a> · <a href="/contacto.html">Contacto</a></p>
-    </footer>
 </body>
 </html>
