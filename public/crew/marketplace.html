@@ -647,8 +647,9 @@
         <ul class="nav-center">
             <li><a href="gulatemplate.html">Inicio</a></li>
             <li><a href="sobre.html">Nosotros</a></li>
-            <li><a href="marketplace.html" style="color:var(--gula-orange)">Menú</a></li>
-            <li><a href="franquicias.html">Franquicias</a></li>
+            <li><a href="marketplace.html" style="color: var(--gula-orange);">Carta</a></li>
+            <li><a href="club.html">Club GULA</a></li>
+            <li><a href="franquicias.html">Franquicia</a></li>
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
         <div class="nav-right">
@@ -658,7 +659,7 @@
                 <span class="cart-count" id="cartCount">0</span>
             </div>
             <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-            <a href="CLUBGULA.html" class="nav-btn-primary">Club GULA</a>
+            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
         </div>
     </nav>
 
@@ -686,6 +687,86 @@
         </div>
 
         <div class="products-grid" id="productsGrid"></div>
+
+        <!-- REVIEWS -->
+        <section class="reviews-section" style="margin: 5rem auto; max-width: 1200px;">
+            <div style="text-align:center; margin-bottom: 2.5rem;">
+                <div style="font-family:'Akira Expanded',sans-serif; font-size: 0.7rem; letter-spacing: 4px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 0.6rem;">— Lo que dice la CREW —</div>
+                <h2 style="font-family:'Aveline',sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; letter-spacing: 1px;">Reseñas reales en <span style="color:var(--gula-orange)">Google</span> y <span style="color:var(--gula-orange)">Uber Eats</span></h2>
+            </div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem;">
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><i class="fab fa-google" style="color:#FF5800;font-size:1.2rem;"></i><span style="color:#888;font-size:0.8rem;">Google · Valencia</span></div>
+                    <div style="color: #FFD24A; margin-bottom: 10px;">★★★★★</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"La mejor smash burger que he probado en Valencia. La carne se nota de calidad y el pan está espectacular. Volveré seguro."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— María G.</p>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><i class="fas fa-motorcycle" style="color:#FF5800;font-size:1.2rem;"></i><span style="color:#888;font-size:0.8rem;">Uber Eats · Móstoles</span></div>
+                    <div style="color: #FFD24A; margin-bottom: 10px;">★★★★★</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"Llegó caliente, en tiempo y con sabor brutal. La Trufa Corp es una pasada. Mi nueva burger favorita a domicilio."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— Carlos L.</p>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><i class="fab fa-google" style="color:#FF5800;font-size:1.2rem;"></i><span style="color:#888;font-size:0.8rem;">Google · Cartagena</span></div>
+                    <div style="color: #FFD24A; margin-bottom: 10px;">★★★★★</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"Producto de verdad, sin trampas. El equipo es majo, el sitio tiene rollo y la relación calidad-precio es top. 100% recomendable."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— Sofía M.</p>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><i class="fas fa-motorcycle" style="color:#FF5800;font-size:1.2rem;"></i><span style="color:#888;font-size:0.8rem;">Uber Eats · Sevilla</span></div>
+                    <div style="color: #FFD24A; margin-bottom: 10px;">★★★★★</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"Pedido perfecto, packaging cuidado y burger jugosa. Se nota que les importa el detalle."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— Adrián R.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORES -->
+        <section class="stores-section" style="margin: 5rem auto; max-width: 1200px;">
+            <div style="text-align:center; margin-bottom: 2.5rem;">
+                <div style="font-family:'Akira Expanded',sans-serif; font-size: 0.7rem; letter-spacing: 4px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 0.6rem;">— Nuestras tiendas —</div>
+                <h2 style="font-family:'Aveline',sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; letter-spacing: 1px;">Pide o visita la <span style="color:var(--gula-orange)">GULA</span> más cerca</h2>
+            </div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem;">
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <h3 style="color:var(--gula-orange);font-family:'Akira Expanded',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:0.6rem;">MÓSTOLES</h3>
+                    <p style="color:#ddd;font-size:0.85rem;line-height:1.5;">C. Río Segura, 30<br><span style="color:#888;">28935 Móstoles, Madrid</span></p>
+                    <a href="tel:+34916123456" style="display:inline-block;color:var(--gula-orange);font-weight:700;margin:10px 0;font-size:0.9rem;text-decoration:none;"><i class="fas fa-phone" style="margin-right:6px;"></i>+34 916 123 456</a>
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <a href="https://www.ubereats.com" target="_blank" style="flex:1;text-align:center;background:#000;color:#fff;border:1.5px solid #333;padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Uber Eats</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C.+R%C3%ADo+Segura+30+M%C3%B3stoles" target="_blank" style="flex:1;text-align:center;background:transparent;color:var(--gula-orange);border:1.5px solid var(--gula-orange);padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Maps</a>
+                    </div>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <h3 style="color:var(--gula-orange);font-family:'Akira Expanded',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:0.6rem;">VALENCIA</h3>
+                    <p style="color:#ddd;font-size:0.85rem;line-height:1.5;">C/ de Cadis, 41<br><span style="color:#888;">L'Eixample, 46004 València</span></p>
+                    <a href="tel:+34963456789" style="display:inline-block;color:var(--gula-orange);font-weight:700;margin:10px 0;font-size:0.9rem;text-decoration:none;"><i class="fas fa-phone" style="margin-right:6px;"></i>+34 963 456 789</a>
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <a href="https://www.ubereats.com" target="_blank" style="flex:1;text-align:center;background:#000;color:#fff;border:1.5px solid #333;padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Uber Eats</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C%2F+de+Cadis+41+Valencia" target="_blank" style="flex:1;text-align:center;background:transparent;color:var(--gula-orange);border:1.5px solid var(--gula-orange);padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Maps</a>
+                    </div>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <h3 style="color:var(--gula-orange);font-family:'Akira Expanded',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:0.6rem;">CARTAGENA</h3>
+                    <p style="color:#ddd;font-size:0.85rem;line-height:1.5;">C. Jiménez de la Espada, 17<br><span style="color:#888;">30204 Cartagena, Murcia</span></p>
+                    <a href="tel:+34968321654" style="display:inline-block;color:var(--gula-orange);font-weight:700;margin:10px 0;font-size:0.9rem;text-decoration:none;"><i class="fas fa-phone" style="margin-right:6px;"></i>+34 968 321 654</a>
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <a href="https://www.ubereats.com" target="_blank" style="flex:1;text-align:center;background:#000;color:#fff;border:1.5px solid #333;padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Uber Eats</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C.+Jim%C3%A9nez+de+la+Espada+17+Cartagena" target="_blank" style="flex:1;text-align:center;background:transparent;color:var(--gula-orange);border:1.5px solid var(--gula-orange);padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Maps</a>
+                    </div>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <h3 style="color:var(--gula-orange);font-family:'Akira Expanded',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:0.6rem;">SEVILLA</h3>
+                    <p style="color:#ddd;font-size:0.85rem;line-height:1.5;">C. Chucena, s/n<br><span style="color:#888;">Edificio Alcaitán, 41006 Sevilla</span></p>
+                    <a href="tel:+34954789123" style="display:inline-block;color:var(--gula-orange);font-weight:700;margin:10px 0;font-size:0.9rem;text-decoration:none;"><i class="fas fa-phone" style="margin-right:6px;"></i>+34 954 789 123</a>
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <a href="https://www.ubereats.com" target="_blank" style="flex:1;text-align:center;background:#000;color:#fff;border:1.5px solid #333;padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Uber Eats</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C.+Chucena+Edificio+Alcait%C3%A1n+Sevilla" target="_blank" style="flex:1;text-align:center;background:transparent;color:var(--gula-orange);border:1.5px solid var(--gula-orange);padding:8px;border-radius:25px;font-size:0.7rem;text-decoration:none;font-family:'Akira Expanded',sans-serif;">Maps</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <div class="cart-modal" id="cartModal" onclick="closeCartOutside(event)">
@@ -867,11 +948,16 @@
 
         function renderProducts(productsToShow = products) {
             const grid = document.getElementById('productsGrid');
-            grid.innerHTML = productsToShow.map(product => `
+            grid.innerHTML = productsToShow.map(product => {
+                const puntos = Math.round(product.price);
+                return `
                 <div class="product-card" data-category="${product.category}">
                     <div class="product-image">
                         <img src="${product.image || ''}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px 15px 0 0;" onerror="this.style.display='none'">
                         <span class="product-badge">Premium</span>
+                        <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 5px 12px; border-radius: 15px; font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; font-weight: 900;">
+                            +${puntos} pts CREW
+                        </div>
                     </div>
                     <div class="product-content">
                         <div class="product-category">${product.category.toUpperCase()}</div>
@@ -887,7 +973,7 @@
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function filterProducts(category) {
@@ -908,6 +994,53 @@
             }
             updateCartUI();
             posthog.capture('add_to_cart', { product: product.title, price: product.price });
+            
+            // Mostrar mensaje de puntos
+            const puntos = Math.round(product.price);
+            const totalCarrito = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const puntosTotales = Math.round(totalCarrito);
+            const puntosParaRecompensa = 50 - (puntosTotales % 50);
+            
+            showPointsToast(puntos, puntosParaRecompensa);
+        }
+        
+        function showPointsToast(puntosGanados, puntosFaltantes) {
+            const existingToast = document.querySelector('.points-toast');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'points-toast';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 20px;
+                background: linear-gradient(135deg, #FF5800, #FF7A29);
+                color: #000;
+                padding: 1rem 1.5rem;
+                border-radius: 15px;
+                font-family: 'Akira Expanded', sans-serif;
+                font-weight: 900;
+                font-size: 0.9rem;
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+                box-shadow: 0 10px 30px rgba(255, 88, 0, 0.4);
+            `;
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-crown"></i>
+                    <span>+${puntosGanados} pts CREW</span>
+                </div>
+                <div style="font-size: 0.75rem; opacity: 0.9; font-weight: 400;">
+                    Estás a ${puntosFaltantes} pts de una recompensa
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         function updateCartUI() {

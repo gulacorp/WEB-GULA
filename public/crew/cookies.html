@@ -49,22 +49,26 @@
     </style>
 </head>
 <body>
-<nav>
-    <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
-    <ul class="nav-center">
-        <li><a href="gulatemplate.html">Inicio</a></li>
-        <li><a href="sobre.html">Nosotros</a></li>
-        <li><a href="marketplace.html">Menú</a></li>
-        <li><a href="franquicias.html">Franquicias</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-    </ul>
-    <div class="nav-right">
-        <input type="text" class="search-bar" placeholder="Buscar...">
-        <div class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></div>
-        <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-        <a href="CLUBGULA.html" class="nav-btn-primary">Club GULA</a>
-    </div>
-</nav>
+    <nav>
+        <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+        <ul class="nav-center">
+            <li><a href="gulatemplate.html">Inicio</a></li>
+            <li><a href="sobre.html">Nosotros</a></li>
+            <li><a href="marketplace.html">Carta</a></li>
+            <li><a href="club.html">Club GULA</a></li>
+            <li><a href="franquicias.html">Franquicia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <div class="nav-right">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+            <div class="cart-icon" onclick="openCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+            <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+        </div>
+    </nav>
 <div class="container">
     <h1>Política de Cookies</h1>
     <p class="updated">Última actualización: Abril 2026</p>

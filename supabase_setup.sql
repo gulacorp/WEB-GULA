@@ -80,28 +80,36 @@ alter table public.contactos enable row level security;
 
 -- El server (service_role) puede hacer todo — las políticas solo aplican al anon key
 -- Lectura pública del propio perfil (por member_code, sin auth por ahora)
+drop policy if exists "Leer propio perfil" on public.crew_members;
 create policy "Leer propio perfil" on public.crew_members
   for select using (true);
 
+drop policy if exists "Leer historial propio" on public.puntos_historial;
 create policy "Leer historial propio" on public.puntos_historial
   for select using (true);
 
+drop policy if exists "Leer promos propias" on public.promos;
 create policy "Leer promos propias" on public.promos
   for select using (true);
 
 -- Insertar desde el server (el service_role bypasea RLS igualmente)
+drop policy if exists "Insertar miembros" on public.crew_members;
 create policy "Insertar miembros" on public.crew_members
   for insert with check (true);
 
+drop policy if exists "Insertar historial" on public.puntos_historial;
 create policy "Insertar historial" on public.puntos_historial
   for insert with check (true);
 
+drop policy if exists "Insertar pedidos" on public.pedidos;
 create policy "Insertar pedidos" on public.pedidos
   for insert with check (true);
 
+drop policy if exists "Insertar promos" on public.promos;
 create policy "Insertar promos" on public.promos
   for insert with check (true);
 
+drop policy if exists "Insertar contactos" on public.contactos;
 create policy "Insertar contactos" on public.contactos
   for insert with check (true);
 

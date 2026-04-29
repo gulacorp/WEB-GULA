@@ -16,29 +16,29 @@
         body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden;line-height:1.6}
 
         /* NAVBAR — estándar único */
-        nav{position:fixed;top:0;width:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border-bottom:2px solid var(--border-color);padding:0 40px;z-index:1000;display:flex;justify-content:space-between;align-items:center;height:80px;box-shadow:0 8px 32px rgba(255,88,0,0.1);overflow:hidden}
+        nav{position:fixed;top:0;width:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border-bottom:2px solid var(--border-color);padding:0 28px;z-index:1000;display:flex;justify-content:space-between;align-items:center;height:72px;box-shadow:0 8px 32px rgba(255,88,0,0.1);overflow:hidden}
         nav::before{content:'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G';position:absolute;left:0;top:50%;transform:translateY(-50%);font-family:'Aveline',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,88,0,0.08);white-space:nowrap;letter-spacing:20px;animation:slideHorizontal 20s linear infinite;z-index:-1;pointer-events:none}
         @keyframes slideHorizontal{0%{transform:translateY(-50%) translateX(0)}100%{transform:translateY(-50%) translateX(-50%)}}
-        .nav-logo{font-family:'Aveline',sans-serif;font-size:1.8rem;font-weight:900;color:var(--gula-orange);letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.3s ease}
+        .nav-logo{font-family:'Aveline',sans-serif;font-size:1.55rem;font-weight:900;color:var(--gula-orange);letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.3s ease}
         .nav-logo:hover{transform:scale(1.05);text-shadow:0 0 20px rgba(255,88,0,0.5)}
-        .nav-center{display:flex;gap:40px;align-items:center;list-style:none}
-        .nav-center a{font-family:'Akira Expanded',sans-serif;color:var(--text-primary);text-decoration:none;font-size:0.95rem;font-weight:600;position:relative;transition:color 0.3s ease;letter-spacing:1px;text-transform:uppercase}
+        .nav-center{display:flex;gap:24px;align-items:center;list-style:none}
+        .nav-center a{font-family:'Akira Expanded',sans-serif;color:var(--text-primary);text-decoration:none;font-size:0.72rem;font-weight:600;position:relative;transition:color 0.3s ease;letter-spacing:1px;text-transform:uppercase}
         .nav-center a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gula-orange),#FF7A29);transition:width 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 10px rgba(255,88,0,0.5)}
         .nav-center a:hover{color:var(--gula-orange);text-shadow:0 0 15px rgba(255,88,0,0.5)}
         .nav-center a:hover::after{width:100%}
-        .nav-right{display:flex;gap:20px;align-items:center}
-        .search-bar{background:rgba(17,17,17,0.6);backdrop-filter:blur(10px);border:1.5px solid var(--border-color);color:var(--text-primary);padding:10px 15px;border-radius:50px;width:200px;font-size:0.9rem;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+        .nav-right{display:flex;gap:12px;align-items:center}
+        .search-bar{background:rgba(17,17,17,0.6);backdrop-filter:blur(10px);border:1.5px solid var(--border-color);color:var(--text-primary);padding:8px 13px;border-radius:50px;width:170px;font-size:0.82rem;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)}
         .search-bar::placeholder{color:rgba(255,255,255,0.4)}
         .search-bar:focus{outline:none;border-color:var(--gula-orange);box-shadow:0 0 20px rgba(255,88,0,0.3)}
         .cart-icon{position:relative;cursor:pointer;font-size:1.3rem;color:var(--gula-orange);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)}
         .cart-icon:hover{transform:scale(1.2);filter:drop-shadow(0 0 15px rgba(255,88,0,0.5))}
         .cart-count{position:absolute;top:-8px;right:-8px;background:var(--gula-orange);color:#000;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900}
-        .nav-btn-outline{background:transparent;color:#FF5800;padding:10px 20px;border-radius:25px;font-family:'Akira Expanded',sans-serif;font-weight:900;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;transition:all 0.3s;border:2px solid #FF5800}
+        .nav-btn-outline{background:transparent;color:#FF5800;padding:8px 13px;border-radius:999px;font-family:'Akira Expanded',sans-serif;font-weight:900;font-size:0.62rem;text-decoration:none;text-transform:uppercase;letter-spacing:0.8px;transition:all 0.3s;border:1.5px solid #FF5800;white-space:nowrap}
         .nav-btn-outline:hover{background:#FF5800;color:#000}
-        .nav-btn-primary{background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000;padding:10px 20px;border-radius:25px;font-family:'Akira Expanded',sans-serif;font-weight:900;font-size:0.75rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;transition:all 0.3s}
+        .nav-btn-primary{background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000;padding:8px 13px;border-radius:999px;font-family:'Akira Expanded',sans-serif;font-weight:900;font-size:0.62rem;text-decoration:none;text-transform:uppercase;letter-spacing:0.8px;transition:all 0.3s;white-space:nowrap}
         .nav-btn-primary:hover{transform:scale(1.05)}
 
-        main{padding-top:80px;min-height:100vh}
+        main{padding-top:72px;min-height:100vh}
 
         /* HERO */
         .service-hero{padding:120px 40px 80px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,rgba(255,88,0,0.15) 0%,transparent 70%)}
@@ -113,19 +113,20 @@
 </head>
 <body>
     <nav>
-        <a href="gulatemplate.html" class="nav-logo">GULA</a>
+        <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
         <ul class="nav-center">
             <li><a href="gulatemplate.html">Inicio</a></li>
             <li><a href="sobre.html">Nosotros</a></li>
-            <li><a href="marketplace.html">Menú</a></li>
-            <li><a href="franquicias.html">Franquicias</a></li>
+            <li><a href="marketplace.html">Carta</a></li>
+            <li><a href="CLUBGULA.html">Club GULA</a></li>
+            <li><a href="franquicias.html">Franquicia</a></li>
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
         <div class="nav-right">
-            <input type="search" class="search-bar" placeholder="Buscar...">
-            <div class="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></div>
-            <a href="franquiciado.html" class="nav-btn-outline">Hazte Franquiciado</a>
-            <a href="CLUBGULA.html" class="nav-btn-primary">Club GULA</a>
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+            <div class="cart-icon" onclick="openCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
+            <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
         </div>
     </nav>
 
@@ -139,7 +140,7 @@
         <div class="stats-strip">
             <div class="stat"><div class="stat-num">4</div><div class="stat-label">Tiendas Activas</div></div>
             <div class="stat"><div class="stat-num">40%</div><div class="stat-label">Clientes Recurrentes</div></div>
-            <div class="stat"><div class="stat-num">32€</div><div class="stat-label">Ticket Medio</div></div>
+            <div class="stat"><div class="stat-num">22€</div><div class="stat-label">Ticket Medio</div></div>
         </div>
 
         <section class="content-block">
