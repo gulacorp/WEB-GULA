@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Contacto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_CzhZyojSwkVTiPBfQPEt2esM4swrJeobgmSMeuUUheMU', {api_host:'https://us.posthog.com', person_profiles:'identified_only'});
+    </script>
+    <style>
+        @font-face { font-family: 'Aveline'; src: url('AvelineRegular.otf') format('opentype'); font-display: swap; }
+        @font-face { font-family: 'Akira Expanded'; src: url('Akira Expanded Demo.otf') format('opentype'); font-display: swap; }
+        :root{--gula-orange:#FF5800;--gula-orange-light:#FF7A29;--bg-dark:#0a0a0a;--text-primary:#fff;--text-secondary:#b0b0b0;--border-color:rgba(255,88,0,0.2)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden}
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 0 28px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 72px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
+        nav::before { content: 'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Aveline', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255, 88, 0, 0.08); white-space: nowrap; letter-spacing: 20px; animation: slideHorizontal 20s linear infinite; z-index: -1; pointer-events: none; }
+        @keyframes slideHorizontal { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
+        .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.55rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
+        .nav-center { display: flex; gap: 24px; align-items: center; list-style: none; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover::after { width: 100%; }
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .search-bar { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(10px); border: 1.5px solid var(--border-color); color: var(--text-primary); padding: 8px 13px; border-radius: 50px; width: 170px; font-size: 0.82rem; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 0 20px rgba(255, 88, 0, 0.05); }
+        .search-bar::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .search-bar:focus { outline: none; border-color: var(--gula-orange); box-shadow: 0 0 20px rgba(255, 88, 0, 0.3), inset 0 0 20px rgba(255, 88, 0, 0.08); background: rgba(17, 17, 17, 0.8); }
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.3rem; color: var(--gula-orange); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .cart-icon:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(255, 88, 0, 0.5)); }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: var(--gula-orange); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; }
+        .nav-btn-outline { background: transparent; color: #FF5800; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; border: 1.5px solid #FF5800; white-space: nowrap; }
+        .nav-btn-outline:hover { background: #FF5800; color: #000; }
+        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; white-space: nowrap; }
+        .nav-btn-primary:hover { transform: scale(1.05); }
+        main{padding-top:72px;min-height:100vh}
+        .page-hero{padding:80px 40px 40px;text-align:center;background:linear-gradient(135deg,rgba(255,88,0,0.08) 0%,transparent 100%)}
+        .page-hero h1{font-family:'Aveline',sans-serif;font-size:clamp(3rem,7vw,5rem);letter-spacing:4px;color:var(--gula-orange)}
+        .page-hero p{color:var(--text-secondary);font-size:1.1rem;margin-top:1rem}
+        .container{max-width:1100px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start}
+        .info-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:20px;padding:40px}
+        .info-card h2{font-family:'Aveline',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:30px}
+        .info-item{display:flex;gap:15px;align-items:flex-start;margin-bottom:25px}
+        .info-icon{width:44px;height:44px;background:rgba(255,88,0,0.15);border:1.5px solid rgba(255,88,0,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--gula-orange);font-size:1rem;flex-shrink:0}
+        .info-text strong{display:block;font-weight:700;margin-bottom:4px}
+        .info-text span{color:var(--text-secondary);font-size:0.9rem}
+        .tiendas{margin-top:30px}
+        .tiendas h3{font-family:'Aveline',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gula-orange);margin-bottom:15px}
+        .tienda-item{background:rgba(255,88,0,0.05);border:1px solid rgba(255,88,0,0.15);border-radius:10px;padding:12px 15px;margin-bottom:10px;font-size:0.9rem}
+        .tienda-item strong{color:var(--gula-orange);display:block;margin-bottom:3px}
+        .form-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:20px;padding:40px}
+        .form-card h2{font-family:'Aveline',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:30px}
+        .form-group{margin-bottom:18px}
+        label{display:block;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:8px}
+        input,textarea,select{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,88,0,0.3);border-radius:12px;color:var(--text-primary);padding:14px 16px;font-size:0.95rem;font-family:'Inter',sans-serif;transition:border-color 0.3s;outline:none}
+        input:focus,textarea:focus,select:focus{border-color:var(--gula-orange);box-shadow:0 0 0 3px rgba(255,88,0,0.1)}
+        textarea{resize:vertical;min-height:120px}
+        select option{background:#111;color:#fff}
+        .submit-btn{width:100%;background:linear-gradient(135deg,var(--gula-orange),var(--gula-orange-light));color:#000;border:none;padding:16px;border-radius:50px;font-weight:900;font-size:1rem;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all 0.3s;margin-top:10px}
+        .submit-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,88,0,0.4)}
+        .submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+        .success-msg{display:none;background:rgba(0,200,100,0.1);border:1.5px solid rgba(0,200,100,0.3);border-radius:12px;padding:15px;text-align:center;color:#00c864;font-weight:700;margin-top:15px}
+        footer{background:rgba(0,0,0,0.95);border-top:1px solid var(--border-color);padding:40px;text-align:center;color:var(--text-secondary);font-size:0.85rem}
+        footer a{color:var(--text-secondary);text-decoration:none;margin:0 12px}
+        footer a:hover{color:var(--gula-orange)}
+        @media(max-width:768px){.container{grid-template-columns:1fr;padding:40px 20px;gap:30px}.page-hero{padding:60px 20px 30px}}
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+    <ul class="nav-center">
+        <li><a href="gulatemplate.html">Inicio</a></li>
+        <li><a href="sobre.html">Nosotros</a></li>
+        <li><a href="marketplace.html">Carta</a></li>
+        <li><a href="CLUBGULA.html">Club GULA</a></li>
+        <li><a href="franquicias.html">Franquicia</a></li>
+        <li><a href="contacto.html" style="color:var(--gula-orange)">Contacto</a></li>
+    </ul>
+    <div class="nav-right">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+        <div class="cart-icon" onclick="openCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
+        <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+        <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+    </div>
+</nav>
+<main>
+    <div class="page-hero">
+        <h1>Contacto</h1>
+        <p>Estamos aquí para lo que necesites</p>
+    </div>
+    <div class="container">
+        <div>
+            <div class="info-card">
+                <h2>Habla con Nosotros</h2>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="info-text"><strong>Email</strong><span>marketing@thegulacorp.com</span></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fab fa-instagram"></i></div>
+                    <div class="info-text"><strong>Instagram</strong><span><a href="https://www.instagram.com/thegulacorp/" target="_blank" rel="noopener" style="color:var(--gula-orange);text-decoration:none">@thegulacorp</a></span></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-clock"></i></div>
+                    <div class="info-text"><strong>Horario</strong><span>Lun–Jue 12:00–23:00<br>Vie–Dom 12:00–00:30</span></div>
+                </div>
+                <div class="tiendas">
+                    <h3>Nuestras Tiendas</h3>
+                    <div class="tienda-item"><strong>Gula Móstoles</strong>CP 28935 · Madrid</div>
+                    <div class="tienda-item"><strong>Gula Valencia</strong>CP 46021 · Valencia</div>
+                    <div class="tienda-item"><strong>Gula Cartagena</strong>CP 30201 · Murcia</div>
+                    <div class="tienda-item"><strong>Gula Sevilla</strong>CP 41012 · Sevilla</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-card">
+            <h2>Envíanos un Mensaje</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label>Tipo de consulta</label>
+                    <select name="tipo" id="tipo">
+                        <option value="contacto">Consulta general</option>
+                        <option value="catering">Catering / Eventos</option>
+                        <option value="prensa">Prensa / Colaboraciones</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nombre *</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" id="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="tel" name="telefono" id="telefono" placeholder="+34 600 000 000">
+                </div>
+                <div class="form-group">
+                    <label>Mensaje</label>
+                    <textarea name="mensaje" id="mensaje" placeholder="¿En qué podemos ayudarte?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Enviar Mensaje</button>
+                <div class="success-msg" id="successMsg">✓ Mensaje recibido. Te contactamos pronto.</div>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="footer.js" defer></script>
+<script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre: document.getElementById('nombre').value,
+                    email: document.getElementById('email').value,
+                    telefono: document.getElementById('telefono').value,
+                    tipo: document.getElementById('tipo').value,
+                    mensaje: document.getElementById('mensaje').value,
+                })
+            });
+            if (res.ok) {
+                document.getElementById('successMsg').style.display = 'block';
+                document.getElementById('contactForm').reset();
+                posthog.capture('contact_form_submit', { tipo: document.getElementById('tipo').value });
+            }
+        } catch(err) { alert('Error al enviar. Por favor escríbenos directamente a marketing@thegulacorp.com'); }
+        finally { btn.disabled = false; btn.textContent = 'Enviar Mensaje'; }
+    });
+</script>
+</body>
+</html>

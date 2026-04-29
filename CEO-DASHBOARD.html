@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+<title>GULA · Panel de plataforma web</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--orange:#FF5800;--orange-light:#FF7A29;--bg:#0a0a0a;--bg-card:#111;--bg-soft:#161616;--bg-soft2:#1a1a1a;--text:#fff;--text-2:#b8b8b8;--text-3:#7a7a7a;--border:rgba(255,88,0,0.3);--border-2:rgba(255,255,255,0.08);--green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6;--purple:#a855f7}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+.topbar{background:#080808;border-bottom:1px solid var(--border-2);padding:18px 36px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.topbar-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,var(--orange),var(--orange-light));display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:1.15rem}
+.brand-text{display:flex;flex-direction:column;line-height:1.2}
+.brand-name{font-weight:900;font-size:1.05rem;letter-spacing:-.5px}
+.brand-meta{font-size:.62rem;color:var(--text-3);text-transform:uppercase;letter-spacing:2px}
+.tabs{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none;align-items:flex-end;margin-bottom:-1px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:#0d0d0d;border:1px solid var(--border-2);border-bottom:none;color:var(--text-2);padding:11px 18px;border-radius:10px 10px 0 0;font-weight:600;font-size:.82rem;cursor:pointer;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:8px;transition:all .2s;position:relative;top:1px;text-decoration:none}
+.tab i{font-size:.78rem;color:var(--text-3);transition:color .2s}
+.tab:hover{background:#141414;color:var(--text)}.tab:hover i{color:var(--orange)}
+.tab.active{background:var(--bg);color:var(--orange);border-color:var(--border-2);border-bottom:1px solid var(--bg);font-weight:700}
+.tab.active i{color:var(--orange)}
+.tab-num{font-size:.6rem;color:var(--text-3);font-weight:900;background:rgba(255,255,255,.04);padding:2px 6px;border-radius:50px}
+.tab.active .tab-num{background:rgba(255,88,0,.15);color:var(--orange)}
+.sheets{max-width:1400px;margin:0 auto;padding:0 36px}
+.sheet{display:none;padding:50px 0 100px;animation:fadeIn .35s ease}
+.sheet.active{display:block}
+.sheet:target{display:block}
+.sheets:has(.sheet:target) .sheet.active:not(:target){display:none}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sheet-head{margin-bottom:48px;display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid var(--border-2)}
+.sheet-head-left{flex:1;min-width:280px}
+.eyebrow{display:flex;align-items:center;gap:14px;font-size:.7rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+.eyebrow::before{content:"";width:36px;height:2px;background:var(--orange)}
+.sheet-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-1px;line-height:1.05;margin-bottom:14px}
+.sheet-title .o{color:var(--orange)}
+.sheet-sub{font-size:1rem;color:var(--text-2);font-weight:300;line-height:1.65;max-width:780px}
+.sheet-stat{text-align:right;flex-shrink:0}
+.sheet-stat .v{font-size:2.3rem;font-weight:900;color:var(--orange);letter-spacing:-1px;line-height:1}
+.sheet-stat .v small{font-size:.85rem;color:var(--text-3);font-weight:400;margin-left:4px}
+.sheet-stat .l{font-size:.62rem;color:var(--text-3);text-transform:uppercase;letter-spacing:2.5px;font-weight:700;margin-top:6px}
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.bento-cell{background:var(--bg-card);border:1px solid var(--border-2);border-radius:18px;padding:28px;transition:all .3s;display:flex;flex-direction:column;justify-content:space-between;min-height:170px}
+.bento-cell:hover{border-color:var(--border);transform:translateY(-3px)}
+.bento-cell.span2{grid-column:span 2}.bento-cell.row2{grid-row:span 2}
+.bento-cell.feature{background:linear-gradient(135deg,rgba(255,88,0,.14),rgba(255,88,0,.02));border-color:var(--border)}
+.b-icon{width:42px;height:42px;border-radius:11px;background:rgba(255,88,0,.12);color:var(--orange);display:flex;align-items:center;justify-content:center;font-size:1.05rem;margin-bottom:18px;border:1px solid var(--border)}
+.b-num{font-size:2.6rem;font-weight:900;color:var(--orange);letter-spacing:-1.5px;line-height:1}
+.b-num small{font-size:.85rem;color:var(--text-3);font-weight:400;margin-left:5px}
+.bento-cell h4{font-size:1rem;font-weight:800;margin-bottom:8px;letter-spacing:-.3px;margin-top:8px}
+.bento-cell p{font-size:.86rem;color:var(--text-2);font-weight:300;line-height:1.55}
+.b-label{font-size:.62rem;color:var(--text-3);text-transform:uppercase;letter-spacing:2.5px;font-weight:800;margin-top:12px}
+.timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+.tl-step{background:var(--bg-card);border:1px solid var(--border-2);border-radius:14px;padding:24px 20px;position:relative;transition:all .25s}
+.tl-step:hover{border-color:var(--orange);transform:translateY(-3px)}
+.tl-num{position:absolute;top:-10px;left:18px;background:var(--orange);color:#000;font-size:.62rem;font-weight:900;padding:3px 10px;border-radius:50px;letter-spacing:1.5px}
+.tl-step h5{font-size:.95rem;font-weight:800;margin:10px 0 8px}.tl-step p{font-size:.8rem;color:var(--text-2);font-weight:300;line-height:1.55}
+.tree-box{background:var(--bg-card);border:1px solid var(--border-2);border-radius:20px;padding:50px 30px;overflow-x:auto}
+.tree-inner{display:flex;flex-direction:column;align-items:center}
+.tree-inner.wide{min-width:1200px}.tree-inner.mid{min-width:920px}
+.tnode{background:var(--bg-soft2);border:1.5px solid var(--border-2);border-radius:14px;padding:14px 18px;min-width:180px;text-align:center;transition:all .25s;position:relative;z-index:2}
+.tnode:hover{border-color:var(--orange);transform:translateY(-2px)}
+.ti{font-size:1.2rem;color:var(--orange);margin-bottom:7px;display:block}
+.tt{font-weight:700;font-size:.9rem;margin-bottom:3px;letter-spacing:-.2px}
+.ts{font-size:.7rem;color:var(--text-3);font-weight:300;line-height:1.4}
+.tnode.root{background:linear-gradient(135deg,rgba(255,88,0,.25),rgba(255,122,41,.05));border-color:var(--orange);border-width:2px;min-width:220px}
+.tnode.root .tt{font-size:1rem}
+.tnode.q{background:linear-gradient(135deg,rgba(234,179,8,.14),transparent);border-color:rgba(234,179,8,.5);border-style:dashed}
+.tnode.q .ti{color:var(--yellow)}
+.tnode.end{background:linear-gradient(135deg,rgba(34,197,94,.16),rgba(34,197,94,.03));border-color:var(--green)}.tnode.end .ti{color:var(--green)}
+.tnode.gap{background:linear-gradient(135deg,rgba(239,68,68,.1),transparent);border-color:rgba(239,68,68,.5);border-style:dashed}.tnode.gap .ti{color:var(--red)}
+.tnode.partial{border-color:rgba(234,179,8,.4)}.tnode.partial .ti{color:var(--yellow)}
+.tnode.live{border-color:rgba(34,197,94,.4)}.tnode.live .ti{color:var(--green)}
+.vline{width:2px;height:32px;background:linear-gradient(180deg,var(--orange),rgba(255,88,0,.3));margin:0 auto}
+.vline.short{height:18px}
+.fork{position:relative;width:88%;height:50px;margin:0 auto}
+.fork::before{content:"";position:absolute;top:0;left:50%;width:2px;height:25px;background:var(--orange);transform:translateX(-50%)}
+.fork::after{content:"";position:absolute;top:25px;left:0;right:0;height:2px;background:var(--orange)}
+.fork span{position:absolute;top:25px;width:2px;height:25px;background:var(--orange)}
+.fork.f3 span:nth-child(1){left:16.66%}.fork.f3 span:nth-child(2){left:50%;transform:translateX(-50%)}.fork.f3 span:nth-child(3){left:83.33%}
+.fork.f6{width:96%}
+.fork.f6 span:nth-child(1){left:8.33%}.fork.f6 span:nth-child(2){left:25%}.fork.f6 span:nth-child(3){left:41.66%}.fork.f6 span:nth-child(4){left:58.33%}.fork.f6 span:nth-child(5){left:75%}.fork.f6 span:nth-child(6){left:91.66%}
+.cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;width:100%;align-items:start}
+.cols-6{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;width:100%;align-items:start}
+.tcol{display:flex;flex-direction:column;align-items:center}
+.tcol-label{background:var(--bg);color:var(--orange);font-size:.62rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:50px;border:1.5px solid var(--orange);margin-bottom:14px;white-space:nowrap;box-shadow:0 0 0 4px var(--bg-card)}
+.tree-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px;padding-top:22px;border-top:1px solid var(--border-2);font-size:.78rem;color:var(--text-2)}
+.tree-legend span{display:flex;align-items:center;gap:7px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.stack-card{background:var(--bg-card);border:1px solid var(--border-2);border-radius:16px;padding:24px;transition:all .25s}
+.stack-card:hover{border-color:var(--border);transform:translateY(-3px)}
+.sc-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.sc-icon{width:46px;height:46px;border-radius:12px;background:rgba(255,88,0,.12);color:var(--orange);display:flex;align-items:center;justify-content:center;font-size:1.15rem;border:1px solid var(--border);flex-shrink:0}
+.stack-card h4{font-size:1rem;font-weight:800;letter-spacing:-.3px}
+.sc-tag{font-size:.65rem;color:var(--text-3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-top:2px}
+.stack-card p{font-size:.85rem;color:var(--text-2);font-weight:300;line-height:1.6}
+.scen-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.scen{background:var(--bg-card);border:1px solid var(--border-2);border-radius:16px;padding:26px;position:relative;overflow:hidden}
+.scen::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),transparent)}
+.scen.featured{border-color:var(--orange)}
+.scen h4{font-size:.66rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--orange);font-weight:900;margin-bottom:6px}
+.scen .total{font-size:2.2rem;font-weight:900;letter-spacing:-1px;line-height:1}
+.scen .total small{font-size:.78rem;color:var(--text-3);font-weight:400;margin-left:3px}
+.scen .users{font-size:.78rem;color:var(--text-2);margin:10px 0 14px;font-weight:300}
+.scen ul{list-style:none;font-size:.76rem;color:var(--text-3);font-weight:300}
+.scen ul li{padding:6px 0;display:flex;justify-content:space-between;border-top:1px solid var(--border-2)}
+.scen ul li strong{color:var(--text);font-weight:600}
+.pp-section-head{margin:50px 0 24px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px dashed var(--border-2)}
+.pp-section-head h3{font-size:1.35rem;font-weight:800;letter-spacing:-.5px}
+.pp-section-head p{font-size:.85rem;color:var(--text-3);font-weight:300}
+.pp-list{display:flex;flex-direction:column;gap:24px}
+.pp{background:var(--bg-card);border:1px solid var(--border-2);border-radius:20px;padding:28px;transition:border-color .25s}
+.pp:hover{border-color:var(--border)}
+.pp-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px dashed var(--border-2)}
+.pp-logo{width:54px;height:54px;border-radius:14px;background:rgba(255,88,0,.12);color:var(--orange);display:flex;align-items:center;justify-content:center;font-size:1.55rem;flex-shrink:0;border:1px solid var(--border)}
+.pp-titles{flex:1;min-width:0}
+.pp-name{font-size:1.2rem;font-weight:800;letter-spacing:-.4px;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pp-name .pp-cat{font-size:.6rem;color:var(--text-3);text-transform:uppercase;letter-spacing:2px;font-weight:700;background:rgba(255,255,255,.04);padding:3px 9px;border-radius:50px;border:1px solid var(--border-2)}
+.pp-desc{font-size:.86rem;color:var(--text-2);font-weight:300;line-height:1.6}
+.pp-status{flex-shrink:0;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.pp-link{font-size:.7rem;color:var(--text-3);font-weight:500}
+.pp-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:14px}
+.pp-tier{background:var(--bg-soft);border:1.5px solid var(--border-2);border-radius:14px;padding:20px 18px 18px;position:relative;transition:all .25s;display:flex;flex-direction:column;overflow:hidden}
+.pp-tier:hover{transform:translateY(-3px);border-color:var(--orange)}
+.pp-tier.current{border-color:var(--orange);background:linear-gradient(180deg,rgba(255,88,0,.09),var(--bg-soft));padding-top:36px}
+.pp-flag{position:absolute;top:0;left:0;right:0;background:var(--orange);color:#000;text-align:center;font-size:.58rem;font-weight:900;padding:5px 0;letter-spacing:2px;text-transform:uppercase}
+.pp-tier h5{font-size:.78rem;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.pp-tier .pp-price{font-size:1.6rem;font-weight:900;color:var(--orange);letter-spacing:-.8px;line-height:1.1;margin-bottom:14px}
+.pp-tier .pp-price small{font-size:.7rem;color:var(--text-3);font-weight:400;margin-left:3px;letter-spacing:0;display:inline-block}
+.pp-tier .pp-price.free{color:var(--green)}
+.pp-tier ul{list-style:none;font-size:.74rem;color:var(--text-2);font-weight:300;flex:1}
+.pp-tier ul li{padding:5px 0;display:flex;align-items:flex-start;gap:8px;border-top:1px solid var(--border-2)}
+.pp-tier ul li:first-child{border-top:none;padding-top:0}
+.pp-tier ul li i{color:var(--orange);font-size:.55rem;margin-top:6px;flex-shrink:0;width:8px}
+.badge{display:inline-block;font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:4px 10px;border-radius:50px;white-space:nowrap}
+.badge.free{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.badge.now{background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.3)}
+.badge.gap{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.badge.alt{background:rgba(168,85,247,.15);color:var(--purple);border:1px solid rgba(168,85,247,.3)}
+.callout{background:linear-gradient(135deg,rgba(255,88,0,.07),transparent);border-left:3px solid var(--orange);padding:22px 26px;border-radius:0 14px 14px 0;margin:30px 0}
+.callout-title{font-size:.7rem;text-transform:uppercase;letter-spacing:2.5px;font-weight:900;color:var(--orange);margin-bottom:8px;display:flex;align-items:center;gap:9px}
+.callout p{font-size:.9rem;color:var(--text-2);font-weight:300;line-height:1.7}
+.callout p strong{color:var(--text);font-weight:600}
+.callout.warn{background:linear-gradient(135deg,rgba(239,68,68,.07),transparent);border-left-color:var(--red)}.callout.warn .callout-title{color:var(--red)}
+.callout.good{background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-left-color:var(--green)}.callout.good .callout-title{color:var(--green)}
+.pillars-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.pillar{background:var(--bg-card);border:1px solid var(--border-2);border-radius:14px;padding:20px;transition:all .25s}
+.pillar:hover{border-color:var(--border);transform:translateY(-3px)}
+.pillar h5{font-size:.92rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:9px;letter-spacing:-.2px}
+.pillar h5 i{color:var(--orange);font-size:.85rem}
+.pillar p{font-size:.78rem;color:var(--text-2);font-weight:300;line-height:1.6;margin-bottom:10px}
+.pillar .price{font-size:.72rem;color:var(--orange);font-weight:700;background:rgba(255,88,0,.08);padding:4px 10px;border-radius:50px;display:inline-block}
+.pillar-section{margin-bottom:40px}
+.pillar-section h3{font-size:1.15rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:12px;letter-spacing:-.3px}
+.pillar-section h3 .pi{width:36px;height:36px;border-radius:10px;background:rgba(255,88,0,.12);color:var(--orange);display:flex;align-items:center;justify-content:center;font-size:.95rem;border:1px solid var(--border)}
+.pillar-section .lead{font-size:.86rem;color:var(--text-2);font-weight:300;margin-bottom:16px;padding-left:48px}
+/* Hide menu button - we use horizontal scrollable tabs everywhere */
+.menu-btn,.menu-backdrop{display:none !important}
+
+/* ===== TABLET (≤1024px) ===== */
+@media (max-width:1024px){
+  .topbar{padding:14px 22px}
+  .sheets{padding:0 22px}
+  .sheet{padding:36px 0 70px}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .bento-cell.row2{grid-row:auto}
+  .scen-strip,.stack-grid{grid-template-columns:repeat(2,1fr)}
+  .pp-tiers{grid-template-columns:repeat(2,1fr)}
+  .sheet-title{font-size:clamp(1.6rem,4vw,2.2rem)}
+}
+
+/* ===== MOBILE (≤880px) - tabs become horizontally scrollable bar ===== */
+@media (max-width:880px){
+  .topbar{padding:0;flex-direction:column}
+  .topbar-inner{flex-direction:column;align-items:stretch;gap:0;padding:0}
+  .brand{padding:14px 18px 12px;padding-top:calc(14px + env(safe-area-inset-top))}
+  .tabs{flex:none;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid var(--border-2);padding:8px 14px;margin:0;align-items:center;gap:6px;scroll-snap-type:x proximity}
+  .tab{flex-shrink:0;border-radius:10px;border:1px solid var(--border-2);padding:9px 14px;font-size:.78rem;top:0;scroll-snap-align:start}
+  .tab i{font-size:.85rem}
+  .tab .tab-num{font-size:.6rem}
+  .tab.active{background:var(--orange);color:#000;border-color:var(--orange);font-weight:800}
+  .tab.active i{color:#000}
+  .tab.active .tab-num{background:rgba(0,0,0,.18);color:#000}
+  .flow-row{grid-template-columns:1fr;gap:8px}
+  .flow-arrow{transform:rotate(90deg);text-align:center;font-size:1.4rem}
+  .swot-grid{grid-template-columns:1fr}
+  .pp-section-head{flex-direction:column;align-items:flex-start}
+}
+
+/* ===== SMALL MOBILE (≤640px) ===== */
+@media (max-width:640px){
+  .topbar{padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top))}
+  .sheets{padding:0 16px}
+  .sheet{padding:26px 0 60px}
+  .brand-mark{width:38px;height:38px;font-size:1rem}
+  .brand-name{font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+  .brand-meta{font-size:.55rem;letter-spacing:1.5px}
+  .sheet-head{flex-direction:column;align-items:stretch;gap:18px;margin-bottom:30px;padding-bottom:20px}
+  .sheet-head-left{min-width:0;width:100%}
+  .sheet-stat{text-align:left;align-self:flex-start;width:100%}
+  .sheet-title{font-size:1.6rem;line-height:1.15}
+  .sheet-sub{font-size:.9rem}
+  .eyebrow{font-size:.62rem;letter-spacing:2px;gap:10px}
+  .eyebrow::before{width:24px}
+  .bento,.scen-strip,.stack-grid,.timeline,.pillars-grid{grid-template-columns:1fr;gap:12px}
+  .bento-cell{padding:22px;min-height:auto}
+  .bento-cell.span2,.bento-cell.row2{grid-column:span 1;grid-row:auto}
+  .b-num{font-size:2rem}
+  .b-icon{width:38px;height:38px;font-size:.95rem;margin-bottom:14px}
+  .pp-tiers{grid-template-columns:1fr}
+  .pp{padding:20px}
+  .pp-head{flex-direction:column;align-items:flex-start;gap:14px;padding-bottom:16px;margin-bottom:18px}
+  .pp-status{text-align:left;align-items:flex-start;width:100%}
+  .pp-link{font-size:.65rem;word-break:break-all}
+  .pp-name{font-size:1.05rem}
+  .pp-tier{padding:18px}
+  .pp-tier .pp-price{font-size:1.4rem}
+  .stack-card{padding:20px}
+  .scen{padding:22px}
+  .scen .total{font-size:1.9rem}
+  .pillar{padding:18px}
+  .pillar-section{margin-bottom:32px}
+  .pillar-section h3{font-size:1rem}
+  .pillar-section .lead{padding-left:0;font-size:.82rem}
+  .callout{padding:18px 20px;margin:24px 0}
+  .callout p{font-size:.85rem}
+  .tree-box{padding:30px 20px}
+  .tree-inner.wide{min-width:1080px}
+  .tree-inner.mid{min-width:780px}
+  .pp-section-head{margin:36px 0 18px}
+  .pp-section-head h3{font-size:1.15rem}
+  .code-block{padding:16px 18px;font-size:.7rem}
+  .flow-arch{padding:20px 16px}
+  .flow-box{padding:14px}
+  .flow-box h6{font-size:.85rem}
+  .swot{padding:20px}
+  .fcards{grid-template-columns:1fr}
+  .timeline{grid-template-columns:1fr}
+  .tl-step{padding:22px 20px}
+  .tnode{min-width:140px;padding:12px 14px}
+  .tnode .tt{font-size:.82rem}
+  .badge{font-size:.55rem;padding:3px 8px}
+}
+
+/* ===== EXTRA SMALL (≤380px) ===== */
+@media (max-width:380px){
+  .topbar{padding:10px 12px}
+  .sheets{padding:0 12px}
+  .brand-mark{width:34px;height:34px;font-size:.95rem}
+  .brand-name{font-size:.82rem;max-width:150px}
+  .menu-btn{width:40px;height:40px}
+  .sheet-title{font-size:1.45rem}
+  .b-num,.scen .total{font-size:1.7rem}
+  .pp{padding:16px}
+  .pp-head{padding-bottom:14px;margin-bottom:14px}
+  .pp-tier{padding:16px}
+  .bento-cell,.stack-card,.tl-step,.pillar,.scen,.swot,.fcard{padding:16px}
+  .callout{padding:14px 16px}
+}
+
+/* ===== TOUCH-FRIENDLY ===== */
+@media (hover:none) and (pointer:coarse){
+  .pp:hover,.pillar:hover,.bento-cell:hover,.tl-step:hover,.stack-card:hover,.scen:hover,.tnode:hover,.pp-tier:hover{transform:none}
+  .tab,.menu-btn{min-height:44px}
+}
+
+/* ===== PRINT ===== */
+@media print{body{background:#fff;color:#000}.topbar,.tabs,.menu-btn,.menu-backdrop{display:none}.sheet{display:block !important;page-break-after:always}}
+.code-block{background:#0d1117;border:1px solid var(--border-2);border-radius:12px;padding:20px 24px;font-family:'Menlo','Monaco','Consolas',monospace;font-size:.78rem;line-height:1.7;color:#c9d1d9;overflow-x:auto;margin:18px 0;white-space:pre}
+.code-block .kw{color:#ff7b72}.code-block .str{color:#a5d6ff}.code-block .com{color:#8b949e;font-style:italic}.code-block .fn{color:#d2a8ff}.code-block .num{color:#79c0ff}
+.code-head{display:flex;align-items:center;gap:8px;font-family:'Menlo',monospace;font-size:.7rem;color:var(--text-3);padding:10px 18px;background:#0a0e13;border:1px solid var(--border-2);border-bottom:0;border-radius:12px 12px 0 0;margin-top:18px}
+.code-head + .code-block{margin-top:0;border-radius:0 0 12px 12px}
+.code-head .dot{width:10px;height:10px;border-radius:50%;background:#3a3a3a}
+.swot-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:24px 0}
+.swot{padding:24px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border-2)}
+.swot.s{border-color:rgba(34,197,94,.35)}.swot.w{border-color:rgba(239,68,68,.35)}
+.swot h4{font-size:1rem;display:flex;align-items:center;gap:10px;margin-bottom:14px;text-transform:uppercase;letter-spacing:1px}
+.swot.s h4{color:var(--green)}.swot.w h4{color:var(--red)}
+.swot ul{list-style:none;padding:0}
+.swot li{padding:10px 0;border-bottom:1px solid var(--border-2);font-size:.9rem;color:var(--text-2);display:flex;gap:10px;align-items:flex-start}
+.swot li:last-child{border-bottom:0}
+.swot li i{margin-top:4px;font-size:.7rem}
+.swot.s li i{color:var(--green)}.swot.w li i{color:var(--red)}
+.flow-arch{display:flex;flex-direction:column;gap:16px;margin:24px 0;background:var(--bg-card);border:1px solid var(--border-2);border-radius:16px;padding:30px}
+.flow-row{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:12px}
+.flow-box{padding:16px 18px;border-radius:12px;background:var(--bg-soft2);border:1px solid var(--border-2);text-align:center}
+.flow-box.start{border-color:var(--orange);background:rgba(255,88,0,.08)}
+.flow-box.api{border-color:rgba(37,211,102,.5);background:rgba(37,211,102,.08)}
+.flow-box.our{border-color:rgba(255,88,0,.6);background:rgba(255,88,0,.12)}
+.flow-box.svc{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.06)}
+.flow-box h6{font-size:.9rem;margin-bottom:6px;display:flex;justify-content:center;align-items:center;gap:8px}
+.flow-box small{color:var(--text-3);font-size:.7rem;letter-spacing:.5px;text-transform:uppercase}
+.flow-arrow{color:var(--orange);font-size:1.1rem;font-weight:700}
+@media (max-width:880px){.flow-row{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg);text-align:center}.swot-grid{grid-template-columns:1fr}}
+.fcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
+.fcard{padding:18px;background:var(--bg-card);border:1px solid var(--border-2);border-radius:12px}
+.fcard h6{font-size:.85rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.fcard h6 i{color:var(--orange);font-size:.95rem}
+.fcard p{font-size:.78rem;color:var(--text-2);line-height:1.55}
+.fcard .step{font-family:monospace;color:var(--orange);font-size:.7rem;letter-spacing:1px;display:block;margin-bottom:6px}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">G</div>
+      <div class="brand-text">
+        <div class="brand-name">GULA · Panel de plataforma web</div>
+        <div class="brand-meta">Operativa · Junio 2026 · 4 migraciones aplicadas</div>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <a class="tab active" href="#overview"><i class="fas fa-compass"></i><span>Visión</span><span class="tab-num">01</span></a>
+      <a class="tab" href="#workflow"><i class="fas fa-route"></i><span>Workflow</span><span class="tab-num">02</span></a>
+      <a class="tab" href="#sitemap"><i class="fas fa-sitemap"></i><span>Mapa web</span><span class="tab-num">03</span></a>
+      <a class="tab" href="#decision"><i class="fas fa-code-fork"></i><span>Decisión</span><span class="tab-num">04</span></a>
+      <a class="tab" href="#stack"><i class="fas fa-layer-group"></i><span>Stack</span><span class="tab-num">05</span></a>
+      <a class="tab" href="#costs"><i class="fas fa-coins"></i><span>Costes</span><span class="tab-num">06</span></a>
+      <a class="tab" href="#alternatives"><i class="fas fa-shuffle"></i><span>Alternativas</span><span class="tab-num">07</span></a>
+      <a class="tab" href="#windsurf"><i class="fas fa-wind"></i><span>Windsurf</span><span class="tab-num">08</span></a>
+      <a class="tab" href="#future"><i class="fas fa-rocket"></i><span>Próximos pasos</span><span class="tab-num">09</span></a>
+      <a class="tab" href="#whatsapp"><i class="fab fa-whatsapp"></i><span>Bot WhatsApp</span><span class="tab-num">10</span></a>
+    </nav>
+  </div>
+</header>
+<main class="sheets">
+<!-- ===== SHEET 01 · OVERVIEW ===== -->
+<section class="sheet active" id="overview">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 01 · Visión general</div>
+      <h1 class="sheet-title">El sistema <span class="o">GULA</span> en una pantalla</h1>
+      <p class="sheet-sub">Métricas clave y estado actual de la plataforma. Cada hoja siguiente profundiza en un bloque concreto.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">€0<small>/mes</small></div><div class="l">Coste actual</div></div>
+  </div>
+  <div class="bento">
+    <div class="bento-cell feature span2 row2">
+      <div><div class="b-icon"><i class="fas fa-code-branch"></i></div><h4>Stack actual = €0/mes</h4><p>Todo el desarrollo, hosting, base de datos, analítica y email funcionan en planes gratuitos. Stripe solo cobra comisión sobre transacción real. Windsurf en free trial.</p></div>
+      <div class="b-label">Operativo · sin cuotas fijas</div>
+    </div>
+    <div class="bento-cell"><div class="b-num">17<small>pgs</small></div><h4>Páginas en repo</h4><p>8 funcionales · 6 con huecos · 3 legales</p></div>
+    <div class="bento-cell"><div class="b-num">12</div><h4>Servicios</h4><p>integrados o evaluados con pricing real</p></div>
+    <div class="bento-cell"><div class="b-num">€55<small>/mes</small></div><h4>Coste a 5K usuarios</h4><p>Fase 1: web activa, ventas online</p></div>
+    <div class="bento-cell"><div class="b-num">€280<small>/mes</small></div><h4>Coste a 50K usuarios</h4><p>Fase 2: marca consolidada, 10+ tiendas</p></div>
+    <div class="bento-cell span2"><div class="b-icon"><i class="fas fa-wind"></i></div><h4>Windsurf · Free trial activo</h4><p>El IDE con IA con el que se desarrolla la web. Recomendación: pasar a Pro €15/mes antes de fin de trial.</p></div>
+    <div class="bento-cell span2"><div class="b-icon"><i class="fas fa-triangle-exclamation"></i></div><h4>5 pilares pendientes</h4><p>Completitud · Escalado · Mejora tecnológica · Ciberseguridad/legal · Detalles UX. Ver hoja 09.</p></div>
+  </div>
+</section>
+
+<!-- ===== SHEET 02 · WORKFLOW ===== -->
+<section class="sheet" id="workflow">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 02 · Cómo se construye</div>
+      <h1 class="sheet-title">De la idea al deploy en <span class="o">6 pasos</span></h1>
+      <p class="sheet-sub">Flujo completo de desarrollo. Cada cambio se registra, se versiona y se publica automáticamente sin intervención manual de servidores.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">~2<small>min</small></div><div class="l">Tiempo deploy</div></div>
+  </div>
+  <div class="timeline">
+    <div class="tl-step"><span class="tl-num">01</span><h5><i class="fas fa-lightbulb" style="color:var(--orange);margin-right:6px"></i>Idea</h5><p>Indicación interna o métrica detectada. Se traduce en una tarea concreta.</p></div>
+    <div class="tl-step"><span class="tl-num">02</span><h5><i class="fas fa-palette" style="color:var(--orange);margin-right:6px"></i>Diseño</h5><p>Aplicar reglas de STANDARDS.md (tipografías, colores, copy).</p></div>
+    <div class="tl-step"><span class="tl-num">03</span><h5><i class="fas fa-code" style="color:var(--orange);margin-right:6px"></i>Desarrollo</h5><p>Edición en Windsurf con asistente IA. Revisión humana antes de aplicar.</p></div>
+    <div class="tl-step"><span class="tl-num">04</span><h5><i class="fab fa-github" style="color:var(--orange);margin-right:6px"></i>Versionado</h5><p>Commit a GitHub. Cada cambio queda registrado y reversible.</p></div>
+    <div class="tl-step"><span class="tl-num">05</span><h5><i class="fas fa-cloud-arrow-up" style="color:var(--orange);margin-right:6px"></i>Publicación</h5><p>GitHub Pages compila y despliega automáticamente al hacer push.</p></div>
+    <div class="tl-step"><span class="tl-num">06</span><h5><i class="fas fa-chart-line" style="color:var(--orange);margin-right:6px"></i>Operación</h5><p>Servicios externos procesan datos reales: pedidos, leads, analítica.</p></div>
+  </div>
+  <div class="callout">
+    <div class="callout-title"><i class="fas fa-info"></i> ¿Qué pasa cuando se hace un cambio?</div>
+    <p><strong>1.</strong> Le explico a Cascade qué quiero. <strong>2.</strong> Cascade lee el código y propone el cambio. <strong>3.</strong> Reviso y apruebo. <strong>4.</strong> Cascade ejecuta y crea commit. <strong>5.</strong> Push a GitHub. <strong>6.</strong> GitHub Pages publica en ~2 minutos. Todo declarativo y reversible.</p>
+  </div>
+</section>
+
+<!-- ===== SHEET 03 · SITEMAP COMO DECISION TREE REAL ===== -->
+<section class="sheet" id="sitemap">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 03 · Mapa completo de la web</div>
+      <h1 class="sheet-title">Las 17 páginas como <span class="o">árbol jerárquico</span></h1>
+      <p class="sheet-sub">Diagrama de árbol con ramas reales. Verde = completo · Amarillo = parcial · Rojo = falta o no funciona.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">15<small>pg</small></div><div class="l">en repo · 7 live</div></div>
+  </div>
+
+  <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:14px"><i class="fas fa-eye" style="color:var(--orange);margin-right:8px"></i>Capa visible · Páginas que ve el usuario</h3>
+  <div class="tree-box"><div class="tree-inner wide">
+    <div class="tnode root"><i class="fas fa-globe ti"></i><div class="tt">Web GULA</div><div class="ts">gula.com</div></div>
+    <div class="vline"></div>
+    <div class="fork f6"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="cols-6">
+      <div class="tcol"><span class="tcol-label">Entrada</span>
+        <div class="tnode live"><i class="fas fa-house ti"></i><div class="tt">index.html</div><div class="ts">home</div></div>
+        <div class="vline short"></div>
+        <div class="tnode partial"><i class="fas fa-info-circle ti"></i><div class="tt">sobre.html</div><div class="ts">about</div></div>
+        <div class="vline short"></div>
+        <div class="tnode live"><i class="fas fa-address-card ti"></i><div class="tt">contacto.html</div><div class="ts">contact</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Servicios</span>
+        <div class="tnode partial"><i class="fas fa-utensils ti"></i><div class="tt">dinein.html</div><div class="ts">en local</div></div>
+        <div class="vline short"></div>
+        <div class="tnode partial"><i class="fas fa-bag-shopping ti"></i><div class="tt">takeaway.html</div><div class="ts">recoger</div></div>
+        <div class="vline short"></div>
+        <div class="tnode partial"><i class="fas fa-truck ti"></i><div class="tt">delivery.html</div><div class="ts">envío</div></div>
+        <div class="vline short"></div>
+        <div class="tnode partial"><i class="fas fa-champagne-glasses ti"></i><div class="tt">eventos.html</div><div class="ts">privados</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Pedido</span>
+        <div class="tnode live"><i class="fas fa-shopping-cart ti"></i><div class="tt">marketplace</div><div class="ts">catálogo</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-credit-card ti"></i><div class="tt">checkout</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-receipt ti"></i><div class="tt">confirmación</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-clock-rotate-left ti"></i><div class="tt">historial</div><div class="ts">FALTA</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Club GULA</span>
+        <div class="tnode partial"><i class="fas fa-crown ti"></i><div class="tt">CLUBGULA</div><div class="ts">login</div></div>
+        <div class="vline short"></div>
+        <div class="tnode live"><i class="fas fa-user ti"></i><div class="tt">profile</div><div class="ts">perfil</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-coins ti"></i><div class="tt">recompensas</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-wallet ti"></i><div class="tt">wallet</div><div class="ts">FALTA</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Franquicias</span>
+        <div class="tnode live"><i class="fas fa-handshake ti"></i><div class="tt">franquicias</div><div class="ts">info</div></div>
+        <div class="vline short"></div>
+        <div class="tnode live"><i class="fas fa-paper-plane ti"></i><div class="tt">franquiciado</div><div class="ts">formulario</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-chart-line ti"></i><div class="tt">dashboard</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-map-pin ti"></i><div class="tt">locations</div><div class="ts">FALTA</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Legal/RGPD</span>
+        <div class="tnode partial"><i class="fas fa-scale-balanced ti"></i><div class="tt">legal</div><div class="ts">términos</div></div>
+        <div class="vline short"></div>
+        <div class="tnode partial"><i class="fas fa-user-shield ti"></i><div class="tt">privacidad</div><div class="ts">política</div></div>
+        <div class="vline short"></div>
+        <div class="tnode partial"><i class="fas fa-cookie-bite ti"></i><div class="tt">cookies</div><div class="ts">política</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-bell ti"></i><div class="tt">consentimiento</div><div class="ts">FALTA</div></div>
+      </div>
+    </div>
+    <div class="tree-legend">
+      <span><span class="dot" style="background:var(--green)"></span>Completo · live</span>
+      <span><span class="dot" style="background:var(--yellow)"></span>Parcial · pendiente</span>
+      <span><span class="dot" style="background:var(--red)"></span>Falta · hueco</span>
+    </div>
+  </div></div>
+
+  <h3 style="font-size:1.05rem;font-weight:800;margin:50px 0 14px"><i class="fas fa-layer-group" style="color:var(--orange);margin-right:8px"></i>Capa transversal · Funcionalidades cross-cutting</h3>
+  <div class="tree-box"><div class="tree-inner wide">
+    <div class="tnode root"><i class="fas fa-server ti"></i><div class="tt">Infraestructura</div><div class="ts">aplica a todas las páginas</div></div>
+    <div class="vline"></div>
+    <div class="fork f6"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="cols-6">
+      <div class="tcol"><span class="tcol-label">UI común</span>
+        <div class="tnode live"><i class="fas fa-bars ti"></i><div class="tt">Navbar</div><div class="ts">17 páginas</div></div>
+        <div class="vline short"></div>
+        <div class="tnode live"><i class="fas fa-shoe-prints ti"></i><div class="tt">Footer</div><div class="ts">17 páginas</div></div>
+        <div class="vline short"></div>
+        <div class="tnode partial"><i class="fas fa-mobile-screen ti"></i><div class="tt">Responsive</div><div class="ts">parcial</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">SEO</span>
+        <div class="tnode gap"><i class="fas fa-sitemap ti"></i><div class="tt">sitemap.xml</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-robot ti"></i><div class="tt">robots.txt</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-share-nodes ti"></i><div class="tt">meta OG</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-newspaper ti"></i><div class="tt">blog</div><div class="ts">FALTA</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">UX</span>
+        <div class="tnode gap"><i class="fas fa-triangle-exclamation ti"></i><div class="tt">404</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-spinner ti"></i><div class="tt">loading</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-language ti"></i><div class="tt">i18n</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-bookmark ti"></i><div class="tt">favicon</div><div class="ts">FALTA</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Comunicación</span>
+        <div class="tnode gap"><i class="fas fa-envelope ti"></i><div class="tt">newsletter</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-comments ti"></i><div class="tt">chat live</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fab fa-whatsapp ti"></i><div class="tt">WhatsApp</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-bell ti"></i><div class="tt">push</div><div class="ts">FALTA</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Backend</span>
+        <div class="tnode live"><i class="fas fa-database ti"></i><div class="tt">Supabase</div><div class="ts">10 tablas · RLS</div></div>
+        <div class="vline short"></div>
+        <div class="tnode live"><i class="fab fa-stripe-s ti"></i><div class="tt">Stripe</div><div class="ts">MCP integrado</div></div>
+        <div class="vline short"></div>
+        <div class="tnode live"><i class="fas fa-chart-bar ti"></i><div class="tt">PostHog</div><div class="ts">tracking</div></div>
+        <div class="vline short"></div>
+        <div class="tnode live"><i class="fas fa-shield ti"></i><div class="tt">Security</div><div class="ts">hardening OK</div></div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Seguridad</span>
+        <div class="tnode live"><i class="fas fa-lock ti"></i><div class="tt">HTTPS</div><div class="ts">auto GitHub</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-shield ti"></i><div class="tt">WAF</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-fingerprint ti"></i><div class="tt">2FA</div><div class="ts">FALTA</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-key ti"></i><div class="tt">captcha</div><div class="ts">FALTA</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="callout">
+    <div class="callout-title"><i class="fas fa-list-check"></i> Resumen del mapa</div>
+    <p><strong>1.</strong> La estructura está montada — las 17 páginas existen y navegan entre sí. <strong>2.</strong> Los huecos críticos son backend, no diseño — falta checkout funcional, sistema de puntos del Club, confirmación de pedido, dashboard franquiciado. <strong>3.</strong> Lo legal y SEO está casi vacío — placeholders, sin sitemap ni cookies. Bloqueante antes de marketing serio.</p>
+  </div>
+</section>
+<!-- ===== SHEET 04 · DECISION TREE USUARIO ===== -->
+<section class="sheet" id="decision">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 04 · Árbol de decisión del usuario</div>
+      <h1 class="sheet-title">Las <span class="o">3 salidas</span> de cada visita</h1>
+      <p class="sheet-sub">Cada visitante acaba en una de tres conversiones: pedido, miembro Club o lead de franquicia.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">3</div><div class="l">conversiones objetivo</div></div>
+  </div>
+
+  <div class="tree-box"><div class="tree-inner mid">
+    <div class="tnode root"><i class="fas fa-globe ti"></i><div class="tt">Usuario llega</div><div class="ts">Google · redes · QR · anuncio</div></div>
+    <div class="vline"></div>
+    <div class="tnode q"><i class="fas fa-question ti"></i><div class="tt">¿Qué busca?</div><div class="ts">la web le pregunta sin preguntar</div></div>
+    <div class="fork f3"><span></span><span></span><span></span></div>
+    <div class="cols-3">
+      <div class="tcol"><span class="tcol-label">Pedir comida</span>
+        <div class="tnode"><i class="fas fa-shopping-cart ti"></i><div class="tt">Marketplace</div><div class="ts">elige productos</div></div>
+        <div class="vline short"></div>
+        <div class="tnode q"><i class="fas fa-id-card ti"></i><div class="tt">¿Es del Club?</div><div class="ts">obligatorio para pagar</div></div>
+        <div class="vline short"></div>
+        <div class="tnode gap"><i class="fas fa-credit-card ti"></i><div class="tt">Checkout</div><div class="ts">FALTA implementar</div></div>
+        <div class="vline short"></div>
+        <div class="tnode end"><i class="fas fa-check ti"></i><div class="tt">Pedido confirmado</div><div class="ts">+puntos en cuenta</div></div>
+        <div style="font-size:.7rem;color:var(--text-3);font-weight:600;letter-spacing:1px;margin-top:14px;text-align:center">→ Stripe + Resend + PostHog</div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Conocer marca</span>
+        <div class="tnode"><i class="fas fa-info-circle ti"></i><div class="tt">Sobre / Servicios</div><div class="ts">historia · dine-in · eventos</div></div>
+        <div class="vline short"></div>
+        <div class="tnode q"><i class="fas fa-bullseye ti"></i><div class="tt">¿Engancha?</div><div class="ts">CTA a Club o tienda</div></div>
+        <div class="vline short"></div>
+        <div class="tnode end"><i class="fas fa-crown ti"></i><div class="tt">Se une al Club</div><div class="ts">contacto cualificado</div></div>
+        <div style="font-size:.7rem;color:var(--text-3);font-weight:600;letter-spacing:1px;margin-top:14px;text-align:center">→ Supabase Auth + email bienvenida</div>
+      </div>
+      <div class="tcol"><span class="tcol-label">Franquicia</span>
+        <div class="tnode"><i class="fas fa-handshake ti"></i><div class="tt">Franquicias</div><div class="ts">modelo + tiers</div></div>
+        <div class="vline short"></div>
+        <div class="tnode"><i class="fas fa-paper-plane ti"></i><div class="tt">Formulario</div><div class="ts">solicitud detallada</div></div>
+        <div class="vline short"></div>
+        <div class="tnode end"><i class="fas fa-envelope ti"></i><div class="tt">Lead a CRM</div><div class="ts">notificación a inversores</div></div>
+        <div style="font-size:.7rem;color:var(--text-3);font-weight:600;letter-spacing:1px;margin-top:14px;text-align:center">→ Supabase + Resend</div>
+      </div>
+    </div>
+    <div class="tree-legend">
+      <span><span class="dot" style="background:var(--orange)"></span>Punto de partida</span>
+      <span><span class="dot" style="background:var(--yellow)"></span>Decisión / pregunta</span>
+      <span><span class="dot" style="background:var(--green)"></span>Conversión final</span>
+      <span><span class="dot" style="background:var(--red)"></span>Hueco · falta implementar</span>
+    </div>
+  </div></div>
+
+  <div class="callout">
+    <div class="callout-title"><i class="fas fa-lightbulb"></i> Resumen del flujo</div>
+    <p>La web es una <strong>máquina de cualificar visitas</strong>. Cada usuario lo dirigimos a una de tres salidas y todo queda medido en PostHog. <strong>Hoy la rama "Pedir" está rota</strong> al final del flujo (checkout pendiente). Las otras dos ramas (Club y Franquicia) están operativas.</p>
+  </div>
+</section>
+
+<!-- ===== SHEET 05 · STACK ===== -->
+<section class="sheet" id="stack">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 05 · Stack tecnológico</div>
+      <h1 class="sheet-title">Las <span class="o">8 piezas</span> que componen la web</h1>
+      <p class="sheet-sub">Capas de la plataforma desde el navegador hasta los servicios externos. Cada una con su rol específico.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">8</div><div class="l">capas técnicas</div></div>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-display"></i></div><div><h4>Frontend</h4><div class="sc-tag">HTML · CSS · JS</div></div></div><p>HTML + CSS + JavaScript puro, sin frameworks pesados. Carga rápida, fácil de mantener. <strong>17 páginas estáticas optimizadas</strong>.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-server"></i></div><div><h4>Backend</h4><div class="sc-tag">Node.js · Express</div></div></div><p>Recibe formularios, valida pagos con Stripe, envía emails y conversa con Supabase. Hoy local; en prod irá a Cloudflare Workers o Render.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-database"></i></div><div><h4>Base de datos</h4><div class="sc-tag">Supabase · Postgres</div></div></div><p>Postgres gestionado. <strong>10 tablas:</strong> crew_members, pedidos, events, referrals, nps_responses, reservations, submissions, contactos, puntos_historial, promociones. <strong>3 vistas:</strong> v_journey_funnel, v_members_by_store, v_submissions_summary. RLS activo.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-credit-card"></i></div><div><h4>Pagos</h4><div class="sc-tag">Stripe · 1,5% + €0,25</div></div></div><p>Stripe procesa tarjetas; pedidos por agregadores (Uber, Glovo) se redirigen a sus apps. Stripe gestiona reembolsos, suscripciones y facturación.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-envelope"></i></div><div><h4>Email transaccional</h4><div class="sc-tag">Resend</div></div></div><p>Bienvenida, tickets, confirmaciones de pedido, alertas internas. Free tier 3.000 emails/mes con DX moderno.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-chart-line"></i></div><div><h4>Analítica</h4><div class="sc-tag">PostHog</div></div></div><p>Rastrea cada clic, cada flujo, cada abandono. Cumple RGPD. Free tier 1M eventos/mes.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-cloud"></i></div><div><h4>Hosting + CDN</h4><div class="sc-tag">GitHub Pages → Cloudflare</div></div></div><p>GitHub Pages publica gratis. Migración prevista a Cloudflare Pages + Workers cuando lleguemos a 5K usuarios.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-map-location-dot"></i></div><div><h4>Mapas</h4><div class="sc-tag">Google Maps Platform</div></div></div><p>Las cuatro tiendas con direcciones precisas. A futuro: zonas de delivery propio y geolocalización del cliente. €200/mes gratis.</p></div>
+  </div>
+  <div class="callout">
+    <div class="callout-title"><i class="fas fa-bolt"></i> Cómo se procesa un pedido en 9 pasos</div>
+    <p><strong>1.</strong> Cliente añade burgers al carrito. <strong>2.</strong> Navegador comprueba si está logueado en Club. <strong>3.</strong> Si no, redirige a CLUBGULA. <strong>4.</strong> Pago con Stripe. <strong>5.</strong> Stripe confirma. <strong>6.</strong> Backend guarda pedido en Supabase. <strong>7.</strong> Resend envía email confirmación. <strong>8.</strong> PostHog registra conversión. <strong>9.</strong> Cliente ve "Pedido confirmado". Todo en menos de 3 segundos.</p>
+  </div>
+</section>
+<!-- ===== SHEET 06 · COSTES + PRICING HERRAMIENTAS ===== -->
+<section class="sheet" id="costs">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 06 · Costes y escala</div>
+      <h1 class="sheet-title">Cuánto cuesta <span class="o">hoy y mañana</span></h1>
+      <p class="sheet-sub">Cuatro escenarios de coste según volumen, seguidos del pricing real publicado por cada herramienta integrada (verificado abril 2026).</p>
+    </div>
+    <div class="sheet-stat"><div class="v">€55<small>/mes</small></div><div class="l">a 5K usuarios</div></div>
+  </div>
+
+  <div class="scen-strip">
+    <div class="scen"><h4>Hoy · 500 usr</h4><div class="total">€0<small>/mes</small></div><p class="users">Tráfico actual + Club naciente</p><ul><li>Todo Free <strong>€0</strong></li><li>Stripe (sin ventas) <strong>€0</strong></li><li>Windsurf trial <strong>€0</strong></li></ul></div>
+    <div class="scen featured"><h4>Fase 1 · 5K</h4><div class="total">€55<small>/mes</small></div><p class="users">Web activa, primeras ventas online</p><ul><li>Supabase Pro <strong>€23</strong></li><li>Resend Pro <strong>€18</strong></li><li>Workers <strong>€5</strong></li><li>Windsurf Pro <strong>€14</strong></li></ul></div>
+    <div class="scen"><h4>Fase 2 · 50K</h4><div class="total">€280<small>/mes</small></div><p class="users">Marca consolidada, 10+ tiendas</p><ul><li>Cloudflare Pro <strong>€23</strong></li><li>Supabase <strong>€60</strong></li><li>Resend Scale <strong>€85</strong></li><li>+ servicios <strong>€112</strong></li></ul></div>
+    <div class="scen"><h4>Fase 3 · 500K</h4><div class="total">€1.450<small>/mes</small></div><p class="users">Operación nacional, 50+ tiendas</p><ul><li>Cloudflare Bus <strong>€235</strong></li><li>Supabase Team <strong>€555</strong></li><li>Resend+ <strong>€180</strong></li><li>+ resto <strong>€480</strong></li></ul></div>
+  </div>
+
+  <div class="pp-section-head">
+    <div><h3>Pricing real de cada herramienta integrada</h3><p>Tarjeta resaltada = plan que GULA usa hoy</p></div>
+    <span class="badge alt"><i class="fas fa-check-circle" style="margin-right:5px"></i>Verificado abr 2026</span>
+  </div>
+
+  <div class="pp-list">
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fab fa-github"></i></div>
+        <div class="pp-titles"><div class="pp-name">GitHub <span class="pp-cat">Hosting + versionado</span></div><div class="pp-desc">Repositorio del código y publicación gratis con GitHub Pages. Cada push a main publica la web en ~2 minutos.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">github.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Repos privados ilimitados</li><li><i class="fas fa-circle"></i>Pages 1GB · 100GB tráfico</li><li><i class="fas fa-circle"></i>2.000 min Actions</li><li><i class="fas fa-circle"></i>500MB Packages</li></ul></div>
+        <div class="pp-tier"><h5>Team</h5><div class="pp-price">€4<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>Code owners</li><li><i class="fas fa-circle"></i>Branch protection</li><li><i class="fas fa-circle"></i>3.000 min Actions</li><li><i class="fas fa-circle"></i>Audit log</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">€21<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>SSO · SAML · SCIM</li><li><i class="fas fa-circle"></i>50.000 min Actions</li><li><i class="fas fa-circle"></i>SOC 2 compliance</li><li><i class="fas fa-circle"></i>Soporte 24/7</li></ul></div>
+        <div class="pp-tier"><h5>Copilot Business</h5><div class="pp-price">+€19<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>IA en el editor</li><li><i class="fas fa-circle"></i>Chat ilimitado</li><li><i class="fas fa-circle"></i>Code review auto</li><li><i class="fas fa-circle"></i>Add-on opcional</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-database"></i></div>
+        <div class="pp-titles"><div class="pp-name">Supabase <span class="pp-cat">Database + Auth + Storage</span></div><div class="pp-desc">Postgres gestionado con autenticación y almacenamiento. Backbone de usuarios del Club, pedidos y leads.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">supabase.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora · 4 migraciones aplicadas</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>500 MB DB · 1 GB storage</li><li><i class="fas fa-circle"></i>10 tablas · 3 vistas</li><li><i class="fas fa-circle"></i>RLS + Security hardening</li><li><i class="fas fa-circle"></i>MCP integrado</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€25<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>8 GB DB · 100 GB storage</li><li><i class="fas fa-circle"></i>100.000 MAU</li><li><i class="fas fa-circle"></i>250 GB transferencia</li><li><i class="fas fa-circle"></i>Backups 7 días</li></ul></div>
+        <div class="pp-tier"><h5>Team</h5><div class="pp-price">€599<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>SOC 2 Type 2</li><li><i class="fas fa-circle"></i>SSO · 2FA</li><li><i class="fas fa-circle"></i>Backups 14 días + PITR</li><li><i class="fas fa-circle"></i>SLA · audit log</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>Dedicado · BYO Cloud</li><li><i class="fas fa-circle"></i>HIPAA · DPA reforzado</li><li><i class="fas fa-circle"></i>SLA 24/7</li><li><i class="fas fa-circle"></i>Onboarding</li></ul></div>
+      </div>
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fab fa-stripe-s"></i></div>
+        <div class="pp-titles"><div class="pp-name">Stripe <span class="pp-cat">Pagos online</span></div><div class="pp-desc">Cobros con tarjeta, Apple Pay, Google Pay y suscripciones. Comisión por transacción, sin cuota fija. MCP integrado.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">stripe.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Tarjetas EU</h5><div class="pp-price">1,5%<small>+ €0,25</small></div><ul><li><i class="fas fa-circle"></i>Visa · Mastercard EEE</li><li><i class="fas fa-circle"></i>Apple Pay · Google Pay</li><li><i class="fas fa-circle"></i>3D Secure · Radar</li><li><i class="fas fa-circle"></i>Reembolsos sin coste</li></ul></div>
+        <div class="pp-tier"><h5>Tarjetas non-EEA</h5><div class="pp-price">2,5%<small>+ €0,25</small></div><ul><li><i class="fas fa-circle"></i>Tarjetas internacionales</li><li><i class="fas fa-circle"></i>+2% si cambio divisa</li><li><i class="fas fa-circle"></i>Disputas €15</li></ul></div>
+        <div class="pp-tier"><h5>SEPA / Bizum</h5><div class="pp-price">0,8%<small>· cap €5</small></div><ul><li><i class="fas fa-circle"></i>SEPA débito directo</li><li><i class="fas fa-circle"></i>Bizum vía Mollie/Redsys</li><li><i class="fas fa-circle"></i>Stripe Tax +0,5%</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>Tarifas negociadas</li><li><i class="fas fa-circle"></i>SLA dedicado</li><li><i class="fas fa-circle"></i>Account manager</li><li><i class="fas fa-circle"></i>Desde €200K/mes</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-cloud"></i></div>
+        <div class="pp-titles"><div class="pp-name">Cloudflare <span class="pp-cat">CDN · DDoS · Workers</span></div><div class="pp-desc">Red global de 300+ ciudades. Acelera la web, protege contra ataques y permite ejecutar lógica en el edge.</div></div>
+        <div class="pp-status"><span class="badge free">Free tier</span><div class="pp-link">cloudflare.com/plans</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>CDN ilimitado · SSL</li><li><i class="fas fa-circle"></i>DDoS L3-L7</li><li><i class="fas fa-circle"></i>Pages bandwidth ilim.</li><li><i class="fas fa-circle"></i>500 builds/mes</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€25<small>/mes/dom</small></div><ul><li><i class="fas fa-circle"></i>WAF managed</li><li><i class="fas fa-circle"></i>Bot fight mode</li><li><i class="fas fa-circle"></i>Image optimization</li><li><i class="fas fa-circle"></i>Analytics avanzado</li></ul></div>
+        <div class="pp-tier"><h5>Business</h5><div class="pp-price">€235<small>/mes/dom</small></div><ul><li><i class="fas fa-circle"></i>WAF custom rules</li><li><i class="fas fa-circle"></i>SSL custom certs</li><li><i class="fas fa-circle"></i>100% uptime SLA</li><li><i class="fas fa-circle"></i>Bot management ML</li></ul></div>
+        <div class="pp-tier"><h5>Workers Paid</h5><div class="pp-price">€5<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10M req/mes</li><li><i class="fas fa-circle"></i>€0,30 / millón extra</li><li><i class="fas fa-circle"></i>KV · D1 · R2 incluidos</li><li><i class="fas fa-circle"></i>Cron triggers</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-envelope"></i></div>
+        <div class="pp-titles"><div class="pp-name">Resend <span class="pp-cat">Email transaccional</span></div><div class="pp-desc">Emails programáticos: bienvenidas, confirmaciones, recuperación de password. DX moderno y fácil de integrar.</div></div>
+        <div class="pp-status"><span class="badge gap">Pendiente</span><div class="pp-link">resend.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>3.000 emails/mes</li><li><i class="fas fa-circle"></i>100 emails/día</li><li><i class="fas fa-circle"></i>1 dominio</li><li><i class="fas fa-circle"></i>1 día de logs</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€20<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>50.000 emails/mes</li><li><i class="fas fa-circle"></i>10 dominios</li><li><i class="fas fa-circle"></i>3 días logs · webhooks</li><li><i class="fas fa-circle"></i>Dedicated IP +€30</li></ul></div>
+        <div class="pp-tier"><h5>Scale</h5><div class="pp-price">€90<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100.000 emails/mes</li><li><i class="fas fa-circle"></i>Dominios ilimitados</li><li><i class="fas fa-circle"></i>7 días logs</li><li><i class="fas fa-circle"></i>Soporte prioritario</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>Volumen a medida</li><li><i class="fas fa-circle"></i>SOC 2 · DPA · HIPAA</li><li><i class="fas fa-circle"></i>SLA 99,99%</li><li><i class="fas fa-circle"></i>Multi-IP dedicada</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-chart-line"></i></div>
+        <div class="pp-titles"><div class="pp-name">PostHog <span class="pp-cat">Analítica de producto</span></div><div class="pp-desc">Tracking de eventos, funnels, session replay, A/B tests y feature flags. Pago por uso, sin cuota fija.</div></div>
+        <div class="pp-status"><span class="badge now">Activo</span><div class="pp-link">posthog.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free tier</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>1M eventos analytics</li><li><i class="fas fa-circle"></i>5K session replays</li><li><i class="fas fa-circle"></i>1M flag requests</li><li><i class="fas fa-circle"></i>250K survey responses</li></ul></div>
+        <div class="pp-tier"><h5>Eventos extra</h5><div class="pp-price">€0,00005<small>/evt</small></div><ul><li><i class="fas fa-circle"></i>Tras 1M gratis</li><li><i class="fas fa-circle"></i>Volume discount -85%</li><li><i class="fas fa-circle"></i>50M eventos: ~€245/mes</li></ul></div>
+        <div class="pp-tier"><h5>Session replays</h5><div class="pp-price">€0,005<small>/grab</small></div><ul><li><i class="fas fa-circle"></i>Tras 5K gratis</li><li><i class="fas fa-circle"></i>100K replays: ~€345/mes</li><li><i class="fas fa-circle"></i>Mobile apps incluidas</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>Self-hosted o cloud</li><li><i class="fas fa-circle"></i>SAML · audit · DPA</li><li><i class="fas fa-circle"></i>SLA · soporte premium</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-map-location-dot"></i></div>
+        <div class="pp-titles"><div class="pp-name">Google Maps Platform <span class="pp-cat">Mapas y geolocalización</span></div><div class="pp-desc">APIs para localización de tiendas, rutas y autocompletado de direcciones. Modelo pay-as-you-go con €200 crédito gratis cada mes.</div></div>
+        <div class="pp-status"><span class="badge free">€200/mes gratis</span><div class="pp-link">mapsplatform.google.com</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA usa</div><h5>Maps JavaScript</h5><div class="pp-price">€7<small>/1K cargas</small></div><ul><li><i class="fas fa-circle"></i>Mapa interactivo web</li><li><i class="fas fa-circle"></i>Marcadores · custom style</li><li><i class="fas fa-circle"></i>~28K cargas gratis/mes</li></ul></div>
+        <div class="pp-tier"><h5>Geocoding</h5><div class="pp-price">€5<small>/1K llamadas</small></div><ul><li><i class="fas fa-circle"></i>Dirección → coordenadas</li><li><i class="fas fa-circle"></i>~40K gratis/mes</li><li><i class="fas fa-circle"></i>Reverse geocoding</li></ul></div>
+        <div class="pp-tier"><h5>Places autocomplete</h5><div class="pp-price">€2,83<small>/1K ses</small></div><ul><li><i class="fas fa-circle"></i>Address autocomplete</li><li><i class="fas fa-circle"></i>~70K gratis/mes</li><li><i class="fas fa-circle"></i>Place details €17/1K</li></ul></div>
+        <div class="pp-tier"><h5>Routes</h5><div class="pp-price">€5<small>/1K rutas</small></div><ul><li><i class="fas fa-circle"></i>Distancia/tiempo</li><li><i class="fas fa-circle"></i>Route Matrix +€5</li><li><i class="fas fa-circle"></i>~40K gratis/mes</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-wallet"></i></div>
+        <div class="pp-titles"><div class="pp-name">PassKit + Apple/Google Wallet <span class="pp-cat">Tarjeta digital Club</span></div><div class="pp-desc">Crear y distribuir la tarjeta de socio Club GULA en Apple y Google Wallet con notificaciones push.</div></div>
+        <div class="pp-status"><span class="badge gap">Pendiente</span><div class="pp-link">passkit.com</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Apple Developer</h5><div class="pp-price">€99<small>/año</small></div><ul><li><i class="fas fa-circle"></i>Necesario emitir Wallet</li><li><i class="fas fa-circle"></i>Cuenta empresa con DUNS</li><li><i class="fas fa-circle"></i>App Store + Wallet</li></ul></div>
+        <div class="pp-tier"><h5>Google Wallet API</h5><div class="pp-price free">€0<small>· gratis</small></div><ul><li><i class="fas fa-circle"></i>Cuenta GCP estándar</li><li><i class="fas fa-circle"></i>Sin coste por pase</li><li><i class="fas fa-circle"></i>Issuer ID gratis</li></ul></div>
+        <div class="pp-tier current"><div class="pp-flag">Recomendado</div><h5>PassKit Lite</h5><div class="pp-price">€25<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Hasta 1.000 pases activos</li><li><i class="fas fa-circle"></i>Push notifications</li><li><i class="fas fa-circle"></i>Editor visual</li><li><i class="fas fa-circle"></i>Reporting básico</li></ul></div>
+        <div class="pp-tier"><h5>PassKit Pro</h5><div class="pp-price">€99<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Hasta 10.000 pases</li><li><i class="fas fa-circle"></i>API completa · webhooks</li><li><i class="fas fa-circle"></i>Multi-pase · campaigns</li><li><i class="fas fa-circle"></i>+€0,015/pase extra</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title"><i class="fas fa-coins"></i> Stripe — el coste variable real</div>
+    <p>Las comisiones de Stripe se calculan sobre el volumen de ventas. <strong>Cada €1.000 facturados online ≈ €18-22 a Stripe</strong>. Con ticket medio €25 y 10K pedidos/mes (€250.000 facturación): <strong>~€4.500/mes en comisiones</strong>. Coste integrado en el producto, no es operativo del SaaS.</p>
+  </div>
+</section>
+<!-- ===== SHEET 07 · ALTERNATIVAS ===== -->
+<section class="sheet" id="alternatives">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 07 · Alternativas con pricing real</div>
+      <h1 class="sheet-title">Competidores reales <span class="o">por categoría</span></h1>
+      <p class="sheet-sub">Cada categoría con paneles de pricing detallados. Datos extraídos de las páginas oficiales de pricing (abril 2026). Permite comparar GULA frente a alternativas líderes.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">7</div><div class="l">categorías · 30+ servicios</div></div>
+  </div>
+
+  <!-- HOSTING/CDN -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-cloud" style="color:var(--orange);margin-right:10px"></i>Hosting + CDN</h3><p>Servir la web a usuarios finales y desplegar el código compilado</p></div><span class="badge alt">5 opciones</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fab fa-github"></i></div>
+        <div class="pp-titles"><div class="pp-name">GitHub Pages <span class="pp-cat">Actual GULA</span></div><div class="pp-desc">Hosting estático integrado en GitHub. Webs HTML/CSS/JS. Cada push despliega automáticamente.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">pages.github.com</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>1GB sitio · 100GB tráfico</li><li><i class="fas fa-circle"></i>Solo HTML/CSS/JS estáticos</li><li><i class="fas fa-circle"></i>SSL automático</li><li><i class="fas fa-circle"></i>Custom domain</li></ul></div>
+        <div class="pp-tier"><h5>Team</h5><div class="pp-price">€4<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>Webs privadas</li><li><i class="fas fa-circle"></i>Branch protection</li><li><i class="fas fa-circle"></i>Code owners</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">€21<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>SSO · SAML</li><li><i class="fas fa-circle"></i>SOC 2 compliance</li><li><i class="fas fa-circle"></i>Audit log</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(0,0,0,.5);color:#fff"><i class="fas fa-triangle"></i></div>
+        <div class="pp-titles"><div class="pp-name">Vercel <span class="pp-cat">PaaS Next.js-first</span></div><div class="pp-desc">Plataforma diseñada para Next.js. Edge functions, ISR y previews por PR. Cara a escala vs Cloudflare.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">vercel.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Hobby</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100GB bandwidth</li><li><i class="fas fa-circle"></i>1.000 serverless invocations/día</li><li><i class="fas fa-circle"></i>6.000 build min/mes</li><li><i class="fas fa-circle"></i>Solo uso personal</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€20<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>1TB bandwidth</li><li><i class="fas fa-circle"></i>1M invocations</li><li><i class="fas fa-circle"></i>24.000 build min</li><li><i class="fas fa-circle"></i>Comercial · password protect</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>SSO · SAML · audit</li><li><i class="fas fa-circle"></i>SLA 99,99%</li><li><i class="fas fa-circle"></i>Soporte dedicado</li><li><i class="fas fa-circle"></i>HIPAA · SOC 2</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-cloud"></i></div>
+        <div class="pp-titles"><div class="pp-name">Cloudflare Pages <span class="pp-cat">Stack futuro GULA</span></div><div class="pp-desc">Hosting en el edge sobre la red de Cloudflare. Bandwidth ilimitado en gratuito. La opción a la que migrar a 5K usuarios.</div></div>
+        <div class="pp-status"><span class="badge alt">Stack futuro</span><div class="pp-link">pages.cloudflare.com</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Bandwidth ilimitado</li><li><i class="fas fa-circle"></i>500 builds/mes</li><li><i class="fas fa-circle"></i>1 build concurrente</li><li><i class="fas fa-circle"></i>Custom domain · SSL</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€20<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>5.000 builds</li><li><i class="fas fa-circle"></i>5 builds concurrentes</li><li><i class="fas fa-circle"></i>Email soporte</li></ul></div>
+        <div class="pp-tier"><h5>+ Workers</h5><div class="pp-price">€5<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10M req/mes</li><li><i class="fas fa-circle"></i>Edge functions · cron</li><li><i class="fas fa-circle"></i>KV · D1 · R2 incluidos</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(0,173,181,.15);color:#00ADB5"><i class="fas fa-paper-plane"></i></div>
+        <div class="pp-titles"><div class="pp-name">Netlify <span class="pp-cat">PaaS estático/JAM</span></div><div class="pp-desc">Pioneros del Jamstack. Forms, identity y functions integradas. Más caros que Cloudflare a escala.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">netlify.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Starter</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100GB bandwidth/mes</li><li><i class="fas fa-circle"></i>300 build min/mes</li><li><i class="fas fa-circle"></i>Forms 100 envíos</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€19<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>1TB bandwidth</li><li><i class="fas fa-circle"></i>25.000 build min</li><li><i class="fas fa-circle"></i>Forms 1.000</li><li><i class="fas fa-circle"></i>Background functions</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>SSO · audit · SLA</li><li><i class="fas fa-circle"></i>Edge handlers</li><li><i class="fas fa-circle"></i>Soporte dedicado</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(74,222,128,.15);color:#4ade80"><i class="fas fa-r"></i></div>
+        <div class="pp-titles"><div class="pp-name">Render <span class="pp-cat">Heroku-killer</span></div><div class="pp-desc">PaaS para apps con backend persistente. Servicios web, workers, cron y Postgres en un solo dashboard.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">render.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>750h gratis/mes</li><li><i class="fas fa-circle"></i>Spin-down tras 15min idle</li><li><i class="fas fa-circle"></i>100GB bandwidth</li><li><i class="fas fa-circle"></i>Static sites ilimitados</li></ul></div>
+        <div class="pp-tier"><h5>Starter</h5><div class="pp-price">€7<small>/servicio·mes</small></div><ul><li><i class="fas fa-circle"></i>512MB RAM · 0,5 CPU</li><li><i class="fas fa-circle"></i>Sin spin-down</li><li><i class="fas fa-circle"></i>Custom domain</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€19<small>/servicio·mes</small></div><ul><li><i class="fas fa-circle"></i>2GB RAM · 1 CPU</li><li><i class="fas fa-circle"></i>Auto-scaling</li><li><i class="fas fa-circle"></i>Backups Postgres</li></ul></div>
+        <div class="pp-tier"><h5>Team</h5><div class="pp-price">€19<small>/seat·mes</small></div><ul><li><i class="fas fa-circle"></i>Roles & permisos</li><li><i class="fas fa-circle"></i>Audit logs</li><li><i class="fas fa-circle"></i>Multi-environment</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATABASE -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-database" style="color:var(--orange);margin-right:10px"></i>Base de datos</h3><p>Almacenar usuarios, pedidos, leads, eventos del Club</p></div><span class="badge alt">5 opciones</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-database"></i></div>
+        <div class="pp-titles"><div class="pp-name">Supabase <span class="pp-cat">Actual GULA · Postgres</span></div><div class="pp-desc">Postgres + Auth + Storage + Realtime + Edge Functions. Stack abierto, no propietario.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">supabase.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>500 MB DB · 1 GB storage</li><li><i class="fas fa-circle"></i>50K MAU</li><li><i class="fas fa-circle"></i>Pausa tras 1 sem inactiva</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€25<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>8 GB DB · 100 GB storage</li><li><i class="fas fa-circle"></i>100K MAU</li><li><i class="fas fa-circle"></i>Backups 7 días</li></ul></div>
+        <div class="pp-tier"><h5>Team</h5><div class="pp-price">€599<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>SOC 2 · SSO · audit</li><li><i class="fas fa-circle"></i>PITR · backups 14d</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(255,202,40,.15);color:#FFA000"><i class="fas fa-fire"></i></div>
+        <div class="pp-titles"><div class="pp-name">Firebase <span class="pp-cat">Google · NoSQL</span></div><div class="pp-desc">Firestore (NoSQL) + Auth + Storage + Hosting. Más maduro que Supabase pero stack propietario y proxy a Google.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">firebase.google.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Spark</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>1 GB Firestore · 10 GB/mes lectura</li><li><i class="fas fa-circle"></i>50K writes/día</li><li><i class="fas fa-circle"></i>10K verificaciones SMS</li><li><i class="fas fa-circle"></i>5 GB Cloud Storage</li></ul></div>
+        <div class="pp-tier"><h5>Blaze</h5><div class="pp-price">Pay-as-you-go</div><ul><li><i class="fas fa-circle"></i>€0,18/100K reads</li><li><i class="fas fa-circle"></i>€0,18/100K writes</li><li><i class="fas fa-circle"></i>Storage €0,026/GB·mes</li><li><i class="fas fa-circle"></i>Spark gratis incluido</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(0,229,255,.12);color:#00E5FF"><i class="fas fa-bolt"></i></div>
+        <div class="pp-titles"><div class="pp-name">Neon <span class="pp-cat">Postgres serverless</span></div><div class="pp-desc">Postgres puro con scaling automático y branching tipo Git. Más barato que Supabase a escala media.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">neon.tech/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>0,5 GB storage</li><i class="fas fa-circle"></i>1 proyecto · 10 branches</li><li><i class="fas fa-circle"></i>5h compute/mes</li></ul></div>
+        <div class="pp-tier"><h5>Launch</h5><div class="pp-price">€19<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10 GB storage</li><li><i class="fas fa-circle"></i>300h compute</li><li><i class="fas fa-circle"></i>Read replicas</li></ul></div>
+        <div class="pp-tier"><h5>Scale</h5><div class="pp-price">€69<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>50 GB storage</li><li><i class="fas fa-circle"></i>750h compute</li><li><i class="fas fa-circle"></i>Logical replication</li></ul></div>
+        <div class="pp-tier"><h5>Business</h5><div class="pp-price">€700<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>500 GB storage</li><li><i class="fas fa-circle"></i>SLA · SOC 2</li><li><i class="fas fa-circle"></i>Soporte premium</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(78,118,255,.15);color:#4E76FF"><i class="fas fa-cube"></i></div>
+        <div class="pp-titles"><div class="pp-name">Turso <span class="pp-cat">SQLite distribuido</span></div><div class="pp-desc">SQLite en el edge, ultra rápido para lecturas globales. Ideal para datos read-heavy. Limitado para escritura concurrente.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">turso.tech/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Starter</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>9 GB total storage</li><li><i class="fas fa-circle"></i>1B row reads/mes</li><li><i class="fas fa-circle"></i>25M row writes/mes</li><li><i class="fas fa-circle"></i>500 databases</li></ul></div>
+        <div class="pp-tier"><h5>Scaler</h5><div class="pp-price">€29<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>24 GB storage</li><li><i class="fas fa-circle"></i>100B reads · 100M writes</li><li><i class="fas fa-circle"></i>10.000 databases</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€499<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>500 GB storage</li><li><i class="fas fa-circle"></i>1T reads · 1B writes</li><li><i class="fas fa-circle"></i>Soporte priority</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(76,175,80,.15);color:#4CAF50"><i class="fas fa-leaf"></i></div>
+        <div class="pp-titles"><div class="pp-name">MongoDB Atlas <span class="pp-cat">NoSQL · documental</span></div><div class="pp-desc">Mongo gestionado en cloud. Para datos no relacionales o esquemas muy flexibles. No es lo recomendable para GULA (relacional).</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">mongodb.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>M0 Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>512 MB shared</li><li><i class="fas fa-circle"></i>Sin backups</li><li><i class="fas fa-circle"></i>1 cluster shared</li></ul></div>
+        <div class="pp-tier"><h5>M10</h5><div class="pp-price">€57<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10 GB · dedicated</li><li><i class="fas fa-circle"></i>Backups + monitoring</li><li><i class="fas fa-circle"></i>Auto-scaling</li></ul></div>
+        <div class="pp-tier"><h5>M30</h5><div class="pp-price">€387<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>40 GB</li><li><i class="fas fa-circle"></i>Replica sets</li><li><i class="fas fa-circle"></i>VPC peering</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENTS -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-credit-card" style="color:var(--orange);margin-right:10px"></i>Pagos</h3><p>Procesar transacciones online: tarjetas, wallets, SEPA, Bizum</p></div><span class="badge alt">5 opciones</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fab fa-stripe-s"></i></div>
+        <div class="pp-titles"><div class="pp-name">Stripe <span class="pp-cat">Actual GULA</span></div><div class="pp-desc">Estándar de la industria para pagos online. APIs limpias, documentación excelente.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">stripe.com/es/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA usa</div><h5>Tarjetas EU</h5><div class="pp-price">1,5%<small>+ €0,25</small></div><ul><li><i class="fas fa-circle"></i>Visa · Mastercard EEE</li><li><i class="fas fa-circle"></i>Apple/Google Pay incluidos</li></ul></div>
+        <div class="pp-tier"><h5>non-EEA</h5><div class="pp-price">2,5%<small>+ €0,25</small></div><ul><li><i class="fas fa-circle"></i>Internacional</li><li><i class="fas fa-circle"></i>+2% si cambio divisa</li></ul></div>
+        <div class="pp-tier"><h5>SEPA</h5><div class="pp-price">0,8%<small>· cap €5</small></div><ul><li><i class="fas fa-circle"></i>Débito directo</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(11,243,131,.12);color:#0BF383"><i class="fas fa-a"></i></div>
+        <div class="pp-titles"><div class="pp-name">Adyen <span class="pp-cat">Enterprise · multi-canal</span></div><div class="pp-desc">Procesador holandés. Tarifa interchange++ con margen propio bajo. Más barato que Stripe a partir de €1M/mes pero requiere integración compleja.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa enterprise</span><div class="pp-link">adyen.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Tarjetas EU</h5><div class="pp-price">~0,6%<small>+ €0,11</small></div><ul><li><i class="fas fa-circle"></i>Interchange++ transparente</li><li><i class="fas fa-circle"></i>Procesamiento €0,12 fijo</li><li><i class="fas fa-circle"></i>Markup 0,3-0,6%</li></ul></div>
+        <div class="pp-tier"><h5>POS físico</h5><div class="pp-price">desde €0,11<small>/transac</small></div><ul><li><i class="fas fa-circle"></i>Terminal único todos canales</li><li><i class="fas fa-circle"></i>Tap-to-Pay iPhone/Android</li></ul></div>
+        <div class="pp-tier"><h5>Mínimo facturación</h5><div class="pp-price">€100K<small>+/mes</small></div><ul><li><i class="fas fa-circle"></i>Volumen mínimo necesario</li><li><i class="fas fa-circle"></i>Account manager</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(0,32,124,.15);color:#7B89F0"><i class="fas fa-m"></i></div>
+        <div class="pp-titles"><div class="pp-name">Mollie <span class="pp-cat">Europa-first</span></div><div class="pp-desc">Procesador holandés popular en EU. Soporte nativo de Bizum, iDEAL, Sofort. Más caro que Stripe pero mejor para PYMES locales.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa EU</span><div class="pp-link">mollie.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Tarjetas EU</h5><div class="pp-price">1,8%<small>+ €0,25</small></div><ul><li><i class="fas fa-circle"></i>Visa · Mastercard EEE</li><li><i class="fas fa-circle"></i>Apple/Google Pay</li></ul></div>
+        <div class="pp-tier"><h5>Bizum</h5><div class="pp-price">€0,25<small>+ 1,8%</small></div><ul><li><i class="fas fa-circle"></i>Soporte nativo</li><li><i class="fas fa-circle"></i>Sin intermediarios</li></ul></div>
+        <div class="pp-tier"><h5>SEPA</h5><div class="pp-price">€0,25<small>·fijo</small></div><ul><li><i class="fas fa-circle"></i>Débito directo</li><li><i class="fas fa-circle"></i>Sin % variable</li></ul></div>
+        <div class="pp-tier"><h5>iDEAL</h5><div class="pp-price">€0,29<small>·fijo</small></div><ul><li><i class="fas fa-circle"></i>Top 1 Países Bajos</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(255,87,87,.12);color:#FF5757"><i class="fas fa-r"></i></div>
+        <div class="pp-titles"><div class="pp-name">Redsys <span class="pp-cat">Bancos españoles</span></div><div class="pp-desc">Pasarela de los bancos españoles. Lo que usan la mayoría de e-commerce locales. Tarifas negociadas con tu banco.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa local</span><div class="pp-link">redsys.es</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Tarifas</h5><div class="pp-price">0,5-2%<small>negociable</small></div><ul><li><i class="fas fa-circle"></i>Depende del banco emisor</li><li><i class="fas fa-circle"></i>Volumen mensual influye</li><li><i class="fas fa-circle"></i>Sector hostelería ~1%</li></ul></div>
+        <div class="pp-tier"><h5>Setup</h5><div class="pp-price">€0-200<small>·únicos</small></div><ul><li><i class="fas fa-circle"></i>Alta TPV virtual</li><li><i class="fas fa-circle"></i>A través de tu banco</li></ul></div>
+        <div class="pp-tier"><h5>Mantenimiento</h5><div class="pp-price">€10-30<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Cuota fija TPV</li><li><i class="fas fa-circle"></i>Bizum desde €0,15/op</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(0,48,135,.15);color:#0070BA"><i class="fab fa-paypal"></i></div>
+        <div class="pp-titles"><div class="pp-name">PayPal <span class="pp-cat">Wallet conocido</span></div><div class="pp-desc">El más conocido por usuarios. Comisión alta pero da confianza al comprador desconfiado. Usar como complementario.</div></div>
+        <div class="pp-status"><span class="badge alt">Complementario</span><div class="pp-link">paypal.com/es/business/fees</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Comercial estándar</h5><div class="pp-price">2,9%<small>+ €0,35</small></div><ul><li><i class="fas fa-circle"></i>Tarjetas y wallet PayPal</li><li><i class="fas fa-circle"></i>Sin cuota fija</li><li><i class="fas fa-circle"></i>Protección compradores</li></ul></div>
+        <div class="pp-tier"><h5>Internacional</h5><div class="pp-price">+1,5%<small>extra</small></div><ul><li><i class="fas fa-circle"></i>Países fuera EEE</li><li><i class="fas fa-circle"></i>+conversión divisa 4%</li></ul></div>
+        <div class="pp-tier"><h5>Volumen alto</h5><div class="pp-price">desde 1,9%<small>+€0,35</small></div><ul><li><i class="fas fa-circle"></i>+€100K/mes</li><li><i class="fas fa-circle"></i>Negociable</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <!-- EMAIL -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-envelope" style="color:var(--orange);margin-right:10px"></i>Email transaccional</h3><p>Enviar bienvenidas, confirmaciones, alertas desde la web</p></div><span class="badge alt">5 opciones</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-envelope"></i></div>
+        <div class="pp-titles"><div class="pp-name">Resend <span class="pp-cat">Stack futuro GULA</span></div><div class="pp-desc">El más moderno. DX excelente, hecho por ex-equipo de Vercel. Free tier suficiente al inicio.</div></div>
+        <div class="pp-status"><span class="badge gap">Pendiente integrar</span><div class="pp-link">resend.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA usará</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>3.000 emails/mes</li><li><i class="fas fa-circle"></i>100 emails/día</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€20<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>50.000 emails/mes</li><li><i class="fas fa-circle"></i>10 dominios · webhooks</li></ul></div>
+        <div class="pp-tier"><h5>Scale</h5><div class="pp-price">€90<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100.000 emails/mes</li><li><i class="fas fa-circle"></i>Soporte prioritario</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(255,222,0,.15);color:#FFDE00"><i class="fas fa-stamp"></i></div>
+        <div class="pp-titles"><div class="pp-name">Postmark <span class="pp-cat">Deliverability champ</span></div><div class="pp-desc">Famoso por la mejor entregabilidad del mercado. Solo emails transaccionales, sin marketing.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">postmarkapp.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Trial</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100 emails/mes</li><li><i class="fas fa-circle"></i>Sandbox testing</li></ul></div>
+        <div class="pp-tier"><h5>Starter</h5><div class="pp-price">€15<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10.000 emails</li><li><i class="fas fa-circle"></i>€1,25 /1K extra</li></ul></div>
+        <div class="pp-tier"><h5>Plus</h5><div class="pp-price">€80<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>75.000 emails</li><li><i class="fas fa-circle"></i>€1,06 /1K extra</li></ul></div>
+        <div class="pp-tier"><h5>Premium</h5><div class="pp-price">€330<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>500.000 emails</li><li><i class="fas fa-circle"></i>Dedicated IP incluida</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(31,119,180,.15);color:#1F77B4"><i class="fas fa-grid"></i></div>
+        <div class="pp-titles"><div class="pp-name">SendGrid <span class="pp-cat">Twilio · enterprise</span></div><div class="pp-desc">Veterano del sector, ahora parte de Twilio. Marketing y transaccional en uno. Más complejo de operar.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">sendgrid.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100 emails/día (3K/mes)</li><li><i class="fas fa-circle"></i>1 dominio</li><li><i class="fas fa-circle"></i>Solo durante 60 días</li></ul></div>
+        <div class="pp-tier"><h5>Essentials</h5><div class="pp-price">€19,95<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>50.000 emails/mes</li><li><i class="fas fa-circle"></i>API + SMTP</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€89,95<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100.000 emails/mes</li><li><i class="fas fa-circle"></i>Dedicated IP</li><li><i class="fas fa-circle"></i>Subusers</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(255,153,0,.15);color:#FF9900"><i class="fab fa-aws"></i></div>
+        <div class="pp-titles"><div class="pp-name">AWS SES <span class="pp-cat">Amazon · ultra barato</span></div><div class="pp-desc">El más barato a escala. DX peor (configuración compleja, requiere conocimiento AWS). Para volúmenes muy altos.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa enterprise</span><div class="pp-link">aws.amazon.com/ses/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Desde EC2</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>62.000 emails gratis/mes</li><li><i class="fas fa-circle"></i>Solo si SES desde EC2</li></ul></div>
+        <div class="pp-tier"><h5>Pay-as-you-go</h5><div class="pp-price">€0,10<small>/1K emails</small></div><ul><li><i class="fas fa-circle"></i>Outbound desde fuera EC2</li><li><i class="fas fa-circle"></i>+ €0,12 /GB attachments</li></ul></div>
+        <div class="pp-tier"><h5>Dedicated IP</h5><div class="pp-price">€24,95<small>/IP·mes</small></div><ul><li><i class="fas fa-circle"></i>Reputación propia</li><li><i class="fas fa-circle"></i>Mejor para volumen alto</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(120,72,248,.15);color:#7848F8"><i class="fas fa-l"></i></div>
+        <div class="pp-titles"><div class="pp-name">Loops <span class="pp-cat">Marketing + transac</span></div><div class="pp-desc">Para SaaS modernos. Combina onboarding emails, broadcasts y transaccional. Buena UX visual.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">loops.so/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>1.000 contactos</li><li><i class="fas fa-circle"></i>2.000 emails/mes</li></ul></div>
+        <div class="pp-tier"><h5>Starter</h5><div class="pp-price">€49<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10.000 contactos</li><li><i class="fas fa-circle"></i>10.000 emails marketing</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€149<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>50.000 contactos</li><li><i class="fas fa-circle"></i>Ilimitado transac</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-chart-line" style="color:var(--orange);margin-right:10px"></i>Analítica de producto</h3><p>Medir comportamiento de usuarios, funnels y conversiones</p></div><span class="badge alt">5 opciones</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-chart-line"></i></div>
+        <div class="pp-titles"><div class="pp-name">PostHog <span class="pp-cat">Actual GULA · open source</span></div><div class="pp-desc">All-in-one: analytics, replays, A/B tests, surveys, flags. Self-hostable. Pago por uso muy generoso.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">posthog.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free tier</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>1M eventos/mes</li><li><i class="fas fa-circle"></i>5K replays</li></ul></div>
+        <div class="pp-tier"><h5>Pay-as-you-go</h5><div class="pp-price">€0,00005<small>/evt</small></div><ul><li><i class="fas fa-circle"></i>Tras 1M gratis</li><li><i class="fas fa-circle"></i>50M evts: ~€245/mes</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(246,178,32,.15);color:#F6B220"><i class="fab fa-google"></i></div>
+        <div class="pp-titles"><div class="pp-name">Google Analytics 4 <span class="pp-cat">Estándar de facto</span></div><div class="pp-desc">El más conocido. Gratis para 99% de PYMES. Privacy-unfriendly (datos a Google) y problemas RGPD en EU.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa free</span><div class="pp-link">marketingplatform.google.com</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>GA4 Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Eventos ilimitados</li><li><i class="fas fa-circle"></i>10M eventos/mes recolección</li><li><i class="fas fa-circle"></i>50 reportes custom</li><li><i class="fas fa-circle"></i>Sampling tras 10M</li></ul></div>
+        <div class="pp-tier"><h5>GA 360</h5><div class="pp-price">€50.000<small>+/año</small></div><ul><li><i class="fas fa-circle"></i>Sin sampling</li><li><i class="fas fa-circle"></i>BigQuery export</li><li><i class="fas fa-circle"></i>SLA · soporte dedicado</li><li><i class="fas fa-circle"></i>Para enterprise grande</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(124,77,255,.15);color:#7C4DFF"><i class="fas fa-m"></i></div>
+        <div class="pp-titles"><div class="pp-name">Mixpanel <span class="pp-cat">Pioneer producto-analytics</span></div><div class="pp-desc">Veterano del product analytics. Funnels y cohortes excelentes. Más caro que PostHog y sin replays nativos.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">mixpanel.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>20M eventos/mes</li><li><i class="fas fa-circle"></i>Reports ilimitados</li><li><i class="fas fa-circle"></i>Sin replays</li></ul></div>
+        <div class="pp-tier"><h5>Growth</h5><div class="pp-price">€20<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10M eventos · pay-as-grow</li><li><i class="fas fa-circle"></i>Cohortes · funnels</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>Volumen ilimitado</li><li><i class="fas fa-circle"></i>SAML · SLA · DPA</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(31,99,255,.15);color:#1F63FF"><i class="fas fa-a"></i></div>
+        <div class="pp-titles"><div class="pp-name">Amplitude <span class="pp-cat">Enterprise analytics</span></div><div class="pp-desc">Top 1 de empresas como Airbnb, Stripe. Más visualmente avanzado. Caro y curva de aprendizaje alta.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa enterprise</span><div class="pp-link">amplitude.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Starter</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>50K MTU · eventos ilim.</li><li><i class="fas fa-circle"></i>3 cohortes activas</li></ul></div>
+        <div class="pp-tier"><h5>Plus</h5><div class="pp-price">€61<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>300K MTU</li><li><i class="fas fa-circle"></i>Cohortes ilimitadas</li></ul></div>
+        <div class="pp-tier"><h5>Growth</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>Volumen escalable</li><li><i class="fas fa-circle"></i>Roles · SAML</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>SLA · DPA · audit</li><li><i class="fas fa-circle"></i>Integraciones premium</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(108,87,234,.15);color:#6C57EA"><i class="fas fa-p"></i></div>
+        <div class="pp-titles"><div class="pp-name">Plausible <span class="pp-cat">Privacy-first · simple</span></div><div class="pp-desc">Ligero, sin cookies, RGPD-compliant out of the box. Solo analytics web (no funnels avanzados). Open source.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa privacy</span><div class="pp-link">plausible.io/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Trial</h5><div class="pp-price free">€0<small>·30 días</small></div><ul><li><i class="fas fa-circle"></i>Todas las features</li><li><i class="fas fa-circle"></i>Sin tarjeta</li></ul></div>
+        <div class="pp-tier"><h5>Growth</h5><div class="pp-price">€9<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10K pageviews/mes</li><li><i class="fas fa-circle"></i>50 sitios</li></ul></div>
+        <div class="pp-tier"><h5>Business</h5><div class="pp-price">€19<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>100K pageviews/mes</li><li><i class="fas fa-circle"></i>API access</li></ul></div>
+        <div class="pp-tier"><h5>Self-hosted</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Open source AGPL</li><li><i class="fas fa-circle"></i>Tu servidor · tu coste</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAPS -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-map-location-dot" style="color:var(--orange);margin-right:10px"></i>Mapas y geocoding</h3><p>Localización de tiendas, rutas, autocompletar direcciones</p></div><span class="badge alt">4 opciones</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fab fa-google"></i></div>
+        <div class="pp-titles"><div class="pp-name">Google Maps Platform <span class="pp-cat">Estándar</span></div><div class="pp-desc">Más completo y conocido. Mapas reconocibles. €200/mes crédito gratis aguanta hasta ~28K cargas o 40K geocodings.</div></div>
+        <div class="pp-status"><span class="badge now">En uso</span><div class="pp-link">mapsplatform.google.com</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Maps JS</h5><div class="pp-price">€7<small>/1K cargas</small></div><ul><li><i class="fas fa-circle"></i>€200 crédito gratis/mes</li></ul></div>
+        <div class="pp-tier"><h5>Geocoding</h5><div class="pp-price">€5<small>/1K llam.</small></div><ul><li><i class="fas fa-circle"></i>~40K gratis</li></ul></div>
+        <div class="pp-tier"><h5>Routes</h5><div class="pp-price">€5<small>/1K rutas</small></div><ul><li><i class="fas fa-circle"></i>~40K gratis</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(67,131,247,.15);color:#4383F7"><i class="fas fa-map"></i></div>
+        <div class="pp-titles"><div class="pp-name">Mapbox <span class="pp-cat">Mapas custom</span></div><div class="pp-desc">Mapas vectoriales totalmente personalizables. Estilos únicos para marca. Más barato que Google a partir de cierta escala.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">mapbox.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free tier</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>50K Map Loads/mes</li><li><i class="fas fa-circle"></i>100K Geocoding/mes</li><li><i class="fas fa-circle"></i>100K Directions/mes</li></ul></div>
+        <div class="pp-tier"><h5>Maps</h5><div class="pp-price">€0,50<small>/1K cargas</small></div><ul><li><i class="fas fa-circle"></i>Tras 50K gratis</li><li><i class="fas fa-circle"></i>Discount a >100K</li></ul></div>
+        <div class="pp-tier"><h5>Geocoding</h5><div class="pp-price">€0,75<small>/1K req</small></div><ul><li><i class="fas fa-circle"></i>Tras 100K gratis</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>SLA · soporte</li><li><i class="fas fa-circle"></i>Tarifas a volumen</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(72,194,205,.15);color:#48C2CD"><i class="fas fa-h"></i></div>
+        <div class="pp-titles"><div class="pp-name">HERE <span class="pp-cat">Para automoción/logística</span></div><div class="pp-desc">Owned por Audi/BMW/Mercedes. Mejor para optimización de rutas, fleet tracking. Sub-utilizado en e-commerce.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa logística</span><div class="pp-link">here.com/platform/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Freemium</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>1.000 transac/día</li><li><i class="fas fa-circle"></i>30K/mes incluidas</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€0,30<small>/1K req</small></div><ul><li><i class="fas fa-circle"></i>Tras tier gratis</li><li><i class="fas fa-circle"></i>Pay-as-you-go</li></ul></div>
+        <div class="pp-tier"><h5>Routing avanzado</h5><div class="pp-price">€1,50<small>/1K req</small></div><ul><li><i class="fas fa-circle"></i>Multi-stop · constraints</li><li><i class="fas fa-circle"></i>Fleet routing</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(126,182,103,.15);color:#7EB667"><i class="fas fa-globe"></i></div>
+        <div class="pp-titles"><div class="pp-name">OpenStreetMap <span class="pp-cat">Open source · self-host</span></div><div class="pp-desc">Datos cartográficos gratis. Tú montas el render (Leaflet, MapLibre). Coste = el servidor donde corre.</div></div>
+        <div class="pp-status"><span class="badge alt">Open source</span><div class="pp-link">openstreetmap.org</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Datos</h5><div class="pp-price free">€0<small>/siempre</small></div><ul><li><i class="fas fa-circle"></i>100% gratuito y abierto</li><li><i class="fas fa-circle"></i>Licencia ODbL</li><li><i class="fas fa-circle"></i>Atribución obligatoria</li></ul></div>
+        <div class="pp-tier"><h5>Render self-host</h5><div class="pp-price">~€30<small>/mes VPS</small></div><ul><li><i class="fas fa-circle"></i>Hetzner/DigitalOcean</li><li><i class="fas fa-circle"></i>MapLibre + tegola</li><li><i class="fas fa-circle"></i>Setup técnico medio</li></ul></div>
+        <div class="pp-tier"><h5>Tile providers</h5><div class="pp-price">desde €9<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Stadia · MapTiler · CARTO</li><li><i class="fas fa-circle"></i>Datos OSM como servicio</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-comments" style="color:var(--orange);margin-right:10px"></i>Chat soporte / CRM ligero</h3><p>Atender clientes en vivo, gestionar tickets y leads de franquicia</p></div><span class="badge alt">4 opciones</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(50,170,99,.15);color:#32AA63"><i class="fas fa-c"></i></div>
+        <div class="pp-titles"><div class="pp-name">Crisp <span class="pp-cat">Recomendado · UE</span></div><div class="pp-desc">Empresa francesa. Alternativa europea a Intercom. Muy buen ratio precio/funcionalidad. Top recomendado para GULA.</div></div>
+        <div class="pp-status"><span class="badge gap">Pendiente integrar</span><div class="pp-link">crisp.chat/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Basic</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>2 agentes</li><li><i class="fas fa-circle"></i>Chat web + email</li><li><i class="fas fa-circle"></i>Inbox 30 días</li></ul></div>
+        <div class="pp-tier current"><div class="pp-flag">Recomendado</div><h5>Mini</h5><div class="pp-price">€25<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>4 agentes</li><li><i class="fas fa-circle"></i>WhatsApp · IG · Messenger</li><li><i class="fas fa-circle"></i>Triggers · KB privada</li></ul></div>
+        <div class="pp-tier"><h5>Essentials</h5><div class="pp-price">€95<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>20 agentes</li><li><i class="fas fa-circle"></i>CRM completo</li><li><i class="fas fa-circle"></i>Helpdesk público</li><li><i class="fas fa-circle"></i>Campañas email/SMS</li></ul></div>
+        <div class="pp-tier"><h5>Plus</h5><div class="pp-price">€295<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Agentes ilimitados</li><li><i class="fas fa-circle"></i>SLA · API ilimitada</li><li><i class="fas fa-circle"></i>SOC 2 · GDPR DPA</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(0,99,255,.15);color:#0063FF"><i class="fas fa-i"></i></div>
+        <div class="pp-titles"><div class="pp-name">Intercom <span class="pp-cat">El gigante</span></div><div class="pp-desc">El más completo: chat, helpdesk, marketing automation, IA Fin. Caro pero referencia. Para SaaS con presupuesto.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa enterprise</span><div class="pp-link">intercom.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Trial</h5><div class="pp-price free">€0<small>·14 días</small></div><ul><li><i class="fas fa-circle"></i>Sin tarjeta</li><li><i class="fas fa-circle"></i>Todas las features</li></ul></div>
+        <div class="pp-tier"><h5>Essential</h5><div class="pp-price">€39<small>/seat·mes</small></div><ul><li><i class="fas fa-circle"></i>Inbox compartido</li><li><i class="fas fa-circle"></i>Help center</li></ul></div>
+        <div class="pp-tier"><h5>Advanced</h5><div class="pp-price">€99<small>/seat·mes</small></div><ul><li><i class="fas fa-circle"></i>Ticketing · workflows</li><li><i class="fas fa-circle"></i>Multi-brand</li></ul></div>
+        <div class="pp-tier"><h5>Expert</h5><div class="pp-price">€139<small>/seat·mes</small></div><ul><li><i class="fas fa-circle"></i>HIPAA · SAML</li><li><i class="fas fa-circle"></i>Custom roles</li><li><i class="fas fa-circle"></i>+ Fin AI €0,99/resol</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(34,197,94,.15);color:#22C55E"><i class="fas fa-comment"></i></div>
+        <div class="pp-titles"><div class="pp-name">Tawk.to <span class="pp-cat">100% gratuito</span></div><div class="pp-desc">Gratis para siempre. Único coste opcional: quitar branding. Buena para empezar sin invertir nada.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa free</span><div class="pp-link">tawk.to/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Agentes ilimitados</li><li><i class="fas fa-circle"></i>Sitios ilimitados</li><li><i class="fas fa-circle"></i>Chat history infinito</li><li><i class="fas fa-circle"></i>Con branding "Tawk.to"</li></ul></div>
+        <div class="pp-tier"><h5>Remove branding</h5><div class="pp-price">€19<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Sin branding</li><li><i class="fas fa-circle"></i>Por sitio web</li></ul></div>
+        <div class="pp-tier"><h5>Hire chat agents</h5><div class="pp-price">€1<small>/hora·agente</small></div><ul><li><i class="fas fa-circle"></i>Agentes contratados</li><li><i class="fas fa-circle"></i>Para 24/7 sin staff propio</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(255,140,0,.15);color:#FF8C00"><i class="fas fa-l"></i></div>
+        <div class="pp-titles"><div class="pp-name">LiveChat <span class="pp-cat">Helpdesk veterano</span></div><div class="pp-desc">Otra opción enterprise. Conocido por integrationsfuertes. Precio por agente lo hace caro a escala.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">livechat.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Trial</h5><div class="pp-price free">€0<small>·14 días</small></div><ul><li><i class="fas fa-circle"></i>Sin tarjeta</li></ul></div>
+        <div class="pp-tier"><h5>Starter</h5><div class="pp-price">€24<small>/agente·mes</small></div><ul><li><i class="fas fa-circle"></i>Chat web</li><li><i class="fas fa-circle"></i>60 días history</li></ul></div>
+        <div class="pp-tier"><h5>Team</h5><div class="pp-price">€49<small>/agente·mes</small></div><ul><li><i class="fas fa-circle"></i>Sin límite history</li><li><i class="fas fa-circle"></i>Multi-canal</li></ul></div>
+        <div class="pp-tier"><h5>Business</h5><div class="pp-price">€69<small>/agente·mes</small></div><ul><li><i class="fas fa-circle"></i>SLA · advanced reporting</li><li><i class="fas fa-circle"></i>Staffing prediction</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title"><i class="fas fa-flag-checkered"></i> Recomendación de stack</div>
+    <p><strong>Stack actual de GULA tiene la mejor relación precio/calidad para 0-50K usuarios.</strong> Cambiarlo solo se justifica si: (1) un proveedor te bloquea técnicamente, (2) hay incidente de fiabilidad/seguridad, o (3) el coste superior se compensa con beneficio medible. Recomendación: mantener stack hasta 5K usuarios, entonces evaluar Cloudflare Pages + Workers + Crisp Mini.</p>
+  </div>
+</section>
+<!-- ===== SHEET 08 · WINDSURF ===== -->
+<section class="sheet" id="windsurf">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 08 · Mi herramienta de trabajo</div>
+      <h1 class="sheet-title">Windsurf — IDE con <span class="o">IA agentica</span></h1>
+      <p class="sheet-sub">El editor con asistente IA con el que se desarrolla esta web. Capacidades nativas, conexiones a servicios externos vía MCP y comparación de planes.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">€0<small>/mes</small></div><div class="l">Free trial activo</div></div>
+  </div>
+
+  <div class="pp-section-head"><div><h3><i class="fas fa-toolbox" style="color:var(--orange);margin-right:10px"></i>Capacidades nativas</h3><p>Funciones que el editor incorpora dentro del entorno</p></div><span class="badge alt">12 funciones</span></div>
+  <div class="pillars-grid">
+    <div class="pillar"><h5><i class="fas fa-file-pen"></i>Edición multi-archivo</h5><p>Modifica varios archivos a la vez de forma coherente.</p></div>
+    <div class="pillar"><h5><i class="fas fa-brain"></i>Memoria persistente</h5><p>Recuerda preferencias del proyecto entre sesiones.</p></div>
+    <div class="pillar"><h5><i class="fas fa-magnifying-glass"></i>Búsqueda semántica</h5><p>Encuentra código por intención, no solo palabras clave.</p></div>
+    <div class="pillar"><h5><i class="fas fa-terminal"></i>Ejecutor de comandos</h5><p>Tests, instalaciones, deploys con confirmación.</p></div>
+    <div class="pillar"><h5><i class="fas fa-globe"></i>Browser preview</h5><p>Vista del sitio integrada con lectura de logs.</p></div>
+    <div class="pillar"><h5><i class="fas fa-image"></i>Lectura de imágenes</h5><p>Convierte screenshots y mockups a HTML/CSS.</p></div>
+    <div class="pillar"><h5><i class="fas fa-list-check"></i>Planificación</h5><p>Divide tareas grandes en pasos secuenciales.</p></div>
+    <div class="pillar"><h5><i class="fas fa-magic"></i>Tab completion</h5><p>Bloques de código completos al escribir.</p></div>
+    <div class="pillar"><h5><i class="fas fa-code-branch"></i>Git integrado</h5><p>Commits, branches, push, conflictos.</p></div>
+    <div class="pillar"><h5><i class="fas fa-search"></i>Web search</h5><p>Investiga docs y precios sin salir del IDE.</p></div>
+    <div class="pillar"><h5><i class="fas fa-clipboard-check"></i>Workflows</h5><p>Procesos repetitivos como /deploy reutilizables.</p></div>
+    <div class="pillar"><h5><i class="fas fa-shield-halved"></i>Aprobación humana</h5><p>Cambios destructivos requieren confirmación.</p></div>
+  </div>
+
+  <div class="pp-section-head"><div><h3><i class="fas fa-plug" style="color:var(--orange);margin-right:10px"></i>Conexiones MCP — habla con servicios externos</h3><p>Permite a Cascade leer datos y ejecutar acciones reales, no solo escribir código</p></div><span class="badge alt">4 servidores</span></div>
+  <div class="pillars-grid">
+    <div class="pillar"><h5><i class="fas fa-cloud"></i>Cloudflare</h5><p>Buscar docs, recomendar configs, guiar migraciones.</p><div class="price">Migración a 5K usr</div></div>
+    <div class="pillar"><h5><i class="fab fa-figma"></i>Figma</h5><p>Leer diseños, generar código desde mockups.</p><div class="price">Mockups → HTML</div></div>
+    <div class="pillar"><h5><i class="fab fa-stripe-s"></i>Stripe</h5><p>Crear productos, precios, customers, payment links.</p><div class="price">"Crea Premium" en 1 orden</div></div>
+    <div class="pillar"><h5><i class="fas fa-database"></i>Supabase</h5><p>Migraciones SQL, queries, Edge Functions, tipos TS.</p><div class="price">Sin abrir Supabase UI</div></div>
+  </div>
+
+  <div class="pp-section-head"><div><h3><i class="fas fa-tag" style="color:var(--orange);margin-right:10px"></i>Planes y precios Windsurf</h3><p>Tarjeta resaltada = plan que GULA usa hoy</p></div><span class="badge alt">4 tiers</span></div>
+  <div class="pp-list">
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo"><i class="fas fa-wind"></i></div>
+        <div class="pp-titles"><div class="pp-name">Windsurf <span class="pp-cat">Codeium</span></div><div class="pp-desc">Editor con asistente IA agentico (Cascade). Recomendación: pasar a Pro €15/mes antes de fin de trial.</div></div>
+        <div class="pp-status"><span class="badge now">Free trial</span><div class="pp-link">windsurf.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">GULA ahora</div><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>25 prompt credits/mes</li><li><i class="fas fa-circle"></i>Tab completion ilimitado</li><li><i class="fas fa-circle"></i>GPT-4o-mini · Cascade Base</li><li><i class="fas fa-circle"></i>MCP limitado</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€15<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>500 credits/mes</li><li><i class="fas fa-circle"></i>Claude Sonnet · GPT-5</li><li><i class="fas fa-circle"></i>Cascade ilimitado</li><li><i class="fas fa-circle"></i>MCP completo · workflows</li></ul></div>
+        <div class="pp-tier"><h5>Teams</h5><div class="pp-price">€35<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>1.500 credits/usuario</li><li><i class="fas fa-circle"></i>Admin centralizado · billing</li><li><i class="fas fa-circle"></i>Memoria compartida proyecto</li><li><i class="fas fa-circle"></i>Privacy by default</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">€60+<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>Credits a medida</li><li><i class="fas fa-circle"></i>SSO · SAML · SCIM</li><li><i class="fas fa-circle"></i>SOC 2 · zero retention</li><li><i class="fas fa-circle"></i>SLA · on-prem opcional</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout good">
+    <div class="callout-title"><i class="fas fa-stopwatch"></i> ROI de Windsurf</div>
+    <p>Construir 4 páginas + rediseñar checkout manualmente son 2-3 días. Con Windsurf lo hago en horas. <strong>Recomendación: pasar a Pro €15/mes antes de que termine el trial.</strong> Comparable con un becario de €1.500/mes — 100× más barato y disponible 24/7.</p>
+  </div>
+</section>
+
+<!-- ===== SHEET 09 · FUTURE ===== -->
+<section class="sheet" id="future">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 09 · Próximos pasos</div>
+      <h1 class="sheet-title">Lo que falta para una <span class="o">plataforma completa</span></h1>
+      <p class="sheet-sub">5 pilares con items concretos, precios reales y cuándo abordarlos.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">~€8K</div><div class="l">inversión año 1</div></div>
+  </div>
+
+  <div class="pillar-section">
+    <h3><span class="pi"><i class="fas fa-shield-halved"></i></span>Pilar 01 · Sitio completo, funcional, seguro y eficiente</h3>
+    <p class="lead">Imprescindible para que la web esté lista para tráfico real. <strong>9 items.</strong></p>
+    <div class="pillars-grid">
+      <div class="pillar"><h5><i class="fas fa-lock"></i>SSL/HTTPS</h5><p>Cifra todo el tráfico automáticamente.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-cloud-arrow-down"></i>Backups BBDD diarios</h5><p>Copia automática de Supabase a S3.</p><div class="price">€5-10/mes</div></div>
+      <div class="pillar"><h5><i class="fas fa-image"></i>Optimización imágenes</h5><p>Comprimir a WebP/AVIF reduce 70% peso.</p><div class="price">Cloudinary Free 25K</div></div>
+      <div class="pillar"><h5><i class="fas fa-magnifying-glass"></i>Búsqueda interna</h5><p>Buscar productos con typo-tolerance.</p><div class="price">Algolia Free 10K</div></div>
+      <div class="pillar"><h5><i class="fas fa-paper-plane"></i>Backend formularios</h5><p>Recibir contactos sin servidor propio.</p><div class="price">Formspree Free 50</div></div>
+      <div class="pillar"><h5><i class="fas fa-shield-virus"></i>Captcha anti-bots</h5><p>Evita spam en formularios.</p><div class="price">Cloudflare Turnstile €0</div></div>
+      <div class="pillar"><h5><i class="fas fa-sitemap"></i>SEO técnico</h5><p>sitemap, robots, meta OG, Schema.org.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-bug"></i>Monitorización errores</h5><p>Alertas en tiempo real si algo se rompe.</p><div class="price">Sentry Free 5K</div></div>
+      <div class="pillar"><h5><i class="fas fa-gauge-high"></i>Performance monitoring</h5><p>Core Web Vitals y páginas lentas.</p><div class="price">Vercel Analytics Free</div></div>
+    </div>
+  </div>
+
+  <div class="pillar-section">
+    <h3><span class="pi"><i class="fas fa-rocket"></i></span>Pilar 02 · Escalar y mejor tecnología</h3>
+    <p class="lead">Cuando crezca el tráfico (5K+ usuarios/mes), estos servicios mantienen la web rápida y barata. <strong>8 items.</strong></p>
+    <div class="pillars-grid">
+      <div class="pillar"><h5><i class="fas fa-cloud"></i>Migrar a Cloudflare</h5><p>Pages + Workers para mejor rendimiento global.</p><div class="price">€5/mes</div></div>
+      <div class="pillar"><h5><i class="fas fa-bolt"></i>Cache Redis</h5><p>Acelera consultas frecuentes.</p><div class="price">Upstash Free 10K/día</div></div>
+      <div class="pillar"><h5><i class="fas fa-stream"></i>Sistema de colas</h5><p>Tareas pesadas en background.</p><div class="price">Inngest Free · QStash €1</div></div>
+      <div class="pillar"><h5><i class="fas fa-database"></i>Replicas BBDD</h5><p>Múltiples copias para escalar lectura.</p><div class="price">Supabase Pro incluye</div></div>
+      <div class="pillar"><h5><i class="fas fa-bolt-lightning"></i>Edge functions</h5><p>Lógica en 300+ ciudades, latencia &lt;50ms.</p><div class="price">Workers €5/mes</div></div>
+      <div class="pillar"><h5><i class="fas fa-clipboard-list"></i>Feature flags</h5><p>Activar features sin redeploy. A/B tests.</p><div class="price">PostHog incluido</div></div>
+      <div class="pillar"><h5><i class="fas fa-rocket"></i>CDN para assets</h5><p>Servir imágenes desde el edge.</p><div class="price">Cloudflare R2 €0,015/GB</div></div>
+      <div class="pillar"><h5><i class="fas fa-ban"></i>Rate limiting</h5><p>Limitar peticiones por IP.</p><div class="price">Cloudflare €0</div></div>
+    </div>
+  </div>
+
+  <div class="pillar-section">
+    <h3><span class="pi"><i class="fas fa-wand-magic-sparkles"></i></span>Pilar 03 · Funciones para mejorar la tecnología</h3>
+    <p class="lead">Capacidades que llevarían la marca a otro nivel: IA, notificaciones, integraciones, automatización. <strong>9 items.</strong></p>
+    <div class="pillars-grid">
+      <div class="pillar"><h5><i class="fas fa-robot"></i>Chatbot IA</h5><p>Atención 24/7 que conoce el menú y reserva.</p><div class="price">~€50/mes (GPT-4o-mini)</div></div>
+      <div class="pillar"><h5><i class="fas fa-bell"></i>Push notifications</h5><p>Ofertas, pedidos listos, eventos.</p><div class="price">OneSignal Free 10K</div></div>
+      <div class="pillar"><h5><i class="fab fa-whatsapp"></i>SMS / WhatsApp</h5><p>Confirmaciones y soporte por WA Business.</p><div class="price">Twilio €0,04/SMS</div></div>
+      <div class="pillar"><h5><i class="fas fa-calendar"></i>Sistema reservas</h5><p>Reservar mesa o evento online.</p><div class="price">Cal.com Free / €15</div></div>
+      <div class="pillar"><h5><i class="fas fa-cash-register"></i>Sync con POS</h5><p>Menú online y tienda alineados.</p><div class="price">Toast/Square API €0-50</div></div>
+      <div class="pillar"><h5><i class="fas fa-handshake"></i>CRM</h5><p>Gestión de leads de franquicias y Club.</p><div class="price">HubSpot Free / €20</div></div>
+      <div class="pillar"><h5><i class="fas fa-magic"></i>Recomendador IA</h5><p>"Si te gustó X, prueba Y" +15-25% ticket.</p><div class="price">~€30/mes</div></div>
+      <div class="pillar"><h5><i class="fas fa-comments-dollar"></i>Reseñas integradas</h5><p>Google, TripAdvisor en la web.</p><div class="price">Trustpilot Free / €239</div></div>
+      <div class="pillar"><h5><i class="fas fa-share-nodes"></i>Programa referidos</h5><p>Cliente trae cliente con recompensa.</p><div class="price">Custom · €0</div></div>
+    </div>
+  </div>
+
+  <div class="pillar-section">
+    <h3><span class="pi"><i class="fas fa-user-shield"></i></span>Pilar 04 · Ciberseguridad, datos y legal</h3>
+    <p class="lead">Crítico antes de procesar pagos reales. Un incidente RGPD puede costar hasta 4% de la facturación. <strong>12 items.</strong></p>
+    <div class="pillars-grid">
+      <div class="pillar"><h5><i class="fas fa-shield-halved"></i>WAF firewall</h5><p>Bloquea SQL injection, XSS, exploits.</p><div class="price">Cloudflare Free / €20</div></div>
+      <div class="pillar"><h5><i class="fas fa-network-wired"></i>Protección DDoS</h5><p>Absorbe ataques masivos.</p><div class="price">Cloudflare Free</div></div>
+      <div class="pillar"><h5><i class="fas fa-robot"></i>Bot management</h5><p>Detecta scraping, spam, fraude.</p><div class="price">Cloudflare Pro €20</div></div>
+      <div class="pillar"><h5><i class="fas fa-cookie-bite"></i>Banner cookies RGPD</h5><p>Consentimiento legal AEPD/GDPR.</p><div class="price">Cookiebot Free / €11</div></div>
+      <div class="pillar"><h5><i class="fas fa-fingerprint"></i>Auth + 2FA</h5><p>Login con verificación en 2 pasos.</p><div class="price">Supabase Auth €0</div></div>
+      <div class="pillar"><h5><i class="fas fa-list-ul"></i>Audit logs</h5><p>Registro inmutable de cambios sensibles.</p><div class="price">Supabase incluido</div></div>
+      <div class="pillar"><h5><i class="fas fa-key"></i>Gestión de secretos</h5><p>API keys nunca en el código.</p><div class="price">Doppler Free / €7/usr</div></div>
+      <div class="pillar"><h5><i class="fas fa-file-contract"></i>RGPD: DPO + DPA</h5><p>DPO + acuerdos con proveedores.</p><div class="price">DPO externo €100-300</div></div>
+      <div class="pillar"><h5><i class="fas fa-credit-card"></i>PCI DSS</h5><p>Heredado de Stripe (no almacenamos).</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-magnifying-glass-chart"></i>Pentest anual</h5><p>Auditoría externa de vulnerabilidades.</p><div class="price">€2.000-5.000/año</div></div>
+      <div class="pillar"><h5><i class="fas fa-bug-slash"></i>Bug bounty</h5><p>Premiar a hackers éticos.</p><div class="price">HackerOne · variable</div></div>
+      <div class="pillar"><h5><i class="fas fa-scale-balanced"></i>T&C reales</h5><p>Hoy hay placeholders. Necesita abogado.</p><div class="price">Iubenda €27/mes</div></div>
+    </div>
+  </div>
+
+  <div class="pillar-section">
+    <h3><span class="pi"><i class="fas fa-puzzle-piece"></i></span>Pilar 05 · Cosas que faltan en la web</h3>
+    <p class="lead">Pequeños detalles de UX, contenido y funcionalidad ausentes. <strong>16 items.</strong></p>
+    <div class="pillars-grid">
+      <div class="pillar"><h5><i class="fas fa-triangle-exclamation"></i>404 personalizado</h5><p>Página propia para URLs erróneas.</p><div class="price">€0 · 1h</div></div>
+      <div class="pillar"><h5><i class="fas fa-mobile-screen"></i>PWA instalable</h5><p>Añadir al móvil sin App Store.</p><div class="price">€0 · 1 día</div></div>
+      <div class="pillar"><h5><i class="fas fa-universal-access"></i>Accesibilidad WCAG AA</h5><p>Usable por personas con discapacidad.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-language"></i>Multi-idioma</h5><p>Inglés mínimo para turistas.</p><div class="price">€0 / DeepL €5/mes</div></div>
+      <div class="pillar"><h5><i class="fas fa-newspaper"></i>Blog SEO</h5><p>Tráfico orgánico estable a largo plazo.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-quote-right"></i>Testimonios</h5><p>Reseñas de clientes con foto.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-circle-question"></i>FAQ por servicio</h5><p>Preguntas frecuentes en cada página.</p><div class="price">€0 · 2-3h</div></div>
+      <div class="pillar"><h5><i class="fas fa-newspaper"></i>Press kit</h5><p>Logos, fotos alta, dossier marca.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-circle-check"></i>Status page</h5><p>Si la web cae, los clientes lo ven.</p><div class="price">BetterStack Free</div></div>
+      <div class="pillar"><h5><i class="fas fa-envelope-circle-check"></i>Newsletter</h5><p>Captura emails. Canal propio.</p><div class="price">Mailchimp Free 500</div></div>
+      <div class="pillar"><h5><i class="fas fa-image"></i>Open Graph</h5><p>Preview bonita al compartir.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-bookmark"></i>Favicon completo</h5><p>Icon + apple-touch + manifest.</p><div class="price">€0 · 30min</div></div>
+      <div class="pillar"><h5><i class="fas fa-spinner"></i>Loading states</h5><p>Spinners y mensajes claros.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-gift"></i>Cupones</h5><p>Sistema de descuentos.</p><div class="price">Stripe nativo €0</div></div>
+      <div class="pillar"><h5><i class="fas fa-arrow-rotate-left"></i>Carrito abandonado</h5><p>Email recuperación automática.</p><div class="price">€0</div></div>
+      <div class="pillar"><h5><i class="fas fa-clipboard-list"></i>Dashboard franquiciados</h5><p>Panel privado por franquiciado.</p><div class="price">Supabase + dev €0</div></div>
+    </div>
+  </div>
+
+  <div class="callout good">
+    <div class="callout-title"><i class="fas fa-flag-checkered"></i> Recomendación de prioridades</div>
+    <p><strong>Q2 2026:</strong> Pilar 1 + RGPD del Pilar 4 (banner cookies, T&C, DPO). <strong>Q3 2026:</strong> Pilar 2 (escalado a Cloudflare) + lo más visible del Pilar 5 (404, PWA, FAQ, testimonios). <strong>Q4 2026 → 2027:</strong> Pilar 3 (chatbot IA, push, WhatsApp) y pentest del Pilar 4. <strong>Inversión adicional año 1: ~€8.000.</strong></p>
+  </div>
+</section>
+
+<!-- ===== SHEET 10 · WHATSAPP BOT PROPIO ===== -->
+<section class="sheet" id="whatsapp">
+  <div class="sheet-head">
+    <div class="sheet-head-left">
+      <div class="eyebrow">Hoja 10 · Bot WhatsApp propio</div>
+      <h1 class="sheet-title">Vender por WhatsApp <span class="o">sin intermediarios</span></h1>
+      <p class="sheet-sub">Construir un bot conectado directamente a la API oficial de Meta para gestionar pedidos, cobros, soporte y campañas. Canal propio, sin comisiones por conversación más allá de las que cobra Meta.</p>
+    </div>
+    <div class="sheet-stat"><div class="v">~€25<small>/mes</small></div><div class="l">a 1.000 conversaciones</div></div>
+  </div>
+
+  <!-- POR QUÉ -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-bullseye" style="color:var(--orange);margin-right:10px"></i>Por qué un canal propio</h3><p>La diferencia entre alquilar una plataforma y construir el canal en casa</p></div><span class="badge alt">4 razones</span></div>
+  <div class="pillars-grid">
+    <div class="pillar"><h5><i class="fas fa-piggy-bank"></i>Coste real bajo</h5><p>Solo pagas lo que cobra Meta directamente. Cero markup de plataformas tipo WATI, Zoko o Respond.io que cobran €40-150/mes encima del coste base.</p><div class="price">Ahorro 60-80%</div></div>
+    <div class="pillar"><h5><i class="fas fa-database"></i>Datos en casa</h5><p>Cada conversación, cada producto comprado, cada preferencia se guarda en la BBDD propia (Supabase). Sin proveedores intermediarios con tus datos comerciales.</p><div class="price">100% propiedad</div></div>
+    <div class="pillar"><h5><i class="fas fa-shuffle"></i>Flexibilidad total</h5><p>Lógica personalizada: integrar Stripe, descuentos personalizados, recomendaciones IA, conexión con POS. Sin estar atado al "no-code" de las plataformas.</p><div class="price">Sin límites</div></div>
+    <div class="pillar"><h5><i class="fas fa-shield-halved"></i>Continuidad de negocio</h5><p>Si una plataforma cierra, sube precios o se vende, no afecta. El bot es código propio sobre infraestructura propia.</p><div class="price">Sin lock-in</div></div>
+  </div>
+
+  <!-- ARQUITECTURA -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-diagram-project" style="color:var(--orange);margin-right:10px"></i>Arquitectura técnica</h3><p>Cómo viaja un mensaje desde el cliente hasta el pedido confirmado</p></div><span class="badge alt">4 capas</span></div>
+  <div class="flow-arch">
+    <div class="flow-row">
+      <div class="flow-box start"><h6><i class="fab fa-whatsapp"></i>Cliente</h6><small>WhatsApp móvil</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box api"><h6><i class="fas fa-cloud"></i>Meta Cloud API</h6><small>Servidor oficial Meta</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box our"><h6><i class="fas fa-bolt"></i>Webhook GULA</h6><small>Cloudflare Worker</small></div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-box svc"><h6><i class="fas fa-database"></i>Supabase</h6><small>Pedidos, sesión, menú</small></div>
+      <div class="flow-arrow">↔</div>
+      <div class="flow-box our"><h6><i class="fas fa-microchip"></i>Lógica del bot</h6><small>Estado conversación</small></div>
+      <div class="flow-arrow">↔</div>
+      <div class="flow-box svc"><h6><i class="fab fa-stripe-s"></i>Stripe</h6><small>Payment Link generado</small></div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-box svc"><h6><i class="fas fa-brain"></i>OpenAI (opcional)</h6><small>NLU para preguntas libres</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box our"><h6><i class="fas fa-paper-plane"></i>Respuesta</h6><small>Texto / botones / catálogo</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box start"><h6><i class="fab fa-whatsapp"></i>Cliente</h6><small>Recibe mensaje</small></div>
+    </div>
+  </div>
+
+  <!-- STACK -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-layer-group" style="color:var(--orange);margin-right:10px"></i>Stack mínimo viable</h3><p>5 piezas que componen el bot. 4 ya están en el ecosistema GULA</p></div><span class="badge alt">5 servicios</span></div>
+  <div class="stack-grid">
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fab fa-whatsapp"></i></div><div><h4>Meta Cloud API</h4><div class="sc-tag">Único servicio nuevo</div></div></div><p>API oficial de Meta para WhatsApp Business. Free tier de 1.000 conversaciones de servicio al mes (iniciadas por el cliente). Conversaciones de marketing pagadas por país.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-bolt"></i></div><div><h4>Cloudflare Worker</h4><div class="sc-tag">Webhook · €5/mes</div></div></div><p>Recibe mensajes desde Meta y responde. Latencia &lt;50ms, escalable a millones de peticiones. Reemplaza un servidor Node.js dedicado.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-database"></i></div><div><h4>Supabase</h4><div class="sc-tag">Ya en uso · €0</div></div></div><p>Tablas para sesiones, pedidos por chat, catálogo dinámico, historial de cliente. Aprovecha el mismo Postgres que la web.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fab fa-stripe-s"></i></div><div><h4>Stripe Payment Links</h4><div class="sc-tag">Ya en uso</div></div></div><p>Genera enlace de pago único por pedido y lo envía por WhatsApp. El cliente paga sin salir del flujo. Webhook confirma el cobro.</p></div>
+    <div class="stack-card"><div class="sc-head"><div class="sc-icon"><i class="fas fa-brain"></i></div><div><h4>OpenAI (opcional)</h4><div class="sc-tag">~€5-15/mes</div></div></div><p>GPT-4o-mini para entender mensajes libres ("¿qué burgers picantes tenéis?"). Sin él, el bot funciona con menús de botones, igualmente eficaz.</p></div>
+  </div>
+
+  <!-- FUNCIONALIDADES -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-list-check" style="color:var(--orange);margin-right:10px"></i>Funcionalidades del bot</h3><p>Qué sabe hacer en producción. Cada item es una conversación tipo</p></div><span class="badge alt">10 flujos</span></div>
+  <div class="fcards">
+    <div class="fcard"><span class="step">FLUJO 01</span><h6><i class="fas fa-hand-wave"></i>Bienvenida + menú principal</h6><p>El cliente escribe "Hola". El bot responde con botones interactivos: Pedir comida · Reservar mesa · Ver tiendas · Hablar con humano · Club GULA.</p></div>
+    <div class="fcard"><span class="step">FLUJO 02</span><h6><i class="fas fa-burger"></i>Pedido por catálogo nativo</h6><p>WhatsApp permite mostrar un catálogo dentro del chat (productos con foto y precio). El cliente toca, añade al carrito y pulsa "Pedir".</p></div>
+    <div class="fcard"><span class="step">FLUJO 03</span><h6><i class="fas fa-location-dot"></i>Detección de tienda más cercana</h6><p>El cliente comparte ubicación. El bot calcula la tienda más cercana (Google Maps API) y le indica disponibilidad y tiempo de entrega.</p></div>
+    <div class="fcard"><span class="step">FLUJO 04</span><h6><i class="fab fa-stripe-s"></i>Pago en 1 enlace</h6><p>Genera Stripe Payment Link al confirmar carrito. Lo manda por chat. El cliente paga con Apple Pay/Google Pay/tarjeta. Webhook valida.</p></div>
+    <div class="fcard"><span class="step">FLUJO 05</span><h6><i class="fas fa-clock"></i>Estado del pedido en vivo</h6><p>Al confirmarse el pago, mensajes automáticos en cada hito: "preparando", "listo en 8 min", "tu rider va de camino".</p></div>
+    <div class="fcard"><span class="step">FLUJO 06</span><h6><i class="fas fa-cart-arrow-down"></i>Recuperación de carrito</h6><p>Si el cliente abandona a mitad del pedido, mensaje 30 minutos después: "tu Smash sigue esperándote, te aplicamos 10% si pides ahora".</p></div>
+    <div class="fcard"><span class="step">FLUJO 07</span><h6><i class="fas fa-star"></i>Encuesta post-pedido</h6><p>1h después de la entrega: "¿qué tal todo? califica del 1 al 5". Si es ≤3, escala a humano automáticamente.</p></div>
+    <div class="fcard"><span class="step">FLUJO 08</span><h6><i class="fas fa-bullhorn"></i>Broadcast de ofertas</h6><p>Lanzar campañas a clientes Club opted-in. "Smash 2x1 hoy de 18h-21h". Plantillas pre-aprobadas por Meta.</p></div>
+    <div class="fcard"><span class="step">FLUJO 09</span><h6><i class="fas fa-user-headset"></i>Escalado a humano</h6><p>Palabras clave ("hablar persona", "queja") o sentimiento negativo → traspaso al inbox de Crisp con todo el contexto del chat.</p></div>
+    <div class="fcard"><span class="step">FLUJO 10</span><h6><i class="fas fa-crown"></i>Alta y consulta de Club</h6><p>Si el teléfono ya es socio: muestra puntos y ofertas. Si no: "súmate al Club, recibirás un Smash gratis al primer pedido".</p></div>
+  </div>
+
+  <!-- CÓDIGO MUESTRA -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-code" style="color:var(--orange);margin-right:10px"></i>Cómo se ve el código</h3><p>Webhook básico recibiendo un mensaje y respondiendo. JavaScript en Cloudflare Worker</p></div><span class="badge alt">~30 líneas</span></div>
+  <div class="code-head"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>&nbsp;&nbsp;workers/whatsapp-bot.js</div>
+  <div class="code-block"><span class="com">// 1. Cloudflare Worker recibe el webhook de Meta cada vez que el cliente escribe</span>
+<span class="kw">export default</span> {
+  <span class="kw">async</span> <span class="fn">fetch</span>(req, env) {
+    <span class="kw">const</span> body = <span class="kw">await</span> req.<span class="fn">json</span>();
+    <span class="kw">const</span> msg  = body.entry?.[<span class="num">0</span>]?.changes?.[<span class="num">0</span>]?.value?.messages?.[<span class="num">0</span>];
+    <span class="kw">if</span> (!msg) <span class="kw">return new</span> <span class="fn">Response</span>(<span class="str">"ok"</span>);
+
+    <span class="kw">const</span> from = msg.from;            <span class="com">// teléfono del cliente</span>
+    <span class="kw">const</span> text = msg.text?.body?.<span class="fn">toLowerCase</span>() ?? <span class="str">""</span>;
+
+    <span class="com">// 2. Buscar la sesión activa del cliente en Supabase</span>
+    <span class="kw">const</span> session = <span class="kw">await</span> <span class="fn">getSession</span>(from, env);
+
+    <span class="com">// 3. Decidir respuesta según estado de la conversación</span>
+    <span class="kw">let</span> reply;
+    <span class="kw">if</span> (text.<span class="fn">includes</span>(<span class="str">"hola"</span>) || !session.state) {
+      reply = { type: <span class="str">"interactive"</span>, body: <span class="str">"¿Qué quieres hacer hoy?"</span>,
+                buttons: [<span class="str">"Pedir comida"</span>, <span class="str">"Mis puntos"</span>, <span class="str">"Hablar con humano"</span>] };
+    } <span class="kw">else if</span> (session.state === <span class="str">"menu"</span> &amp;&amp; text === <span class="str">"pedir comida"</span>) {
+      reply = { type: <span class="str">"catalog"</span>, catalog_id: env.CATALOG_ID };  <span class="com">// menú nativo</span>
+    } <span class="kw">else if</span> (session.cart?.length > <span class="num">0</span> &amp;&amp; text === <span class="str">"pagar"</span>) {
+      <span class="kw">const</span> link = <span class="kw">await</span> <span class="fn">createStripeLink</span>(session.cart, env);
+      reply = { type: <span class="str">"text"</span>, body: <span class="str">`Total €${session.total}. Paga aquí: ${link}`</span> };
+    }
+
+    <span class="com">// 4. Enviar respuesta al cliente vía Meta Cloud API</span>
+    <span class="kw">await</span> <span class="fn">sendWhatsApp</span>(from, reply, env);
+
+    <span class="kw">return new</span> <span class="fn">Response</span>(<span class="str">"ok"</span>);
+  }
+};</div>
+
+  <!-- FORTALEZAS Y DEBILIDADES -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-balance-scale" style="color:var(--orange);margin-right:10px"></i>Fortalezas y debilidades</h3><p>Análisis honesto de qué se gana y qué hay que asumir al construirlo en casa</p></div><span class="badge alt">SWOT</span></div>
+  <div class="swot-grid">
+    <div class="swot s">
+      <h4><i class="fas fa-circle-check"></i>Fortalezas</h4>
+      <ul>
+        <li><i class="fas fa-circle"></i><div><strong>Coste marginal cercano a cero.</strong> Las primeras 1.000 conversaciones de servicio cada mes son gratis para Meta. Solo pagas Cloudflare Worker (€5).</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Conversión brutal.</strong> WhatsApp tiene tasa de apertura del 98% (vs 22% del email). Mensajes leídos en &lt;3 minutos.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Datos 100% propios.</strong> Sesión, historial, preferencias del cliente en tu Supabase. Reutilizable para email marketing y CRM.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Integración nativa con stack.</strong> Mismo Stripe, mismo Postgres, mismo Cloudflare ya activos. No añade complejidad operativa.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Sin lock-in.</strong> Cambiar de proveedor (Twilio, 360dialog) o pasar a otra arquitectura es solo cambiar las credenciales del API.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Escalable globalmente.</strong> Cloudflare Worker corre en 300+ ciudades, latencia &lt;50ms. Aguanta picos de Black Friday sin tocar infraestructura.</div></li>
+      </ul>
+    </div>
+    <div class="swot w">
+      <h4><i class="fas fa-triangle-exclamation"></i>Debilidades</h4>
+      <ul>
+        <li><i class="fas fa-circle"></i><div><strong>Verificación Meta Business.</strong> Hay que pasar verificación de empresa con Meta (CIF, web pública, dueño legal). Tarda 1-3 semanas.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Plantillas pre-aprobadas.</strong> Para iniciar conversación con cliente, las plantillas las aprueba Meta (24-48h). Imposible improvisar campañas.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Marketing es de pago.</strong> Las conversaciones de marketing en España cuestan €0,06-0,08 por conversación. Hay que medir ROI.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Mantenimiento técnico.</strong> Es código propio: bugs, monitorización, actualizaciones. Necesita ~4-8h/mes de mantenimiento.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Riesgo de baneo.</strong> Si los clientes marcan mensajes como spam, Meta degrada la calidad y puede bloquear el número. Hay que cuidar el opt-in.</div></li>
+        <li><i class="fas fa-circle"></i><div><strong>Sin UI para staff.</strong> Las plataformas tipo Crisp dan inbox visual. Aquí, para soporte humano, hay que conectar con Crisp/Chatwoot vía API.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-tag" style="color:var(--orange);margin-right:10px"></i>Pricing real de herramientas WhatsApp</h3><p>Tarjeta resaltada = la opción recomendada para construirlo en casa</p></div><span class="badge alt">8 servicios</span></div>
+  <div class="pp-list">
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(37,211,102,.15);color:#25D366"><i class="fab fa-whatsapp"></i></div>
+        <div class="pp-titles"><div class="pp-name">Meta WhatsApp Cloud API <span class="pp-cat">Recomendado · oficial</span></div><div class="pp-desc">API directa de Meta. La más barata y completa. Requiere conocimiento técnico (webhook, plantillas). Es lo que hay debajo de cualquier otra plataforma.</div></div>
+        <div class="pp-status"><span class="badge alt">Recomendado</span><div class="pp-link">developers.facebook.com/docs/whatsapp/cloud-api</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier current"><div class="pp-flag">Stack GULA</div><h5>Free tier</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>1.000 conv. servicio/mes</li><li><i class="fas fa-circle"></i>Iniciadas por cliente</li><li><i class="fas fa-circle"></i>Sin cuota mensual</li><li><i class="fas fa-circle"></i>Hasta 1.000 mensajes/seg</li></ul></div>
+        <div class="pp-tier"><h5>Conv. servicio extra</h5><div class="pp-price">€0,03<small>·España</small></div><ul><li><i class="fas fa-circle"></i>Tras 1.000 gratis</li><li><i class="fas fa-circle"></i>Ventana 24h</li><li><i class="fas fa-circle"></i>Soporte y atención</li></ul></div>
+        <div class="pp-tier"><h5>Conv. marketing</h5><div class="pp-price">€0,06-0,08<small>·España</small></div><ul><li><i class="fas fa-circle"></i>Iniciadas por GULA</li><li><i class="fas fa-circle"></i>Plantillas pre-aprobadas</li><li><i class="fas fa-circle"></i>Requiere opt-in</li></ul></div>
+        <div class="pp-tier"><h5>Conv. utility</h5><div class="pp-price">€0,02<small>·España</small></div><ul><li><i class="fas fa-circle"></i>Confirmaciones, OTPs</li><li><i class="fas fa-circle"></i>Estado pedido</li><li><i class="fas fa-circle"></i>Las más baratas</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(242,69,69,.15);color:#F24545"><i class="fas fa-t"></i></div>
+        <div class="pp-titles"><div class="pp-name">Twilio WhatsApp <span class="pp-cat">BSP · más conocido</span></div><div class="pp-desc">Veterano del CPaaS. Capa encima del API de Meta. Cobra markup pero ofrece SDKs muy maduros y onboarding fácil.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa BSP</span><div class="pp-link">twilio.com/whatsapp/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Sandbox</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Gratis para testear</li><li><i class="fas fa-circle"></i>Limitado a contactos opt-in</li></ul></div>
+        <div class="pp-tier"><h5>Mensaje servicio</h5><div class="pp-price">€0,005<small>+ Meta</small></div><ul><li><i class="fas fa-circle"></i>Markup Twilio sobre Meta</li><li><i class="fas fa-circle"></i>+ tarifa Meta por conv.</li></ul></div>
+        <div class="pp-tier"><h5>Mensaje marketing</h5><div class="pp-price">€0,005<small>+ Meta</small></div><ul><li><i class="fas fa-circle"></i>Mismo markup</li><li><i class="fas fa-circle"></i>Coste total ~€0,07-0,09</li></ul></div>
+        <div class="pp-tier"><h5>Coste real</h5><div class="pp-price">~€20-30%<small>extra</small></div><ul><li><i class="fas fa-circle"></i>Sobre tarifa Meta directa</li><li><i class="fas fa-circle"></i>A cambio: SDKs + soporte</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(64,114,255,.15);color:#4072FF"><i class="fas fa-3"></i></div>
+        <div class="pp-titles"><div class="pp-name">360dialog <span class="pp-cat">BSP alemán · sin markup</span></div><div class="pp-desc">BSP europeo (Berlín). El único que cobra cuota fija mensual sin markup por mensaje. Mejor relación calidad/precio para volumen alto.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa europea</span><div class="pp-link">360dialog.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Basic</h5><div class="pp-price">€49<small>/mes·número</small></div><ul><li><i class="fas fa-circle"></i>Acceso al API</li><li><i class="fas fa-circle"></i>Sin markup por mensaje</li><li><i class="fas fa-circle"></i>Solo pagas Meta directo</li></ul></div>
+        <div class="pp-tier"><h5>Cobertura SLA</h5><div class="pp-price">+€99<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Soporte prioritario</li><li><i class="fas fa-circle"></i>Account manager</li></ul></div>
+        <div class="pp-tier"><h5>Hosting EU</h5><div class="pp-price">incluido</div><ul><li><i class="fas fa-circle"></i>Servidores Frankfurt</li><li><i class="fas fa-circle"></i>RGPD compliant</li><li><i class="fas fa-circle"></i>DPA firmable</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(255,71,124,.15);color:#FF477C"><i class="fas fa-b"></i></div>
+        <div class="pp-titles"><div class="pp-name">Bird (MessageBird) <span class="pp-cat">Omnichannel · holandés</span></div><div class="pp-desc">CPaaS holandés. Más completo que Twilio en omnichannel (WhatsApp + SMS + email). Buena DX, plataforma visual integrada.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">bird.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Pay-as-you-go</h5><div class="pp-price">€0,005<small>/mensaje</small></div><ul><li><i class="fas fa-circle"></i>Markup sobre Meta</li><li><i class="fas fa-circle"></i>Sin cuota fija</li></ul></div>
+        <div class="pp-tier"><h5>Plus</h5><div class="pp-price">€45<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Inbox compartido</li><li><i class="fas fa-circle"></i>Flow Builder visual</li><li><i class="fas fa-circle"></i>Reporting avanzado</li></ul></div>
+        <div class="pp-tier"><h5>Premium</h5><div class="pp-price">€450<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>SLA 99,99%</li><li><i class="fas fa-circle"></i>Custom domain</li><li><i class="fas fa-circle"></i>Soporte dedicado</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(56,176,0,.15);color:#38B000"><i class="fas fa-w"></i></div>
+        <div class="pp-titles"><div class="pp-name">WATI <span class="pp-cat">No-code · más popular</span></div><div class="pp-desc">Plataforma no-code muy popular en PYMES. Inbox visual, chatbot builder drag-and-drop. Más caro pero permite que el equipo de marketing opere sin desarrolladores.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa no-code</span><div class="pp-link">wati.io/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Growth</h5><div class="pp-price">€39<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>5 usuarios</li><li><i class="fas fa-circle"></i>1.000 contactos</li><li><i class="fas fa-circle"></i>Chatbot básico</li></ul></div>
+        <div class="pp-tier"><h5>Pro</h5><div class="pp-price">€79<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10 usuarios</li><li><i class="fas fa-circle"></i>5.000 contactos</li><li><i class="fas fa-circle"></i>Workflows · API · webhooks</li></ul></div>
+        <div class="pp-tier"><h5>Business</h5><div class="pp-price">€229<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Usuarios ilimitados</li><li><i class="fas fa-circle"></i>Contactos ilimitados</li><li><i class="fas fa-circle"></i>SSO · audit logs</li></ul></div>
+        <div class="pp-tier"><h5>+ Meta</h5><div class="pp-price">+€0,03-0,08<small>/conv</small></div><ul><li><i class="fas fa-circle"></i>Conversaciones aparte</li><li><i class="fas fa-circle"></i>Mismas tarifas Meta</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(11,148,68,.15);color:#0B9444"><i class="fas fa-r"></i></div>
+        <div class="pp-titles"><div class="pp-name">Respond.io <span class="pp-cat">Multi-canal · CRM</span></div><div class="pp-desc">Plataforma omnichannel (WhatsApp + IG + Messenger + SMS). Más enfocado en ventas/CRM que WATI. Bueno para equipos comerciales.</div></div>
+        <div class="pp-status"><span class="badge alt">Alternativa</span><div class="pp-link">respond.io/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Free</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>2 usuarios</li><li><i class="fas fa-circle"></i>100 contactos</li><li><i class="fas fa-circle"></i>Inbox limitado</li></ul></div>
+        <div class="pp-tier"><h5>Team</h5><div class="pp-price">€89<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10 usuarios</li><li><i class="fas fa-circle"></i>1.000 contactos</li><li><i class="fas fa-circle"></i>Workflows</li></ul></div>
+        <div class="pp-tier"><h5>Business</h5><div class="pp-price">€259<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>25 usuarios</li><li><i class="fas fa-circle"></i>10.000 contactos</li><li><i class="fas fa-circle"></i>API · custom roles</li></ul></div>
+        <div class="pp-tier"><h5>Enterprise</h5><div class="pp-price">Custom</div><ul><li><i class="fas fa-circle"></i>Ilimitado</li><li><i class="fas fa-circle"></i>SLA · soporte dedicado</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(31,255,141,.12);color:#1FFF8D"><i class="fas fa-c"></i></div>
+        <div class="pp-titles"><div class="pp-name">Chatwoot <span class="pp-cat">Open source · self-host</span></div><div class="pp-desc">Helpdesk open source autohospedable. Conecta a Meta Cloud API directamente. Permite tener inbox visual sin pagar plataforma SaaS.</div></div>
+        <div class="pp-status"><span class="badge alt">Open source</span><div class="pp-link">chatwoot.com/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Self-hosted</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Open source MIT</li><li><i class="fas fa-circle"></i>VPS desde €5/mes</li><li><i class="fas fa-circle"></i>Sin límites de usuarios</li></ul></div>
+        <div class="pp-tier"><h5>Cloud Startups</h5><div class="pp-price">€19<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>Hasta 5 usuarios</li><li><i class="fas fa-circle"></i>50K conversaciones</li></ul></div>
+        <div class="pp-tier"><h5>Cloud Business</h5><div class="pp-price">€39<small>/usr·mes</small></div><ul><li><i class="fas fa-circle"></i>Usuarios ilimitados</li><li><i class="fas fa-circle"></i>Audit · SLA</li></ul></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <div class="pp-head">
+        <div class="pp-logo" style="background:rgba(234,84,85,.15);color:#EA5455"><i class="fas fa-n"></i></div>
+        <div class="pp-titles"><div class="pp-name">n8n <span class="pp-cat">Orquestador · open source</span></div><div class="pp-desc">Alternativa open source a Zapier. Conecta WhatsApp Cloud API con Stripe, Supabase, OpenAI sin escribir mucho código. Útil para flujos rápidos.</div></div>
+        <div class="pp-status"><span class="badge alt">Open source</span><div class="pp-link">n8n.io/pricing</div></div>
+      </div>
+      <div class="pp-tiers">
+        <div class="pp-tier"><h5>Self-hosted</h5><div class="pp-price free">€0<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>Sustainable license</li><li><i class="fas fa-circle"></i>Workflows ilimitados</li><li><i class="fas fa-circle"></i>VPS desde €5/mes</li></ul></div>
+        <div class="pp-tier"><h5>Starter Cloud</h5><div class="pp-price">€20<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>2.500 ejecuciones/mes</li><li><i class="fas fa-circle"></i>5 workflows activos</li></ul></div>
+        <div class="pp-tier"><h5>Pro Cloud</h5><div class="pp-price">€50<small>/mes</small></div><ul><li><i class="fas fa-circle"></i>10.000 ejecuciones</li><li><i class="fas fa-circle"></i>15 workflows</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-route" style="color:var(--orange);margin-right:10px"></i>Roadmap MVP a producción</h3><p>4 fases para llegar a operación. ~6 semanas en total con dedicación parcial</p></div><span class="badge alt">~6 semanas</span></div>
+  <div class="timeline">
+    <div class="tl-step"><span class="tl-num">F1</span><h5><i class="fas fa-key" style="color:var(--orange);margin-right:6px"></i>Setup · Semana 1-2</h5><p>Verificación Meta Business (CIF, dueño, web). Alta del número de WhatsApp Business. Configuración de webhook en Cloudflare Worker. Primera plantilla aprobada.</p></div>
+    <div class="tl-step"><span class="tl-num">F2</span><h5><i class="fas fa-vial" style="color:var(--orange);margin-right:6px"></i>MVP · Semana 3</h5><p>Bienvenida + menú de botones + flujo de pedido sin pago real. Pruebas con 5-10 clientes piloto del Club. Iteración rápida en copy y orden de mensajes.</p></div>
+    <div class="tl-step"><span class="tl-num">F3</span><h5><i class="fas fa-credit-card" style="color:var(--orange);margin-right:6px"></i>Pagos + estado · Semana 4-5</h5><p>Integración Stripe Payment Links. Webhook de confirmación. Mensajes de estado de pedido enganchados al POS. Dashboard interno de pedidos por WhatsApp en Supabase.</p></div>
+    <div class="tl-step"><span class="tl-num">F4</span><h5><i class="fas fa-bullhorn" style="color:var(--orange);margin-right:6px"></i>Marketing + escalado · Semana 6+</h5><p>Plantillas de marketing aprobadas. Broadcast a Club opted-in. Encuesta post-pedido. Recuperación de carrito automática. Conexión con Crisp para soporte humano.</p></div>
+  </div>
+
+  <!-- COSTES POR VOLUMEN -->
+  <div class="pp-section-head"><div><h3><i class="fas fa-coins" style="color:var(--orange);margin-right:10px"></i>Coste real según volumen</h3><p>Lo que cuesta operar el bot al mes según tráfico de conversaciones</p></div><span class="badge alt">4 escenarios</span></div>
+  <div class="scen-strip">
+    <div class="scen"><h4>Piloto · 100 conv</h4><div class="total">€5<small>/mes</small></div><p class="users">Solo Club beta</p><ul><li>Meta API <strong>€0</strong></li><li>Worker <strong>€5</strong></li><li>Supabase <strong>€0</strong></li><li>Stripe <strong>variable</strong></li></ul></div>
+    <div class="scen featured"><h4>Operación · 1K conv</h4><div class="total">€25<small>/mes</small></div><p class="users">~30 pedidos/día por chat</p><ul><li>Meta API <strong>€0</strong></li><li>Worker <strong>€5</strong></li><li>OpenAI <strong>€10</strong></li><li>Marketing <strong>€10</strong></li></ul></div>
+    <div class="scen"><h4>Escala · 10K conv</h4><div class="total">€340<small>/mes</small></div><p class="users">Marca consolidada</p><ul><li>Meta servicio <strong>€270</strong></li><li>Worker <strong>€5</strong></li><li>OpenAI <strong>€25</strong></li><li>Marketing <strong>€40</strong></li></ul></div>
+    <div class="scen"><h4>Premium · 50K conv</h4><div class="total">€1.650<small>/mes</small></div><p class="users">Operación nacional</p><ul><li>Meta servicio <strong>€1.470</strong></li><li>Worker <strong>€20</strong></li><li>OpenAI <strong>€80</strong></li><li>Marketing <strong>€80</strong></li></ul></div>
+  </div>
+
+  <div class="callout good">
+    <div class="callout-title"><i class="fas fa-flag-checkered"></i> Cuándo arrancarlo</div>
+    <p><strong>Recomendación:</strong> arrancar el piloto cuando el Club GULA tenga 200+ socios. Antes no compensa el setup. <strong>Punto de inflexión:</strong> a los 1.000 socios, el bot empieza a generar más pedidos que las apps de delivery (Uber/Glovo) por menor fricción y CAC. <strong>ROI:</strong> cada €1 invertido en el bot devuelve €8-12 en pedidos directos al evitar comisiones de agregadores (25-30%).</p>
+  </div>
+</section>
+</main>
+<script>
+function syncTabs(){
+  var hash=(location.hash||'#overview').replace('#','');
+  var tabs=document.querySelectorAll('.tab');
+  for(var i=0;i<tabs.length;i++){
+    var href=tabs[i].getAttribute('href')||'';
+    tabs[i].className=href==='#'+hash?'tab active':'tab';
+  }
+}
+syncTabs();
+window.addEventListener('hashchange',function(){syncTabs();window.scrollTo(0,0);});
+</script>
+</body>
+</html>

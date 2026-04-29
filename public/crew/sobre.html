@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Sobre Nosotros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gula-orange: #FF5800;
+            --gula-orange-light: #FF7A29;
+            --bg-dark: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid rgba(255, 88, 0, 0.2); padding: 0 28px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 72px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
+        nav::before { content: 'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Aveline', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255, 88, 0, 0.08); white-space: nowrap; letter-spacing: 20px; animation: slideHorizontal 20s linear infinite; z-index: -1; pointer-events: none; }
+        @keyframes slideHorizontal { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
+        @font-face { font-family: 'Aveline'; src: url('AvelineRegular.otf') format('opentype'); font-display: swap; }
+        @font-face { font-family: 'Akira Expanded'; src: url('Akira Expanded Demo.otf') format('opentype'); font-display: swap; }
+        .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.55rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
+        .nav-center { display: flex; gap: 24px; align-items: center; list-style: none; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover::after { width: 100%; }
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .search-bar { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(10px); border: 1.5px solid rgba(255, 88, 0, 0.2); color: var(--text-primary); padding: 8px 13px; border-radius: 50px; width: 170px; font-size: 0.82rem; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 0 20px rgba(255, 88, 0, 0.05); }
+        .search-bar::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .search-bar:focus { outline: none; border-color: var(--gula-orange); box-shadow: 0 0 20px rgba(255, 88, 0, 0.3), inset 0 0 20px rgba(255, 88, 0, 0.08); background: rgba(17, 17, 17, 0.8); }
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.3rem; color: var(--gula-orange); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .cart-icon:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(255, 88, 0, 0.5)); }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: var(--gula-orange); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; }
+        .nav-btn-outline { background: transparent; color: #FF5800; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; border: 1.5px solid #FF5800; white-space: nowrap; }
+        .nav-btn-outline:hover { background: #FF5800; color: #000; }
+        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; white-space: nowrap; }
+        .nav-btn-primary:hover { transform: scale(1.05); }
+
+        main {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--gula-orange), var(--gula-orange-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .page-sub {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Section heading */
+        .sect-heading {
+            font-family: 'Akira Expanded', sans-serif;
+            color: var(--gula-orange);
+            text-align: center;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin: 3rem 0 1.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Vision / Mission */
+        .vm-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, rgba(255,88,0,0.08), rgba(0,0,0,0.4));
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,88,0,0.15);
+        }
+        .vm-block h2 {
+            font-family: 'Akira Expanded', sans-serif;
+            color: var(--gula-orange);
+            font-size: 1.05rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+        }
+        .vm-block p {
+            color: #fff;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Founder / Team cards */
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .person-card {
+            background: linear-gradient(135deg, #111, #1a1a1a);
+            border-radius: 18px;
+            padding: 1.8rem 1.4rem;
+            border: 1px solid rgba(255,88,0,0.2);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .person-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gula-orange);
+            box-shadow: 0 20px 40px rgba(255,88,0,0.2);
+        }
+        .person-card.founder { border-color: rgba(255,88,0,0.4); }
+        .person-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #333, #555);
+            color: #fff;
+        }
+        .person-card.founder .person-avatar {
+            background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
+            color: #000;
+            width: 100px;
+            height: 100px;
+            font-size: 1.7rem;
+        }
+        .person-name {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.95rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
+        }
+        .person-card.founder .person-name { color: var(--gula-orange); }
+        .person-role {
+            color: var(--gula-orange);
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        .person-card.founder .person-role { color: var(--text-secondary); }
+        .person-bio {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        /* CTA Banner */
+        .cta-banner {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, rgba(255,88,0,0.1), transparent);
+            border-radius: 20px;
+            border: 1px solid rgba(255,88,0,0.25);
+        }
+        .cta-banner h3 {
+            font-family: 'Akira Expanded', sans-serif;
+            color: #fff;
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            margin-bottom: 1.8rem;
+            font-size: 0.9rem;
+        }
+        .cta-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-pill {
+            display: inline-block;
+            font-family: 'Akira Expanded', sans-serif;
+            font-weight: 900;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0.85rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid transparent;
+        }
+        .btn-pill.primary {
+            background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
+            color: #000;
+            box-shadow: 0 8px 25px rgba(255,88,0,0.3);
+        }
+        .btn-pill.primary:hover { transform: translateY(-3px); }
+        .btn-pill.outline {
+            background: transparent;
+            color: var(--gula-orange);
+            border-color: var(--gula-orange);
+        }
+        .btn-pill.outline:hover { background: var(--gula-orange); color: #000; transform: translateY(-3px); }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === BLOG EDITORIAL STYLE === */
+        @keyframes auroraShift {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(40px,-20px) scale(1.1); }
+            66% { transform: translate(-30px,30px) scale(0.95); }
+        }
+        .aurora-orb {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; pointer-events: none; z-index: 0;
+        }
+        .aurora-orb.o1 { width: 380px; height: 380px; background: #FF5800; top: -120px; left: -100px; animation: auroraShift 20s ease-in-out infinite; }
+        .aurora-orb.o2 { width: 300px; height: 300px; background: #FF7A29; top: 30%; right: -80px; animation: auroraShift 24s ease-in-out infinite reverse; }
+
+        .blog-hero {
+            position: relative;
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        .blog-hero .eyebrow {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0.85;
+        }
+        .blog-hero h1 {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: 1px;
+            color: #fff;
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            background-clip: initial;
+            margin-bottom: 1.2rem;
+        }
+        .blog-hero h1 .or { color: var(--gula-orange); text-shadow: 0 0 30px rgba(255,88,0,0.5); }
+        .blog-hero .lede {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        .meta-row {
+            display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+            font-size: 0.78rem; color: #777; letter-spacing: 1px; text-transform: uppercase;
+            font-family: 'Akira Expanded', sans-serif;
+        }
+        .meta-row span i { color: var(--gula-orange); margin-right: 0.4rem; }
+
+        .article {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        .article h2 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.6rem;
+            color: #fff;
+            margin: 3rem 0 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .article h2 .or { color: var(--gula-orange); }
+        .article p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #d0d0d0;
+            margin-bottom: 1.2rem;
+        }
+        .article p strong { color: #fff; }
+
+        .pull-quote {
+            border-left: 3px solid var(--gula-orange);
+            padding: 1.2rem 1.5rem;
+            margin: 2.5rem 0;
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.4rem;
+            line-height: 1.4;
+            color: var(--gula-orange);
+            background: linear-gradient(90deg, rgba(255,88,0,0.06), transparent);
+            border-radius: 0 12px 12px 0;
+        }
+        .pull-quote::before {
+            content: '“';
+            font-size: 3rem;
+            line-height: 0;
+            display: inline-block;
+            margin-right: 0.4rem;
+            vertical-align: -0.4rem;
+            opacity: 0.7;
+        }
+
+        .image-block {
+            margin: 2.5rem -1.5rem;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+            min-height: 280px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,88,0,0.2);
+        }
+        .image-block .ib-emoji {
+            font-size: 6rem;
+            opacity: 0.3;
+            filter: drop-shadow(0 0 30px var(--gula-orange));
+        }
+        .image-block .ib-caption {
+            position: absolute; bottom: 1rem; left: 1.5rem;
+            font-size: 0.8rem; color: #888;
+            font-style: italic;
+        }
+
+        /* People grid — sleek */
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0 3rem;
+        }
+        .person-card {
+            background: linear-gradient(135deg, rgba(20,20,20,0.7), rgba(10,10,10,0.7));
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem 1.2rem;
+            border: 1px solid rgba(255,88,0,0.15);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .person-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gula-orange);
+            box-shadow: 0 20px 40px rgba(255,88,0,0.18);
+        }
+        .person-card.founder { border-color: rgba(255,88,0,0.4); }
+        .person-card.founder::before {
+            content: 'FOUNDER';
+            position: absolute; top: 0.6rem; right: 0.8rem;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.55rem; letter-spacing: 2px;
+            color: var(--gula-orange);
+            background: rgba(255,88,0,0.12);
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+        }
+        .person-avatar {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Akira Expanded', sans-serif; font-size: 1rem;
+            background: linear-gradient(135deg, #333, #555); color: #fff;
+            margin-bottom: 1rem;
+        }
+        .person-card.founder .person-avatar {
+            background: linear-gradient(135deg, var(--gula-orange), #FF7A29); color: #000;
+        }
+        .person-name {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.85rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
+        }
+        .person-role {
+            color: var(--gula-orange);
+            font-size: 0.72rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .person-bio {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            line-height: 1.55;
+        }
+
+        /* Inline CTA at end */
+        .end-cta {
+            margin: 4rem 0 2rem;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, rgba(255,88,0,0.12), rgba(255,88,0,0.02));
+            border-radius: 18px;
+            border: 1px solid rgba(255,88,0,0.25);
+            text-align: center;
+        }
+        .end-cta h3 {
+            font-family: 'Aveline', sans-serif;
+            color: #fff;
+            margin-bottom: 0.6rem;
+            font-size: 1.5rem;
+        }
+        .end-cta p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        @media (max-width: 700px) {
+            .image-block { margin: 2rem -0.5rem; }
+        }
+
+        .story-section {
+            margin-bottom: 4rem;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .story-text h2 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1) 0%, rgba(255, 88, 0, 0.05) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--gula-orange);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: rgba(255, 88, 0, 0.08);
+            border: 1.5px solid rgba(255, 88, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gula-orange);
+            box-shadow: 0 20px 40px rgba(255, 88, 0, 0.2);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--gula-orange);
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .value-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1.5px solid rgba(255, 88, 0, 0.3);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .story-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .story-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+        <ul class="nav-center">
+            <li><a href="gulatemplate.html">Inicio</a></li>
+            <li><a href="sobre.html" style="color: var(--gula-orange);">Nosotros</a></li>
+            <li><a href="marketplace.html">Carta</a></li>
+            <li><a href="CLUBGULA.html">Club GULA</a></li>
+            <li><a href="franquicias.html">Franquicia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <div class="nav-right">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+            <div class="cart-icon" onclick="openCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
+            <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- BLOG HERO -->
+        <div class="blog-hero">
+            <div class="aurora-orb o1"></div>
+            <div class="aurora-orb o2"></div>
+            <div style="position: relative; z-index: 1;">
+                <div class="eyebrow reveal">Sobre Nosotros</div>
+                <h1 class="reveal">No vendemos hamburguesas.<br>Construimos un <span class="or">sistema</span>.</h1>
+                <p class="lede reveal">La historia detrás de GULA: una cocina oscura, una obsesión con el producto, y una comunidad que decide.</p>
+                <div class="meta-row reveal">
+                    <span><i class="fas fa-calendar"></i> Fundada en 2023</span>
+                    <span><i class="fas fa-store"></i> 4 tiendas</span>
+                    <span><i class="fas fa-users"></i> +X CREW</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARTICLE BODY -->
+        <article class="article">
+            <h2 class="reveal">El <span class="or">origen</span></h2>
+            <p class="reveal">Empezamos en una cocina oscura, sin foco, sin ruido. Solo nosotros, una plancha y la obsesión por hacer la mejor smash burger de España. Sin atajos, sin marketing, sin promesas.</p>
+            <p class="reveal">Ahí estábamos cuando los primeros pedidos empezaron a repetirse. Y se corrió la voz. Lo que nació como un experimento se convirtió en una marca. Lo que iba a ser una tienda, se convirtió en cuatro.</p>
+
+            <div class="image-block reveal">
+                <div class="ib-emoji">🍔</div>
+                <div class="ib-caption">El primer prototipo. Murcia, 2023.</div>
+            </div>
+
+            <div class="pull-quote reveal">No queremos ser la cadena más grande. Queremos ser la más deseada.</div>
+
+            <h2 class="reveal"><span class="or">Visión</span> y misión</h2>
+            <p class="reveal"><strong>Visión:</strong> convertirnos en el referente global ofreciendo comida rápida de alta calidad, adaptándonos a ti.</p>
+            <p class="reveal"><strong>Misión:</strong> crear la mejor experiencia gastronómica posible, estimulando tu humanidad.</p>
+
+            <h2 class="reveal">Por qué lo llamamos <span class="or">sistema</span></h2>
+            <p class="reveal">Porque GULA va más allá de la comida. Es un ecosistema donde nuestros clientes —la <strong>CREW</strong>— suman puntos, suben de nivel, desbloquean experiencias y, sobre todo, deciden lo que GULA será mañana.</p>
+            <p class="reveal">Comer en GULA no es un acto puntual. Es entrar en un sistema que premia la recurrencia, la participación y el afán de ser parte de algo más grande.</p>
+
+            <div class="pull-quote reveal">Hoy somos una cadena en crecimiento, pero la obsesión es la misma.</div>
+
+            <h2 class="reveal">Los <span class="or">fundadores</span></h2>
+            <p class="reveal">Dos hermanos, dos perfiles complementarios. Uno construye la marca, el otro construye las operaciones. Y juntos están construyendo lo que será una de las redes de smash burgers más relevantes de España.</p>
+            <div class="people-grid reveal">
+                <div class="person-card founder">
+                    <div class="person-avatar">GP</div>
+                    <div class="person-name">GONZALO PAEZ</div>
+                    <div class="person-role">CEO · Brand & Operations</div>
+                    <p class="person-bio">+10 años escalando proyectos en publicidad digital, marcas de consumo y restauración. Lidera producto, marca y operaciones.</p>
+                </div>
+                <div class="person-card founder">
+                    <div class="person-avatar">AP</div>
+                    <div class="person-name">ANTONIO PAEZ</div>
+                    <div class="person-role">COO · Operations & KPIs</div>
+                    <p class="person-bio">Hostelería internacional, grandes grupos hoteleros, ocio y restauración propia. Diseña el modelo operativo y los KPIs.</p>
+                </div>
+            </div>
+
+            <h2 class="reveal">El <span class="or">equipo</span> que sostiene todo</h2>
+            <p class="reveal">Detrás de cada burger hay un equipo de profesionales que cubre lo que hace falta para que el sistema funcione: finanzas, marketing, logística, tecnología.</p>
+            <div class="people-grid reveal">
+                <div class="person-card">
+                    <div class="person-avatar">MB</div>
+                    <div class="person-name">MANUEL ASIS</div>
+                    <div class="person-role">Inversión & Finance</div>
+                    <p class="person-bio">Master en Ingeniería Industrial. Private equity de infraestructuras y project finance.</p>
+                </div>
+                <div class="person-card">
+                    <div class="person-avatar">AM</div>
+                    <div class="person-name">ALEXIS MURILLO</div>
+                    <div class="person-role">Marketing & Growth</div>
+                    <p class="person-bio">BBA. Marketing y crecimiento en restauración multi-unidad con datos e IA.</p>
+                </div>
+                <div class="person-card">
+                    <div class="person-avatar">JP</div>
+                    <div class="person-name">JORGE PRATES</div>
+                    <div class="person-role">Supply Chain & Logistics</div>
+                    <p class="person-bio">+20 años en supply chain y transformación digital en Europa.</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="end-cta reveal">
+                <h3>¿Quieres formar parte?</h3>
+                <p>Únete a la CREW o abre tu propia GULA.</p>
+                <div class="cta-row">
+                    <a href="CLUBGULA.html#registro" class="btn-pill primary">Acceder al Club</a>
+                    <a href="franquicias.html" class="btn-pill outline">Hazte Franquiciado</a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        // Reveal on scroll
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    obs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
+
+    <script src="footer.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+// Google Apps Script for Gula Crew Registration - VERSIÓN SIMPLIFICADA
+const SPREADSHEET_ID = '1jpeHZVu43-9OqsAaj8f5Ri3rwb5WV0Jwf8q61RNT9Eg';
+const SHEET_NAME = 'FormResponses';
+
+function doPost(e) {
+  try {
+    const body = e.postData && e.postData.contents ? JSON.parse(e.postData.contents) : [];
+    
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    let sheet = ss.getSheetByName(SHEET_NAME);
+    
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
+      sheet.appendRow(['Nombre','Apellido','Email','Codigo Postal','Telefono','Puntaje','Instagram Follow','MemberID','Timestamp']);
+    }
+
+    // Verificar si el email ya existe
+    const rows = sheet.getDataRange().getValues();
+    const header = rows[0].map(c => c.toString().toLowerCase().trim());
+    const emailIdx = header.indexOf('email');
+    const email = (body[2] || '').toString().trim().toLowerCase();
+    
+    for (let i = 1; i < rows.length; i++) {
+      const rowEmail = (rows[i][emailIdx] || '').toString().trim().toLowerCase();
+      if (rowEmail === email) {
+        return ContentService.createTextOutput(JSON.stringify({
+          status: 'email_exists',
+          message: 'Email ya registrado',
+          id: rows[i][7] || ''
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+
+    // Guardar nuevo usuario
+    const newRow = [
+      body[0] || '',  // Nombre
+      body[1] || '',  // Apellido
+      body[2] || '',  // Email
+      body[3] || '',  // Codigo Postal
+      body[4] || '',  // Telefono
+      body[5] || 0,   // Puntaje
+      body[6] || 'NO', // Instagram Follow
+      body[8] || '',  // MemberID
+      body[7] || ''   // Timestamp
+    ];
+    
+    sheet.appendRow(newRow);
+    
+    // Enviar email de bienvenida
+    const nombre = body[0] || '';
+    const memberId = body[8] || '';
+    const emailRecipient = body[2] || '';
+    
+    if (emailRecipient && nombre) {
+      try {
+        sendWelcomeEmail(emailRecipient, nombre, memberId);
+      } catch (emailErr) {
+        Logger.log('Email error: ' + emailErr);
+      }
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({
+      status: 'ok',
+      message: 'Usuario registrado exitosamente',
+      id: memberId
+    })).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: 'error',
+      message: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  try {
+    const action = (e.parameter && e.parameter.action) || 'query';
+    
+    switch (action) {
+      case 'leaderboard':
+        return getLeaderboard();
+      case 'missions':
+        return getMissions();
+      case 'events':
+        return getEvents();
+      case 'testEmail':
+        return testEmailDiagnostics(e);
+      case 'clearData':
+        const password = e.parameter.password || '';
+        if (password === 'GULA_CLEAR_2026') {
+          return clearAllData();
+        } else {
+          return createJsonOutput({status:'error', message:'Contraseña incorrecta'});
+        }
+      case 'query':
+      default:
+        return queryMembers(e);
+    }
+  } catch (err) {
+    return createJsonOutput({status:'error', message: err.toString()});
+  }
+}
+
+function sendWelcomeEmail(recipientEmail, nombre, memberId) {
+  const subject = '¡Bienvenido a GULA Rewards! Acceso VIP + 20% Descuento';
+  
+  const htmlBody = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenido a GULA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #0a0a0a; color: #ffffff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .container { max-width: 600px; margin: 0 auto; background: #000000; border-left: 4px solid #FF5800; border-right: 4px solid #FF5800; }
+    .header { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); padding: 40px 24px; text-align: center; }
+    .logo { font-size: 42px; font-weight: 900; letter-spacing: 3px; color: #FF5800; }
+    .content { padding: 32px 24px; }
+    .code-section { background: #0f0f0f; border: 1px solid #FF5800; border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 28px; }
+    .code-value { font-size: 32px; font-weight: 900; color: #FF5800; letter-spacing: 3px; font-family: 'Courier New', monospace; }
+    .footer { background: #0a0a0a; border-top: 1px solid rgba(255, 88, 0, 0.15); color: #666; font-size: 11px; text-align: center; padding: 20px 24px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">GULA</div>
+      <div style="color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">Rewards Club</div>
+    </div>
+
+    <div class="content">
+      <h2 style="color: #FF5800; margin-bottom: 12px;">¡Bienvenido al Crew, ${nombre}!</h2>
+      <p style="color: #d0d0d0; margin-bottom: 28px;">Tu membresía premium está activada.</p>
+
+      <div class="code-section">
+        <div style="font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Tu Código de Miembro</div>
+        <div class="code-value">${memberId}</div>
+        <div style="font-size: 12px; color: #666; margin-top: 10px;">Guárdalo • Lo necesitarás para acceder</div>
+      </div>
+
+      <div style="background: rgba(255, 88, 0, 0.08); border-left: 3px solid #FF5800; padding: 20px; border-radius: 8px; margin-bottom: 28px;">
+        <div style="color: #FF5800; font-size: 14px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase;">Tus Beneficios</div>
+        <div style="color: #ccc; font-size: 13px; margin-bottom: 8px;">✓ 20% Descuento en tu próximo pedido</div>
+        <div style="color: #ccc; font-size: 13px; margin-bottom: 8px;">✓ Acceso a grupo WhatsApp exclusivo</div>
+        <div style="color: #ccc; font-size: 13px;">✓ Puntos para canjear en futuras compras</div>
+      </div>
+
+      <div style="text-align: center;">
+        <a href="https://gulacorp.github.io/Gula-Club/" style="display: inline-block; background: linear-gradient(135deg, #FF5800 0%, #FF7020 100%); color: #000; padding: 16px 48px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px;">Ir al Dashboard</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2026 GULA. Rewards Club</p>
+    </div>
+  </div>
+</body>
+</html>`;
+  
+  try {
+    MailApp.sendEmail(recipientEmail, subject, '', {
+      htmlBody: htmlBody,
+      name: 'Club Gula'
+    });
+  } catch (err) {
+    Logger.log('Email error: ' + err);
+    // Enviar en texto plano como fallback
+    MailApp.sendEmail(recipientEmail, subject, 'Tu código: ' + memberId);
+  }
+}
+
+function queryMembers(e) {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  
+  if (!sheet) {
+    return createJsonOutput({status:'error', message:'Sheet no encontrada'});
+  }
+
+  const code = (e.parameter.memberCode || e.parameter.code || '').toString().trim().toUpperCase();
+  const email = (e.parameter.email || '').toString().trim().toLowerCase();
+
+  if (!code && !email) {
+    return createJsonOutput({status:'ready'});
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) {
+    return createJsonOutput({status:'ok', members: []});
+  }
+
+  const header = rows[0].map(c => c.toString().toLowerCase().trim());
+  const emailIdx = header.indexOf('email');
+  const codeIdx = header.indexOf('memberid');
+
+  const members = [];
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const rowCode = (row[codeIdx] || '').toString().trim().toUpperCase();
+    const rowEmail = (row[emailIdx] || '').toString().trim().toLowerCase();
+    
+    if ((code && rowCode === code) || (email && rowEmail === email)) {
+      members.push({
+        nombre: row[0] || '',
+        apellido: row[1] || '',
+        email: row[2] || '',
+        zip: row[3] || '',
+        telefono: row[4] || '',
+        puntos: Number(row[5]) || 0,
+        instagramFollow: row[6] || '',
+        id: row[7] || '',
+        fecha: row[8] || ''
+      });
+    }
+  }
+
+  return createJsonOutput({status:'ok', members: members});
+}
+
+function getLeaderboard() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  
+  if (!sheet) {
+    return createJsonOutput({status:'error', message:'Sheet no encontrada'});
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) {
+    return createJsonOutput({status:'ok', leaderboard: []});
+  }
+
+  const users = [];
+  for (let i = 1; i < rows.length; i++) {
+    users.push({
+      nombre: rows[i][0] || '',
+      apellido: rows[i][1] || '',
+      email: rows[i][2] || '',
+      puntos: Number(rows[i][5]) || 0,
+      id: rows[i][7] || ''
+    });
+  }
+
+  users.sort((a, b) => b.puntos - a.puntos);
+  return createJsonOutput({status:'ok', leaderboard: users});
+}
+
+function getMissions() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  let sheet = ss.getSheetByName('Missions');
+  
+  if (!sheet) {
+    sheet = ss.insertSheet('Missions');
+    sheet.appendRow(['ID', 'Title', 'Description', 'Points', 'Mission Type']);
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  const missionsByType = {'Misiones Semanales': [], 'Misiones Flash': [], 'Misiones de Comunidad': []};
+
+  for (let i = 1; i < rows.length; i++) {
+    const missionType = rows[i][4] || 'Misiones de Comunidad';
+    if (missionsByType[missionType]) {
+      missionsByType[missionType].push({
+        id: rows[i][0] || '',
+        title: rows[i][1] || '',
+        description: rows[i][2] || '',
+        points: Number(rows[i][3]) || 0,
+        type: missionType
+      });
+    }
+  }
+
+  return createJsonOutput({status:'ok', missions: missionsByType});
+}
+
+function getEvents() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  let sheet = ss.getSheetByName('Events');
+  
+  if (!sheet) {
+    sheet = ss.insertSheet('Events');
+    sheet.appendRow(['ID', 'Title', 'Description', 'Date', 'Location', 'Points']);
+  }
+
+  const rows = sheet.getDataRange().getValues();
+  const events = [];
+  
+  for (let i = 1; i < rows.length; i++) {
+    events.push({
+      id: rows[i][0] || '',
+      title: rows[i][1] || '',
+      description: rows[i][2] || '',
+      date: rows[i][3] || '',
+      location: rows[i][4] || '',
+      points: Number(rows[i][5]) || 0
+    });
+  }
+
+  return createJsonOutput({status:'ok', events: events});
+}
+
+function testEmailDiagnostics(e) {
+  const testEmail = e.parameter.email || Session.getActiveUser().getEmail();
+  
+  try {
+    MailApp.sendEmail(testEmail, '[TEST] GULA System', 'Email de prueba del sistema GULA.');
+    return createJsonOutput({
+      status: 'ok',
+      message: '✅ Email de prueba enviado a: ' + testEmail
+    });
+  } catch (err) {
+    return createJsonOutput({
+      status: 'error',
+      message: '❌ Error: ' + err.toString()
+    });
+  }
+}
+
+function clearAllData() {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET_NAME);
+    
+    if (!sheet) {
+      return createJsonOutput({status:'error', message:'Sheet no encontrada'});
+    }
+    
+    const lastRow = sheet.getLastRow();
+    if (lastRow > 1) {
+      sheet.deleteRows(2, lastRow - 1);
+    }
+    
+    return createJsonOutput({
+      status:'ok',
+      message:'Base de datos limpiada',
+      rowsDeleted: lastRow - 1
+    });
+  } catch (err) {
+    return createJsonOutput({status:'error', message: err.toString()});
+  }
+}
+
+function createJsonOutput(payload) {
+  return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
+}

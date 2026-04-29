@@ -1,0 +1,26 @@
+{
+  "name": "club-gula-v2",
+  "version": "2.0.0",
+  "description": "Sistema de puntos y recompensas para Club Gula - Dashboard completo con misiones, referidos, badges y más",
+  "main": "crew/index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test": "echo \"Testing Club Gula V2\""
+  },
+  "keywords": [
+    "club",
+    "gula",
+    "puntos",
+    "recompensas",
+    "referidos",
+    "dashboard",
+    "loyalty"
+  ],
+  "author": "Gula Corp",
+  "license": "MIT",
+  "homepage": "https://github.com/tu-usuario/gula-intel#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/gula-intel.git"
+  }
+}

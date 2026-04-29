@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Solicitar Franquicia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_CzhZyojSwkVTiPBfQPEt2esM4swrJeobgmSMeuUUheMU', {api_host:'https://us.posthog.com', person_profiles:'identified_only'});
+    </script>
+    <style>
+        :root{--gula-orange:#FF5800;--gula-orange-light:#FF7A29;--bg-dark:#0a0a0a;--text-primary:#fff;--text-secondary:#b0b0b0;--border-color:rgba(255,88,0,0.2)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden}
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 0 28px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 72px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
+        nav::before { content: 'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Aveline', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255, 88, 0, 0.08); white-space: nowrap; letter-spacing: 20px; animation: slideHorizontal 20s linear infinite; z-index: -1; pointer-events: none; }
+        @keyframes slideHorizontal { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
+        @font-face { font-family: 'Aveline'; src: url('AvelineRegular.otf') format('opentype'); font-display: swap; }
+        @font-face { font-family: 'Akira Expanded'; src: url('Akira Expanded Demo.otf') format('opentype'); font-display: swap; }
+        .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.55rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
+        .nav-center { display: flex; gap: 24px; align-items: center; list-style: none; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover::after { width: 100%; }
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .search-bar { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(10px); border: 1.5px solid var(--border-color); color: var(--text-primary); padding: 8px 13px; border-radius: 50px; width: 170px; font-size: 0.82rem; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 0 20px rgba(255, 88, 0, 0.05); }
+        .search-bar::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .search-bar:focus { outline: none; border-color: var(--gula-orange); box-shadow: 0 0 20px rgba(255, 88, 0, 0.3), inset 0 0 20px rgba(255, 88, 0, 0.08); background: rgba(17, 17, 17, 0.8); }
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.3rem; color: var(--gula-orange); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .cart-icon:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(255, 88, 0, 0.5)); }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: var(--gula-orange); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; }
+        .nav-btn-outline { background: transparent; color: #FF5800; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; border: 1.5px solid #FF5800; white-space: nowrap; }
+        .nav-btn-outline:hover { background: #FF5800; color: #000; }
+        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; white-space: nowrap; }
+        .nav-btn-primary:hover { transform: scale(1.05); }
+        main{padding-top:72px;min-height:100vh}
+        .page-hero{padding:80px 40px 60px;text-align:center;background:linear-gradient(135deg,rgba(255,88,0,0.12) 0%,transparent 100%);position:relative;overflow:hidden}
+        .page-hero::before{content:'GULA';position:absolute;font-family:'Aveline',sans-serif;font-size:30vw;font-weight:900;color:rgba(255,88,0,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap}
+        .page-hero h1{font-family:'Aveline',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:4px;color:var(--gula-orange);position:relative}
+        .page-hero p{color:var(--text-secondary);font-size:1.1rem;margin-top:1rem;max-width:600px;margin-left:auto;margin-right:auto;position:relative}
+        .stats{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;padding:40px;background:rgba(255,88,0,0.05);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}
+        .stat{text-align:center}
+        .stat-num{font-family:'Aveline',sans-serif;font-size:3rem;color:var(--gula-orange);letter-spacing:2px}
+        .stat-label{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-top:4px}
+        .container{max-width:1100px;margin:0 auto;padding:60px 40px;display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start}
+        .form-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:20px;padding:40px}
+        .form-card h2{font-family:'Aveline',sans-serif;font-size:1.8rem;color:var(--gula-orange);letter-spacing:2px;margin-bottom:8px}
+        .form-card p{color:var(--text-secondary);font-size:0.9rem;margin-bottom:30px}
+        .form-group{margin-bottom:18px}
+        label{display:block;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:8px}
+        input,textarea,select{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,88,0,0.3);border-radius:12px;color:var(--text-primary);padding:14px 16px;font-size:0.95rem;font-family:'Inter',sans-serif;transition:border-color 0.3s;outline:none}
+        input:focus,textarea:focus,select:focus{border-color:var(--gula-orange);box-shadow:0 0 0 3px rgba(255,88,0,0.1)}
+        textarea{resize:vertical;min-height:120px}
+        select option{background:#111;color:#fff}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .submit-btn{width:100%;background:linear-gradient(135deg,var(--gula-orange),var(--gula-orange-light));color:#000;border:none;padding:16px;border-radius:50px;font-weight:900;font-size:1rem;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all 0.3s;margin-top:10px}
+        .submit-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,88,0,0.4)}
+        .submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+        .success-msg{display:none;background:rgba(0,200,100,0.1);border:1.5px solid rgba(0,200,100,0.3);border-radius:12px;padding:20px;text-align:center;color:#00c864;font-weight:700;margin-top:15px;font-size:1rem}
+        .benefits{display:flex;flex-direction:column;gap:20px}
+        .benefit-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:16px;padding:25px;display:flex;gap:20px;align-items:flex-start;transition:border-color 0.3s}
+        .benefit-card:hover{border-color:rgba(255,88,0,0.5)}
+        .benefit-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--gula-orange),var(--gula-orange-light));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#000;font-size:1.3rem;flex-shrink:0}
+        .benefit-text h3{font-weight:900;font-size:1rem;margin-bottom:6px}
+        .benefit-text p{color:var(--text-secondary);font-size:0.88rem;line-height:1.5}
+        footer{background:rgba(0,0,0,0.95);border-top:1px solid var(--border-color);padding:40px;text-align:center;color:var(--text-secondary);font-size:0.85rem}
+        footer a{color:var(--text-secondary);text-decoration:none;margin:0 12px}footer a:hover{color:var(--gula-orange)}
+        @media(max-width:768px){.container{grid-template-columns:1fr;padding:40px 20px;gap:30px}.form-row{grid-template-columns:1fr}.stats{gap:30px;padding:30px 20px}}
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+    <ul class="nav-center">
+        <li><a href="gulatemplate.html">Inicio</a></li>
+        <li><a href="sobre.html">Nosotros</a></li>
+        <li><a href="marketplace.html">Carta</a></li>
+        <li><a href="CLUBGULA.html">Club GULA</a></li>
+        <li><a href="franquicias.html" style="color:var(--gula-orange)">Franquicia</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="nav-right">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+        <div class="cart-icon" onclick="openCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
+        <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+        <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+    </div>
+</nav>
+<main>
+    <div class="page-hero">
+        <h1>Únete a la Familia GULA</h1>
+        <p>Solicita información para abrir tu propio restaurante GULA en tu ciudad. Nuestro equipo te contactará en 48h.</p>
+    </div>
+    <div class="stats">
+        <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Tiendas Activas</div></div>
+        <div class="stat"><div class="stat-num">20K€</div><div class="stat-label">Inversión desde</div></div>
+        <div class="stat"><div class="stat-num">8%</div><div class="stat-label">ROI promedio año 1</div></div>
+        <div class="stat"><div class="stat-num">48h</div><div class="stat-label">Respuesta garantizada</div></div>
+    </div>
+    <div class="container">
+        <div class="benefits">
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="fas fa-rocket"></i></div>
+                <div class="benefit-text"><h3>Modelo probado</h3><p>Sistema operativo testeado en múltiples ubicaciones. Manual de operaciones completo y formación incluida.</p></div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="benefit-text"><h3>Tecnología y datos</h3><p>Acceso a nuestra plataforma de gestión, analytics en tiempo real y sistema de fidelización automático.</p></div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="fas fa-bullhorn"></i></div>
+                <div class="benefit-text"><h3>Marketing incluido</h3><p>Campañas de lanzamiento, gestión de redes sociales y soporte de marketing continuo para tu tienda.</p></div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="fas fa-handshake"></i></div>
+                <div class="benefit-text"><h3>Soporte total</h3><p>Un Account Manager dedicado, formación inicial de 4 semanas y soporte operativo permanente.</p></div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><i class="fas fa-store"></i></div>
+                <div class="benefit-text"><h3>Exclusividad territorial</h3><p>Zona exclusiva garantizada. Ninguna otra franquicia GULA dentro de tu radio de influencia.</p></div>
+            </div>
+        </div>
+        <div class="form-card">
+            <h2>Solicitar Información</h2>
+            <p>Rellena el formulario y te llamamos en menos de 48 horas.</p>
+            <form id="franqForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre *</label>
+                        <input type="text" id="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido</label>
+                        <input type="text" id="apellido" placeholder="Apellido">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="tel" id="telefono" placeholder="+34 600 000 000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ciudad de interés *</label>
+                        <input type="text" id="ciudad" placeholder="Madrid, Barcelona..." required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Capacidad de inversión</label>
+                    <select id="inversion">
+                        <option value="60k-100k">60.000€ – 100.000€</option>
+                        <option value="100k-150k">100.000€ – 150.000€</option>
+                        <option value="150k+">Más de 150.000€</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>¿Tienes experiencia en hostelería?</label>
+                    <select id="experiencia">
+                        <option value="si">Sí, tengo experiencia</option>
+                        <option value="no">No, soy nuevo en el sector</option>
+                        <option value="parcial">Algo de experiencia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cuéntanos más (opcional)</label>
+                    <textarea id="mensaje" placeholder="¿Por qué quieres abrir un GULA? ¿Tienes local en mente?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Quiero mi GULA</button>
+                <div class="success-msg" id="successMsg">✓ Solicitud recibida. Nuestro equipo te contactará en menos de 48h.</div>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="footer.js" defer></script>
+<script>
+    document.getElementById('franqForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true; btn.textContent = 'Enviando...';
+        const ciudad = document.getElementById('ciudad').value;
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre: document.getElementById('nombre').value,
+                    email: document.getElementById('email').value,
+                    telefono: document.getElementById('telefono').value,
+                    tipo: 'franquiciado',
+                    ciudad,
+                    mensaje: `Inversión: ${document.getElementById('inversion').value} | Experiencia: ${document.getElementById('experiencia').value} | ${document.getElementById('mensaje').value}`
+                })
+            });
+            if (res.ok) {
+                document.getElementById('successMsg').style.display = 'block';
+                document.getElementById('franqForm').reset();
+                posthog.capture('franchise_form_submit', { ciudad });
+            }
+        } catch(err) { alert('Error al enviar. Escríbenos a marketing@thegulacorp.com'); }
+        finally { btn.disabled = false; btn.textContent = 'Quiero mi GULA'; }
+    });
+</script>
+</body>
+</html>

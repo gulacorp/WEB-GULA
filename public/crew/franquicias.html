@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA - Franquicias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gula-orange: #FF5800;
+            --gula-orange-light: #FF7A29;
+            --bg-dark: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid rgba(255, 88, 0, 0.2); padding: 0 40px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 80px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
+        nav::before { content: 'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Aveline', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255, 88, 0, 0.08); white-space: nowrap; letter-spacing: 20px; animation: slideHorizontal 20s linear infinite; z-index: -1; pointer-events: none; }
+        @keyframes slideHorizontal { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
+        @font-face { font-family: 'Aveline'; src: url('AvelineRegular.otf') format('opentype'); font-display: swap; }
+        @font-face { font-family: 'Akira Expanded'; src: url('Akira Expanded Demo.otf') format('opentype'); font-display: swap; }
+        .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
+        .nav-center { display: flex; gap: 40px; align-items: center; list-style: none; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
+        .nav-center a:hover::after { width: 100%; }
+        .nav-right { display: flex; gap: 20px; align-items: center; }
+        .search-bar { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(10px); border: 1.5px solid rgba(255, 88, 0, 0.2); color: var(--text-primary); padding: 10px 15px; border-radius: 50px; width: 200px; font-size: 0.9rem; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 0 20px rgba(255, 88, 0, 0.05); }
+        .search-bar::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .search-bar:focus { outline: none; border-color: var(--gula-orange); box-shadow: 0 0 20px rgba(255, 88, 0, 0.3), inset 0 0 20px rgba(255, 88, 0, 0.08); background: rgba(17, 17, 17, 0.8); }
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.3rem; color: var(--gula-orange); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .cart-icon:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(255, 88, 0, 0.5)); }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: var(--gula-orange); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; }
+        .nav-btn-outline { background: transparent; color: #FF5800; padding: 10px 20px; border-radius: 25px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.75rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; border: 2px solid #FF5800; }
+        .nav-btn-outline:hover { background: #FF5800; color: #000; }
+        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 10px 20px; border-radius: 25px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.75rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+        .nav-btn-primary:hover { transform: scale(1.05); }
+
+        main {
+            padding-top: 120px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 1.05;
+        }
+        h1 .or { color: var(--gula-orange); text-shadow: 0 0 30px rgba(255,88,0,0.5); }
+
+        .intro-text {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes auroraShift {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(40px,-20px) scale(1.1); }
+            66% { transform: translate(-30px,30px) scale(0.95); }
+        }
+        @keyframes conicSpin { to { transform: rotate(360deg); } }
+        .aurora-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; pointer-events: none; z-index: 0; }
+        .aurora-orb.o1 { width: 380px; height: 380px; background: #FF5800; top: 10%; left: -100px; animation: auroraShift 20s ease-in-out infinite; }
+        .aurora-orb.o2 { width: 300px; height: 300px; background: #FF7A29; top: 50%; right: -80px; animation: auroraShift 24s ease-in-out infinite reverse; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .sect-heading {
+            font-family: 'Akira Expanded', sans-serif;
+            color: var(--gula-orange);
+            text-align: center;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            margin: 4rem 0 1.5rem;
+            text-transform: uppercase;
+        }
+        .sect-title {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(1.6rem, 3vw, 2rem);
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .sect-title .or { color: var(--gula-orange); }
+
+        /* KPI grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .kpi-card {
+            position: relative;
+            padding: 1.8rem 1rem;
+            background: rgba(20,20,20,0.5);
+            border: 1.5px solid rgba(255,88,0,0.3);
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+        }
+        .kpi-card:hover { transform: translateY(-6px); border-color: var(--gula-orange); box-shadow: 0 20px 40px rgba(255,88,0,0.15); }
+        .kpi-card i { color: var(--gula-orange); font-size: 1.3rem; margin-bottom: 0.6rem; }
+        .kpi-num {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            font-weight: 900;
+            color: var(--gula-orange);
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(255,88,0,0.3);
+        }
+        .kpi-label {
+            margin-top: 0.6rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Modelos de Tienda */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+        }
+        .model-card {
+            position: relative;
+            border-radius: 18px;
+            padding: 2px;
+            overflow: visible;
+        }
+        .model-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 20px;
+            background: conic-gradient(from var(--ang,0deg), transparent 0deg, var(--mc) 90deg, var(--mc-light) 180deg, transparent 270deg);
+            animation: conicSpin 8s linear infinite;
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 0;
+        }
+        .model-card:hover::before { opacity: 1; }
+        .model-card .inner {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, #0e0e0e, #1a1a1a);
+            border-radius: 16px;
+            padding: 1.8rem 1.5rem;
+        }
+        .model-card .head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+        .model-card .badge {
+            width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, var(--mc), var(--mc-light));
+            color: #000;
+        }
+        .model-card .tier { font-family: 'Akira Expanded', sans-serif; font-size: 0.7rem; letter-spacing: 2px; color: var(--mc); }
+        .model-card .mname { font-family: 'Akira Expanded', sans-serif; font-size: 1rem; color: #fff; letter-spacing: 1px; }
+        .model-card .mdesc { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.55; margin-bottom: 1rem; }
+        .model-card .specs { display: flex; flex-direction: column; gap: 0.5rem; }
+        .model-card .spec { display: flex; justify-content: space-between; padding: 0.5rem 0.7rem; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 0.78rem; }
+        .model-card .spec .lbl { color: #888; }
+        .model-card .spec .val { color: var(--mc); font-weight: 700; }
+
+        .m-flagship { --mc: #FF5800; --mc-light: #FF7A29; }
+        .m-standard { --mc: #C0C0C0; --mc-light: #E8E8E8; }
+        .m-dark { --mc: #CD7F32; --mc-light: #A0522D; }
+
+        /* Proceso timeline */
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .step-card {
+            position: relative;
+            padding: 1.5rem 1.2rem;
+            background: rgba(20,20,20,0.5);
+            border: 1px solid rgba(255,88,0,0.2);
+            border-radius: 14px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .step-card:hover { transform: translateY(-5px); border-color: var(--gula-orange); }
+        .step-card .step-num {
+            position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
+            color: #000; font-family: 'Akira Expanded', sans-serif; font-weight: 900;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem;
+        }
+        .step-card h4 {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.85rem;
+            color: #fff;
+            margin: 0.8rem 0 0.5rem;
+            letter-spacing: 1px;
+        }
+        .step-card p {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+
+        /* Why grid */
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+        .benefit-card {
+            background: rgba(20,20,20,0.5);
+            border: 1px solid rgba(255,88,0,0.2);
+            border-radius: 14px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .benefit-card:hover { transform: translateY(-6px); border-color: var(--gula-orange); box-shadow: 0 15px 35px rgba(255,88,0,0.15); }
+        .benefit-icon { font-size: 1.6rem; color: var(--gula-orange); margin-bottom: 0.7rem; }
+        .benefit-card h3 { font-family: 'Akira Expanded', sans-serif; font-size: 0.9rem; margin-bottom: 0.5rem; letter-spacing: 1px; color: #fff; }
+        .benefit-card p { color: var(--text-secondary); font-size: 0.82rem; line-height: 1.55; }
+
+        /* CTA section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(255,88,0,0.12), rgba(255,88,0,0.02));
+            border: 1px solid rgba(255,88,0,0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section h2 {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+        .cta-section p { color: var(--text-secondary); font-size: 0.9rem; }
+        .cta-btn {
+            background: linear-gradient(135deg, var(--gula-orange), var(--gula-orange-light));
+            color: #000;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 1.5px;
+            font-family: 'Akira Expanded', sans-serif;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(255,88,0,0.35);
+            display: inline-block;
+            margin-top: 1.5rem;
+            text-decoration: none;
+        }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 45px rgba(255,88,0,0.5); }
+
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1.5px solid rgba(255, 88, 0, 0.3);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .cta-section {
+                padding: 2rem 1rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+        <ul class="nav-center">
+            <li><a href="gulatemplate.html">Inicio</a></li>
+            <li><a href="sobre.html">Nosotros</a></li>
+            <li><a href="marketplace.html">Carta</a></li>
+            <li><a href="club.html">Club GULA</a></li>
+            <li><a href="franquicias.html" style="color: var(--gula-orange);">Franquicia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <div class="nav-right">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+            <div class="cart-icon" onclick="openCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+            <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="aurora-orb o1"></div>
+        <div class="aurora-orb o2"></div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <div style="text-align: center; margin-bottom: 1rem;" class="reveal">
+                <div style="font-family: 'Akira Expanded', sans-serif; font-size: 0.7rem; letter-spacing: 4px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 0.8rem; opacity: 0.85;">Oportunidad de Inversión</div>
+                <h1>Hazte <span class="or">Franquiciado</span></h1>
+            </div>
+            <p class="intro-text reveal" style="text-align: center; margin: 0 auto 3rem;">
+                GULA no es solo una hamburguesa. Es un sistema validado, escalable y diseñado
+                para crecer en grupo. Inversión desde 20.000€, ticket medio 22€ y un Club que multiplica la recurrencia.
+                Si tienes perfil emprendedor o inversor, hablemos.
+            </p>
+
+            <!-- NÚMEROS CLAVE -->
+            <h2 class="sect-heading reveal">— Números Clave —</h2>
+            <div class="kpi-grid reveal">
+                <div class="kpi-card" data-tilt><i class="fas fa-store"></i><div class="kpi-num">4</div><div class="kpi-label">Tiendas</div></div>
+                <div class="kpi-card" data-tilt><i class="fas fa-redo"></i><div class="kpi-num">61%</div><div class="kpi-label">Recurrencia</div></div>
+                <div class="kpi-card" data-tilt><i class="fas fa-chart-line"></i><div class="kpi-num">40%</div><div class="kpi-label">Retención</div></div>
+                <div class="kpi-card" data-tilt><i class="fas fa-receipt"></i><div class="kpi-num">22</div><div class="kpi-label">Ticket medio (€)</div></div>
+                <div class="kpi-card" data-tilt><i class="fas fa-clock"></i><div class="kpi-num">24</div><div class="kpi-label">Meses payback*</div></div>
+                <div class="kpi-card" data-tilt><i class="fas fa-users"></i><div class="kpi-num">3000</div><div class="kpi-label">CREW activos</div></div>
+            </div>
+            <p style="text-align:center; color:#666; font-size:0.75rem; margin-top:-1rem; margin-bottom:3rem;">*Payback estimado para el modelo Standard</p>
+
+            <!-- MODELOS DE TIENDA -->
+            <h2 class="sect-heading reveal">— Modelos de Tienda —</h2>
+            <h3 class="sect-title reveal">Tres formatos. <span class="or">Una marca</span>.</h3>
+            <div class="models-grid reveal">
+                <div class="model-card m-flagship" data-tilt>
+                    <div class="inner">
+                        <div class="head">
+                            <div class="badge"><i class="fas fa-crown"></i></div>
+                            <div>
+                                <div class="tier">TIER 1</div>
+                                <div class="mname">FLAGSHIP</div>
+                            </div>
+                        </div>
+                        <p class="mdesc">Local premium en zona top. Máxima expresión de marca, comunidad y visibilidad.</p>
+                        <div class="specs">
+                            <div class="spec"><span class="lbl">Superficie</span><span class="val">120-180 m²</span></div>
+                            <div class="spec"><span class="lbl">Inversión</span><span class="val">200-350K €</span></div>
+                            <div class="spec"><span class="lbl">Asientos</span><span class="val">40-60</span></div>
+                            <div class="spec"><span class="lbl">Ejemplo</span><span class="val">Valencia</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-card m-standard" data-tilt>
+                    <div class="inner">
+                        <div class="head">
+                            <div class="badge" style="color:#000;"><i class="fas fa-store"></i></div>
+                            <div>
+                                <div class="tier">TIER 2</div>
+                                <div class="mname">STANDARD</div>
+                            </div>
+                        </div>
+                        <p class="mdesc">Local optimizado para volumen. Equilibrio entre rentabilidad y presencia física.</p>
+                        <div class="specs">
+                            <div class="spec"><span class="lbl">Superficie</span><span class="val">70-110 m²</span></div>
+                            <div class="spec"><span class="lbl">Inversión</span><span class="val">80-180K €</span></div>
+                            <div class="spec"><span class="lbl">Asientos</span><span class="val">20-35</span></div>
+                            <div class="spec"><span class="lbl">Ejemplo</span><span class="val">Cartagena</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-card m-dark" data-tilt>
+                    <div class="inner">
+                        <div class="head">
+                            <div class="badge" style="color:#fff;"><i class="fas fa-bolt"></i></div>
+                            <div>
+                                <div class="tier">TIER 3</div>
+                                <div class="mname">DARK / EXPRESS</div>
+                            </div>
+                        </div>
+                        <p class="mdesc">Modelo dark kitchen y express. Entrada rápida, foco en delivery y testeo.</p>
+                        <div class="specs">
+                            <div class="spec"><span class="lbl">Superficie</span><span class="val">40-70 m²</span></div>
+                            <div class="spec"><span class="lbl">Inversión</span><span class="val">20-60K €</span></div>
+                            <div class="spec"><span class="lbl">Asientos</span><span class="val">0-15</span></div>
+                            <div class="spec"><span class="lbl">Ejemplo</span><span class="val">Murcia / Móstoles</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROCESO -->
+            <h2 class="sect-heading reveal">— El Proceso —</h2>
+            <h3 class="sect-title reveal">De idea a apertura en <span class="or">5 pasos</span></h3>
+            <div class="timeline reveal">
+                <div class="step-card"><div class="step-num">1</div><h4>Solicitud</h4><p>Rellenas el formulario y nos cuentas tu perfil.</p></div>
+                <div class="step-card"><div class="step-num">2</div><h4>Llamada</h4><p>Discovery call con el equipo. Te enviamos el dossier.</p></div>
+                <div class="step-card"><div class="step-num">3</div><h4>Validación</h4><p>Estudio de zona, modelo y plan financiero conjunto.</p></div>
+                <div class="step-card"><div class="step-num">4</div><h4>Acuerdo</h4><p>Firma de contrato. Onboarding y formación CREW.</p></div>
+                <div class="step-card"><div class="step-num">5</div><h4>Apertura</h4><p>Obra, soft opening y lanzamiento con marketing GULA.</p></div>
+            </div>
+
+            <!-- POR QUÉ FUNCIONA -->
+            <h2 class="sect-heading reveal">— Por qué funciona —</h2>
+            <div class="benefits-grid reveal">
+                <div class="benefit-card" data-tilt><div class="benefit-icon"><i class="fas fa-chart-line"></i></div><h3>Modelo validado</h3><p>4 tiendas con datos reales de venta, recurrencia y ticket medio.</p></div>
+                <div class="benefit-card" data-tilt><div class="benefit-icon"><i class="fas fa-users"></i></div><h3>Sistema CREW</h3><p>Club de fidelización que multiplica la frecuencia de compra.</p></div>
+                <div class="benefit-card" data-tilt><div class="benefit-icon"><i class="fas fa-cogs"></i></div><h3>Soporte integral</h3><p>Formación, marketing, supply, tech y operativa centralizadas.</p></div>
+                <div class="benefit-card" data-tilt><div class="benefit-icon"><i class="fas fa-fire"></i></div><h3>Marca diferenciada</h3><p>Producto, identidad y comunidad. Vendemos un sistema, no hamburguesas.</p></div>
+            </div>
+
+            <div class="cta-section reveal">
+                <h2>¿Eres tú la próxima <span style="color:var(--gula-orange);">GULA</span>?</h2>
+                <p>Te enviamos el dossier completo y agendamos una llamada con el equipo.</p>
+                <a href="franquiciado.html" class="cta-btn magnetic">Hazte Franquiciado →</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Reveal
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // Tilt 3D
+        document.querySelectorAll('[data-tilt]').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const r = el.getBoundingClientRect();
+                const x = e.clientX - r.left, y = e.clientY - r.top;
+                const rx = ((y - r.height/2) / (r.height/2)) * -5;
+                const ry = ((x - r.width/2) / (r.width/2)) * 5;
+                el.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+            });
+            el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+        });
+
+        // Magnetic
+        document.querySelectorAll('.magnetic').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const r = btn.getBoundingClientRect();
+                const x = e.clientX - r.left - r.width/2, y = e.clientY - r.top - r.height/2;
+                btn.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
+            });
+            btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+        });
+
+        // Counters
+        const cobs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                const el = e.target;
+                const m = el.textContent.trim().match(/(\d+)([%+]?)/);
+                if (!m) return;
+                const t = parseInt(m[1], 10), s = m[2] || '';
+                let c = 0, step = Math.max(1, Math.ceil(t/30));
+                const tick = () => { c = Math.min(t, c + step); el.textContent = c + s; if (c < t) requestAnimationFrame(tick); };
+                tick(); cobs.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.kpi-num').forEach(el => cobs.observe(el));
+    </script>
+
+    <script src="footer.js" defer></script>
+</body>
+</html>

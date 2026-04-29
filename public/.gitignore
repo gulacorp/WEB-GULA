@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+.venv/
+__pycache__/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Archivos de editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de build
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archivos temporales
+*.bak
+*~
+.temp/

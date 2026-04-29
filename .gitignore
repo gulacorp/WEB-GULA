@@ -1,0 +1,8 @@
+node_modules/
+.env
+.DS_Store
+*.log
+no/
+.vscode/
+.idea/
+Pitch Deck Gula*.pdf
