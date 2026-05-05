@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GULA - Inicio</title>
+    <meta name="description" content="GULA — Experiencia gastronómica sin límites. Burgers premium, Club GULA y franquicias en España.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://js.stripe.com/v3/"></script>
@@ -2291,10 +2292,18 @@
         }
 
         /* Responsive */
+        /* HAMBURGER MOBILE NAV */
+        .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
+        .hamburger-btn:hover { transform: scale(1.1); }
         @media (max-width: 768px) {
-            nav { height: 70px; padding: 0 20px; }
-            .nav-logo { font-size: 1.3rem; }
+            nav { height: 70px; padding: 0 20px; flex-wrap: wrap; overflow: visible; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
             .nav-center { display: none; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+            .nav-logo { font-size: 1.3rem; }
             .search-bar { width: 100%; }
             .hero { padding: 100px 20px 40px; margin-top: 70px; min-height: 70vh; }
             .hero h1 { font-size: 2rem; }
@@ -2311,8 +2320,11 @@
 <body>
     <div class="watermark">G G G G G G G\AG G G G G G G\AG G G G G G G\AG G G G G G G\AG G G G G G G</div>
 
-    <nav>
+    <nav id="mainNav">
         <div class="nav-logo" onclick="scrollToSection('inicio')">GULA</div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
+            <i class="fas fa-bars" id="hamburgerIcon"></i>
+        </button>
         <ul class="nav-center">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="sobre.html">Nosotros</a></li>
@@ -2699,7 +2711,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 GULA Corp. Todos los derechos reservados.</p>
+            <p>&copy; 2026 GULA Corp. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -2840,10 +2852,11 @@
             `).join('');
         }
 
-        function filterProducts(category) {
+        function filterProducts(category, e) {
             const buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            const clickedBtn = (e && e.target) ? e.target.closest('.filter-btn') : null;
+            if (clickedBtn) clickedBtn.classList.add('active');
             const filtered = category === 'all' ? products : products.filter(p => p.category === category);
             renderProducts(filtered);
         }
@@ -3111,6 +3124,21 @@
 
         document.getElementById('cartModal').addEventListener('click', function(e) {
             if (e.target === this) closeCart();
+        });
+
+        function toggleMobileNav() {
+            const nav = document.getElementById('mainNav');
+            const icon = document.getElementById('hamburgerIcon');
+            nav.classList.toggle('mobile-open');
+            icon.className = nav.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+        }
+        document.querySelectorAll('.nav-center a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                const nav = document.getElementById('mainNav');
+                nav.classList.remove('mobile-open');
+                const icon = document.getElementById('hamburgerIcon');
+                if (icon) icon.className = 'fas fa-bars';
+            });
         });
 
         // ===== INNOVATIVE UX FEATURES =====
