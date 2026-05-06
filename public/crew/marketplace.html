@@ -787,6 +787,10 @@
                     <span>Subtotal</span>
                     <span id="subtotal">0.00&#8364;</span>
                 </div>
+                <div class="summary-row" id="discountRow" style="display:none; color:#4CAF50;">
+                    <span>Descuento (<span id="discountPct"></span>%)</span>
+                    <span id="discountAmount">-0.00€</span>
+                </div>
                 <div class="summary-row">
                     <span>Impuestos (21%)</span>
                     <span id="taxes">0.00&#8364;</span>
@@ -877,6 +881,25 @@
                                 <label>CVC</label>
                                 <input type="text" id="cardCvc" placeholder="123" maxlength="4" autocomplete="cc-csc">
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Código descuento dropdown -->
+                <div class="checkout-section">
+                    <button class="checkout-toggle" onclick="toggleAccordion('promo')" id="promoToggle">
+                        <span>Código descuento</span>
+                        <span class="label-value" id="promoValue">Añadir</span>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </button>
+                    <div class="checkout-body" id="promoBody">
+                        <div class="payment-field" style="margin-top:4px;">
+                            <label>Código promo Club GULA</label>
+                            <div style="display:flex;gap:8px;">
+                                <input type="text" id="promoInput" placeholder="BIENVENIDA-GULA-XX1234" style="flex:1;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+                                <button onclick="applyPromo()" style="background:var(--gula-orange);color:#000;border:none;padding:10px 18px;border-radius:10px;font-weight:900;cursor:pointer;white-space:nowrap;">Aplicar</button>
+                            </div>
+                            <div id="promoMessage" style="margin-top:8px;font-size:0.85rem;"></div>
                         </div>
                     </div>
                 </div>
@@ -1079,12 +1102,20 @@
                 `).join('');
                 
                 const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                const taxes = subtotal * 0.21;
-                const total = subtotal + taxes;
-                
-                document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '&#8364;';
-                document.getElementById('taxes').textContent = taxes.toFixed(2) + '&#8364;';
-                document.getElementById('total').textContent = total.toFixed(2) + '&#8364;';
+                const discount = appliedPromo ? subtotal * (appliedPromo.descuento / 100) : 0;
+                const discountedSubtotal = subtotal - discount;
+                const taxes = discountedSubtotal * 0.21;
+                const total = discountedSubtotal + taxes;
+
+                document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '€';
+                const discountRow = document.getElementById('discountRow');
+                if (discountRow) {
+                    discountRow.style.display = discount > 0 ? 'flex' : 'none';
+                    document.getElementById('discountPct').textContent = appliedPromo ? appliedPromo.descuento : '';
+                    document.getElementById('discountAmount').textContent = '-' + discount.toFixed(2) + '€';
+                }
+                document.getElementById('taxes').textContent = taxes.toFixed(2) + '€';
+                document.getElementById('total').textContent = total.toFixed(2) + '€';
                 document.getElementById('cartSummary').style.display = 'block';
                 document.getElementById('checkoutBtn').style.display = 'block';
                 const flow = document.getElementById('checkoutFlow'); if (flow) { flow.style.display = 'block'; if (typeof refreshClubGate === 'function') refreshClubGate(); }
@@ -1109,6 +1140,7 @@
         // CHECKOUT STATE
         let selectedMethod = null;
         let selectedMethodKey = null;
+        let appliedPromo = null;
 
         function toggleAccordion(which) {
             const toggle = document.getElementById(which + 'Toggle');
@@ -1155,7 +1187,7 @@
             refreshClubGate();
         }
 
-        function proceedToCheckout() {
+        async function proceedToCheckout() {
             const user = getClubUser();
             if (!user) {
                 alert('Necesitas acceder a tu Club GULA antes de completar la compra.');
@@ -1185,9 +1217,11 @@
                 }
             }
 
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const taxes = total * 0.21;
-            const finalTotal = total + taxes;
+            const subtotalBase = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = appliedPromo ? subtotalBase * (appliedPromo.descuento / 100) : 0;
+            const discountedSubtotal = subtotalBase - discount;
+            const finalTotal = discountedSubtotal * 1.21;
+            const earnedPts = Math.round(discountedSubtotal);
 
             if (['ubereats', 'glovo', 'justeat'].includes(selectedMethodKey)) {
                 const urls = {
@@ -1201,7 +1235,84 @@
             }
 
             if (typeof posthog !== 'undefined') posthog.capture('checkout_completed', { method: selectedMethodKey, total: finalTotal, items: cart.length });
-            alert(`Pedido confirmado\n\nMétodo: ${selectedMethod}\nTotal: ${finalTotal.toFixed(2)}€\n\nTe enviaremos los detalles al correo de tu Club GULA.`);
+
+            if (user && user.id && earnedPts > 0) {
+                try {
+                    const resp = await fetch('/api/crew/points/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            member_code: user.id,
+                            puntos: earnedPts,
+                            motivo: 'pedido',
+                            metadata: { items: cart.map(i => ({ name: i.title, qty: i.quantity, price: i.price })), total: finalTotal, method: selectedMethodKey }
+                        })
+                    });
+                    const pts = await resp.json();
+                    if (pts.puntos_nuevos) {
+                        user.puntos = pts.puntos_nuevos;
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                    }
+                } catch (e) { console.warn('[ORDER POINTS]', e); }
+            }
+
+            if (appliedPromo) {
+                try { await fetch(`/api/promos/use/${encodeURIComponent(appliedPromo.code)}`, { method: 'POST' }); } catch (e) { console.warn('[PROMO USE]', e); }
+                appliedPromo = null;
+                document.getElementById('promoValue').textContent = 'Añadir';
+                document.getElementById('promoMessage').textContent = '';
+            }
+
+            showOrderSuccess(finalTotal, earnedPts, user);
+            cart = [];
+            updateCartUI();
+            closeCart();
+        }
+
+        async function applyPromo() {
+            const code = document.getElementById('promoInput').value.trim().toUpperCase();
+            const msg = document.getElementById('promoMessage');
+            if (!code) { msg.style.color = '#f66'; msg.textContent = 'Introduce un código.'; return; }
+            try {
+                const resp = await fetch(`/api/promos/check/${encodeURIComponent(code)}`);
+                const data = await resp.json();
+                if (resp.ok && data.valid) {
+                    appliedPromo = { code, descuento: data.descuento };
+                    msg.style.color = '#4CAF50';
+                    msg.textContent = `✓ Código aplicado: -${data.descuento}% OFF`;
+                    document.getElementById('promoValue').textContent = `-${data.descuento}%`;
+                    updateCartUI();
+                } else {
+                    appliedPromo = null;
+                    msg.style.color = '#f66';
+                    msg.textContent = data.error || 'Código no válido o expirado.';
+                    document.getElementById('promoValue').textContent = 'Añadir';
+                    updateCartUI();
+                }
+            } catch (e) {
+                msg.style.color = '#f66';
+                msg.textContent = 'Error al verificar el código.';
+            }
+        }
+
+        function showOrderSuccess(total, pts, user) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:10000;padding:20px;';
+            overlay.innerHTML = `
+                <div style="background:#111;border:2px solid #FF5800;border-radius:20px;padding:32px;max-width:400px;width:100%;text-align:center;">
+                    <div style="font-size:3rem;margin-bottom:12px">🔥</div>
+                    <h2 style="font-family:'Akira Expanded',sans-serif;color:#FF5800;margin-bottom:8px;letter-spacing:1px;">PEDIDO CONFIRMADO</h2>
+                    <p style="color:#aaa;font-size:0.9rem;margin-bottom:20px;">Total: <strong style="color:#fff">${total.toFixed(2)}€</strong></p>
+                    ${pts > 0 && user ? `
+                    <div style="background:rgba(255,88,0,0.12);border:1.5px solid rgba(255,88,0,0.4);border-radius:14px;padding:16px;margin-bottom:20px;">
+                        <div style="font-family:'Akira Expanded',sans-serif;color:#FF5800;font-size:1.5rem;">+${pts} PTS CREW</div>
+                        <div style="color:#ccc;font-size:0.82rem;margin-top:4px;">Puntos acreditados a tu cuenta</div>
+                        ${user.puntos ? `<div style="color:#fff;font-weight:700;margin-top:4px;font-size:0.9rem;">★ Total: ${user.puntos} pts</div>` : ''}
+                    </div>` : ''}
+                    <p style="color:#666;font-size:0.78rem;margin-bottom:20px;">Recibirás los detalles en el email de tu Club GULA.</p>
+                    <button onclick="this.closest('[style*=fixed]').remove()" style="background:#FF5800;color:#000;border:none;padding:14px;border-radius:12px;font-family:'Akira Expanded',sans-serif;font-size:0.9rem;cursor:pointer;width:100%;letter-spacing:1px;">ACEPTAR</button>
+                </div>`;
+            document.body.appendChild(overlay);
         }
 
         document.addEventListener('DOMContentLoaded', function() {

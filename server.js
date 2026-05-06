@@ -150,7 +150,7 @@ app.get('/payment-intent/:id', async (req, res) => {
 });
 
 // Ruta para webhook (para confirmar pagos)
-app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     if (!stripe) {
         return res.status(503).json({
             error: 'Stripe not configured',
@@ -176,10 +176,30 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
 
     // Manejar eventos
     switch (event.type) {
-        case 'payment_intent.succeeded':
-            console.log(`[WEBHOOK] Payment succeeded:`, event.data.object.id, `- ${event.data.object.amount / 100}€`);
-            // Aquí puedes guardar el pedido en tu base de datos
+        case 'payment_intent.succeeded': {
+            const pi = event.data.object;
+            console.log(`[WEBHOOK] Payment succeeded:`, pi.id, `- ${pi.amount / 100}€`);
+            const wMemberCode = pi.metadata?.member_code;
+            const wSubtotal = parseFloat(pi.metadata?.subtotal || 0);
+            if (wMemberCode && wSubtotal > 0 && supabase) {
+                const earnedPts = Math.round(wSubtotal);
+                try {
+                    const { data: wMember } = await supabase
+                        .from('crew_members').select('id, puntos')
+                        .eq('member_code', wMemberCode.toUpperCase()).maybeSingle();
+                    if (wMember) {
+                        await supabase.from('crew_members')
+                            .update({ puntos: wMember.puntos + earnedPts }).eq('id', wMember.id);
+                        await supabase.from('puntos_historial').insert({
+                            member_id: wMember.id, puntos: earnedPts, motivo: 'pedido',
+                            metadata: { payment_intent_id: pi.id, amount: pi.amount / 100 }
+                        });
+                        console.log(`[WEBHOOK] +${earnedPts}pts → ${wMemberCode}`);
+                    }
+                } catch (e) { console.error('[WEBHOOK POINTS]', e.message); }
+            }
             break;
+        }
         case 'payment_intent.payment_failed':
             console.log(`[WEBHOOK] Payment failed:`, event.data.object.id);
             break;
@@ -316,6 +336,45 @@ async function enviarEmailPromo(member, promo) {
     }
 }
 
+async function enviarEmailLevelUp(member, newLevel) {
+    if (!resend || !member.email) return;
+    const icons = { 'CREW': '🔥', 'HIGH CREW': '⭐', 'FOUNDERS': '👑' };
+    const colors = { 'CREW': '#FF8C00', 'HIGH CREW': '#FFA500', 'FOUNDERS': '#FFD700' };
+    const benefits = {
+        'CREW': 'Acceso a ofertas y ventajas especiales para miembros CREW.',
+        'HIGH CREW': 'Beneficios premium y experiencias exclusivas para HIGH CREW.',
+        'FOUNDERS': 'Nivel VIP: ventajas máximas, acceso prioritario y beneficios exclusivos FOUNDERS.'
+    };
+    const icon = icons[newLevel] || '🔥';
+    const color = colors[newLevel] || '#FF5800';
+    try {
+        await resend.emails.send({
+            from: FROM_EMAIL,
+            to: member.email,
+            subject: `${icon} ¡Subiste al nivel ${newLevel}! — GULA CREW`,
+            html: `<!DOCTYPE html><html><head><style>
+  body{margin:0;padding:0;background:#000;font-family:Inter,sans-serif;color:#fff}
+  .wrap{max-width:520px;margin:0 auto;padding:32px 20px}
+  .badge{display:inline-block;background:${color};color:#000;font-weight:900;text-transform:uppercase;letter-spacing:2px;padding:10px 24px;border-radius:30px;font-size:1.1rem;margin:16px 0}
+  .footer{color:#555;font-size:0.8rem;text-align:center;margin-top:24px}
+  .btn{display:inline-block;background:#FF5800;color:#000;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+</style></head><body>
+<div class="wrap">
+  <h1 style="color:${color};font-size:2rem;margin-bottom:4px">${icon} ¡NIVEL UP!</h1>
+  <p style="color:#aaa">Hola <strong style="color:#fff">${member.nombre}</strong>,</p>
+  <div class="badge">${newLevel}</div>
+  <p>${benefits[newLevel] || 'Sigue acumulando puntos para desbloquear más beneficios.'}</p>
+  <p style="color:#aaa">Sigue disfrutando de GULA para escalar aún más.</p>
+  <center style="margin:24px 0"><a href="https://thegulacorp.com/crew" class="btn">VER MI PERFIL</a></center>
+</div>
+<div class="footer">© 2026 GULA Corp</div>
+</body></html>`,
+        });
+    } catch (err) {
+        console.error('[EMAIL LEVEL UP]', err.message);
+    }
+}
+
 // POST /api/crew/register — Registro nuevo miembro
 app.post('/api/crew/register', async (req, res) => {
     try {
@@ -327,6 +386,7 @@ app.post('/api/crew/register', async (req, res) => {
         let puntos = 22; // base por registro
         if (telefono) puntos += 22;
         if (followed_ig) puntos += 33;
+        if (referido_por) puntos += 10; // bonus al nuevo miembro por usar código de referido
 
         const member_code = generateMemberCode(nombre, apellido);
         const nivel = calcularNivel(puntos);
@@ -368,6 +428,26 @@ app.post('/api/crew/register', async (req, res) => {
                 motivo: 'bienvenida',
                 expires_at: expires.toISOString(),
             });
+
+            // Recompensar al referidor
+            if (referido_por) {
+                const { data: referrer } = await supabase
+                    .from('crew_members')
+                    .select('id, puntos, member_code')
+                    .eq('member_code', referido_por.toUpperCase())
+                    .maybeSingle();
+                if (referrer) {
+                    await supabase.from('crew_members')
+                        .update({ puntos: referrer.puntos + 20 })
+                        .eq('id', referrer.id);
+                    await supabase.from('puntos_historial').insert({
+                        member_id: referrer.id, puntos: 20,
+                        motivo: 'referido',
+                        metadata: { nuevo_miembro: member.member_code }
+                    });
+                    console.log(`[REFERRAL] ${referrer.member_code} +20pts por referir ${member.member_code}`);
+                }
+            }
 
             // Apps Script webhook (Google Sheets backup)
             if (APPS_SCRIPT_WEBHOOK_URL) {
@@ -454,6 +534,14 @@ app.post('/api/crew/points/add', async (req, res) => {
             metadata,
         });
 
+        // Detectar subida de nivel
+        const prevLevel = calcularNivel(member.puntos);
+        const newLevel = calcularNivel(newPuntos);
+        if (prevLevel !== newLevel) {
+            console.log(`[LEVEL UP] ${member_code}: ${prevLevel} → ${newLevel}`);
+            enviarEmailLevelUp({ ...member, member_code }, newLevel).catch(e => console.warn('[LEVEL UP EMAIL]', e.message));
+        }
+
         // Auto-promo al alcanzar 100 puntos
         if (member.puntos < 100 && newPuntos >= 100) {
             const promoCode = `CREW100-${member_code}`;
@@ -469,6 +557,23 @@ app.post('/api/crew/points/add', async (req, res) => {
         }
 
         res.json({ success: true, puntos_nuevos: newPuntos, nivel: calcularNivel(newPuntos) });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// POST /api/promos/use/:codigo — Marcar un código promo como utilizado
+app.post('/api/promos/use/:codigo', async (req, res) => {
+    if (!supabase) return res.status(503).json({ error: 'Supabase not configured' });
+    try {
+        const { data, error } = await supabase
+            .from('promos')
+            .update({ usado: true })
+            .eq('codigo', req.params.codigo.toUpperCase())
+            .eq('usado', false)
+            .select().single();
+        if (error || !data) return res.status(410).json({ error: 'Código ya utilizado o no encontrado' });
+        res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosistema GULA — Visión Estratégica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Akira Expanded';
+            src: url('Akira Expanded Demo.otf') format('opentype');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Aveline';
+            src: url('AvelineRegular.otf') format('opentype');
+            font-display: swap;
+        }
+
+        :root {
+            --gula-orange: #FF5800;
+            --gula-orange-light: #FF7A29;
+            --gula-orange-dark: #E64A00;
+            --bg-dark: #0a0a0a;
+            --bg-card: #111111;
+            --bg-elevated: #1a1a1a;
+            --accent-white: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-tertiary: #666666;
+            --border-color: rgba(255, 88, 0, 0.25);
+            --border-strong: rgba(255, 88, 0, 0.5);
+            --gradient-primary: linear-gradient(135deg, #FF5800 0%, #FF7A29 50%, #FFB347 100%);
+            --gradient-dark: linear-gradient(180deg, rgba(255,88,0,0.15) 0%, transparent 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--accent-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background ambient */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .ambient-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,88,0,0.12) 0%, transparent 70%);
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+
+        .ambient-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,88,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,88,0,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-logo {
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--gula-orange);
+            letter-spacing: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--gula-orange);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Main container */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            padding-top: 100px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(255,88,0,0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            color: var(--gula-orange);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge i {
+            font-size: 0.8rem;
+        }
+
+        .hero h1 {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero h1 .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #000;
+            box-shadow: 0 10px 30px rgba(255,88,0,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255,88,0,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-white);
+            border: 2px solid var(--border-strong);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gula-orange);
+            color: var(--gula-orange);
+            transform: translateY(-3px);
+        }
+
+        /* Section styling */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-eyebrow {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .section-eyebrow::before, .section-eyebrow::after {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .section-title {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.7;
+            padding: 0 1rem;
+        }
+
+        /* Vision cards */
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .vision-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .vision-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.5s;
+        }
+
+        .vision-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--border-strong);
+            box-shadow: 0 20px 50px rgba(255,88,0,0.15);
+        }
+
+        .vision-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .vision-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,88,0,0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--gula-orange);
+            border: 1px solid var(--border-color);
+        }
+
+        .vision-card h3 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .vision-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-top: 0.5rem;
+        }
+
+        /* Ecosystem diagram */
+        .ecosystem-section {
+            background: var(--gradient-dark);
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .ecosystem-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ecosystem-diagram {
+            position: relative;
+            margin-top: 6rem;
+            padding: 3rem 0;
+        }
+
+        .ecosystem-core {
+            width: 220px;
+            height: 220px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 0 60px rgba(255,88,0,0.4);
+            animation: pulseCore 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseCore {
+            0%, 100% { box-shadow: 0 0 60px rgba(255,88,0,0.4); }
+            50% { box-shadow: 0 0 100px rgba(255,88,0,0.6); }
+        }
+
+        .ecosystem-core i {
+            font-size: 3rem;
+            color: #000;
+            margin-bottom: 0.5rem;
+        }
+
+        .ecosystem-core span {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 900;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ecosystem-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            border: 1px dashed var(--border-color);
+            border-radius: 50%;
+        }
+
+        .ecosystem-nodes {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+        }
+
+        .eco-node {
+            position: absolute;
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+            width: 150px;
+            transition: all 0.4s;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        .eco-node:hover {
+            border-color: var(--gula-orange);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,88,0,0.2);
+        }
+
+        .eco-node i {
+            font-size: 1.3rem;
+            color: var(--gula-orange);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .eco-node span {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .eco-node:nth-child(1) { top: -5%; left: 50%; transform: translate(-50%, -50%); }
+        .eco-node:nth-child(2) { top: 20%; right: -5%; transform: translate(50%, -50%); }
+        .eco-node:nth-child(3) { bottom: 20%; right: -5%; transform: translate(50%, 50%); }
+        .eco-node:nth-child(4) { bottom: -5%; left: 50%; transform: translate(-50%, 50%); }
+        .eco-node:nth-child(5) { bottom: 20%; left: -5%; transform: translate(-50%, 50%); }
+        .eco-node:nth-child(6) { top: 20%; left: -5%; transform: translate(-50%, -50%); }
+
+        /* Connections */
+        .eco-connections {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            pointer-events: none;
+        }
+
+        .connection-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 320px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gula-orange), transparent);
+            transform-origin: left center;
+            opacity: 0.3;
+        }
+
+        /* Funnel Section */
+        .funnel-section {
+            padding: 6rem 2rem;
+        }
+
+        .funnel-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .funnel-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 4rem;
+            padding: 2rem 0;
+        }
+
+        .funnel-stage {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem 2.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            position: relative;
+            transition: all 0.4s;
+        }
+
+        .funnel-stage:hover {
+            border-color: var(--border-strong);
+            transform: translateX(10px);
+        }
+
+        .funnel-stage:nth-child(1) { width: 100%; }
+        .funnel-stage:nth-child(2) { width: 90%; margin-left: 5%; }
+        .funnel-stage:nth-child(3) { width: 80%; margin-left: 10%; }
+        .funnel-stage:nth-child(4) { width: 70%; margin-left: 15%; }
+        .funnel-stage:nth-child(5) { width: 60%; margin-left: 20%; }
+
+        .funnel-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,88,0,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gula-orange);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .funnel-content h4 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .funnel-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .funnel-arrow {
+            position: absolute;
+            right: 2rem;
+            color: var(--gula-orange);
+            font-size: 1.2rem;
+            opacity: 0.5;
+        }
+
+        /* Club Section */
+        .club-section {
+            background: var(--bg-card);
+            padding: 6rem 2rem;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .club-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .club-visual {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(145deg, rgba(255,88,0,0.1), rgba(255,88,0,0.02));
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .club-visual::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            opacity: 0.1;
+            filter: blur(60px);
+            animation: moveGlow 6s ease-in-out infinite;
+        }
+
+        @keyframes moveGlow {
+            0%, 100% { transform: translate(-30%, -30%); }
+            50% { transform: translate(30%, 30%); }
+        }
+
+        .club-badge-large {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .club-badge-large i {
+            font-size: 4rem;
+            color: var(--gula-orange);
+            margin-bottom: 1rem;
+        }
+
+        .club-badge-large span {
+            display: block;
+            font-family: 'Aveline', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+        }
+
+        .club-content h2 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .club-content h2 .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .club-features {
+            display: grid;
+            gap: 1.2rem;
+            margin-top: 2.5rem;
+        }
+
+        .club-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            padding: 1.3rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border-left: 3px solid var(--gula-orange);
+        }
+
+        .club-feature i {
+            color: var(--gula-orange);
+            font-size: 1.1rem;
+            margin-top: 0.2rem;
+        }
+
+        .club-feature div strong {
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .club-feature div p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Vision */
+        .dashboard-section {
+            padding: 6rem 2rem;
+        }
+
+        .dashboard-preview {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3.5rem;
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient-primary);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: var(--bg-elevated);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .dashboard-card:hover {
+            border-color: var(--border-color);
+            transform: translateY(-5px);
+        }
+
+        .dashboard-card i {
+            font-size: 2rem;
+            color: var(--gula-orange);
+            margin-bottom: 1.2rem;
+        }
+
+        .dashboard-card h4 {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+        }
+
+        /* Integration suggestion */
+        .integration-section {
+            background: var(--bg-card);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .integration-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .integration-tab {
+            padding: 1rem 2rem;
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .integration-tab:hover, .integration-tab.active {
+            border-color: var(--gula-orange);
+            color: var(--gula-orange);
+            background: rgba(255,88,0,0.05);
+        }
+
+        .integration-tab i {
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-logo {
+            font-family: 'Aveline', sans-serif;
+            font-size: 2rem;
+            color: var(--gula-orange);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .vision-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .club-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .ecosystem-orbit, .ecosystem-nodes, .eco-connections {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .eco-node {
+                width: 100px;
+                padding: 0.8rem;
+            }
+            
+            .eco-node span {
+                font-size: 0.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .funnel-stage {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg">
+        <div class="ambient-glow"></div>
+        <div class="ambient-grid"></div>
+    </div>
+
+    <nav>
+        <div class="nav-logo">GULA</div>
+        <div class="nav-links">
+            <a href="#objetivos">Objetivos</a>
+            <a href="#estructura">Estructura</a>
+            <a href="#convergencia">Convergencia</a>
+            <a href="#regla">Regla de Oro</a>
+            <a href="#dashboard">Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-badge">
+                <i class="fas fa-crosshairs"></i>
+                Principio Rector: Clasificación en 10 segundos
+            </div>
+            <h1>
+                Tres objetivos.<br>
+                <span class="gradient-text">Una sola web.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Cada usuario que entra es clasificado sin preguntarle directamente.
+                Por comportamiento + contexto + estímulos visuales. Cada página empuja a uno de los 3 caminos.
+            </p>
+            <div class="hero-cta">
+                <a href="#objetivos" class="btn btn-primary">
+                    <i class="fas fa-bullseye"></i>
+                    Ver los 3 objetivos
+                </a>
+                <a href="#estructura" class="btn btn-outline">
+                    <i class="fas fa-sitemap"></i>
+                    Estructura global
+                </a>
+            </div>
+        </section>
+
+        <!-- Objectives Section -->
+        <section class="section" id="objetivos">
+            <div class="section-header">
+                <div class="section-eyebrow">Objetivos Claros</div>
+                <h2 class="section-title">Todo empuja a uno de estos tres</h2>
+                <p class="section-description">
+                    Si una página, sección o elemento no empuja a uno de estos tres objetivos, sobra.
+                </p>
+            </div>
+            
+            <div class="vision-grid">
+                <div class="vision-card">
+                    <div class="vision-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>1. Venta</h3>
+                    <p><strong>Tienda / Pedido</strong><br>La web como máquina de conversión. Carta optimizada, checkout sin fricción, canales de delivery claros. Cada click debe llevar a una transacción.</p>
+                </div>
+                
+                <div class="vision-card">
+                    <div class="vision-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>2. Fidelización</h3>
+                    <p><strong>Club GULA</strong><br>Transformar la relación transaccional en comunitaria. Gamificación, puntos, niveles y recompensas que multiplican el LTV y generan recurrencia.</p>
+                </div>
+                
+                <div class="vision-card">
+                    <div class="vision-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>3. Expansión</h3>
+                    <p><strong>Franquicia</strong><br>Captar inversores y emprendedores. Números claros, modelo validado, sistema replicable. Crecer sin perder la esencia del producto.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estructura Global Section -->
+        <section class="ecosystem-section" id="estructura">
+            <div class="ecosystem-container">
+                <div class="section-header">
+                    <div class="section-eyebrow">Estructura Global</div>
+                    <h2 class="section-title">Cada página tiene un objetivo principal</h2>
+                    <p class="section-description">
+                        Menú de 6 páginas. Cada una empuja al usuario hacia uno de los 3 objetivos de negocio.
+                    </p>
+                </div>
+
+                <div class="funnel-visual" style="margin-top: 3rem;">
+                    <div class="funnel-stage" style="width: 100%; margin-left: 0; border-left: 4px solid var(--gula-orange);">
+                        <div class="funnel-icon" style="background: rgba(255,88,0,0.2);">
+                            <i class="fas fa-home" style="color: var(--gula-orange);"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Inicio</h4>
+                            <p><strong>Objetivo principal:</strong> Clasificar al usuario en 3 campos visuales<br>
+                            <strong>Secundario:</strong> Empujar hacia 1 de los 3 caminos (Carta, Club, Franquicia)<br>
+                            <em>Hero con 3 puertas: Ver carta → Descubrir sistema → Abre tu Gula</em></p>
+                        </div>
+                        <span class="funnel-arrow" style="background: rgba(255,88,0,0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.7rem; color: var(--gula-orange); font-family: 'Akira Expanded', sans-serif;">CLASIFICAR</span>
+                    </div>
+
+                    <div class="funnel-stage" style="width: 95%; margin-left: 2.5%; border-left: 4px solid var(--text-secondary);">
+                        <div class="funnel-icon" style="background: rgba(160,160,160,0.15);">
+                            <i class="fas fa-users" style="color: var(--text-secondary);"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Nosotros</h4>
+                            <p><strong>Objetivo:</strong> Contexto + Confianza<br>
+                            <em>Storytelling de la marca, validación social (reviews), qué es Gula y por qué somos diferentes</em></p>
+                        </div>
+                        <span class="funnel-arrow" style="background: rgba(160,160,160,0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.7rem; color: var(--text-secondary); font-family: 'Akira Expanded', sans-serif;">CONFIANZA</span>
+                    </div>
+
+                    <div class="funnel-stage" style="width: 90%; margin-left: 5%; border-left: 4px solid var(--gula-orange);">
+                        <div class="funnel-icon" style="background: rgba(255,88,0,0.2);">
+                            <i class="fas fa-utensils" style="color: var(--gula-orange);"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Carta-Menú</h4>
+                            <p><strong>Objetivo principal:</strong> VENDER<br>
+                            <strong>Secundario:</strong> Empujar al Club (+X puntos visibles en cada producto)<br>
+                            <em>Checkout optimizado, canales claros, mensaje: "Con este pedido +33 pts. Estás a 5 pts de una recompensa"</em></p>
+                        </div>
+                        <span class="funnel-arrow" style="background: rgba(255,88,0,0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.7rem; color: var(--gula-orange); font-family: 'Akira Expanded', sans-serif;">VENTA + CLUB</span>
+                    </div>
+
+                    <div class="funnel-stage" style="width: 85%; margin-left: 7.5%; border-left: 4px solid var(--gula-orange-light);">
+                        <div class="funnel-icon" style="background: rgba(255,122,41,0.2);">
+                            <i class="fas fa-crown" style="color: var(--gula-orange-light);"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Club Gula</h4>
+                            <p><strong>Objetivo principal:</strong> REGISTRO<br>
+                            <strong>Secundario:</strong> Activar recurrencia<br>
+                            <em>Explicación simple de beneficios → Registro sin fricción → Dashboard con misiones, recompensas y puntos</em></p>
+                        </div>
+                        <span class="funnel-arrow" style="background: rgba(255,122,41,0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.7rem; color: var(--gula-orange-light); font-family: 'Akira Expanded', sans-serif;">FIDELIZAR</span>
+                    </div>
+
+                    <div class="funnel-stage" style="width: 80%; margin-left: 10%; border-left: 4px solid var(--gula-orange-dark);">
+                        <div class="funnel-icon" style="background: rgba(230,74,0,0.2);">
+                            <i class="fas fa-handshake" style="color: var(--gula-orange-dark);"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Franquicia</h4>
+                            <p><strong>Objetivo principal:</strong> Lead cualificado (inversor/emprendedor)<br>
+                            <strong>Secundario:</strong> Posicionamiento de marca<br>
+                            <em>Números clave, modelo validado, expansión real, formulario de contacto para franquiciados</em></p>
+                        </div>
+                        <span class="funnel-arrow" style="background: rgba(230,74,0,0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.7rem; color: var(--gula-orange-dark); font-family: 'Akira Expanded', sans-serif;">EXPANDIR</span>
+                    </div>
+
+                    <div class="funnel-stage" style="width: 75%; margin-left: 12.5%; border-left: 4px solid var(--text-tertiary);">
+                        <div class="funnel-icon" style="background: rgba(102,102,102,0.2);">
+                            <i class="fas fa-envelope" style="color: var(--text-tertiary);"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Contacto</h4>
+                            <p><strong>Objetivo:</strong> Soporte + Confianza<br>
+                            <em>Simple. Sin storytelling. Formulario directo para dudas, catering, prensa.</em></p>
+                        </div>
+                        <span class="funnel-arrow" style="background: rgba(102,102,102,0.1); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.7rem; color: var(--text-tertiary); font-family: 'Akira Expanded', sans-serif;">SOPORTE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ecosystem Section -->
+        <section class="ecosystem-section" id="ecosistema">
+            <div class="ecosystem-container">
+                <div class="section-header">
+                    <div class="section-eyebrow">Arquitectura</div>
+                    <h2 class="section-title">El núcleo conectado</h2>
+                    <p class="section-description">
+                        La web actúa como centro de gravedad donde converge todo: tráfico, datos, conversiones y relaciones
+                    </p>
+                </div>
+
+                <div class="ecosystem-diagram">
+                    <div class="ecosystem-orbit"></div>
+                    <div class="eco-connections">
+                        <div class="connection-line" style="transform: rotate(0deg);"></div>
+                        <div class="connection-line" style="transform: rotate(60deg);"></div>
+                        <div class="connection-line" style="transform: rotate(120deg);"></div>
+                        <div class="connection-line" style="transform: rotate(180deg);"></div>
+                        <div class="connection-line" style="transform: rotate(240deg);"></div>
+                        <div class="connection-line" style="transform: rotate(300deg);"></div>
+                    </div>
+                    <div class="ecosystem-nodes">
+                        <div class="eco-node">
+                            <i class="fas fa-home"></i>
+                            <span>Inicio</span>
+                        </div>
+                        <div class="eco-node">
+                            <i class="fas fa-utensils"></i>
+                            <span>Carta</span>
+                        </div>
+                        <div class="eco-node">
+                            <i class="fas fa-crown"></i>
+                            <span>Club</span>
+                        </div>
+                        <div class="eco-node">
+                            <i class="fas fa-handshake"></i>
+                            <span>Franquicia</span>
+                        </div>
+                        <div class="eco-node">
+                            <i class="fas fa-calendar"></i>
+                            <span>Eventos</span>
+                        </div>
+                        <div class="eco-node">
+                            <i class="fas fa-envelope"></i>
+                            <span>Contacto</span>
+                        </div>
+                    </div>
+                    <div class="ecosystem-core">
+                        <i class="fas fa-bolt"></i>
+                        <span>ECOSISTEMA<br>GULA</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Funnel Section - Customer Journey -->
+        <section class="funnel-section" id="funnel" style="margin-top: 12rem; padding-top: 6rem; position: relative; z-index: 10; background: var(--bg-dark);">
+            <div class="funnel-container">
+                <div class="section-header">
+                    <div class="section-eyebrow">Customer Journey</div>
+                    <h2 class="section-title">Cada sección, un objetivo</h2>
+                    <p class="section-description">
+                        No diseñamos páginas. Diseñamos pasos de un funnel optimizado que guía al usuario naturalmente
+                    </p>
+                </div>
+
+                <div class="funnel-visual">
+                    <div class="funnel-stage">
+                        <div class="funnel-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Inicio — Captación</h4>
+                            <p>Impacto visual inmediato. Branding memorable que transmite valores en 3 segundos y genera curiosidad por explorar más.</p>
+                        </div>
+                        <i class="fas fa-arrow-down funnel-arrow"></i>
+                    </div>
+
+                    <div class="funnel-stage">
+                        <div class="funnel-icon">
+                            <i class="fas fa-hamburger"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Carta — Descubrimiento</h4>
+                            <p>Experiencia inmersiva de producto. Fotografía, storytelling y navegación fluida que despierta el deseo de probar.</p>
+                        </div>
+                        <i class="fas fa-arrow-down funnel-arrow"></i>
+                    </div>
+
+                    <div class="funnel-stage">
+                        <div class="funnel-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Marketplace — Conversión</h4>
+                            <p>Checkout optimizado, múltiples plataformas de entrega, y proceso de compra sin fricciones que minimiza abandono.</p>
+                        </div>
+                        <i class="fas fa-arrow-down funnel-arrow"></i>
+                    </div>
+
+                    <div class="funnel-stage">
+                        <div class="funnel-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Club — Fidelización</h4>
+                            <p>Post-compra perfecta. Gamificación, puntos, niveles y recompensas que convierten un pedido en el primero de muchos.</p>
+                        </div>
+                        <i class="fas fa-arrow-down funnel-arrow"></i>
+                    </div>
+
+                    <div class="funnel-stage">
+                        <div class="funnel-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="funnel-content">
+                            <h4>Advocacy — Expansión</h4>
+                            <p>Miembros de la CREW que comparten, recomiendan y eventualmente se convierten en franquiciados del ecosistema.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Convergencia Section -->
+        <section class="section" id="convergencia" style="background: var(--bg-card); border-top: 1px solid var(--border-color);">
+            <div class="section-header">
+                <div class="section-eyebrow" style="color: var(--gula-orange);">
+                    <i class="fas fa-star" style="margin-right: 0.5rem;"></i>
+                    Lo Más Importante
+                </div>
+                <h2 class="section-title">Todos los caminos se cruzan</h2>
+                <p class="section-description">
+                    Cada página no es un destino final. Es un nodo que conecta con los otros dos objetivos.
+                </p>
+            </div>
+
+            <div class="vision-grid" style="margin-top: 3rem;">
+                <div class="vision-card" style="border-color: rgba(255,88,0,0.5);">
+                    <div class="vision-icon" style="background: rgba(255,88,0,0.2); border-color: var(--gula-orange);">
+                        <i class="fas fa-home" style="color: var(--gula-orange);"></i>
+                    </div>
+                    <h3>Desde INICIO</h3>
+                    <p><strong>Clasificación → 3 caminos</strong><br>
+                    El usuario elige: Ver carta (venta), Descubrir sistema (club), o Abre tu Gula (franquicia). Sin fricción.</p>
+                </div>
+
+                <div class="vision-card" style="border-color: rgba(255,88,0,0.3);">
+                    <div class="vision-icon" style="background: rgba(255,88,0,0.15); border-color: var(--gula-orange);">
+                        <i class="fas fa-utensils" style="color: var(--gula-orange);"></i>
+                    </div>
+                    <h3>Desde CARTA</h3>
+                    <p><strong>Compra → Descubres puntos → Club</strong><br>
+                    "+33 pts. Estás a 5 pts de una recompensa". El mensaje clave que convierte venta en fidelización.</p>
+                </div>
+
+                <div class="vision-card" style="border-color: rgba(255,122,41,0.3);">
+                    <div class="vision-icon" style="background: rgba(255,122,41,0.15); border-color: var(--gula-orange-light);">
+                        <i class="fas fa-crown" style="color: var(--gula-orange-light);"></i>
+                    </div>
+                    <h3>Desde CLUB</h3>
+                    <p><strong>Misión → Tienda</strong><br>
+ Las misiones te devuelven a la carta. "Completa tu pedido esta semana" = recurrencia + venta.</p>
+                </div>
+
+                <div class="vision-card" style="border-color: rgba(230,74,0,0.3);">
+                    <div class="vision-icon" style="background: rgba(230,74,0,0.15); border-color: var(--gula-orange-dark);">
+                        <i class="fas fa-handshake" style="color: var(--gula-orange-dark);"></i>
+                    </div>
+                    <h3>Desde FRANQUICIA</h3>
+                    <p><strong>Validas modelo → Entiendes sistema → Negocio</strong><br>
+                    El franquiciado ve el Club, la carta, los números. Entiende que no es solo una burger, es un ecosistema.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem; padding: 2rem; background: rgba(255,88,0,0.05); border-radius: 20px; border: 1px solid var(--border-color);">
+                <h3 style="font-family: 'Aveline', sans-serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--gula-orange);">
+                    <i class="fas fa-infinity" style="margin-right: 0.5rem;"></i>
+                    Todo está conectado
+                </h3>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                    El usuario puede entrar por cualquier puerta, pero siempre descubre las otras dos.
+                    Una web circular, no lineal.
+                </p>
+            </div>
+        </section>
+
+        <!-- Regla de Oro Section -->
+        <section class="section" id="regla">
+            <div class="section-header">
+                <div class="section-eyebrow" style="color: var(--gula-orange);">
+                    <i class="fas fa-gavel" style="margin-right: 0.5rem;"></i>
+                    Regla de Oro
+                </div>
+                <h2 class="section-title">Validación de todo contenido</h2>
+                <p class="section-description">
+                    Cada bloque, sección o página debe responder a esta pregunta:
+                </p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(255,88,0,0.15) 0%, rgba(255,88,0,0.05) 100%); border: 2px solid var(--gula-orange); border-radius: 24px; padding: 3rem; text-align: center; margin-top: 2rem;">
+                <p style="font-family: 'Aveline', sans-serif; font-size: 2rem; color: var(--gula-orange); margin-bottom: 2rem; line-height: 1.4;">
+                    "¿A cuál de los 3 objetivos empuja?"
+                </p>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <div style="background: rgba(255,88,0,0.1); padding: 1rem 2rem; border-radius: 12px;">
+                        <i class="fas fa-shopping-bag" style="color: var(--gula-orange); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <p style="margin: 0; font-weight: 600;">¿Venta?</p>
+                    </div>
+                    <div style="background: rgba(255,122,41,0.1); padding: 1rem 2rem; border-radius: 12px;">
+                        <i class="fas fa-heart" style="color: var(--gula-orange-light); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <p style="margin: 0; font-weight: 600;">¿Fidelización?</p>
+                    </div>
+                    <div style="background: rgba(230,74,0,0.1); padding: 1rem 2rem; border-radius: 12px;">
+                        <i class="fas fa-rocket" style="color: var(--gula-orange-dark); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <p style="margin: 0; font-weight: 600;">¿Expansión?</p>
+                    </div>
+                </div>
+                <p style="margin-top: 2rem; color: var(--text-secondary); font-size: 1.1rem;">
+                    <strong>Si no responde → FUERA</strong><br>
+                    Si no empuja a Venta, Fidelización o Expansión, no merece estar en la web.
+                </p>
+            </div>
+        </section>
+
+        <!-- Club Section -->
+        <section class="club-section" id="club">
+            <div class="club-container">
+                <div class="club-visual">
+                    <div class="club-badge-large">
+                        <i class="fas fa-crown"></i>
+                        <span>CLUB<br>GULA</span>
+                    </div>
+                </div>
+                <div class="club-content">
+                    <h2>
+                        De cliente a <span class="gradient-text">miembro</span>
+                    </h2>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8;">
+                        El Club no es un programa de puntos más. Es el corazón de nuestra estrategia de retención: 
+                        un sistema que transforma la relación comercial en pertenencia comunitaria.
+                    </p>
+                    <div class="club-features">
+                        <div class="club-feature">
+                            <i class="fas fa-sync"></i>
+                            <div>
+                                <strong>Recurrencia Automatizada</strong>
+                                <p>Triggers de engagement que reactivan usuarios inactivos y celebran hitos de fidelidad.</p>
+                            </div>
+                        </div>
+                        <div class="club-feature">
+                            <i class="fas fa-database"></i>
+                            <div>
+                                <strong>Datos Accionables</strong>
+                                <p>Cada interacción alimenta el CRM: preferencias, frecuencia, valor de vida para personalización real.</p>
+                            </div>
+                        </div>
+                        <div class="club-feature">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <strong>Eficiencia Operativa</strong>
+                                <p>Segmentación automática, campañas triggered y comunicación 1:1 sin coste de equipo de marketing.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Vision -->
+        <section class="dashboard-section" id="dashboard">
+            <div class="section-header">
+                <div class="section-eyebrow">Operaciones</div>
+                <h2 class="section-title">Visibilidad para escalar</h2>
+                <p class="section-description">
+                    El dashboard es el sistema nervioso del ecosistema: centralización de datos, 
+                    automatización de procesos y toma de decisiones en tiempo real
+                </p>
+            </div>
+
+            <div class="dashboard-preview">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <i class="fas fa-shopping-bag" style="color: var(--gula-orange);"></i>
+                        <h4>Ventas en Tiempo Real</h4>
+                        <p>Pedidos, ticket medio, conversión carta-checkout. El objetivo #1 medido al instante.</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-heart" style="color: var(--gula-orange-light);"></i>
+                        <h4>Club GULA Stats</h4>
+                        <p>Miembros activos, tasa de retención, LTV, misiones completadas. Fidelización medida.</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-rocket" style="color: var(--gula-orange-dark);"></i>
+                        <h4>Pipeline Franquicias</h4>
+                        <p>Leads cualificados, contactados, en negociación. Expansión trackeada paso a paso.</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-crosshairs" style="color: var(--gula-orange);"></i>
+                        <h4>Clasificación de Usuarios</h4>
+                        <p>Compradores vs Club vs Franquicia. Quién entra por dónde, todo trackeado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Integration Suggestion -->
+        <section class="integration-section">
+            <h3 style="font-family: 'Aveline', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem;">
+                Dashboard para Shareholders
+            </h3>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                Esta vista es la primera pestaña del dashboard CEO. Antes de métricas, entender la estrategia.
+            </p>
+            <div class="integration-tabs">
+                <div class="integration-tab active">
+                    <i class="fas fa-crosshairs"></i>
+                    Los 3 Objetivos
+                </div>
+                <div class="integration-tab">
+                    <i class="fas fa-sitemap"></i>
+                    Estructura del Menú
+                </div>
+                <div class="integration-tab">
+                    <i class="fas fa-infinity"></i>
+                    Convergencia
+                </div>
+                <div class="integration-tab">
+                    <i class="fas fa-gavel"></i>
+                    Regla de Oro
+                </div>
+            </div>
+            <p style="color: var(--text-tertiary); font-size: 0.85rem; margin-top: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                <i class="fas fa-lightbulb" style="color: var(--gula-orange);"></i>
+                &nbsp;<strong>Uso:</strong> Onboarding de franquiciados, reuniones con inversores, alineación de equipo.
+                Todo stakeholder entiende en 5 minutos qué estamos construyendo y por qué cada decisión empuja a Venta, Club o Franquicia.
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-logo">GULA</div>
+            <p class="footer-text">
+                <strong>Tres objetivos. Una sola web.</strong><br>
+                Venta + Fidelización + Expansión. Cada usuario clasificado en 10 segundos.<br>
+                Si no empuja a uno de los tres → FUERA.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.vision-card, .funnel-stage, .club-feature, .dashboard-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

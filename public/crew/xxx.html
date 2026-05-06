@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA Intel | Glovo vs Uber Eats | 1-3 May 2026</title>
+    //fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    //cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --gula-orange: #FF5800;
+            --gula-orange-dark: #E64A00;
+            --bg-dark: #000000;
+            --bg-card: #111111;
+            --bg-hover: #1a1a1a;
+            --accent-white: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(255, 88, 0, 0.3);
+            --border-color-strong: rgba(255, 88, 0, 0.6);
+            --glovo-color: #FF5800;
+            --ue-color: #06C167;
+            --ue-color-dim: rgba(6, 193, 103, 0.25);
+            --glovo-color-dim: rgba(255, 88, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #1a0000 100%);
+            color: var(--accent-white);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 88, 0, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 88, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(80px, 12vw, 220px);
+            font-weight: 900;
+            color: rgba(255, 88, 0, 0.03);
+            white-space: pre;
+            z-index: 0;
+            pointer-events: none;
+            line-height: 0.9;
+            text-align: center;
+            letter-spacing: 30px;
+            user-select: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--border-color);
+            padding: 0 28px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+            box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1);
+        }
+
+        .nav-logo {
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: var(--gula-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-badge {
+            font-family: Arial, sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            background: rgba(255, 88, 0, 0.12);
+            border: 1px solid var(--border-color);
+            color: var(--gula-orange);
+            padding: 6px 14px;
+            border-radius: 999px;
+            text-transform: uppercase;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 80px 40px;
+        }
+
+        section.dark-section {
+            background: rgba(0, 0, 0, 0.35);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .section-title .highlight {
+            color: var(--gula-orange);
+            text-shadow: 0 0 20px rgba(255, 88, 0, 0.3);
+        }
+
+        .section-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 60px;
+            margin-top: 72px;
+            text-align: center;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 960px;
+            animation: fadeInUp 1s ease-out;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 88, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--gula-orange);
+            color: var(--gula-orange);
+            padding: 8px 22px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 .orange {
+            color: var(--gula-orange);
+            text-shadow: 0 0 30px rgba(255, 88, 0, 0.5);
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .hero-meta-chip {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            background: rgba(255, 88, 0, 0.08);
+            border: 1px solid var(--border-color);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 6px 14px;
+            border-radius: 999px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            position: relative;
+            padding: 1.8rem 1rem;
+            background: rgba(20, 20, 20, 0.55);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gula-orange);
+            box-shadow: 0 20px 40px rgba(255, 88, 0, 0.18);
+        }
+
+        .stat-card.glovo-card {
+            border-color: rgba(255, 88, 0, 0.4);
+        }
+
+        .stat-card.ue-card {
+            border-color: rgba(6, 193, 103, 0.4);
+        }
+
+        .stat-card.ue-card .stat-num {
+            color: var(--ue-color);
+            text-shadow: 0 0 25px rgba(6, 193, 103, 0.3);
+        }
+
+        .stat-num {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 900;
+            color: var(--gula-orange);
+            line-height: 1;
+            text-shadow: 0 0 25px rgba(255, 88, 0, 0.3);
+        }
+
+        .stat-label {
+            margin-top: 0.55rem;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .stat-tag {
+            display: inline-block;
+            margin-top: 0.4rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            letter-spacing: 1px;
+        }
+
+        .tag-glovo {
+            background: rgba(255, 88, 0, 0.15);
+            color: var(--gula-orange);
+            border: 1px solid rgba(255, 88, 0, 0.3);
+        }
+
+        .tag-ue {
+            background: rgba(6, 193, 103, 0.15);
+            color: var(--ue-color);
+            border: 1px solid rgba(6, 193, 103, 0.3);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 14px;
+            border: 1.5px solid var(--border-color);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.84rem;
+        }
+
+        .data-table thead tr {
+            background: rgba(255, 88, 0, 0.08);
+            border-bottom: 1.5px solid var(--border-color);
+        }
+
+        .data-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.62rem;
+            letter-spacing: 1.5px;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 11px 16px;
+            border-bottom: 1px solid rgba(255, 88, 0, 0.08);
+            color: rgba(255, 255, 255, 0.85);
+            vertical-align: middle;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 88, 0, 0.04);
+        }
+
+        .data-table .winner-glovo {
+            color: var(--gula-orange);
+            font-weight: 700;
+        }
+
+        .data-table .winner-ue {
+            color: var(--ue-color);
+            font-weight: 700;
+        }
+
+        .data-table .row-total {
+            background: rgba(255, 88, 0, 0.06);
+            font-weight: 700;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .pill-orange {
+            background: rgba(255, 88, 0, 0.15);
+            color: var(--gula-orange);
+        }
+
+        .pill-green {
+            background: rgba(6, 193, 103, 0.15);
+            color: var(--ue-color);
+        }
+
+        .verdict-banner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 36px;
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1), rgba(255, 88, 0, 0.03));
+            border: 1.5px solid var(--border-color-strong);
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verdict-title {
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .verdict-title .orange {
+            color: var(--gula-orange);
+        }
+
+        .verdict-text {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .store-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.5);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
+        }
+
+        .store-column {
+            padding: 0;
+        }
+
+        .store-header {
+            font-size: 1.2rem;
+            font-weight: 900;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .store-header.glovo {
+            color: var(--gula-orange);
+        }
+
+        .store-header.uber {
+            color: var(--ue-color);
+        }
+
+        .store-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .store-metric {
+            background: rgba(255, 88, 0, 0.04);
+            border: 1px solid rgba(255, 88, 0, 0.12);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .store-metric.uber {
+            background: rgba(6, 193, 103, 0.04);
+            border-color: rgba(6, 193, 103, 0.12);
+        }
+
+        .metric-name {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--accent-white);
+        }
+
+        .store-metric.uber .metric-value {
+            color: var(--ue-color);
+        }
+
+        .store-address {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .conclusion-card {
+            background: rgba(20, 20, 20, 0.5);
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            transition: all 0.4s ease;
+        }
+
+        .conclusion-card:hover {
+            border-color: var(--gula-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 36px rgba(255, 88, 0, 0.14);
+        }
+
+        .conclusion-num {
+            font-size: 2.2rem;
+            color: rgba(255, 88, 0, 0.35);
+            line-height: 1;
+            min-width: 36px;
+            flex-shrink: 0;
+        }
+
+        .conclusion-text strong {
+            display: block;
+            font-size: 0.82rem;
+            color: #fff;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .conclusion-text p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .conclusions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .marketing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto 40px;
+        }
+
+        .marketing-card {
+            background: rgba(20, 20, 20, 0.5);
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .marketing-card.glovo-card {
+            border-color: rgba(255, 88, 0, 0.4);
+        }
+
+        .marketing-card.ue-card {
+            border-color: rgba(6, 193, 103, 0.4);
+        }
+
+        .marketing-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .marketing-card.glovo-card .marketing-title {
+            color: var(--gula-orange);
+        }
+
+        .marketing-card.ue-card .marketing-title {
+            color: var(--ue-color);
+        }
+
+        .marketing-item {
+            background: rgba(255, 88, 0, 0.04);
+            border: 1px solid rgba(255, 88, 0, 0.12);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+        }
+
+        .marketing-card.ue-card .marketing-item {
+            background: rgba(6, 193, 103, 0.04);
+            border-color: rgba(6, 193, 103, 0.12);
+        }
+
+        .marketing-item-label {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .marketing-item-value {
+            color: var(--accent-white);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            color: var(--gula-orange);
+            margin-bottom: 8px;
+        }
+
+        .footer-meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 20px;
+            }
+            .hero {
+                padding: 100px 20px 40px;
+            }
+            .store-comparison, .marketing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">GULA</div>
+
+    <nav>
+        <div class="nav-logo">Gula</div>
+        <div class="nav-badge">Intel Report</div>
+        <div class="nav-right">
+            <span style="font-size: 0.72rem; color: var(--text-secondary);">1-3 May 2026</span>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Informe Completo 1-3 Mayo 2026</div>
+            <h1><span class="orange">Glovo</span> vs <span class="orange">Uber Eats</span></h1>
+            <p class="hero-sub">Análisis de ventas, rendimiento, marketing y operativa en 4 tiendas.<br>Datos verificados | Márgenes reales | Recomendaciones ejecutivas.</p>
+            <div class="hero-meta">
+                <span class="hero-meta-chip"><i class="fa fa-store"></i> 4 Tiendas</span>
+                <span class="hero-meta-chip"><i class="fa fa-receipt"></i> 209 Pedidos totales</span>
+                <span class="hero-meta-chip"><i class="fa fa-euro-sign"></i> €5,807 facturación</span>
+                <span class="hero-meta-chip"><i class="fa fa-bullhorn"></i> Marketing & Ads</span>
+                <span class="hero-meta-chip"><i class="fa fa-gift"></i> Promociones activas</span>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 40px 40px 60px;">
+        <div class="verdict-banner">
+            <div class="verdict-title"><span class="orange">Glovo</span> lidera en pedidos y margen ajustado</div>
+            <p class="verdict-text">Glovo alcanza <strong style="color: #fff;">111 pedidos</strong> en 3 días contra <strong style="color: #fff;">58 de Uber Eats</strong>. Con Glovo cofinanciando el <strong style="color: #fff;">50% de promociones</strong>, el margen neto real estimado sube a <strong style="color: #fff;">€2,853-€3,031</strong>, superando los <strong style="color: #fff;">€2,776 de Uber Eats</strong>. <strong style="color: var(--gula-orange);">Glovo lidera tanto en volumen como en margen ajustado.</strong></p>
+        </div>
+    </section>
+
+    <section id="kpis" class="dark-section">
+        <div class="section-header">
+            <div class="section-title">KPIs <span class="highlight">Clave</span></div>
+            <p class="section-desc">Números definitivos de los 3 días. Glovo vs Uber Eats.</p>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card glovo-card">
+                <div class="stat-num">111</div>
+                <div class="stat-label">Pedidos Glovo</div>
+                <div class="stat-tag tag-glovo">3 días</div>
+            </div>
+            <div class="stat-card ue-card">
+                <div class="stat-num">58</div>
+                <div class="stat-label">Pedidos Uber Eats</div>
+                <div class="stat-tag tag-ue">3 días</div>
+            </div>
+            <div class="stat-card glovo-card">
+                <div class="stat-num">€3,566</div>
+                <div class="stat-label">Fact. Bruta Glovo</div>
+                <div class="stat-tag tag-glovo">Glovo cofin. 50</div>
+            </div>
+            <div class="stat-card ue-card">
+                <div class="stat-num">€2,776</div>
+                <div class="stat-label">Fact. Neta UE</div>
+                <div class="stat-tag tag-ue">Real</div>
+            </div>
+            <div class="stat-card glovo-card">
+                <div class="stat-num">€3,031</div>
+                <div class="stat-label">Fact. Neta Glovo est.</div>
+                <div class="stat-tag tag-ue">Con cofin. 50</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">€919.95</div>
+                <div class="stat-label">Presupuesto Promos</div>
+                <div class="stat-tag tag-glovo">Glovo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">€241.70</div>
+                <div class="stat-label">Presupuesto Ads</div>
+                <div class="stat-tag tag-ue">Uber Eats</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">5.35x</div>
+                <div class="stat-label">ROI Promos Glovo</div>
+                <div class="stat-tag tag-glovo">Excelente</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="marketing">
+        <div class="section-header">
+            <div class="section-title">Marketing <span class="highlight">& Ads</span></div>
+            <p class="section-desc">Presupuesto, ROI y estrategia de ambas plataformas - 3 días.</p>
+        </div>
+
+        <div class="marketing-grid">
+            <div class="marketing-card glovo-card">
+                <div class="marketing-title">🍔 Glovo - Promotions</div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Total Presupuesto Promos</div>
+                    <div class="marketing-item-value">€919.95</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Ventas desde Promos</div>
+                    <div class="marketing-item-value">€4,923.89</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Clientes Adquiridos</div>
+                    <div class="marketing-item-value">98</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">ROI Promotions</div>
+                    <div class="marketing-item-value" style="color: #06C167;">5.35x</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Promociones Activas</div>
+                    <div class="marketing-item-value">7 tipos</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Cofinanciación</div>
+                    <div class="marketing-item-value">50% - 100%</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Tipos Principales</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 6px;">
+                        • 2x1 BOGO<br>
+                        • 30% OFF<br>
+                        • Free Delivery
+                    </div>
+                </div>
+            </div>
+
+            <div class="marketing-card ue-card">
+                <div class="marketing-title">📱 Uber Eats - Ads</div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Total Presupuesto Ads</div>
+                    <div class="marketing-item-value">€241.70</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Ventas desde Ads</div>
+                    <div class="marketing-item-value">€1,349.32</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Órdenes Generadas</div>
+                    <div class="marketing-item-value">42</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">ROI Advertising</div>
+                    <div class="marketing-item-value" style="color: #06C167;">5.58x</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Campañas Activas</div>
+                    <div class="marketing-item-value">5 campaigns</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Distribución</div>
+                    <div class="marketing-item-value">4 tiendas</div>
+                </div>
+                <div class="marketing-item">
+                    <div class="marketing-item-label">Mejor Campaign</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 6px;">
+                        Cartagena 6.67x ROI<br>
+                        Ad spend €60<br>
+                        Orders 12
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="max-width: 900px; margin: 0 auto 40px;">
+            <h3 style="font-family: Arial, sans-serif; font-size: 0.72rem; letter-spacing: 2px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 14px;">Comparativa Marketing - ROI y Eficiencia</h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Dimensión</th>
+                            <th>GLOVO PROMOS</th>
+                            <th>UBER EATS ADS</th>
+                            <th>Ganador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Presupuesto Total</td>
+                            <td>€919.95</td>
+                            <td>€241.70</td>
+                            <td><span class="pill pill-orange">Glovo invierte 3.8x</span></td>
+                        </tr>
+                        <tr>
+                            <td>ROI Global</td>
+                            <td class="winner-glovo">5.35x</td>
+                            <td>5.58x</td>
+                            <td><span class="pill pill-green">UE 4.3% mejor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Ventas Generadas</td>
+                            <td class="winner-glovo">€4,923.89</td>
+                            <td>€1,349.32</td>
+                            <td><span class="pill pill-orange">Glovo 3.6x</span></td>
+                        </tr>
+                        <tr>
+                            <td>Clientes/Órdenes</td>
+                            <td>98 clientes</td>
+                            <td>42 órdenes</td>
+                            <td><span class="pill pill-orange">Glovo 2.3x</span></td>
+                        </tr>
+                        <tr>
+                            <td>Eficiencia (ventas/presupuesto)</td>
+                            <td class="winner-glovo">€5.35 por €1</td>
+                            <td>€5.58 por €1</td>
+                            <td><span class="pill pill-green">UE ligeramente mejor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Cofinanciación/Support</td>
+                            <td class="winner-glovo">50-100% Glovo</td>
+                            <td>0% (Full Pay)</td>
+                            <td><span class="pill pill-orange">Glovo mucho mejor</span></td>
+                        </tr>
+                        <tr class="row-total">
+                            <td>CONCLUSIÓN</td>
+                            <td colspan="3">Glovo invierte más pero genera más volumen. Uber Eats tiene ROI similar en menos inversión. Glovo comparte costos, Uber no.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="promos-detail" class="dark-section">
+        <div class="section-header">
+            <div class="section-title">Detalle <span class="highlight">Promociones</span></div>
+            <p class="section-desc">7 promociones activas en Glovo - Tipos, tiendas y cofinanciación.</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Tienda</th>
+                            <th>Tipo Promo</th>
+                            <th>Descripción</th>
+                            <th>Cofinanciación</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3"><strong>Cartagena</strong></td>
+                            <td><span class="pill pill-orange">2x1 BOGO</span></td>
+                            <td>Buy 1 Get 1 Free</td>
+                            <td><strong>50%</strong></td>
+                            <td>✓ Activa</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pill pill-orange">30% OFF</span></td>
+                            <td>30% descuento seleccionado</td>
+                            <td><strong>50%</strong></td>
+                            <td>✓ Activa</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pill pill-orange">Free Delivery</span></td>
+                            <td>0.00€ shipping</td>
+                            <td><strong>100%</strong></td>
+                            <td>✓ Completada</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"><strong>Sevilla</strong></td>
+                            <td><span class="pill pill-orange">2x1 BOGO</span></td>
+                            <td>Buy 1 Get 1 Free</td>
+                            <td><strong>50%</strong></td>
+                            <td>✓ Activa</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pill pill-orange">30% OFF</span></td>
+                            <td>30% descuento seleccionado</td>
+                            <td><strong>50%</strong></td>
+                            <td>✓ Activa</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Valencia</strong></td>
+                            <td><span class="pill pill-orange">30% OFF</span></td>
+                            <td>30% descuento seleccionado</td>
+                            <td><strong>50%</strong></td>
+                            <td>✓ Activa</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Móstoles</strong></td>
+                            <td><span class="pill pill-orange">Free Delivery</span></td>
+                            <td>0.00€ shipping</td>
+                            <td><strong>100%</strong></td>
+                            <td>✓ Activa</td>
+                        </tr>
+                        <tr class="row-total">
+                            <td colspan="5"><strong>TOTAL: 7 PROMOCIONES ACTIVAS | 4 TIENDAS | 50-100% COFINANCIADO POR GLOVO</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="stores">
+        <div class="section-header">
+            <div class="section-title">Rendimiento por <span class="highlight">Tiendas</span></div>
+            <p class="section-desc">Análisis comparativo Glovo vs Uber Eats - 3 días de operación.</p>
+        </div>
+
+        <!-- CARTAGENA -->
+        <div style="margin-bottom: 30px;">
+            <h3 style="color: var(--gula-orange); margin-bottom: 20px; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px;">Cartagena</h3>
+            <div class="store-comparison">
+                <div class="store-column">
+                    <div class="store-header glovo">🍔 GLOVO</div>
+                    <div class="store-address">Calle Jiménez de la Espada, Murcia</div>
+                    <div class="store-info">
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidos Totales</div>
+                            <div class="metric-value">54</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">18</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Facturación Bruta</div>
+                            <div class="metric-value">€1,967</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Fact. Neta Tablet</div>
+                            <div class="metric-value">€1,615</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€36.43</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€225</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">5.39x</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #06C167;">✓ EXCELENTE</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="store-column">
+                    <div class="store-header uber">📱 UBER EATS</div>
+                    <div class="store-address">Calle Jiménez de la Espada, Murcia</div>
+                    <div class="store-info">
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidos Completados</div>
+                            <div class="metric-value">~20</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">~6.7</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Facturación Est.</div>
+                            <div class="metric-value">€580</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Fact. Neta Real</div>
+                            <div class="metric-value">€580</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€29</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€60</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">6.67x</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #06C167;">✓ BUENA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VALENCIA -->
+        <div style="margin-bottom: 30px;">
+            <h3 style="color: var(--gula-orange); margin-bottom: 20px; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px;">Valencia</h3>
+            <div class="store-comparison">
+                <div class="store-column">
+                    <div class="store-header glovo">🍔 GLOVO</div>
+                    <div class="store-address">Carrer de Cadis, Valencia</div>
+                    <div class="store-info">
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidos Totales</div>
+                            <div class="metric-value">31</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">10.3</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Facturación Bruta</div>
+                            <div class="metric-value">€911</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Fact. Neta Est.</div>
+                            <div class="metric-value">€640-700</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€29.41</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€550</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">1.13x</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #FFD700;">⚠ MODERADA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="store-column">
+                    <div class="store-header uber">📱 UBER EATS</div>
+                    <div class="store-address">Carrer de Cadis, Valencia</div>
+                    <div class="store-info">
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidos Completados</div>
+                            <div class="metric-value">~15</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">~5</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Facturación Est.</div>
+                            <div class="metric-value">€435</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Fact. Neta Real</div>
+                            <div class="metric-value">€435</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€29</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€55</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">6.36x</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #FFD700;">⚠ MODERADA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEVILLA -->
+        <div style="margin-bottom: 30px;">
+            <h3 style="color: var(--gula-orange); margin-bottom: 20px; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px;">Sevilla</h3>
+            <div class="store-comparison">
+                <div class="store-column">
+                    <div class="store-header glovo">🍔 GLOVO</div>
+                    <div class="store-address">Calle Chucena, Sevilla</div>
+                    <div class="store-info">
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidos Totales</div>
+                            <div class="metric-value">23</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">7.7</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Facturación Bruta</div>
+                            <div class="metric-value">€622</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Fact. Neta Est.</div>
+                            <div class="metric-value">€435-500</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€27.05</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€427</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">1.21x</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #FFD700;">⚠ DÉBIL</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="store-column">
+                    <div class="store-header uber">📱 UBER EATS</div>
+                    <div class="store-address">Calle Chucena, Sevilla</div>
+                    <div class="store-info">
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidos Completados</div>
+                            <div class="metric-value">~12</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">~4</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Facturación Est.</div>
+                            <div class="metric-value">€348</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Fact. Neta Real</div>
+                            <div class="metric-value">€348</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€29</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€84.21</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">3.26x</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #FFD700;">⚠ BAJA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓSTOLES -->
+        <div style="margin-bottom: 30px;">
+            <h3 style="color: var(--gula-orange); margin-bottom: 20px; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px;">Móstoles</h3>
+            <div class="store-comparison">
+                <div class="store-column">
+                    <div class="store-header glovo">🍔 GLOVO</div>
+                    <div class="store-address">Calle Río Segura, Madrid</div>
+                    <div class="store-info">
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidos Totales</div>
+                            <div class="metric-value">3</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">3</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Facturación Bruta</div>
+                            <div class="metric-value">€65.50</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Fact. Neta Est.</div>
+                            <div class="metric-value">€46-52</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€21.83</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€183</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">0.32x</div>
+                        </div>
+                        <div class="store-metric">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #ff6b6b;">✗ CRÍTICO</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="store-column">
+                    <div class="store-header uber">📱 UBER EATS</div>
+                    <div class="store-address">Calle Río Segura, Madrid</div>
+                    <div class="store-info">
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidos Completados</div>
+                            <div class="metric-value">~2</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Pedidosdía</div>
+                            <div class="metric-value">~2</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Facturación Est.</div>
+                            <div class="metric-value">€58</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Fact. Neta Real</div>
+                            <div class="metric-value">€58</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ticket Medio</div>
+                            <div class="metric-value">€29</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad Spend</div>
+                            <div class="metric-value">€30</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Ad ROI</div>
+                            <div class="metric-value">6.67x</div>
+                        </div>
+                        <div class="store-metric uber">
+                            <div class="metric-name">Status</div>
+                            <div class="metric-value" style="color: #ff6b6b;">✗ CRÍTICO</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dark-section" id="comparison">
+        <div class="section-header">
+            <div class="section-title">Comparativa <span class="highlight">Detallada</span></div>
+            <p class="section-desc">Glovo vs Uber Eats en todas las dimensiones clave.</p>
+        </div>
+
+        <div style="max-width: 900px; margin: 0 auto 40px;">
+            <h3 style="font-family: Arial, sans-serif; font-size: 0.72rem; letter-spacing: 2px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 14px;">Volumen de Pedidos</h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>GLOVO</th>
+                            <th>UBER EATS</th>
+                            <th>Diferencia</th>
+                            <th>Ganador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total Pedidos</td>
+                            <td class="winner-glovo">111</td>
+                            <td>58</td>
+                            <td>53</td>
+                            <td><span class="pill pill-orange">GLOVO +91.4%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Promedio Diario</td>
+                            <td class="winner-glovo">37</td>
+                            <td>19.3</td>
+                            <td>17.7</td>
+                            <td><span class="pill pill-orange">GLOVO 1.9x</span></td>
+                        </tr>
+                        <tr>
+                            <td>Máximo 1 día</td>
+                            <td class="winner-glovo">40</td>
+                            <td>25</td>
+                            <td>15</td>
+                            <td><span class="pill pill-orange">GLOVO +60%</span></td>
+                        </tr>
+                        <tr class="row-total">
+                            <td>CONCLUSIÓN</td>
+                            <td colspan="4">Glovo domina claramente en volumen. 91% más pedidos en igual período.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="max-width: 900px; margin: 0 auto 40px;">
+            <h3 style="font-family: Arial, sans-serif; font-size: 0.72rem; letter-spacing: 2px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 14px;">Facturación Real</h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>GLOVO</th>
+                            <th>UBER EATS</th>
+                            <th>Diferencia</th>
+                            <th>Ganador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bruto Total</td>
+                            <td>€3,566.46</td>
+                            <td>€2,776</td>
+                            <td>€790.46</td>
+                            <td><span class="pill pill-orange">GLOVO incl. promos</span></td>
+                        </tr>
+                        <tr>
+                            <td>Neto Total est. (cofin. 50%)</td>
+                            <td class="winner-glovo">€2,853-€3,031</td>
+                            <td>€2,776</td>
+                            <td>€77 a €255</td>
+                            <td><span class="pill pill-orange">GLOVO +2.7-9.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Presupuesto Marketing</td>
+                            <td class="winner-glovo">€919.95 (Promos)</td>
+                            <td>€241.70 (Ads)</td>
+                            <td>€678.25</td>
+                            <td><span class="pill pill-orange">Glovo invierte 3.8x</span></td>
+                        </tr>
+                        <tr>
+                            <td>ROI Marketing</td>
+                            <td>5.35x</td>
+                            <td class="winner-ue">5.58x</td>
+                            <td>-0.23x</td>
+                            <td><span class="pill pill-green">UE 4.3% mejor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Ticket Bruto</td>
+                            <td>€32.13</td>
+                            <td>€28.92</td>
+                            <td>€3.21</td>
+                            <td><span class="pill pill-orange">GLOVO engañoso</span></td>
+                        </tr>
+                        <tr class="row-total">
+                            <td>CONCLUSIÓN</td>
+                            <td colspan="4">Glovo supera en margen total y volumen. Uber Eats es más eficiente pero con menor presupuesto de marketing.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="conclusions" class="dark-section">
+        <div class="section-header">
+            <div class="section-title">10 <span class="highlight">Conclusiones</span> Ejecutivas</div>
+            <p class="section-desc">Las lecciones más importantes de este análisis.</p>
+        </div>
+
+        <div class="conclusions-grid">
+            <div class="conclusion-card" style="border-color: rgba(255,88,0,0.5);">
+                <div class="conclusion-num" style="color: var(--gula-orange); opacity: 1;">01</div>
+                <div class="conclusion-text">
+                    <strong>Glovo supera a UE en volumen Y margen en igual período</strong>
+                    <p>111 pedidos en 3 días vs 58 de UE. Con cofinanciación del 50% en promos, el neto ajustado €2,853-€3,031 supera los €2,776 de Uber Eats.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">02</div>
+                <div class="conclusion-text">
+                    <strong>Glovo invierte 3.8x más en marketing pero genera resultados proporcionalmente</strong>
+                    <p>€919.95 presupuesto vs €241.70 de Uber Eats. ROI 5.35x vs 5.58x. Glovo cofinanciación 50-100%, Uber Eats 0%.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">03</div>
+                <div class="conclusion-text">
+                    <strong>Cartagena es el éxito absoluto en ambas plataformas</strong>
+                    <p>Glovo: 54 ped, €1,967, 5.39x ROI. Uber Eats: 20 ped, €580. Cartagena genera 48.6% del volumen de Glovo.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">04</div>
+                <div class="conclusion-text">
+                    <strong>Valencia es la mejor oportunidad de escalado en Glovo</strong>
+                    <p>31 ped/3días = 10.3/día. Ticket bajo €29.41 pero volumen sostenido. Ad ROI bajo 1.13x requiere optimización.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">05</div>
+                <div class="conclusion-text">
+                    <strong>Sevilla underperforms en ambas plataformas</strong>
+                    <p>Glovo 7.7 ped/día vs Cartagena 18 ped/día. Ticket bajo €27.05. Ad ROI 1.21x muy por debajo de meta. Requiere auditoría.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">06</div>
+                <div class="conclusion-text">
+                    <strong>Móstoles es CRÍTICO en ambas plataformas</strong>
+                    <p>Glovo 3 ped/3 días, Ad ROI 0.32x. Uber Eats 2 ped, Ad ROI 6.67x. Ambas plataformas invierten sin retorno. Decisión inmediata requerida.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">07</div>
+                <div class="conclusion-text">
+                    <strong>Glovo cofinanciación 50% cambia el juego</strong>
+                    <p>Sin cofinanciación, el bruto €3,566 sería neto €2,148. Con 50% cofinanciación, sube a €2,853-€3,031. Impacto real: 33% margen adicional.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">08</div>
+                <div class="conclusion-text">
+                    <strong>7 promociones Glovo vs 5 campañas Uber Eats</strong>
+                    <p>Glovo: 2x1, 30% OFF, Free Delivery. Uber Eats: Ads premium en 4 tiendas. Estrategias diferentes pero resultados similares en ROI.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card">
+                <div class="conclusion-num">09</div>
+                <div class="conclusion-text">
+                    <strong>Uber Eats es 4.3% más eficiente en ROI con menor inversión</strong>
+                    <p>Gasto 73% menos (€241 vs €919) pero ROI 5.58x vs 5.35x. Modelo de operación más optimizado o menos competencia.</p>
+                </div>
+            </div>
+
+            <div class="conclusion-card" style="border-color: rgba(255,88,0,0.5);">
+                <div class="conclusion-num" style="color: var(--gula-orange); opacity: 1;">10</div>
+                <div class="conclusion-text">
+                    <strong>RED COMBINADA es estratégicamente sana: 209 ped/3días</strong>
+                    <p>Glovo aporta volumen (111 ped, 53%), Uber Eats aporta eficiencia. Diversificación válida. Recomendación: optimizar Valencia/Sevilla, resolver Móstoles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">Gula</div>
+        <div class="footer-meta">
+            Informe Generado 5 de Mayo 2026 | 1000 CEST<br>
+            Validación de Datos Completa y verificada | Incluye Marketing, Ads y Promociones<br>
+            <span style="color: rgba(255, 88, 0, 0.4); margin-top: 8px; display: block;">GULA Intel | Uso interno exclusivo</span>
+        </div>
+    </footer>
+</body>
+</html>

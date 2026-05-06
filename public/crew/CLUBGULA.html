@@ -3823,6 +3823,7 @@
         const phone = document.getElementById('pPhoneInput').value.trim();
         if (!phone) return alert('Introduce un teléfono válido');
 
+        const wasEmpty = !user.telefono;
         user.telefono = phone;
         localStorage.setItem('currentUser', JSON.stringify(user));
 
@@ -3833,7 +3834,24 @@
         }
 
         document.getElementById('pPhoneInput').value = '';
-        alert('Teléfono actualizado con éxito.');
+
+        if (wasEmpty && user.id) {
+            fetch('/api/crew/points/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ member_code: user.id, puntos: 22, motivo: 'telefono_agregado', metadata: {} })
+            }).then(r => r.json()).then(data => {
+                if (data.puntos_nuevos) {
+                    user.puntos = data.puntos_nuevos;
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    updateDashboard(user);
+                    showPointsAnimation(22);
+                }
+            }).catch(e => console.warn('[PHONE POINTS]', e));
+            alert('Teléfono guardado. +22 pts por añadir tu número.');
+        } else {
+            alert('Teléfono actualizado con éxito.');
+        }
     }
 
     function copyReferralCode() {
@@ -4284,6 +4302,26 @@
             
             // Show animation feedback
             showPointsAnimation(points);
+
+            // Persist to Supabase
+            if (currentUser.id) {
+                fetch('/api/crew/points/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        member_code: currentUser.id,
+                        puntos: points,
+                        motivo: 'mision_' + missionType,
+                        metadata: { mission: missionType, name: getMissionName(missionType) }
+                    })
+                }).then(r => r.json()).then(data => {
+                    if (data.puntos_nuevos) {
+                        currentUser.puntos = data.puntos_nuevos;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        updateDashboard(currentUser);
+                    }
+                }).catch(e => console.warn('[MISSION POINTS]', e));
+            }
         }
         
         alert(`¡Misión completada! Has ganado ${points} puntos.`);
