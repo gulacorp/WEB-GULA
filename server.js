@@ -222,9 +222,9 @@ function generateMemberCode(nombre, apellido) {
 }
 
 function calcularNivel(puntos) {
-    if (puntos >= 500) return 'FOUNDERS';
-    if (puntos >= 200) return 'HIGH CREW';
-    if (puntos >= 50) return 'CREW';
+    if (puntos >= 1200) return 'FOUNDERS';
+    if (puntos >= 700) return 'HIGH CREW';
+    if (puntos >= 250) return 'CREW';
     return 'NEOPHYTE';
 }
 
@@ -261,7 +261,7 @@ async function enviarEmailBienvenida(member) {
     </div>
     <p style="color:#b0b0b0">Guarda este código para consultar tu estado, canjear puntos y acceder a ofertas exclusivas.</p>
     <p>Niveles disponibles:<br>
-      <span style="color:#FF5800">NEOPHYTE (0pts) → CREW (50pts) → HIGH CREW (200pts) → FOUNDERS (500pts)</span>
+      <span style="color:#FF5800">NEOPHYTE (0pts) → CREW (250pts) → HIGH CREW (700pts) → FOUNDERS (1200pts)</span>
     </p>
     <center><a href="https://thegulacorp.com/crew" class="btn">VER MI PERFIL</a></center>
   </div>
@@ -324,10 +324,9 @@ app.post('/api/crew/register', async (req, res) => {
             return res.status(400).json({ error: 'nombre y email son requeridos' });
         }
 
-        let puntos = 0;
+        let puntos = 22; // base por registro
         if (telefono) puntos += 22;
-        if (followed_ig) puntos += 40;
-        puntos += 10; // base por registro
+        if (followed_ig) puntos += 33;
 
         const member_code = generateMemberCode(nombre, apellido);
         const nivel = calcularNivel(puntos);
@@ -397,7 +396,7 @@ app.get('/api/crew/member/:code', async (req, res) => {
     try {
         const { data, error } = await supabase
             .from('crew_members')
-            .select('member_code, nombre, apellido, puntos, nivel, followed_ig, created_at')
+            .select('member_code, nombre, apellido, email, telefono, puntos, nivel, followed_ig, referral_code, created_at')
             .eq('member_code', req.params.code.toUpperCase())
             .maybeSingle();
         if (error) throw error;
@@ -405,6 +404,23 @@ app.get('/api/crew/member/:code', async (req, res) => {
         res.json(data);
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/crew/check-email — Verificar si un email ya está registrado
+app.get('/api/crew/check-email', async (req, res) => {
+    if (!supabase) return res.json({ exists: false });
+    try {
+        const email = (req.query.email || '').toLowerCase().trim();
+        if (!email) return res.status(400).json({ error: 'email requerido' });
+        const { data } = await supabase
+            .from('crew_members')
+            .select('id')
+            .eq('email', email)
+            .maybeSingle();
+        res.json({ exists: !!data });
+    } catch (err) {
+        res.json({ exists: false });
     }
 });
 

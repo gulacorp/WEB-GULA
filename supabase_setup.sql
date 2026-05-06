@@ -119,11 +119,11 @@ create policy "Insertar contactos" on public.contactos
 create or replace function public.actualizar_nivel()
 returns trigger language plpgsql as $$
 begin
-  if new.puntos >= 500 then
+  if new.puntos >= 1200 then
     new.nivel := 'FOUNDERS';
-  elsif new.puntos >= 200 then
+  elsif new.puntos >= 700 then
     new.nivel := 'HIGH CREW';
-  elsif new.puntos >= 50 then
+  elsif new.puntos >= 250 then
     new.nivel := 'CREW';
   else
     new.nivel := 'NEOPHYTE';

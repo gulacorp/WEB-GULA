@@ -3475,78 +3475,63 @@
 
     // Finalizar y Guardar
     async function finishRegistration() {
-        if (followedInsta) currentSession.puntos += 40;
-        currentSession.instagramFollow = followedInsta ? 'SI' : 'NO';
-        const initials = ((currentSession.nombre||'')[0] || 'X') + ((currentSession.apellido||'')[0] || 'X');
-        currentSession.id = `GULA-${initials.toUpperCase()}${Math.floor(1000 + Math.random() * 9000)}`;
-        
-        // Inicializar puntos: 22 (registro) + 22 (teléfono) + 33 (IG) = 77
-        currentSession.puntos = 77;
-        
-        // Handle referral code if provided
         const referralCodeInput = document.getElementById('referralCode').value.trim().toUpperCase();
-        if (referralCodeInput) {
-            const referralResult = applyReferralCode(referralCodeInput);
-            if (referralResult.success) {
-                currentSession.puntos += referralResult.bonus; // +20 para new user
-                console.log('Referral code applied:', referralResult.message);
-            } else {
-                console.warn('Invalid referral code:', referralResult.message);
-            }
-        }
-        
-        // Generate unique referral code for new user
-        currentSession.referralCode = generateReferralCode();
-        currentSession.referralCount = 0;
-        currentSession.referralPointsEarned = 0;
-        currentSession.pointsHistory = [{
-            date: new Date().toLocaleDateString('es-ES'),
-            action: 'Registro completado',
-            points: 77,
-            type: 'registration'
-        }];
-        currentSession.badges = [];
-        currentSession.eventReservations = [];
-        
-        // IMPORTANTE: Guardar en base de datos local ANTES de enviar a sheet
-        saveToDB(currentSession);
 
-        // try to send to Google Sheets
-        let registrationResponse;
+        const payload = {
+            nombre: currentSession.nombre,
+            apellido: currentSession.apellido,
+            email: currentSession.email,
+            zip: currentSession.zip,
+            telefono: currentSession.telefono,
+            followed_ig: followedInsta,
+            referido_por: referralCodeInput || null,
+            marketing_consent: currentSession.marketingConsent
+        };
+
         try {
-            if (SHEET_WEBAPP_URL && !SHEET_WEBAPP_URL.includes('PASTE_YOUR')) {
-                registrationResponse = await postToSheet(currentSession);
-                console.log('Datos sincronizados a Google Sheet');
+            const response = await fetch('/api/crew/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                if (response.status === 409) {
+                    showDuplicateEmailModal('Este email ya está registrado. Por favor usa otro email.', () => goToStep(1));
+                    return;
+                }
+                throw new Error(data.error || 'Error en el registro');
             }
-        } catch (e) { 
-            console.warn('Failed to post to sheet', e);
-            if (e.message.includes('Email ya registrado')) {
-                database = database.filter(u => u.id !== currentSession.id);
-                localStorage.setItem('gula_crew_db', JSON.stringify(database));
-                showDuplicateEmailModal('Este email ya está registrado en el sistema. Por favor usa otro email para registrarte.', () => goToStep(1));
-                return;
-            }
+
+            currentSession.id = data.member_code;
+            currentSession.puntos = data.puntos;
+            currentSession.nivel = data.nivel;
+            currentSession.instagramFollow = followedInsta ? 'SI' : 'NO';
+            currentSession.referralCode = generateReferralCode();
+            currentSession.referralCount = 0;
+            currentSession.referralPointsEarned = 0;
+            currentSession.pointsHistory = [{
+                date: new Date().toLocaleDateString('es-ES'),
+                action: 'Registro completado',
+                points: data.puntos,
+                type: 'registration'
+            }];
+            currentSession.badges = [];
+            currentSession.eventReservations = [];
+
+            saveToDB(currentSession);
+            localStorage.setItem('currentUser', JSON.stringify(currentSession));
+
+            document.getElementById('emailDisplay').innerText = currentSession.email;
+            createConfetti();
+            goToStep(3);
+
+        } catch (error) {
+            console.error('[REGISTRO ERROR]', error);
+            alert('Error al registrarse: ' + (error.message || 'Inténtalo de nuevo'));
         }
-
-        if (registrationResponse && registrationResponse.status === 'email_exists') {
-            database = database.filter(u => u.id !== currentSession.id);
-            localStorage.setItem('gula_crew_db', JSON.stringify(database));
-            showDuplicateEmailModal('Este email ya está registrado en el sistema. Por favor usa otro email para registrarte.', () => goToStep(1));
-            return;
-        }
-
-        // Send email with code and discount
-        try {
-            await sendRewardEmail(currentSession);
-        } catch (e) { console.warn('Failed to send email', e); }
-
-        // Update email display in step3
-        document.getElementById('emailDisplay').innerText = currentSession.email;
-        
-        // Show confetti animation for successful registration
-        createConfetti();
-        
-        goToStep(3);
     }
 
     // Update dashboard with user points and data
@@ -3605,35 +3590,29 @@
     }
 
     async function findMemberByCode(code) {
-        // SIEMPRE busca primero en el Google Sheet
         try {
-            const url = new URL(getWebhookUrl());
-            url.searchParams.set('memberCode', code);
-            console.log('🔍 Buscando código:', code);
-            console.log('📡 URL de consulta:', url.toString());
-            
-            const response = await fetch(url.toString(), { method: 'GET' });
-            console.log('📊 Response status:', response.status);
-            
-            if (!response.ok) {
-                console.warn('Sheet query failed:', response.status);
-                return null;
-            }
-            
+            const response = await fetch(`/api/crew/member/${encodeURIComponent(code.toUpperCase())}`);
+            if (response.status === 404) return null;
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            console.log('📥 Response data:', data);
-            
-            if (data.status === 'ok' && Array.isArray(data.members) && data.members.length) {
-                console.log('✅ Miembro encontrado en Sheet:', data.members[0]);
-                return data.members[0];
-            }
-            
-            console.warn('⚠️ No se encontraron miembros con código:', code);
+            return {
+                id: data.member_code,
+                nombre: data.nombre,
+                apellido: data.apellido,
+                puntos: data.puntos,
+                nivel: data.nivel,
+                email: data.email || '',
+                telefono: data.telefono || '',
+                fecha: data.created_at ? new Date(data.created_at).toLocaleDateString('es-ES') : '--',
+                followed_ig: data.followed_ig,
+                referralCode: data.referral_code || null,
+                referralCount: data.referral_count || 0,
+                pointsHistory: []
+            };
         } catch (e) {
-            console.error('❌ Error buscando en Sheet:', e);
+            console.error('Error buscando miembro:', e);
+            return null;
         }
-        console.warn('❌ Código no encontrado:', code);
-        return null;
     }
 
     // Access dashboard with member code
@@ -3817,7 +3796,7 @@
         }
     }
 
-    function saveEmail() {q
+    function saveEmail() {
         const user = getCurrentUser();
         if (!user) return alert('Usuario no encontrado');
 
@@ -4371,8 +4350,6 @@
     }
 
     function getCurrentUser() {
-        // Reset for testing - no stored users
-        localStorage.removeItem('currentUser');
         const stored = localStorage.getItem('currentUser');
         if (stored) {
             try {
@@ -4517,29 +4494,15 @@
         }
     }
 
-    // Validate email against Google Sheets
+    // Validate email against server (Supabase)
     async function validateEmailWithSheets(email) {
-        if (!email || !SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes('PASTE_YOUR')) {
-            return { exists: false, user: null };
-        }
-
+        if (!email) return { exists: false, user: null };
         try {
-            const params = new URLSearchParams({
-                action: 'query',
-                email: email.toLowerCase().trim()
-            });
-
-            const response = await fetch(`${SHEET_WEBAPP_URL}?${params.toString()}`);
+            const response = await fetch(`/api/crew/check-email?email=${encodeURIComponent(email.toLowerCase().trim())}`);
+            if (!response.ok) return { exists: false, user: null };
             const data = await response.json();
-
-            if (data.status === 'ok' && data.members && data.members.length > 0) {
-                return { exists: true, user: data.members[0] };
-            }
-
-            return { exists: false, user: null };
+            return { exists: !!data.exists, user: null };
         } catch (error) {
-            console.warn('Error validating email with sheets:', error);
-            // If we can't check with sheets, allow to continue (fail open)
             return { exists: false, user: null };
         }
     }
