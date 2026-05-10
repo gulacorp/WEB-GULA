@@ -3016,6 +3016,7 @@
     }
 
     function followInstagram() {
+        console.log('[FOLLOW INSTA] Botón presionado');
         followedInsta = true;
         window.open('https://instagram.com/thegulacorp', '_blank');
     }
@@ -3303,6 +3304,7 @@
 
         // Registro inicial - Form submit
         document.getElementById('crewForm').addEventListener('submit', async (e) => {
+            console.log('[FORM SUBMIT] Formulario enviado');
             e.preventDefault();
             
             const email = document.getElementById('email').value.trim();
@@ -3447,6 +3449,7 @@
 
     // Finalizar y Guardar
     async function finishRegistration() {
+        console.log('[FINISH REGISTRATION] Botón presionado');
         const referralCodeInput = document.getElementById('referralCode').value.trim().toUpperCase();
 
         const { nombre, apellido, email, zip, telefono, marketingConsent } = currentSession;
