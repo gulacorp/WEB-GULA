@@ -113,6 +113,15 @@ drop policy if exists "Insertar contactos" on public.contactos;
 create policy "Insertar contactos" on public.contactos
   for insert with check (true);
 
+-- Políticas de UPDATE para el frontend (anon key)
+drop policy if exists "Actualizar miembros" on public.crew_members;
+create policy "Actualizar miembros" on public.crew_members
+  for update using (true) with check (true);
+
+drop policy if exists "Actualizar historial" on public.puntos_historial;
+create policy "Actualizar historial" on public.puntos_historial
+  for update using (true) with check (true);
+
 -- ============================================================
 -- Función automática: actualizar nivel según puntos
 -- ============================================================

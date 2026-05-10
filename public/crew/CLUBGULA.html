@@ -2682,7 +2682,13 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+    // Supabase Configuration - Direct client for GitHub Pages
+    const SUPABASE_URL = 'https://gblmjealpcyswcgjrhzk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdibG1qZWFscGN5c3djZ2pyaHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDQzNDQsImV4cCI6MjA5MjUyMDM0NH0.KdQC9ZWuSmayOkLGr7Rrcz9i1PtW2ieIL-ZVVm4s7cA';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     // Gmail Configuration - Emails sent directly via Google Apps Script
     // No EmailJS needed - using GmailApp from Google Apps Script for direct Gmail sending
     
@@ -2825,60 +2831,12 @@
 
     // Agregar a Apple Wallet
     async function addToAppleWallet() {
-        try {
-            const response = await fetch('/api/wallet/apple-pass', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    memberId: currentUserForWallet.memberId,
-                    nombre: currentUserForWallet.nombre,
-                    apellido: currentUserForWallet.apellido,
-                    email: currentUserForWallet.email,
-                    telefono: currentUserForWallet.telefono,
-                    puntos: currentUserForWallet.puntos || 0
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.success && data.passUrl) {
-                window.location.href = data.passUrl;
-            } else {
-                alert('Error: ' + (data.error || 'No se pudo generar el pass'));
-            }
-        } catch (error) {
-            console.error('Apple Wallet Error:', error);
-            alert('Error al agregar a Apple Wallet');
-        }
+        alert('La funcionalidad de Apple Wallet requiere el servidor backend. Esta función no está disponible en GitHub Pages.');
     }
 
     // Agregar a Google Wallet
     async function addToGoogleWallet() {
-        try {
-            const response = await fetch('/api/wallet/google-pass', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    memberId: currentUserForWallet.memberId,
-                    nombre: currentUserForWallet.nombre,
-                    apellido: currentUserForWallet.apellido,
-                    email: currentUserForWallet.email,
-                    telefono: currentUserForWallet.telefono,
-                    puntos: currentUserForWallet.puntos || 0
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.success && data.saveUrl) {
-                window.location.href = data.saveUrl;
-            } else {
-                alert('Error: ' + (data.error || 'No se pudo generar la credencial'));
-            }
-        } catch (error) {
-            console.error('Google Wallet Error:', error);
-            alert('Error al agregar a Google Wallet');
-        }
+        alert('La funcionalidad de Google Wallet requiere el servidor backend. Esta función no está disponible en GitHub Pages.');
     }
 
     // Descargar tarjeta como imagen
@@ -3473,41 +3431,120 @@
         });
     });
 
+    // Helper functions for registration
+    function generateMemberCode(nombre, apellido) {
+        const initials = ((nombre || '')[0] || 'X') + ((apellido || '')[0] || 'X');
+        const num = Math.floor(1000 + Math.random() * 9000);
+        return `GULA-${initials.toUpperCase()}${num}`;
+    }
+
+    function calcularNivel(puntos) {
+        if (puntos >= 1200) return 'FOUNDERS';
+        if (puntos >= 700) return 'HIGH CREW';
+        if (puntos >= 250) return 'CREW';
+        return 'NEOPHYTE';
+    }
+
     // Finalizar y Guardar
     async function finishRegistration() {
         const referralCodeInput = document.getElementById('referralCode').value.trim().toUpperCase();
 
-        const payload = {
-            nombre: currentSession.nombre,
-            apellido: currentSession.apellido,
-            email: currentSession.email,
-            zip: currentSession.zip,
-            telefono: currentSession.telefono,
-            followed_ig: followedInsta,
-            referido_por: referralCodeInput || null,
-            marketing_consent: currentSession.marketingConsent
-        };
+        const { nombre, apellido, email, zip, telefono, marketingConsent } = currentSession;
+        const followed_ig = followedInsta;
+        const referido_por = referralCodeInput || null;
 
         try {
-            const response = await fetch('/api/crew/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                if (response.status === 409) {
-                    showDuplicateEmailModal('Este email ya está registrado. Por favor usa otro email.', () => goToStep(1));
-                    return;
-                }
-                throw new Error(data.error || 'Error en el registro');
+            // Validate required fields
+            if (!nombre || !email) {
+                throw new Error('nombre y email son requeridos');
             }
 
-            currentSession.id = data.member_code;
-            currentSession.puntos = data.puntos;
-            currentSession.nivel = data.nivel;
+            // Calculate points
+            let puntos = 22; // base por registro
+            if (telefono) puntos += 22;
+            if (followed_ig) puntos += 33;
+            if (referido_por) puntos += 10;
+
+            const member_code = generateMemberCode(nombre, apellido);
+            const nivel = calcularNivel(puntos);
+
+            // Check for duplicate email
+            const { data: existing } = await supabase
+                .from('crew_members')
+                .select('id')
+                .eq('email', email)
+                .maybeSingle();
+
+            if (existing) {
+                showDuplicateEmailModal('Este email ya está registrado. Por favor usa otro email.', () => goToStep(1));
+                return;
+            }
+
+            // Insert new member
+            const { data: member, error } = await supabase
+                .from('crew_members')
+                .insert({
+                    nombre,
+                    apellido,
+                    email,
+                    zip,
+                    telefono,
+                    puntos,
+                    nivel,
+                    member_code,
+                    followed_ig: !!followed_ig,
+                    referido_por
+                })
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            // Create points history
+            await supabase.from('puntos_historial').insert({
+                member_id: member.id,
+                puntos,
+                motivo: 'registro',
+                metadata: { followed_ig, tiene_telefono: !!telefono },
+            });
+
+            // Create welcome promo
+            const promoCode = `BIENVENIDA-${member_code}`;
+            const expires = new Date();
+            expires.setDate(expires.getDate() + 30);
+            await supabase.from('promos').insert({
+                member_id: member.id,
+                codigo: promoCode,
+                descuento: 15,
+                motivo: 'bienvenida',
+                expires_at: expires.toISOString(),
+            });
+
+            // Handle referral bonus
+            if (referido_por) {
+                const { data: referrer } = await supabase
+                    .from('crew_members')
+                    .select('id, puntos, member_code')
+                    .eq('member_code', referido_por.toUpperCase())
+                    .maybeSingle();
+                if (referrer) {
+                    await supabase.from('crew_members')
+                        .update({ puntos: referrer.puntos + 20 })
+                        .eq('id', referrer.id);
+                    await supabase.from('puntos_historial').insert({
+                        member_id: referrer.id,
+                        puntos: 20,
+                        motivo: 'referido',
+                        metadata: { nuevo_miembro: member.member_code }
+                    });
+                    console.log(`[REFERRAL] ${referrer.member_code} +20pts por referir ${member.member_code}`);
+                }
+            }
+
+            // Update session
+            currentSession.id = member.member_code;
+            currentSession.puntos = member.puntos;
+            currentSession.nivel = member.nivel;
             currentSession.instagramFollow = followedInsta ? 'SI' : 'NO';
             currentSession.referralCode = generateReferralCode();
             currentSession.referralCount = 0;
@@ -3515,7 +3552,7 @@
             currentSession.pointsHistory = [{
                 date: new Date().toLocaleDateString('es-ES'),
                 action: 'Registro completado',
-                points: data.puntos,
+                points: member.puntos,
                 type: 'registration'
             }];
             currentSession.badges = [];
@@ -3591,10 +3628,25 @@
 
     async function findMemberByCode(code) {
         try {
-            const response = await fetch(`/api/crew/member/${encodeURIComponent(code.toUpperCase())}`);
-            if (response.status === 404) return null;
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
+            console.log('[FIND MEMBER] Buscando código:', code.toUpperCase());
+            const { data, error } = await supabase
+                .from('crew_members')
+                .select('member_code, nombre, apellido, email, telefono, puntos, nivel, followed_ig, referral_code, created_at')
+                .eq('member_code', code.toUpperCase())
+                .maybeSingle();
+
+            console.log('[FIND MEMBER] Resultado:', { data, error });
+
+            if (error) {
+                console.error('[FIND MEMBER] Error de Supabase:', error);
+                return null;
+            }
+
+            if (!data) {
+                console.warn('[FIND MEMBER] No se encontró miembro con código:', code.toUpperCase());
+                return null;
+            }
+
             return {
                 id: data.member_code,
                 nombre: data.nombre,
@@ -3606,11 +3658,11 @@
                 fecha: data.created_at ? new Date(data.created_at).toLocaleDateString('es-ES') : '--',
                 followed_ig: data.followed_ig,
                 referralCode: data.referral_code || null,
-                referralCount: data.referral_count || 0,
+                referralCount: 0,
                 pointsHistory: []
             };
         } catch (e) {
-            console.error('Error buscando miembro:', e);
+            console.error('[FIND MEMBER] Error buscando miembro:', e);
             return null;
         }
     }
@@ -3836,18 +3888,37 @@
         document.getElementById('pPhoneInput').value = '';
 
         if (wasEmpty && user.id) {
-            fetch('/api/crew/points/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ member_code: user.id, puntos: 22, motivo: 'telefono_agregado', metadata: {} })
-            }).then(r => r.json()).then(data => {
-                if (data.puntos_nuevos) {
-                    user.puntos = data.puntos_nuevos;
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    updateDashboard(user);
-                    showPointsAnimation(22);
+            // Add points via Supabase directly
+            (async () => {
+                try {
+                    const { data: member } = await supabase
+                        .from('crew_members')
+                        .select('id, puntos')
+                        .eq('member_code', user.id)
+                        .single();
+
+                    if (member) {
+                        const newPuntos = member.puntos + 22;
+                        await supabase.from('crew_members')
+                            .update({ puntos: newPuntos })
+                            .eq('id', member.id);
+
+                        await supabase.from('puntos_historial').insert({
+                            member_id: member.id,
+                            puntos: 22,
+                            motivo: 'telefono_agregado',
+                            metadata: {}
+                        });
+
+                        user.puntos = newPuntos;
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                        updateDashboard(user);
+                        showPointsAnimation(22);
+                    }
+                } catch (e) {
+                    console.warn('[PHONE POINTS]', e);
                 }
-            }).catch(e => console.warn('[PHONE POINTS]', e));
+            })();
             alert('Teléfono guardado. +22 pts por añadir tu número.');
         } else {
             alert('Teléfono actualizado con éxito.');
@@ -4305,22 +4376,35 @@
 
             // Persist to Supabase
             if (currentUser.id) {
-                fetch('/api/crew/points/add', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        member_code: currentUser.id,
-                        puntos: points,
-                        motivo: 'mision_' + missionType,
-                        metadata: { mission: missionType, name: getMissionName(missionType) }
-                    })
-                }).then(r => r.json()).then(data => {
-                    if (data.puntos_nuevos) {
-                        currentUser.puntos = data.puntos_nuevos;
-                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                        updateDashboard(currentUser);
+                (async () => {
+                    try {
+                        const { data: member } = await supabase
+                            .from('crew_members')
+                            .select('id, puntos')
+                            .eq('member_code', currentUser.id)
+                            .single();
+
+                        if (member) {
+                            const newPuntos = member.puntos + points;
+                            await supabase.from('crew_members')
+                                .update({ puntos: newPuntos })
+                                .eq('id', member.id);
+
+                            await supabase.from('puntos_historial').insert({
+                                member_id: member.id,
+                                puntos: points,
+                                motivo: 'mision_' + missionType,
+                                metadata: { mission: missionType, name: getMissionName(missionType) }
+                            });
+
+                            currentUser.puntos = newPuntos;
+                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                            updateDashboard(currentUser);
+                        }
+                    } catch (e) {
+                        console.warn('[MISSION POINTS]', e);
                     }
-                }).catch(e => console.warn('[MISSION POINTS]', e));
+                })();
             }
         }
         
@@ -4536,10 +4620,12 @@
     async function validateEmailWithSheets(email) {
         if (!email) return { exists: false, user: null };
         try {
-            const response = await fetch(`/api/crew/check-email?email=${encodeURIComponent(email.toLowerCase().trim())}`);
-            if (!response.ok) return { exists: false, user: null };
-            const data = await response.json();
-            return { exists: !!data.exists, user: null };
+            const { data } = await supabase
+                .from('crew_members')
+                .select('id')
+                .eq('email', email.toLowerCase().trim())
+                .maybeSingle();
+            return { exists: !!data, user: null };
         } catch (error) {
             return { exists: false, user: null };
         }
