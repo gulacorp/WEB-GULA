@@ -1653,7 +1653,7 @@
     <div id="step0" class="step active">
         <h1>ÚNETE A LA <span>CREW</span></h1>
         <p class="subtitle">Beneficios exclusivos y puntos</p>
-        <img src="URL_DIABLITO_SENTADO" alt="Diablito" class="character-img" onerror="this.style.display='none'">
+        <img src="" alt="Diablito" class="character-img" style="display:none">
         
         <button onclick="goToStep(1)">NUEVO REGISTRO</button>
         <button class="btn-outline" onclick="goToStep(10)">YA SOY PARTE DE LA CREW</button>
@@ -2687,7 +2687,31 @@
     // Supabase Configuration - Direct client for GitHub Pages
     const SUPABASE_URL = 'https://gblmjealpcyswcgjrhzk.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdibG1qZWFscGN5c3djZ2pyaHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDQzNDQsImV4cCI6MjA5MjUyMDM0NH0.KdQC9ZWuSmayOkLGr7Rrcz9i1PtW2ieIL-ZVVm4s7cA';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    window.supabase = window.supabase || {};
+    window.supabase.client = window.supabase.client || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = window.supabase.client;
+
+    // Gmail Configuration - Emails sent directly via Google Apps Script
+    // No EmailJS needed - using GmailApp from Google Apps Script for direct Gmail sending
+
+    // Email notifications are handled server-side by Google Apps Script:
+    // - Welcome emails sent automatically after registration
+    // - Promotional emails can be sent via sendPromotionalEmail() function in Apps Script
+    // - All emails use the Gmail account associated with the Apps Script project
+
+    // Navigation function - must be defined early
+    function goToStep(stepId) {
+        const targetId = (stepId === 'login') ? 'steplogin' : 'step' + stepId;
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            targetElement.classList.add('active');
+            window.scrollTo(0, 0);
+        } else {
+            console.error("Error: No se encontró el paso con ID " + targetId);
+        }
+    }
 
     // Gmail Configuration - Emails sent directly via Google Apps Script
     // No EmailJS needed - using GmailApp from Google Apps Script for direct Gmail sending
@@ -2999,20 +3023,6 @@
         loadSheetData();
         // Refresh every 5 minutes
         setInterval(loadSheetData, 5 * 60 * 1000);
-    }
-
-    function goToStep(stepId) {
-        // allow 'login' alias
-        const targetId = (stepId === 'login') ? 'steplogin' : 'step' + stepId;
-        const targetElement = document.getElementById(targetId);
-        
-        if (targetElement) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            targetElement.classList.add('active');
-            window.scrollTo(0, 0);
-        } else {
-            console.error("Error: No se encontró el paso con ID " + targetId);
-        }
     }
 
     function followInstagram() {
