@@ -2888,59 +2888,59 @@
     let sheetEvents = [];
     const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
 
-        // If admin mode enabled (append ?admin=1), show admin controls and webhook editor
-        document.addEventListener('DOMContentLoaded', ()=>{
-                // LIMPIAR DATOS LOCALES - siempre usa Google Sheet como fuente de verdad
-                localStorage.removeItem('gula_crew_db');
-                localStorage.removeItem('currentUser');
-                database = [];
-                console.log('✅ localStorage limpiado - usando Google Sheet');
-                
-                if (isAdmin) {
-                        const panel = document.getElementById('adminPanel');
-                        if (panel) {
-                                panel.style.display = 'block';
-                                const current = localStorage.getItem('gula_webhook_url') || '';
-                                panel.innerHTML = `
-                                    <div style="display:flex;gap:8px;flex-direction:column">
-                                        <label style="font-size:0.8rem;color:#ddd">Webhook URL (Google Apps Script / Any)</label>
-                                        <input id="webhookInput" type="text" placeholder="https://script.google.com/..." value="${current}" style="padding:8px;border-radius:6px;border:1px solid #444;background:#111;color:#fff">
-                                        <div style="display:flex;gap:8px">
-                                            <button onclick="saveWebhook()" style="background:#222;padding:8px">Guardar Webhook</button>
-                                            <button onclick="clearWebhook()" style="background:#222;padding:8px">Borrar</button>
-                                        </div>
-                                        <div style="margin-top:8px">
-                                            <button onclick="exportToExcel()" style="background: #222; font-size: 0.7rem; padding: 10px;">📊 EXPORTAR BASE DE DATOS (EXCEL)</button>
-                                            <button onclick="syncAllToSheet()" style="background:#222; font-size:0.7rem; padding:10px; margin-top:8px;">⬆️ SINCRONIZAR TODO AL WEBHOOK</button>
-                                            <button onclick="clearAllLocalStorage()" style="background:#8b0000; font-size:0.7rem; padding:10px; margin-top:8px; color:#fff;">🗑️ LIMPIAR TODO (BORRAR DATOS LOCALES)</button>
-                                        </div>
-                                    </div>`;
-                        }
-                }
-        });
+    // If admin mode enabled (append ?admin=1), show admin controls and webhook editor
+    document.addEventListener('DOMContentLoaded', () => {
+        // LIMPIAR DATOS LOCALES - siempre usa Google Sheet como fuente de verdad
+        localStorage.removeItem('gula_crew_db');
+        localStorage.removeItem('currentUser');
+        database = [];
+        console.log('✅ localStorage limpiado - usando Google Sheet');
 
-        function saveWebhook(){
-            const v = document.getElementById('webhookInput').value.trim();
-            if (!v) return alert('Introduce una URL válida');
-            localStorage.setItem('gula_webhook_url', v);
-            alert('Webhook guardado. Las nuevas inscripciones se enviarán a: ' + v);
-        }
-        function clearWebhook(){ localStorage.removeItem('gula_webhook_url'); alert('Webhook borrado. Se usará la URL por defecto.'); }
-
-        function clearAllLocalStorage() {
-            if (confirm('⚠️ ATENCIÓN: Esto borrará TODOS los datos locales incluyendo:\n- Base de datos de usuarios\n- Usuario actual\n- Webhook URL\n- Todas las cookies locales\n\n¿Estás seguro?')) {
-                // Clear all localStorage items
-                localStorage.removeItem('gula_crew_db');
-                localStorage.removeItem('currentUser');
-                localStorage.removeItem('gula_webhook_url');
-                
-                // Also clear sessionStorage if used
-                sessionStorage.clear();
-                
-                alert('✅ Todos los datos locales han sido borrados. Puedes volver a registrarte con tus correos.');
-                location.reload();
+        if (isAdmin) {
+            const panel = document.getElementById('adminPanel');
+            if (panel) {
+                panel.style.display = 'block';
+                const current = localStorage.getItem('gula_webhook_url') || '';
+                panel.innerHTML = `
+                    <div style="display:flex;gap:8px;flex-direction:column">
+                        <label style="font-size:0.8rem;color:#ddd">Webhook URL (Google Apps Script / Any)</label>
+                        <input id="webhookInput" type="text" placeholder="https://script.google.com/..." value="${current}" style="padding:8px;border-radius:6px;border:1px solid #444;background:#111;color:#fff">
+                        <div style="display:flex;gap:8px">
+                            <button onclick="saveWebhook()" style="background:#222;padding:8px">Guardar Webhook</button>
+                            <button onclick="clearWebhook()" style="background:#222;padding:8px">Borrar</button>
+                        </div>
+                        <div style="margin-top:8px">
+                            <button onclick="exportToExcel()" style="background: #222; font-size: 0.7rem; padding: 10px;">📊 EXPORTAR BASE DE DATOS (EXCEL)</button>
+                            <button onclick="syncAllToSheet()" style="background:#222; font-size:0.7rem; padding:10px; margin-top:8px;">⬆️ SINCRONIZAR TODO AL WEBHOOK</button>
+                            <button onclick="clearAllLocalStorage()" style="background:#8b0000; font-size: 0.7rem; padding:10px; margin-top:8px; color:#fff;">🗑️ LIMPIAR TODO (BORRAR DATOS LOCALES)</button>
+                        </div>
+                    </div>`;
             }
         }
+    });
+
+    function saveWebhook() {
+        const v = document.getElementById('webhookInput').value.trim();
+        if (!v) return alert('Introduce una URL válida');
+        localStorage.setItem('gula_webhook_url', v);
+        alert('Webhook guardado. Las nuevas inscripciones se enviarán a: ' + v);
+    }
+    function clearWebhook() { localStorage.removeItem('gula_webhook_url'); alert('Webhook borrado. Se usará la URL por defecto.'); }
+
+    function clearAllLocalStorage() {
+        if (confirm('⚠️ ATENCIÓN: Esto borrará TODOS los datos locales incluyendo:\n- Base de datos de usuarios\n- Usuario actual\n- Webhook URL\n- Todas las cookies locales\n\n¿Estás seguro?')) {
+            // Clear all localStorage items
+            localStorage.removeItem('gula_crew_db');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('gula_webhook_url');
+
+            // Also clear sessionStorage if used
+            sessionStorage.clear();
+
+            alert('✅ Todos los datos locales han sido borrados. Puedes volver a registrarte con tus correos.');
+            location.reload();
+        }
+    }
 
     function saveToDB(user) {
         database.push(user);
