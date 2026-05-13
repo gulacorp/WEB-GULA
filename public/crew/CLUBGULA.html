@@ -2731,18 +2731,6 @@
         submitBtn.innerText = isLoading ? 'Cargando...' : submitBtn.dataset.originalText;
     }
     
-    // Default Webhook URL (Google Apps Script)
-    const SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw8l8Gaa_SK9KlPD2DjdM-Y-wwnKteU3nPils8Cmdnyi_2BpLFMr21E7fqM1_9cYN85jw/exec';
-
-    // Resolve webhook URL: priority -> `webhook` query param -> saved admin webhook -> default SHEET_WEBAPP_URL
-    function getWebhookUrl(){
-        const qp = new URLSearchParams(window.location.search).get('webhook');
-        if (qp) return qp;
-        const saved = localStorage.getItem('gula_webhook_url');
-        if (saved) return saved;
-        return SHEET_WEBAPP_URL;
-    }
-
     // ======================= WALLET FUNCTIONS =======================
     let currentUserForWallet = {};
 
@@ -2903,127 +2891,10 @@
         });
     }
 
-    // Base de datos local simulada
+    // Base de datos local simulada - DEPRECATED: Ahora usamos Supabase
     let database = [];
     let currentSession = {};
     let followedInsta = false;
-    let sheetLeaderboard = [];
-    let sheetMissions = {};
-    let sheetEvents = [];
-    const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
-
-    // If admin mode enabled (append ?admin=1), show admin controls and webhook editor
-    document.addEventListener('DOMContentLoaded', () => {
-        // LIMPIAR DATOS LOCALES - siempre usa Google Sheet como fuente de verdad
-        localStorage.removeItem('gula_crew_db');
-        localStorage.removeItem('currentUser');
-        database = [];
-        console.log('✅ localStorage limpiado - usando Google Sheet');
-
-        if (isAdmin) {
-            const panel = document.getElementById('adminPanel');
-            if (panel) {
-                panel.style.display = 'block';
-                const current = localStorage.getItem('gula_webhook_url') || '';
-                panel.innerHTML = `
-                    <div style="display:flex;gap:8px;flex-direction:column">
-                        <label style="font-size:0.8rem;color:#ddd">Webhook URL (Google Apps Script / Any)</label>
-                        <input id="webhookInput" type="text" placeholder="https://script.google.com/..." value="${current}" style="padding:8px;border-radius:6px;border:1px solid #444;background:#111;color:#fff">
-                        <div style="display:flex;gap:8px">
-                            <button onclick="saveWebhook()" style="background:#222;padding:8px">Guardar Webhook</button>
-                            <button onclick="clearWebhook()" style="background:#222;padding:8px">Borrar</button>
-                        </div>
-                        <div style="margin-top:8px">
-                            <button onclick="exportToExcel()" style="background: #222; font-size: 0.7rem; padding: 10px;">📊 EXPORTAR BASE DE DATOS (EXCEL)</button>
-                            <button onclick="syncAllToSheet()" style="background:#222; font-size:0.7rem; padding:10px; margin-top:8px;">⬆️ SINCRONIZAR TODO AL WEBHOOK</button>
-                            <button onclick="clearAllLocalStorage()" style="background:#8b0000; font-size: 0.7rem; padding:10px; margin-top:8px; color:#fff;">🗑️ LIMPIAR TODO (BORRAR DATOS LOCALES)</button>
-                        </div>
-                    </div>`;
-            }
-        }
-    });
-
-    function saveWebhook() {
-        const v = document.getElementById('webhookInput').value.trim();
-        if (!v) return alert('Introduce una URL válida');
-        localStorage.setItem('gula_webhook_url', v);
-        alert('Webhook guardado. Las nuevas inscripciones se enviarán a: ' + v);
-    }
-    function clearWebhook() { localStorage.removeItem('gula_webhook_url'); alert('Webhook borrado. Se usará la URL por defecto.'); }
-
-    function clearAllLocalStorage() {
-        if (confirm('⚠️ ATENCIÓN: Esto borrará TODOS los datos locales incluyendo:\n- Base de datos de usuarios\n- Usuario actual\n- Webhook URL\n- Todas las cookies locales\n\n¿Estás seguro?')) {
-            // Clear all localStorage items
-            localStorage.removeItem('gula_crew_db');
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('gula_webhook_url');
-
-            // Also clear sessionStorage if used
-            sessionStorage.clear();
-
-            alert('✅ Todos los datos locales han sido borrados. Puedes volver a registrarte con tus correos.');
-            location.reload();
-        }
-    }
-
-    function saveToDB(user) {
-        database.push(user);
-        localStorage.setItem('gula_crew_db', JSON.stringify(database));
-        if (isAdmin) renderAdminTable();
-    }
-
-    function clearLocalDatabase() {
-        if (confirm('¿Estás seguro? Esto borrará TODA la base de datos local. Este cambio no se puede deshacer.')) {
-            database = [];
-            localStorage.removeItem('gula_crew_db');
-            alert('Base de datos local borrada completamente');
-            location.reload();
-        }
-    }
-
-    // Load data from Google Sheets
-    async function loadSheetData() {
-        try {
-            const url = getWebhookUrl();
-            
-            // Load leaderboard
-            const leaderboardResponse = await fetch(`${url}?action=leaderboard`);
-            if (leaderboardResponse.ok) {
-                const data = await leaderboardResponse.json();
-                if (data.status === 'ok') {
-                    sheetLeaderboard = data.leaderboard || [];
-                }
-            }
-            
-            // Load missions
-            const missionsResponse = await fetch(`${url}?action=missions`);
-            if (missionsResponse.ok) {
-                const data = await missionsResponse.json();
-                if (data.status === 'ok') {
-                    sheetMissions = data.missions || {};
-                }
-            }
-
-            // Load events
-            const eventsResponse = await fetch(`${url}?action=events`);
-            if (eventsResponse.ok) {
-                const data = await eventsResponse.json();
-                if (data.status === 'ok') {
-                    sheetEvents = data.events || [];
-                }
-            }
-        } catch (error) {
-            console.warn('Error loading sheet data:', error);
-            // Fallback to local data if sheet fails
-        }
-    }
-
-    // Refresh sheet data periodically
-    function startDataRefresh() {
-        loadSheetData();
-        // Refresh every 5 minutes
-        setInterval(loadSheetData, 5 * 60 * 1000);
-    }
 
     function followInstagram() {
         console.log('[FOLLOW INSTA] Botón presionado');
@@ -3288,6 +3159,11 @@
     };
 
     document.addEventListener('DOMContentLoaded', function() {
+        // Limpiar localStorage de datos antiguos de Google Sheets
+        localStorage.removeItem('gula_crew_db');
+        localStorage.removeItem('gula_webhook_url');
+        console.log('✅ Google Sheets cleanup - usando Supabase');
+
         // Phone input listeners
         document.getElementById('tel').addEventListener('input', (e) => {
             const countryCode = document.getElementById('countryCode').value;
@@ -3348,36 +3224,45 @@
                 }
             }
             
-            // Validar duplicados (local y Google Sheets)
-            let emailExistsLocal = false;
-            let emailExistsSheets = false;
-            let existingUser = null;
+            // Validar duplicados (usando Supabase)
+            let emailExists = false;
             let phoneExists = false;
-            
+
             if (email) {
-                emailExistsLocal = database.some(u => u.email.toLowerCase() === email.toLowerCase());
-                
-                // Check against Google Sheets
                 try {
-                    const sheetsResult = await validateEmailWithSheets(email);
-                    emailExistsSheets = sheetsResult.exists;
-                    existingUser = sheetsResult.user;
+                    const { data } = await supabase
+                        .from('crew_members')
+                        .select('id')
+                        .eq('email', email.toLowerCase().trim())
+                        .maybeSingle();
+                    emailExists = !!data;
                 } catch (error) {
-                    console.warn('Error checking email in sheets:', error);
-                    // Continue with local validation only
+                    console.warn('Error checking email in Supabase:', error);
                 }
             }
-            
+
             if (phone) {
-                phoneExists = database.some(u => u.telefono === phone);
+                try {
+                    const { data } = await supabase
+                        .from('crew_members')
+                        .select('id')
+                        .eq('telefono', phone)
+                        .maybeSingle();
+                    phoneExists = !!data;
+                } catch (error) {
+                    console.warn('Error checking phone in Supabase:', error);
+                }
             }
-            
-            // Handle existing email from Sheets
-            if (emailExistsSheets) {
-                showDuplicateEmailModal('El email ya está registrado en el sistema. Por favor usa otro email para continuar.');
-                return;
+
+            // Handle existing email
+            if (emailExists) {
+                emailInput.classList.add('error');
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'error-message';
+                errorMsg.textContent = '⚠️ Este email ya está registrado';
+                emailInput.parentNode.appendChild(errorMsg);
             }
-            
+
             // Mostrar errores
             if (!emailValid) {
                 emailInput.classList.add('error');
@@ -3386,8 +3271,8 @@
                 errorMsg.textContent = '⚠️ Ingresa un email válido';
                 emailInput.parentNode.appendChild(errorMsg);
             }
-            
-            if (!phoneValid && phone) {
+
+            if (!phoneValid) {
                 phoneInput.classList.add('error');
                 const errorMsg = document.createElement('div');
                 errorMsg.className = 'error-message';
@@ -3395,15 +3280,7 @@
                 errorMsg.textContent = `⚠️ Teléfono debe tener ${rule.minLength} dígitos`;
                 phoneInput.parentNode.appendChild(errorMsg);
             }
-            
-            if (emailExistsLocal) {
-                emailInput.classList.add('error');
-                const errorMsg = document.createElement('div');
-                errorMsg.className = 'error-message';
-                errorMsg.textContent = '⚠️ Este email ya está registrado localmente';
-                emailInput.parentNode.appendChild(errorMsg);
-            }
-            
+
             if (phoneExists) {
                 phoneInput.classList.add('error');
                 const errorMsg = document.createElement('div');
@@ -3411,8 +3288,8 @@
                 errorMsg.textContent = '⚠️ Este teléfono ya está registrado';
                 phoneInput.parentNode.appendChild(errorMsg);
             }
-            
-            if (!emailValid || !phoneValid || emailExistsLocal || emailExistsSheets || phoneExists) {
+
+            if (!emailValid || !phoneValid || emailExists || phoneExists) {
                 return;
             }
             
@@ -3571,7 +3448,7 @@
             currentSession.badges = [];
             currentSession.eventReservations = [];
 
-            saveToDB(currentSession);
+            // Guardar solo en localStorage para la sesión actual (Supabase ya tiene los datos)
             localStorage.setItem('currentUser', JSON.stringify(currentSession));
 
             document.getElementById('emailDisplay').innerText = currentSession.email;
@@ -3871,12 +3748,6 @@
         user.email = email;
         localStorage.setItem('currentUser', JSON.stringify(user));
 
-        const idx = database.findIndex(u => u.id === user.id);
-        if (idx !== -1) {
-            database[idx] = user;
-            localStorage.setItem('gula_crew_db', JSON.stringify(database));
-        }
-
         document.getElementById('pEmailInput').value = '';
         alert('Email actualizado con éxito.');
     }
@@ -3891,12 +3762,6 @@
         const wasEmpty = !user.telefono;
         user.telefono = phone;
         localStorage.setItem('currentUser', JSON.stringify(user));
-
-        const idx = database.findIndex(u => u.id === user.id);
-        if (idx !== -1) {
-            database[idx] = user;
-            localStorage.setItem('gula_crew_db', JSON.stringify(database));
-        }
 
         document.getElementById('pPhoneInput').value = '';
 
@@ -3974,13 +3839,12 @@
                 if (!currentUser.badges.includes(badge.id)) {
                     currentUser.badges.push(badge.id);
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    const index = database.findIndex(u => u.id === currentUser.id);
-                    if (index !== -1) {
-                        database[index] = currentUser;
-                        localStorage.setItem('gula_crew_db', JSON.stringify(database));
-                    }
                 }
-                
+            }
+        });
+        
+        allBadges.forEach(badge => {
+            if (badge.condition()) {
                 const badgeEl = document.createElement('div');
                 badgeEl.style.cssText = 'display: inline-flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 12px; text-align: center; font-weight: bold; color: #333; min-width: 80px;';
                 badgeEl.innerHTML = `<div style="font-size: 24px;">${badge.icon}</div><div style="font-size: 12px;">${badge.name}</div>`;
@@ -4180,12 +4044,6 @@
             currentUser.eventReservations.push(eventId);
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             
-            const index = database.findIndex(u => u.id === currentUser.id);
-            if (index !== -1) {
-                database[index] = currentUser;
-                localStorage.setItem('gula_crew_db', JSON.stringify(database));
-            }
-            
             alert('¡Reserva confirmada! Recibirás más detalles por WhatsApp.');
             generateEvents(); // Refresh events
         } else {
@@ -4373,14 +4231,8 @@
                 points: points,
                 type: 'mission'
             });
-            
+
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            // Update database
-            const index = database.findIndex(u => u.id === currentUser.id);
-            if (index !== -1) {
-                database[index] = currentUser;
-                localStorage.setItem('gula_crew_db', JSON.stringify(database));
-            }
             // Update dashboard display
             updateDashboard(currentUser);
             
@@ -4474,11 +4326,6 @@
         currentUser.email = emailInput || currentUser.email || '';
         currentUser.telefono = phoneInput || currentUser.telefono || '';
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        const index = database.findIndex(u => u.id === currentUser.id);
-        if (index !== -1) {
-            database[index] = currentUser;
-            localStorage.setItem('gula_crew_db', JSON.stringify(database));
-        }
         document.getElementById('profileEmail').innerText = currentUser.email || 'N/A';
         document.getElementById('profilePhone').innerText = currentUser.telefono || 'N/A';
         alert('Perfil actualizado con éxito.');
@@ -4498,11 +4345,12 @@
         const codeEl = document.getElementById('memberCodeDisplay');
         if (codeEl && codeEl.innerText) {
             const code = codeEl.innerText.trim();
-            const fallbackUser = database.find(u => u.id === code);
-            if (fallbackUser) {
-                localStorage.setItem('currentUser', JSON.stringify(fallbackUser));
-                return fallbackUser;
-            }
+            // Fallback: try to fetch from Supabase (async, but can't await here)
+            findMemberByCode(code).then(fallbackUser => {
+                if (fallbackUser) {
+                    localStorage.setItem('currentUser', JSON.stringify(fallbackUser));
+                }
+            });
         }
 
         return null;
@@ -4536,97 +4384,10 @@
         }
     }
 
-    // POST helper
+    // POST helper - DEPRECATED: Now using Supabase directly
     async function postToSheet(data){
-        const url = getWebhookUrl();
-        console.log('postToSheet called with URL:', url);
-        console.log('postToSheet data:', data);
-        
-        if (!url || url.includes('PASTE_YOUR')) throw new Error('WebApp URL not configured');
-
-        // Send data in array format matching sheet order: NOMBRE, APELLIDO, EMAIL, CODIGO POSTAL, TELEFONO, PUNTAJE, INSTAGRAM, MEMBER_ID, TIMESTAMP
-        const payload = [
-            data.nombre,
-            data.apellido,
-            data.email,
-            data.zip,
-            data.telefono || 'NO',
-            data.puntos,
-            data.instagramFollow,
-            data.id,  // MemberID at index 7
-            data.fecha,  // Timestamp at index 8
-            data.marketingConsent ? 'SI' : 'NO'
-        ];
-        
-        console.log('postToSheet payload:', payload);
-
-        // Try POST first
-        try {
-            console.log('Attempting POST to:', url);
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            console.log('POST response status:', res.status);
-            const responseData = await res.json();
-            console.log('POST response data:', responseData);
-            
-            if (!res.ok) {
-                // Don't throw error for email_exists, return the response
-                if (responseData.status === 'email_exists') {
-                    console.log('Email already exists');
-                    return responseData;
-                }
-                throw new Error(responseData.message || 'Error en el registro');
-            }
-
-            console.log('POST successful');
-            return responseData;
-        } catch (postError) {
-            console.warn('POST failed:', postError);
-            console.warn('Trying GET fallback...');
-
-            // Fallback to GET request
-            const params = new URLSearchParams({
-                action: 'register',
-                nombre: payload[0] || '',
-                apellido: payload[1] || '',
-                email: payload[2] || '',
-                zip: payload[3] || '',
-                telefono: payload[4] || '',
-                puntos: payload[5] || 0,
-                instagram: payload[6] || 'NO',
-                memberId: payload[7] || '',
-                fecha: payload[8] || ''
-            });
-
-            const getUrl = `${url}?${params.toString()}`;
-            console.log('GET URL:', getUrl.substring(0, 100) + '...');
-            
-            try {
-                const res = await fetch(getUrl);
-                console.log('GET response status:', res.status);
-                const responseData = await res.json();
-                console.log('GET response data:', responseData);
-                
-                if (!res.ok) {
-                    // Don't throw error for email_exists, return the response
-                    if (responseData.status === 'email_exists') {
-                        console.log('Email already exists (GET fallback)');
-                        return responseData;
-                    }
-                    throw new Error('Both POST and GET failed');
-                }
-
-                console.log('GET successful');
-                return responseData;
-            } catch (getError) {
-                console.error('GET fallback also failed:', getError);
-                throw getError;
-            }
-        }
+        console.warn('postToSheet is deprecated - using Supabase instead');
+        return;
     }
 
     // Validate email against server (Supabase)
@@ -4661,87 +4422,43 @@
         }
     }
 
-    // Buscar Miembro Existente (local only)
+    // Buscar Miembro Existente - DEPRECATED (use accessDashboard instead)
     function checkMember() {
+        console.warn('checkMember is deprecated - use accessDashboard instead');
         const code = document.getElementById('loginCode').value.trim().toUpperCase();
-        const member = database.find(u => u.id === code);
-
-        if (member) {
-            document.getElementById('displayID').innerText = member.id;
-            document.getElementById('pointsBadge').innerText = `${member.puntos} PUNTOS TOTALES`;
-            goToStep(3);
-        } else {
-            alert("Código no encontrado. Asegúrate de escribirlo correctamente.");
-        }
+        accessDashboard();
     }
 
-    // EXPORTAR A EXCEL (CSV)
+    // EXPORTAR A EXCEL (CSV) - DEPRECATED (use Supabase export instead)
     function exportToExcel() {
-        if (database.length === 0) {
-            alert("No hay registros todavía.");
-            return;
-        }
-
-        let csvContent = "ID,Nombre,Apellido,Email,CP,Telefono,Puntos,InstagramFollow,MarketingConsent,Fecha\n";
-
-        database.forEach(user => {
-            let row = `${user.id},${user.nombre},${user.apellido},${user.email},${user.zip},${user.telefono},${user.puntos},${user.instagramFollow || 'NO'},${user.marketingConsent ? 'SI' : 'NO'},${user.fecha}`;
-            csvContent += row + "\n";
-        });
-
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Gula_CREW_Database.csv");
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        console.warn('exportToExcel is deprecated - use Supabase export instead');
+        alert('Esta función ha sido desactivada. Usa Supabase para exportar datos.');
     }
 
-    // Sync all local DB entries to Google Sheet (useful if user registers offline first)
+    // Sync all local DB entries to Google Sheet - DEPRECATED
     async function syncAllToSheet(){
-        if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes('PASTE_YOUR')) { alert('Configura primero la URL del WebApp en el archivo.'); return; }
-        if (!confirm('Enviar ' + database.length + ' registros a Google Sheets?')) return;
-        for (let i=0;i<database.length;i++){
-            try { await postToSheet(database[i]); } catch(e){ console.warn('sync fail', e); }
-            await new Promise(r=>setTimeout(r,250));
-        }
-        alert('Sincronización completada (intentos enviados).');
+        console.warn('syncAllToSheet is deprecated - using Supabase instead');
+        return;
     }
 
-    // ---------------- Admin table ----------------
+    // ---------------- Admin table ---------------- - DEPRECATED (use Supabase dashboard instead)
     function renderAdminTable(){
-        const panel = document.getElementById('adminPanel');
-        if (!panel) return;
-        // build table
-        let html = `<div style="overflow:auto; max-height:300px; text-align:left; margin-top:12px"><table style="width:100%; border-collapse:collapse; font-size:13px"><thead><tr style="background:#111; color:#fff"><th style="padding:6px;border:1px solid #333">#</th><th style="padding:6px;border:1px solid #333">Nombre</th><th style="padding:6px;border:1px solid #333">Apellido</th><th style="padding:6px;border:1px solid #333">Email</th><th style="padding:6px;border:1px solid #333">CP</th><th style="padding:6px;border:1px solid #333">Tel</th><th style="padding:6px;border:1px solid #333">Puntos</th><th style="padding:6px;border:1px solid #333">IG</th><th style="padding:6px;border:1px solid #333">Marketing</th><th style="padding:6px;border:1px solid #333">Acciones</th></tr></thead><tbody>`;
-        database.forEach((u,i)=>{
-            html += `<tr style="border-bottom:1px solid #222"><td style="padding:6px;border:1px solid #222">${i+1}</td><td style="padding:6px;border:1px solid #222">${escapeHtml(u.nombre||'')}</td><td style="padding:6px;border:1px solid #222">${escapeHtml(u.apellido||'')}</td><td style="padding:6px;border:1px solid #222">${escapeHtml(u.email||'')}</td><td style="padding:6px;border:1px solid #222">${escapeHtml(u.zip||'')}</td><td style="padding:6px;border:1px solid #222">${escapeHtml(u.telefono||'')}</td><td style="padding:6px;border:1px solid #222">${u.puntos||0}</td><td style="padding:6px;border:1px solid #222">${u.instagramFollow||'NO'}</td><td style="padding:6px;border:1px solid #222">${u.marketingConsent ? 'SI' : 'NO'}</td><td style="padding:6px;border:1px solid #222"><button style="padding:6px;font-size:12px" onclick="deleteRow(${i})">Eliminar</button></td></tr>`;
-        });
-        html += `</tbody></table></div><div style="display:flex;gap:8px;margin-top:8px"><button onclick="renderAdminTable()" class="ds-btn">Refrescar</button><button onclick="downloadAdminCSV()" class="ds-btn">Descargar CSV</button></div>`;
-        panel.innerHTML = panel.innerHTML.split('<div style="overflow:auto;')[0] + html;
+        console.warn('renderAdminTable is deprecated - use Supabase dashboard instead');
     }
 
     function deleteRow(idx){
-        if (!confirm('Eliminar registro #' + (idx+1) + '?')) return;
-        database.splice(idx,1);
-        localStorage.setItem('gula_crew_db', JSON.stringify(database));
-        renderAdminTable();
+        console.warn('deleteRow is deprecated - use Supabase dashboard instead');
     }
 
     function downloadAdminCSV(){
-        if (!database.length) { alert('No hay registros'); return; }
-        let csv = 'ID,Nombre,Apellido,Email,CP,Telefono,Puntos,InstagramFollow,MarketingConsent,Fecha\n';
-        database.forEach(u=>{ csv += `${u.id||''},${u.nombre||''},${u.apellido||''},${u.email||''},${u.zip||''},${u.telefono||''},${u.puntos||0},${u.instagramFollow||'NO'},${u.marketingConsent ? 'SI' : 'NO'},${u.fecha||''}\n`; });
-        const b = new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='gula_crew_admin.csv'; document.body.appendChild(a); a.click(); a.remove();
+        console.warn('downloadAdminCSV is deprecated - use Supabase export instead');
+        alert('Esta función ha sido desactivada. Usa Supabase para exportar datos.');
     }
 
     function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-    // Initialize data loading
-    startDataRefresh();
+    // Data loading now handled by Supabase directly
+    // startDataRefresh() deprecated
 
     let selectedVoteOption = null;
 
