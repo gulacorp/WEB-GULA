@@ -3164,34 +3164,40 @@
         localStorage.removeItem('gula_webhook_url');
         console.log('✅ Google Sheets cleanup - usando Supabase');
 
-        // Phone input listeners
-        document.getElementById('tel').addEventListener('input', (e) => {
-            const countryCode = document.getElementById('countryCode').value;
-            const rule = phoneValidationRules[countryCode];
-            const input = e.target;
-            
-            // Permitir solo dígitos
-            input.value = input.value.replace(/[^\d]/g, '');
-            
-            // Limitar según el país
-            if (input.value.length > rule.maxLength) {
-                input.value = input.value.slice(0, rule.maxLength);
-            }
-        });
+        // Phone input listeners - only if elements exist
+        const telInput = document.getElementById('tel');
+        const countryCodeSelect = document.getElementById('countryCode');
+        const crewForm = document.getElementById('crewForm');
 
-        document.getElementById('countryCode').addEventListener('change', () => {
-            const countryCode = document.getElementById('countryCode').value;
-            const rule = phoneValidationRules[countryCode];
-            const telInput = document.getElementById('tel');
-            
-            telInput.placeholder = 'TELÉFONO';
-            telInput.value = '';
-        });
+        if (telInput && countryCodeSelect) {
+            telInput.addEventListener('input', (e) => {
+                const countryCode = countryCodeSelect.value;
+                const rule = phoneValidationRules[countryCode];
+                const input = e.target;
 
-        // Registro inicial - Form submit
-        document.getElementById('crewForm').addEventListener('submit', async (e) => {
-            console.log('[FORM SUBMIT] Formulario enviado');
-            e.preventDefault();
+                // Permitir solo dígitos
+                input.value = input.value.replace(/[^\d]/g, '');
+
+                // Limitar según el país
+                if (input.value.length > rule.maxLength) {
+                    input.value = input.value.slice(0, rule.maxLength);
+                }
+            });
+
+            countryCodeSelect.addEventListener('change', () => {
+                const countryCode = countryCodeSelect.value;
+                const rule = phoneValidationRules[countryCode];
+
+                telInput.placeholder = 'TELÉFONO';
+                telInput.value = '';
+            });
+        }
+
+        // Registro inicial - Form submit - only if element exists
+        if (crewForm) {
+            crewForm.addEventListener('submit', async (e) => {
+                console.log('[FORM SUBMIT] Formulario enviado');
+                e.preventDefault();
             
             const email = document.getElementById('email').value.trim();
             const phone = document.getElementById('tel').value.trim();
@@ -3318,6 +3324,7 @@
             setCrewFormLoading(false);
         }
         });
+        }
     });
 
     // Helper functions for registration
