@@ -8,7 +8,7 @@ const App = () => {
   const [activeStore, setActiveStore] = useState('mostoles');
   const [activePhase, setActivePhase] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
-  const [sheetId, setSheetId] = useState("");
+  const [dataSource, setDataSource] = useState("");
 
   const [stores, setStores] = useState({
     mostoles: { name: "Móstoles", tier: 1, targetSala: 70, currentSala: 62, targetDelivery: 30, currentDelivery: 38, owner: "Gestión Local", color: "bg-blue-600", accent: "text-blue-600" },
@@ -27,8 +27,8 @@ const App = () => {
     { id: "vinculacion", name: "Vinculación", icon: <Share2 size={20} />, sub: "Comunidad", owners: "Marketing", owClass: "bg-pink-100 text-pink-700", kpis: [ { label: "Tasa Referidos", value: "0.8", target: "2.0", trend: "up", suffix: "%", desc: "Invitaciones enviadas" }, { label: "Menciones UGC", value: "45", target: "100", trend: "up", suffix: "uds", desc: "Contenido de socios" }, { label: "Engagement", value: "22%", target: "30%", trend: "up", suffix: "", desc: "Actividad Club" }, { label: "NPS Elite", value: "85", target: "90", trend: "up", suffix: "", desc: "Promotores VIP" } ], actions: "Crear sistema de referidos e integrar Apple Wallet para fidelización digital." }
   ]);
 
-  const refreshFromSheets = () => {
-    console.log("Sincronizando con Google Sheets ID:", sheetId);
+  const refreshData = () => {
+    console.log("Sincronizando datos:", dataSource || "Supabase");
     const btn = document.getElementById('refresh-btn');
     if (btn) {
       btn.classList.add('animate-spin');
@@ -69,12 +69,12 @@ const App = () => {
                <Database size={16} className="text-slate-400" />
                <input 
                   type="text" 
-                  placeholder="ID de Google Sheet..." 
+                  placeholder="Fuente de datos..." 
                   className="text-xs font-bold outline-none w-32"
-                  value={sheetId}
-                  onChange={(e) => setSheetId(e.target.value)}
+                  value={dataSource}
+                  onChange={(e) => setDataSource(e.target.value)}
                />
-               <button id="refresh-btn" onClick={refreshFromSheets} className="p-1.5 hover:bg-slate-100 rounded-lg text-indigo-600 transition-colors">
+               <button id="refresh-btn" onClick={refreshData} className="p-1.5 hover:bg-slate-100 rounded-lg text-indigo-600 transition-colors">
                   <RefreshCw size={16} />
                </button>
             </div>

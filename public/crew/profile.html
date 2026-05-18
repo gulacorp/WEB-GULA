@@ -236,6 +236,23 @@
     </div>
 
     <script>
+        const SUPABASE_URL = 'https://gblmjealpcyswcgjrhzk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdibG1qZWFscGN5c3djZ2pyaHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDQzNDQsImV4cCI6MjA5MjUyMDM0NH0.KdQC9ZWuSmayOkLGr7Rrcz9i1PtW2ieIL-ZVVm4s7cA';
+
+        async function updateMember(memberCode, changes) {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/crew_members?member_code=eq.${encodeURIComponent(memberCode)}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(changes)
+            });
+            if (!res.ok) throw new Error(await res.text());
+        }
+
         // Cargar datos del usuario desde localStorage
         function loadProfileData() {
             const userData = localStorage.getItem('currentUser');
@@ -291,7 +308,7 @@
             return code;
         }
 
-        function saveEmail() {
+        async function saveEmail() {
             const email = document.getElementById('pEmailInput').value.trim();
             if (!email) return alert('Introduce un email válido');
 
@@ -299,21 +316,18 @@
             if (!userData) return alert('Usuario no encontrado');
 
             const user = JSON.parse(userData);
-            user.email = email;
-            localStorage.setItem('currentUser', JSON.stringify(user));
-
-            // Actualizar base de datos
-            const database = JSON.parse(localStorage.getItem('gula_crew_db') || '[]');
-            const idx = database.findIndex(u => u.id === user.id);
-            if (idx !== -1) {
-                database[idx] = user;
-                localStorage.setItem('gula_crew_db', JSON.stringify(database));
+            try {
+                await updateMember(user.id, { email });
+                user.email = email;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                alert('Email actualizado con éxito.');
+            } catch (error) {
+                console.warn('[PROFILE EMAIL]', error);
+                alert('No se pudo actualizar el email. Inténtalo de nuevo.');
             }
-
-            alert('Email actualizado con éxito.');
         }
 
-        function savePhone() {
+        async function savePhone() {
             const phone = document.getElementById('pPhoneInput').value.trim();
             if (!phone) return alert('Introduce un teléfono válido');
 
@@ -321,18 +335,15 @@
             if (!userData) return alert('Usuario no encontrado');
 
             const user = JSON.parse(userData);
-            user.telefono = phone;
-            localStorage.setItem('currentUser', JSON.stringify(user));
-
-            // Actualizar base de datos
-            const database = JSON.parse(localStorage.getItem('gula_crew_db') || '[]');
-            const idx = database.findIndex(u => u.id === user.id);
-            if (idx !== -1) {
-                database[idx] = user;
-                localStorage.setItem('gula_crew_db', JSON.stringify(database));
+            try {
+                await updateMember(user.id, { telefono: phone });
+                user.telefono = phone;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                alert('Teléfono actualizado con éxito.');
+            } catch (error) {
+                console.warn('[PROFILE PHONE]', error);
+                alert('No se pudo actualizar el teléfono. Inténtalo de nuevo.');
             }
-
-            alert('Teléfono actualizado con éxito.');
         }
 
         function copyReferralCode() {

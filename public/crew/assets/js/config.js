@@ -17,8 +17,8 @@
   window.GULA_CONFIG = {
     ready: false,
     posthog: { apiKey: null, host: 'https://us.posthog.com' },
-    supabaseUrl: null,
-    supabaseAnonKey: null,
+    supabaseUrl: 'https://gblmjealpcyswcgjrhzk.supabase.co',
+    supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdibG1qZWFscGN5c3djZ2pyaHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDQzNDQsImV4cCI6MjA5MjUyMDM0NH0.KdQC9ZWuSmayOkLGr7Rrcz9i1PtW2ieIL-ZVVm4s7cA',
     googleMapsApiKey: null,
     crispWebsiteId: null,
     stores: STORES

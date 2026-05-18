@@ -122,6 +122,10 @@ drop policy if exists "Actualizar historial" on public.puntos_historial;
 create policy "Actualizar historial" on public.puntos_historial
   for update using (true) with check (true);
 
+drop policy if exists "Actualizar promos" on public.promos;
+create policy "Actualizar promos" on public.promos
+  for update using (true) with check (true);
+
 -- ============================================================
 -- Función automática: actualizar nivel según puntos
 -- ============================================================

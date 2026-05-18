@@ -912,6 +912,24 @@
     <script src="footer.js" defer></script>
 
     <script>
+        const SUPABASE_URL = 'https://gblmjealpcyswcgjrhzk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdibG1qZWFscGN5c3djZ2pyaHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDQzNDQsImV4cCI6MjA5MjUyMDM0NH0.KdQC9ZWuSmayOkLGr7Rrcz9i1PtW2ieIL-ZVVm4s7cA';
+
+        async function supabaseRest(path, options = {}) {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    ...(options.headers || {})
+                }
+            });
+            if (!res.ok) throw new Error(await res.text());
+            const text = await res.text();
+            return text ? JSON.parse(text) : null;
+        }
+
         let products = [];
         let cart = [];
 
@@ -1238,26 +1256,51 @@
 
             if (user && user.id && earnedPts > 0) {
                 try {
-                    const resp = await fetch('/api/crew/points/add', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            member_code: user.id,
-                            puntos: earnedPts,
-                            motivo: 'pedido',
-                            metadata: { items: cart.map(i => ({ name: i.title, qty: i.quantity, price: i.price })), total: finalTotal, method: selectedMethodKey }
-                        })
-                    });
-                    const pts = await resp.json();
-                    if (pts.puntos_nuevos) {
-                        user.puntos = pts.puntos_nuevos;
+                    const members = await supabaseRest(`crew_members?select=id,puntos&member_code=eq.${encodeURIComponent(user.id)}&limit=1`);
+                    const member = members && members[0];
+                    if (member) {
+                        const newPuntos = (member.puntos || 0) + earnedPts;
+                        await supabaseRest(`crew_members?id=eq.${encodeURIComponent(member.id)}`, {
+                            method: 'PATCH',
+                            headers: { 'Prefer': 'return=minimal' },
+                            body: JSON.stringify({ puntos: newPuntos })
+                        });
+                        await supabaseRest('puntos_historial', {
+                            method: 'POST',
+                            headers: { 'Prefer': 'return=minimal' },
+                            body: JSON.stringify({
+                                member_id: member.id,
+                                puntos: earnedPts,
+                                motivo: 'pedido',
+                                metadata: { items: cart.map(i => ({ name: i.title, qty: i.quantity, price: i.price })), total: finalTotal, method: selectedMethodKey }
+                            })
+                        });
+                        await supabaseRest('pedidos', {
+                            method: 'POST',
+                            headers: { 'Prefer': 'return=minimal' },
+                            body: JSON.stringify({
+                                member_id: member.id,
+                                monto: Math.round(finalTotal * 100),
+                                moneda: 'eur',
+                                tipo: selectedMethodKey || 'marketplace',
+                                estado: 'paid',
+                                items: cart.map(i => ({ name: i.title, qty: i.quantity, price: i.price }))
+                            })
+                        });
+                        user.puntos = newPuntos;
                         localStorage.setItem('currentUser', JSON.stringify(user));
                     }
                 } catch (e) { console.warn('[ORDER POINTS]', e); }
             }
 
             if (appliedPromo) {
-                try { await fetch(`/api/promos/use/${encodeURIComponent(appliedPromo.code)}`, { method: 'POST' }); } catch (e) { console.warn('[PROMO USE]', e); }
+                try {
+                    await supabaseRest(`promos?codigo=eq.${encodeURIComponent(appliedPromo.code)}`, {
+                        method: 'PATCH',
+                        headers: { 'Prefer': 'return=minimal' },
+                        body: JSON.stringify({ usado: true })
+                    });
+                } catch (e) { console.warn('[PROMO USE]', e); }
                 appliedPromo = null;
                 document.getElementById('promoValue').textContent = 'Añadir';
                 document.getElementById('promoMessage').textContent = '';
@@ -1274,18 +1317,19 @@
             const msg = document.getElementById('promoMessage');
             if (!code) { msg.style.color = '#f66'; msg.textContent = 'Introduce un código.'; return; }
             try {
-                const resp = await fetch(`/api/promos/check/${encodeURIComponent(code)}`);
-                const data = await resp.json();
-                if (resp.ok && data.valid) {
-                    appliedPromo = { code, descuento: data.descuento };
+                const data = await supabaseRest(`promos?select=codigo,descuento,usado,expires_at&codigo=eq.${encodeURIComponent(code)}&limit=1`);
+                const promo = data && data[0];
+                const isExpired = promo && promo.expires_at && new Date(promo.expires_at).getTime() < Date.now();
+                if (promo && !promo.usado && !isExpired) {
+                    appliedPromo = { code: promo.codigo, descuento: promo.descuento };
                     msg.style.color = '#4CAF50';
-                    msg.textContent = `✓ Código aplicado: -${data.descuento}% OFF`;
-                    document.getElementById('promoValue').textContent = `-${data.descuento}%`;
+                    msg.textContent = `✓ Código aplicado: -${promo.descuento}% OFF`;
+                    document.getElementById('promoValue').textContent = `-${promo.descuento}%`;
                     updateCartUI();
                 } else {
                     appliedPromo = null;
                     msg.style.color = '#f66';
-                    msg.textContent = data.error || 'Código no válido o expirado.';
+                    msg.textContent = 'Código no válido o expirado.';
                     document.getElementById('promoValue').textContent = 'Añadir';
                     updateCartUI();
                 }
