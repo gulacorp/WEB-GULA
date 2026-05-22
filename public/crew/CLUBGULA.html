@@ -1738,7 +1738,24 @@
         <div class="phase-lock-kicker">Pronto</div>
         <div class="phase-lock-title" id="phaseLockTitle">CREW?...</div>
         <p class="phase-lock-text">Todavía no. Lo estamos cocinando lento para que entre como tiene que entrar.</p>
-        <a class="phase-lock-action" href="marketplace.html">Ver la carta</a>
+        
+        <div class="waitlist-form" style="margin-top: 25px;">
+            <input type="email" id="waitlistEmail" placeholder="Tu email para notificaciones" 
+                   style="width: 100%; padding: 12px 16px; border: 1px solid rgba(255,88,0,0.3); 
+                          border-radius: 25px; background: rgba(0,0,0,0.3); color: #fff; 
+                          font-size: 14px; outline: none; margin-bottom: 10px; box-sizing: border-box;">
+            <button id="waitlistBtn" onclick="joinWaitlist()" 
+                    style="width: 100%; padding: 12px 24px; background: linear-gradient(135deg, #FF5800, #E64A00); 
+                           color: #000; border: none; border-radius: 25px; font-weight: 700; font-size: 14px; 
+                           cursor: pointer; text-transform: uppercase; letter-spacing: 1px;">
+                Notificarme cuando esté listo
+            </button>
+            <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 12px; margin-top: 10px; text-align: center;">
+                ✓ Te avisaremos cuando GULA CREW esté disponible
+            </p>
+        </div>
+        
+        <a class="phase-lock-action" href="marketplace.html" style="margin-top: 20px;">Ver la carta</a>
     </div>
 </div>
 
@@ -2795,6 +2812,70 @@
     window.supabase.client = window.supabase.client || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const supabase = window.supabase.client;
 
+    // Waitlist function for Club GULA overlay
+    async function joinWaitlist() {
+        const emailInput = document.getElementById('waitlistEmail');
+        const btn = document.getElementById('waitlistBtn');
+        const successMsg = document.getElementById('waitlistSuccess');
+        
+        const email = emailInput.value.trim();
+        
+        if (!email || !email.includes('@')) {
+            alert('Por favor ingresa un email válido');
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.textContent = 'Agregando...';
+        
+        try {
+            // Guardar en tabla contactos con tipo 'waitlist'
+            const { error } = await supabase
+                .from('contactos')
+                .insert({
+                    nombre: 'Waitlist',
+                    email: email,
+                    tipo: 'waitlist',
+                    mensaje: 'Interesado en notificaciones Club GULA',
+                    privacy_accepted: true,
+                    marketing_consent: true,
+                    consent_source: 'club_gula_waitlist',
+                    consent_version: '2026-04'
+                });
+            
+            if (error) throw error;
+            
+            // Enviar email de confirmación
+            await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                },
+                body: JSON.stringify({
+                    to: email,
+                    type: 'contacto',
+                    data: {
+                        nombre: 'Miembro futuro',
+                        email: email,
+                        tipo: 'waitlist',
+                        mensaje: 'Te avisaremos cuando GULA CREW esté disponible'
+                    }
+                })
+            });
+            
+            emailInput.value = '';
+            successMsg.style.display = 'block';
+            btn.style.display = 'none';
+            
+        } catch (error) {
+            console.error('[WAITLIST ERROR]', error);
+            alert('Error al agregar a la waitlist. Por favor intenta de nuevo.');
+            btn.disabled = false;
+            btn.textContent = 'Notificarme cuando esté listo';
+        }
+    }
+
     // Gmail Configuration - Emails sent directly via Google Apps Script
     // No EmailJS needed - using GmailApp from Google Apps Script for direct Gmail sending
 
@@ -3559,6 +3640,32 @@
                     });
                     console.log(`[REFERRAL] ${referrer.member_code} +20pts por referir ${member.member_code}`);
                 }
+            }
+
+            // Enviar email de wallet card
+            try {
+                await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    },
+                    body: JSON.stringify({
+                        to: email,
+                        type: 'club_gula',
+                        data: {
+                            nombre: `${nombre} ${apellido}`,
+                            email,
+                            memberCode: member_code,
+                            puntos,
+                            nivel
+                        }
+                    })
+                });
+                console.log('[EMAIL] Wallet card email sent to', email);
+            } catch (emailError) {
+                console.error('[EMAIL ERROR]', emailError);
+                // No fallar el registro si falla el email
             }
 
             // Update session

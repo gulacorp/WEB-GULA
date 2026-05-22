@@ -207,6 +207,20 @@
         btn.textContent = 'Enviando...';
         try {
             const tipo = document.getElementById('tipo').value;
+            const formData = {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                ciudad: document.getElementById('ciudad').value,
+                tipo,
+                mensaje: document.getElementById('mensaje').value,
+                privacy_accepted: document.getElementById('privacyAccepted').checked,
+                marketing_consent: document.getElementById('marketingConsent').checked,
+                consent_source: 'contacto_form',
+                consent_version: '2026-04',
+            };
+            
+            // Guardar en Supabase
             const res = await fetch(`${SUPABASE_URL}/rest/v1/contactos`, {
                 method: 'POST',
                 headers: {
@@ -215,19 +229,24 @@
                     'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
                     'Prefer': 'return=minimal'
                 },
-                body: JSON.stringify({
-                    nombre: document.getElementById('nombre').value,
-                    email: document.getElementById('email').value,
-                    telefono: document.getElementById('telefono').value,
-                    tipo,
-                    mensaje: document.getElementById('mensaje').value,
-                    privacy_accepted: document.getElementById('privacyAccepted').checked,
-                    marketing_consent: document.getElementById('marketingConsent').checked,
-                    consent_source: 'contacto_form',
-                    consent_version: '2026-04',
-                })
+                body: JSON.stringify(formData)
             });
             if (!res.ok) throw new Error('No se pudo guardar el contacto');
+            
+            // Enviar email vía Edge Function
+            const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                },
+                body: JSON.stringify({
+                    to: formData.email,
+                    type: tipo === 'franquiciado' ? 'franquicia' : 'contacto',
+                    data: formData
+                })
+            });
+            
             if (res.ok) {
                 document.getElementById('successMsg').style.display = 'block';
                 document.getElementById('contactForm').reset();
