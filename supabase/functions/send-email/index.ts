@@ -46,7 +46,7 @@ function clampString(value: unknown, maxLen: number): string {
 
 interface EmailPayload {
   to: string
-  type: 'contacto' | 'franquicia' | 'club_gula' | 'pedido'
+  type: 'contacto' | 'franquicia' | 'club_gula' | 'pedido' | 'waitlist'
   data: {
     nombre?: string
     email?: string
@@ -160,6 +160,12 @@ serve(async (req) => {
         subject = '¡Bienvenido a la CREW! Tu código de acceso - Gula'
         html = generateClubGulaEmail(safeData.nombre || 'Miembro', safeData.email, safeData.memberCode, safeData.puntos, safeData.nivel)
         await notifyAdmin('Nuevo registro Club GULA', safeData)
+        break
+
+      case 'waitlist':
+        subject = '✓ Estás en la lista - GULA CREW'
+        html = generateContactoEmail(safeData.nombre || 'Miembro futuro', safeData.email, '', '', safeData.mensaje || 'Te avisaremos cuando GULA CREW esté disponible', 'waitlist')
+        await notifyAdmin('Nueva inscripción waitlist Club GULA', safeData)
         break
 
       case 'pedido':
