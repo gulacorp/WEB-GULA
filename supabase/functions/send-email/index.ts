@@ -146,25 +146,25 @@ serve(async (req) => {
     switch (type) {
       case 'contacto':
         subject = '✓ Hemos recibido tu mensaje - Gula'
-        html = generateContactoEmail(safeData.nombre || 'Cliente')
+        html = generateContactoEmail(safeData.nombre || 'Cliente', safeData.email, safeData.telefono, safeData.ciudad, safeData.mensaje, safeData.tipo)
         await notifyAdmin('Nuevo contacto web', safeData)
         break
 
       case 'franquicia':
         subject = '✓ Solicitud de franquicia recibida - Gula'
-        html = generateFranquiciaEmail(safeData.nombre || 'Futuro Franquiciado', safeData.ciudad)
+        html = generateFranquiciaEmail(safeData.nombre || 'Futuro Franquiciado', safeData.email, safeData.telefono, safeData.ciudad, safeData.mensaje)
         await notifyAdmin('Nueva solicitud de franquicia', safeData)
         break
 
       case 'club_gula':
         subject = '¡Bienvenido a la CREW! Tu código de acceso - Gula'
-        html = generateClubGulaEmail(safeData.nombre || 'Miembro', safeData.memberCode)
+        html = generateClubGulaEmail(safeData.nombre || 'Miembro', safeData.email, safeData.memberCode, safeData.puntos, safeData.nivel)
         await notifyAdmin('Nuevo registro Club GULA', safeData)
         break
 
       case 'pedido':
         subject = '✓ Pedido confirmado - GULA'
-        html = generatePedidoEmail(safeData.nombre || 'Miembro CREW', safeData.total, safeData.puntos, safeData.items)
+        html = generatePedidoEmail(safeData.nombre || 'Miembro CREW', safeData.email, safeData.memberCode, safeData.total, safeData.puntos, safeData.items)
         await notifyAdmin('Nuevo pedido web', safeData)
         break
 
@@ -175,7 +175,8 @@ serve(async (req) => {
         })
     }
 
-    // Enviar email via Resend
+    // Enviar email via Resend al usuario que llenó el formulario
+    const userEmail = safeData.email || to
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -184,7 +185,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: FROM_EMAIL,
-        to: to,
+        to: userEmail,
         subject: subject,
         html: html
       })
@@ -216,6 +217,10 @@ serve(async (req) => {
 
 async function notifyAdmin(subject: string, data: EmailPayload['data']) {
   if (!ADMIN_EMAIL || !RESEND_API_KEY) return
+  
+  // No enviar email de admin si el usuario es el mismo que el admin
+  if (data.email === ADMIN_EMAIL) return
+  
   const rows = Object.entries(data || {}).map(([key, value]) => {
     const rendered = Array.isArray(value) ? JSON.stringify(value) : String(value ?? '-')
     return `<tr><td style="padding:8px;border-bottom:1px solid #333;color:#FF5800">${escapeHtml(key)}</td><td style="padding:8px;border-bottom:1px solid #333;color:#fff">${escapeHtml(rendered)}</td></tr>`
@@ -245,73 +250,219 @@ function escapeHtml(value: string): string {
 }
 
 // Templates de emails (usan CSS global de styles.ts)
-function generateContactoEmail(nombre: string): string {
+function generateContactoEmail(nombre: string, email?: string, telefono?: string, ciudad?: string, mensaje?: string, tipo?: string): string {
+  const tipoLabel = tipo ? tipo.toUpperCase() : 'CONTACTO'
+  const fechaCreacion = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+  
   return wrapEmail(`
-    <div class="gula-logo">GULA</div>
-    <h1>¡Hola ${nombre}!</h1>
-    <p>Hemos recibido tu mensaje correctamente. Nuestro equipo lo revisará y te contactará en menos de 48 horas.</p>
-    <p>Mientras tanto, puedes seguir disfrutando de nuestra carta:</p>
-    <div class="center"><a href="https://thegulacorp.com/carta" class="gula-btn-alt">VER CARTA</a></div>
-  `, { title: 'GULA - Contacto', noHeader: true })
-}
-
-function generateFranquiciaEmail(nombre: string, ciudad?: string): string {
-  const ciudadText = ciudad ? ` en ${ciudad}` : ''
-  return wrapEmail(`
-    <div class="gula-logo">GULA</div>
-    <h1>¡Hola ${nombre}!</h1>
-    <p>Hemos recibido tu solicitud de franquicia${ciudadText}.</p>
-    <p>Nuestro equipo de expansión te contactará en <span class="gula-highlight">menos de 48 horas</span> para explicarte todos los detalles.</p>
-    <p>Mientras tanto, puedes conocer más sobre nosotros:</p>
-    <div class="center"><a href="https://thegulacorp.com/franquicias" class="gula-btn-alt">CONOCER MÁS</a></div>
-  `, { title: 'GULA - Franquicia', noHeader: true })
-}
-
-function generateClubGulaEmail(nombre: string, memberCode?: string): string {
-  const dashboardUrl = `https://thegulacorp.com/CLUBGULA.html#dashboard?code=${memberCode || ''}`
-  return wrapEmail(`
-    <h1 style="text-align:center">¡Bienvenido a la CREW, ${nombre}!</h1>
-    <p class="center" style="color:#ccc">Ya eres parte de nuestra familia. Aquí tienes tu código único de acceso:</p>
-
-    <div class="gula-code-box">
-      <p style="margin:0 0 10px 0;color:#888;font-size:14px">TU CÓDIGO DE MIEMBRO</p>
-      <div class="gula-code">${memberCode || 'GULA-XXXXXX'}</div>
+    <div class="gula-subtitle">CONFIRMACIÓN DE CONTACTO</div>
+    <h1>HOLA, ${escapeHtml(nombre).toUpperCase()}</h1>
+    
+    <div style="background:linear-gradient(135deg, #FF5800 0%, #E64A00 100%);border-radius:20px;padding:40px;box-shadow:0 0 40px rgba(255,88,0,0.3);margin:30px 0;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:15px;">TU SOLICITUD</div>
+        <div style="color:#000;font-size:28px;font-weight:900;letter-spacing:2px;margin-bottom:20px;">${tipoLabel}</div>
+        <div style="color:rgba(0,0,0,0.6);font-size:13px;line-height:1.8;">
+          ${email ? `<div>${escapeHtml(email)}</div>` : ''}
+          ${telefono ? `<div>${escapeHtml(telefono)}</div>` : ''}
+          ${ciudad ? `<div>${escapeHtml(ciudad)}</div>` : ''}
+        </div>
+        <div style="color:rgba(0,0,0,0.4);font-size:11px;margin-top:20px;letter-spacing:1px;">${fechaCreacion}</div>
+      </div>
     </div>
-
-    <div class="center"><a href="${dashboardUrl}" class="gula-btn">ACCEDER A MI DASHBOARD</a></div>
-
+    
+    ${mensaje ? `
     <div class="gula-card">
-      <h3>Tus beneficios incluyen:</h3>
-      <ul>
-        <li>20% OFF en tu próxima compra</li>
-        <li>Puntos por cada visita</li>
-        <li>Acceso a eventos exclusivos</li>
-        <li>Misiones semanales con recompensas</li>
-        <li>Canal privado de WhatsApp</li>
-      </ul>
+      <h3>TU MENSAJE</h3>
+      <p style="color:#333;line-height:1.8;font-size:1rem;">${escapeHtml(mensaje)}</p>
     </div>
-
-    <p class="center" style="color:#888;font-size:12px">Guarda este email. Tu código es necesario para acceder a tu dashboard.</p>
-  `, { title: 'Bienvenido a la CREW', header: 'GULA CREW' })
+    ` : ''}
+    
+    <div class="gula-card">
+      <h3>GRACIAS POR CONTACTAR</h3>
+      <p style="color:#333;line-height:1.8;">Hemos recibido tu mensaje. Nuestro equipo te contactará en menos de 48 horas.</p>
+    </div>
+    
+    <div class="gula-divider"></div>
+    <div class="center">
+      <a href="https://thegulacorp.com/marketplace.html" class="gula-btn-alt">VER LA CARTA</a>
+    </div>
+    <div class="center" style="margin-top:20px;">
+      <a href="https://www.google.com/maps/search/?api=1&query=GULA+restaurant" class="gula-btn-maps">VALORAR EN GOOGLE MAPS</a>
+    </div>
+    <p style="color:#666;font-size:11px;text-align:center;margin-top:40px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
+  `, { title: 'GULA - Confirmación de Contacto' })
 }
 
-function generatePedidoEmail(nombre: string, total?: number, puntos?: number, items: Array<{ name?: string; title?: string; qty?: number; quantity?: number; price?: number }> = []): string {
+function generateFranquiciaEmail(nombre: string, email?: string, telefono?: string, ciudad?: string, mensaje?: string): string {
+  const fechaCreacion = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+  
+  return wrapEmail(`
+    <div class="gula-subtitle">SOLICITUD DE FRANQUICIA</div>
+    <h1>HOLA, ${escapeHtml(nombre).toUpperCase()}</h1>
+    
+    <div style="background:linear-gradient(135deg, #FF5800 0%, #E64A00 100%);border-radius:20px;padding:40px;box-shadow:0 0 40px rgba(255,88,0,0.3);margin:30px 0;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:15px;">TU INTERÉS</div>
+        <div style="color:#000;font-size:28px;font-weight:900;letter-spacing:2px;margin-bottom:20px;">FRANQUICIA</div>
+        <div style="color:rgba(0,0,0,0.6);font-size:13px;line-height:1.8;">
+          ${email ? `<div>${escapeHtml(email)}</div>` : ''}
+          ${telefono ? `<div>${escapeHtml(telefono)}</div>` : ''}
+          ${ciudad ? `<div>${escapeHtml(ciudad)}</div>` : ''}
+        </div>
+        <div style="color:rgba(0,0,0,0.4);font-size:11px;margin-top:20px;letter-spacing:1px;">${fechaCreacion}</div>
+      </div>
+    </div>
+    
+    ${mensaje ? `
+    <div class="gula-card">
+      <h3>TU PROYECTO</h3>
+      <p style="color:#333;line-height:1.8;font-size:1rem;">${escapeHtml(mensaje)}</p>
+    </div>
+    ` : ''}
+    
+    <div class="gula-card">
+      <h3>ÚNETE A LA FAMILIA</h3>
+      <p style="color:#333;line-height:1.8;">Hemos recibido tu solicitud de franquicia. Nuestro equipo de expansión te contactará en menos de 48 horas.</p>
+    </div>
+    
+    <div class="gula-divider"></div>
+    <div class="center">
+      <a href="https://thegulacorp.com/marketplace.html" class="gula-btn-alt">VER LA CARTA</a>
+    </div>
+    <div class="center" style="margin-top:20px;">
+      <a href="https://www.google.com/maps/search/?api=1&query=GULA+restaurant" class="gula-btn-maps">VALORAR EN GOOGLE MAPS</a>
+    </div>
+    <p style="color:#666;font-size:11px;text-align:center;margin-top:40px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
+  `, { title: 'GULA - Solicitud de Franquicia' })
+}
+
+function generateClubGulaEmail(nombre: string, email?: string, memberCode?: string, puntos?: number, nivel?: string): string {
+  const nombreCompleto = nombre
+  const fechaCreacion = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+  
+  return wrapEmail(`
+    <div class="gula-subtitle">BIENVENIDO A LA CREW</div>
+    <h1>HOLA, ${escapeHtml(nombreCompleto).toUpperCase()}</h1>
+    
+    <div style="background:linear-gradient(135deg, #FF5800 0%, #E64A00 100%);border-radius:20px;padding:40px;box-shadow:0 0 40px rgba(255,88,0,0.3);margin:30px 0;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:15px;">TU TARJETA DE MIEMBRO</div>
+        <div style="color:#000;font-size:36px;font-weight:900;letter-spacing:3px;margin-bottom:20px;">${memberCode || 'XXXXXX'}</div>
+        <div style="color:rgba(0,0,0,0.6);font-size:13px;line-height:1.8;">
+          <div>${escapeHtml(nombreCompleto)}</div>
+          <div>Miembro desde: ${fechaCreacion}</div>
+        </div>
+        ${puntos !== undefined ? `<div style="background:rgba(0,0,0,0.2);color:#000;padding:10px 25px;border-radius:25px;font-weight:900;display:inline-block;margin-top:20px;font-size:14px;letter-spacing:1px;">${puntos} PUNTOS</div>` : ''}
+      </div>
+    </div>
+    
+    <div class="gula-card">
+      <h3>LA CREW ES TU FAMILIA</h3>
+      <p style="color:#333;line-height:1.8;">Ya eres parte de la CREW. Acumula puntos con cada pedido, sube de nivel y desbloquea recompensas exclusivas.</p>
+    </div>
+    
+    <div class="gula-divider"></div>
+    <div class="center">
+      <a href="https://thegulacorp.com/marketplace.html" class="gula-btn-alt">VER LA CARTA</a>
+    </div>
+    <div class="center" style="margin-top:20px;">
+      <a href="https://www.google.com/maps/search/?api=1&query=GULA+restaurant" class="gula-btn-maps">VALORAR EN GOOGLE MAPS</a>
+    </div>
+    <p style="color:#666;font-size:11px;text-align:center;margin-top:40px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
+  `, { title: 'GULA - Bienvenido a la CREW' })
+}
+
+function generatePedidoEmail(nombre: string, email?: string, memberCode?: string, total?: number, puntos?: number, items: Array<{ name?: string; title?: string; qty?: number; quantity?: number; price?: number }> = []): string {
   const itemRows = items.map((item) => `
     <tr>
-      <td style="padding:10px;border-bottom:1px solid #333;color:#fff">${escapeHtml(item.name || item.title || 'Producto')}</td>
-      <td style="padding:10px;border-bottom:1px solid #333;color:#ccc;text-align:center">${item.qty || item.quantity || 1}</td>
-      <td style="padding:10px;border-bottom:1px solid #333;color:#FF5800;text-align:right">${Number(item.price || 0).toFixed(2)}€</td>
+      <td style="padding:18px 0;border-bottom:1px solid rgba(255,88,0,0.15);color:#fff;font-size:1rem;">${escapeHtml(item.name || item.title || 'Producto')}</td>
+      <td style="padding:18px 0;border-bottom:1px solid rgba(255,88,0,0.15);color:#ccc;text-align:center;font-size:1rem;">${item.qty || item.quantity || 1}</td>
+      <td style="padding:18px 0;border-bottom:1px solid rgba(255,88,0,0.15);color:#FF5800;text-align:right;font-weight:700;font-size:1rem;">${Number(item.price || 0).toFixed(2)}€</td>
     </tr>
   `).join('')
+  
+  const fechaCreacion = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+  const horaCreacion = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+  const orderId = `ORD-${Date.now().toString().slice(-8)}`
+  
   return wrapEmail(`
-    <h1 style="text-align:center">Pedido confirmado, ${escapeHtml(nombre)}</h1>
-    <p class="center" style="color:#ccc">Hemos recibido tu pedido correctamente.</p>
-
-    <div class="gula-total-box">
-      <div class="gula-total">${Number(total || 0).toFixed(2)}€</div>
-      <div style="color:#ccc;margin-top:8px">+${Number(puntos || 0)} puntos CREW</div>
+    <div class="gula-subtitle">FACTURA DE PEDIDO</div>
+    <h1>HOLA, ${escapeHtml(nombre).toUpperCase()}</h1>
+    
+    <div style="background:#000000;border:2px solid rgba(255,88,0,0.4);border-radius:20px;padding:50px 40px;box-shadow:0 0 60px rgba(255,88,0,0.2);margin:30px 0;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg, #FF5800, #E64A00, #FF5800);"></div>
+      
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px;padding-bottom:30px;border-bottom:1px solid rgba(255,88,0,0.2);">
+        <div>
+          <div style="color:#FF5800;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">NÚMERO DE PEDIDO</div>
+          <div style="color:#fff;font-size:20px;font-weight:900;letter-spacing:2px;">${orderId}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="color:#FF5800;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">FECHA</div>
+          <div style="color:#fff;font-size:14px;">${fechaCreacion}</div>
+          <div style="color:#666;font-size:12px;margin-top:4px;">${horaCreacion}</div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom:40px;">
+        <div style="color:#FF5800;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;">CLIENTE</div>
+        <div style="color:#fff;font-size:16px;font-weight:700;margin-bottom:5px;">${escapeHtml(nombre)}</div>
+        ${email ? `<div style="color:#888;font-size:13px;">${escapeHtml(email)}</div>` : ''}
+        ${memberCode ? `<div style="color:#FF5800;font-size:12px;margin-top:8px;font-weight:700;">${escapeHtml(memberCode)}</div>` : ''}
+      </div>
+      
+      ${items.length > 0 ? `
+      <div style="margin-bottom:40px;">
+        <div style="color:#FF5800;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;">DETALLE DEL PEDIDO</div>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="padding:15px 0;color:#666;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:left;">Producto</th>
+              <th style="padding:15px 0;color:#666;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:center;">Cant.</th>
+              <th style="padding:15px 0;color:#666;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:right;">Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemRows}
+          </tbody>
+        </table>
+      </div>
+      ` : ''}
+      
+      <div style="background:linear-gradient(135deg, rgba(255,88,0,0.1) 0%, rgba(255,88,0,0.05) 100%);border:1px solid rgba(255,88,0,0.3);border-radius:15px;padding:30px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+          <div style="color:#888;font-size:13px;">Subtotal</div>
+          <div style="color:#fff;font-size:16px;font-weight:700;">${Number(total || 0).toFixed(2)}€</div>
+        </div>
+        ${puntos !== undefined ? `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+          <div style="color:#888;font-size:13px;">Puntos CREW</div>
+          <div style="color:#FF5800;font-size:16px;font-weight:700;">+${Number(puntos)}</div>
+        </div>
+        ` : ''}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,88,0,0.3);">
+          <div style="color:#FF5800;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:2px;">TOTAL</div>
+          <div style="color:#FF5800;font-size:32px;font-weight:900;letter-spacing:1px;">${Number(total || 0).toFixed(2)}€</div>
+        </div>
+      </div>
     </div>
-
-    <table class="gula-table">${itemRows}</table>
-  `, { title: 'Pedido confirmado - GULA', header: 'GULA' })
+    
+    <div class="gula-card">
+      <h3>TU PEDIDO ESTÁ EN CAMINO</h3>
+      <p style="color:#333;line-height:1.8;">Hemos recibido tu pedido correctamente. Estamos preparando tu comida.</p>
+    </div>
+    
+    <div class="gula-divider"></div>
+    <div class="center">
+      <a href="https://thegulacorp.com/marketplace.html" class="gula-btn-alt">VER LA CARTA</a>
+    </div>
+    <div class="center" style="margin-top:20px;">
+      <a href="https://www.google.com/maps/search/?api=1&query=GULA+restaurant" class="gula-btn-maps">VALORAR EN GOOGLE MAPS</a>
+    </div>
+    <p style="color:#666;font-size:11px;text-align:center;margin-top:40px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
+  `, { title: 'GULA - Factura de Pedido' })
 }

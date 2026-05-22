@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA Logo Generator</title>
+    <style>
+        @font-face {
+            font-family: 'Aveline';
+            src: url('AvelineRegular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            margin: 0;
+            padding: 50px;
+            background: #FF5800;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        .gula-logo {
+            font-family: 'Aveline', serif;
+            font-size: 120px;
+            font-weight: 400;
+            color: #000000;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            text-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <h1 class="gula-logo">GULA</h1>
+    </div>
+    <div class="instructions">
+        Haz screenshot de este logo y guárdalo como PNG transparente
+    </div>
+</body>
+</html>

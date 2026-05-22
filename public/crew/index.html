@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <title>GULA - Inicio</title>
     <meta name="description" content="GULA — Experiencia gastronómica sin límites. Burgers premium, Club GULA y franquicias en España.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -2429,11 +2432,12 @@
         .hamburger-btn:hover { transform: scale(1.1); }
         @media (max-width: 768px) {
             nav { height: 70px; padding: 0 20px; flex-wrap: wrap; overflow: visible; }
-            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
             .nav-center { display: none; }
             nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
             nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
             nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            nav.mobile-open .nav-center a { font-size: 1.1rem; padding: 12px 0; display: block; }
             .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
             .nav-logo { font-size: 1.3rem; }
             .search-bar { width: 100%; }
@@ -2446,6 +2450,20 @@
             .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
             section { padding: 60px 20px; }
             .section-title { font-size: 2rem; }
+            .btn-pill { padding: 0.85rem 1.8rem; font-size: 0.8rem; }
+            .cta-card { padding: 1.5rem; }
+            .cta-icon { width: 56px; height: 56px; }
+            .sys-row { padding: 1.2rem 1rem; }
+            .sys-row i { font-size: 1.4rem; }
+            .sys-row strong { font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.6rem; }
+            .hero-subtitle { font-size: 0.9rem; }
+            .section-title { font-size: 1.6rem; }
+            .btn-pill { padding: 0.8rem 1.5rem; font-size: 0.75rem; }
+            .cta-icon { width: 48px; height: 48px; }
         }
 
         /* === GLOBAL SEARCH OVERLAY (Command+F) === */
@@ -2681,8 +2699,8 @@
     <section class="hero" id="inicio">
         <div class="hero-marquee">
             <div class="hero-marquee-row">
-                <img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
-                <img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
+                <img src="images/2B51DE78-C3EE-4395-B60E-F1D1D7D358B5.PNG" alt=""><img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
+                <img src="images/2B51DE78-C3EE-4395-B60E-F1D1D7D358B5.PNG" alt=""><img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
             </div>
             <div class="hero-marquee-row">
                 <img src="images/producto-nuevo-3.jpg" alt=""><img src="images/lifestyle-4.jpg" alt=""><img src="images/modelo-4.jpg" alt=""><img src="images/producto-nuevo-4.jpg" alt=""><img src="images/lifestyle-5.jpg" alt=""><img src="images/modelo-5.jpg" alt=""><img src="images/producto-nuevo-5.jpg" alt=""><img src="images/lifestyle-6.jpg" alt="">

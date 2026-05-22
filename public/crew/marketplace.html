@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <title>GULA - Carta</title>
     <meta name="description" content="Explora la carta de GULA. Burgers smash premium, entrantes, postres y combos. Pide online con entrega o recogida.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -849,10 +852,15 @@
         @media (max-width: 768px) {
             nav { padding: 0 20px; height: 70px; overflow: visible; flex-wrap: wrap; }
             .nav-center { display: none; }
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+            .products-grid { grid-template-columns: 1fr; gap: 1.2rem; }
             .marketplace-header h1 { font-size: 2rem; }
             .marketplace-container { padding: 2rem 1rem; margin-top: 80px; }
-            .order-platforms { gap: 8px; }
+            .order-platforms { gap: 8px; flex-direction: column; }
+            .order-platforms a { width: 100%; text-align: center; padding: 14px; }
+            .product-card { padding: 1.2rem; }
+            .product-image { height: 180px; }
+            .product-title { font-size: 1.1rem; }
+            .product-price { font-size: 1.2rem; }
         }
         .nav-btn-outline { background: transparent; color: #FF5800; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; border: 1.5px solid #FF5800; white-space: nowrap; }
         .nav-btn-outline:hover { background: #FF5800; color: #000; }
@@ -862,11 +870,19 @@
         .hamburger-btn:hover { transform: scale(1.1); }
         @media (max-width: 768px) {
             nav { overflow: visible; flex-wrap: wrap; }
-            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
             nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
             nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
             nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            nav.mobile-open .nav-center a { font-size: 1.1rem; padding: 12px 0; display: block; }
             .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .marketplace-header h1 { font-size: 1.6rem; }
+            .product-image { height: 150px; }
+            .product-title { font-size: 1rem; }
+            .product-price { font-size: 1.1rem; }
         }
         .gula-deco {
             position: absolute;
