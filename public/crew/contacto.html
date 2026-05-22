@@ -252,11 +252,10 @@
             
             if (!emailRes.ok) throw new Error('No se pudo enviar el email');
             
-            if (res.ok) {
-                document.getElementById('successMsg').style.display = 'block';
-                document.getElementById('contactForm').reset();
-                if (typeof posthog !== 'undefined') posthog.capture('contact_form_submit', { tipo });
-            }
+            // Si todo tuvo éxito, mostrar mensaje
+            document.getElementById('successMsg').style.display = 'block';
+            document.getElementById('contactForm').reset();
+            if (typeof posthog !== 'undefined') posthog.capture('contact_form_submit', { tipo });
         } catch(err) {
             console.error('Error al enviar:', err);
             alert('Error al enviar. Por favor escríbenos directamente a marketing@thegulacorp.com');

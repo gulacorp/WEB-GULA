@@ -3077,22 +3077,22 @@
                     </div>
                 </div>
             </div>
-            <form class="contact-form" onsubmit="handleFormSubmit(event)">
+            <form class="contact-form" id="indexContactForm" onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label>Nombre</label>
-                    <input type="text" required>
+                    <input type="text" id="contactNombre" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" required>
+                    <input type="email" id="contactEmail" required>
                 </div>
                 <div class="form-group">
                     <label>Asunto</label>
-                    <input type="text" required>
+                    <input type="text" id="contactAsunto" required>
                 </div>
                 <div class="form-group">
                     <label>Mensaje</label>
-                    <textarea rows="5" required></textarea>
+                    <textarea rows="5" id="contactMensaje" required></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Enviar</button>
             </form>
@@ -3493,10 +3493,65 @@
             }, 3000);
         }
 
-        function handleFormSubmit(e) {
+        async function handleFormSubmit(e) {
             e.preventDefault();
-            showToast('¡Mensaje enviado! Te contactaremos pronto 📧');
-            e.target.reset();
+            const form = e.target;
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Enviando...';
+            
+            try {
+                const formData = {
+                    nombre: document.getElementById('contactNombre').value,
+                    email: document.getElementById('contactEmail').value,
+                    asunto: document.getElementById('contactAsunto').value,
+                    mensaje: document.getElementById('contactMensaje').value,
+                    tipo: 'contacto',
+                    privacy_accepted: true,
+                    marketing_consent: false,
+                    consent_source: 'index_contact_form',
+                    consent_version: '2026-04'
+                };
+                
+                // Guardar en Supabase
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/contactos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                if (!res.ok) throw new Error('No se pudo guardar el contacto');
+                
+                // Enviar email vía Edge Function
+                const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    },
+                    body: JSON.stringify({
+                        to: formData.email,
+                        type: 'contacto',
+                        data: formData
+                    })
+                });
+                
+                if (!emailRes.ok) throw new Error('No se pudo enviar el email');
+                
+                showToast('¡Mensaje enviado! Te contactaremos pronto 📧');
+                form.reset();
+            } catch(err) {
+                console.error('Error al enviar:', err);
+                showToast('Error al enviar. Por favor intenta de nuevo');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
         }
 
         function setupScrollAnimations() {
