@@ -2849,7 +2849,7 @@
             if (error) throw error;
             
             // Enviar email de confirmación
-            await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+            const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -2866,6 +2866,8 @@
                     }
                 })
             });
+            
+            if (!emailRes.ok) throw new Error('No se pudo enviar el email');
             
             emailInput.value = '';
             successMsg.style.display = 'block';
@@ -3647,7 +3649,7 @@
 
             // Enviar email de wallet card
             try {
-                await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+                const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -3665,6 +3667,9 @@
                         }
                     })
                 });
+                
+                if (!emailRes.ok) throw new Error('No se pudo enviar el email');
+                
                 console.log('[EMAIL] Wallet card email sent to', email);
             } catch (emailError) {
                 console.error('[EMAIL ERROR]', emailError);

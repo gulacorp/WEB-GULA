@@ -1482,7 +1482,7 @@
                 
                 if (error) throw error;
                 
-                await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+                const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1499,6 +1499,8 @@
                         }
                     })
                 });
+                
+                if (!emailRes.ok) throw new Error('No se pudo enviar el email');
                 
                 emailInput.value = '';
                 successMsg.style.display = 'block';
