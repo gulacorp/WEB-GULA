@@ -743,6 +743,38 @@
             overflow: hidden;
         }
 
+        .hero-impact {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            margin-top: 72px;
+            overflow: hidden;
+        }
+
+        .hero-impact-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .hero-impact-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .hero-content-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px 60px;
+            text-align: center;
+            background: var(--bg-dark);
+        }
+
         .hero-marquee {
             position: absolute;
             inset: 0;
@@ -2441,6 +2473,8 @@
             .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
             .nav-logo { font-size: 1.3rem; }
             .search-bar { width: 100%; }
+            .hero-impact { margin-top: 70px; height: 80vh; }
+            .hero-content-section { padding: 60px 20px 40px; min-height: auto; }
             .hero { padding: 100px 20px 40px; margin-top: 70px; min-height: 70vh; }
             .hero h1 { font-size: 2rem; }
             .hero-subtitle { font-size: 1rem; }
@@ -2696,21 +2730,12 @@
         </div>
     </div>
 
-    <section class="hero" id="inicio">
-        <div class="hero-marquee">
-            <div class="hero-marquee-row">
-                <img src="images/2B51DE78-C3EE-4395-B60E-F1D1D7D358B5.PNG" alt=""><img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
-                <img src="images/2B51DE78-C3EE-4395-B60E-F1D1D7D358B5.PNG" alt=""><img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
-            </div>
-            <div class="hero-marquee-row">
-                <img src="images/producto-nuevo-3.jpg" alt=""><img src="images/lifestyle-4.jpg" alt=""><img src="images/modelo-4.jpg" alt=""><img src="images/producto-nuevo-4.jpg" alt=""><img src="images/lifestyle-5.jpg" alt=""><img src="images/modelo-5.jpg" alt=""><img src="images/producto-nuevo-5.jpg" alt=""><img src="images/lifestyle-6.jpg" alt="">
-                <img src="images/producto-nuevo-3.jpg" alt=""><img src="images/lifestyle-4.jpg" alt=""><img src="images/modelo-4.jpg" alt=""><img src="images/producto-nuevo-4.jpg" alt=""><img src="images/lifestyle-5.jpg" alt=""><img src="images/modelo-5.jpg" alt=""><img src="images/producto-nuevo-5.jpg" alt=""><img src="images/lifestyle-6.jpg" alt="">
-            </div>
-            <div class="hero-marquee-row">
-                <img src="images/modelo-6.jpg" alt=""><img src="images/lifestyle-7.jpg" alt=""><img src="images/producto-nuevo-6.jpg" alt=""><img src="images/modelo-7.jpg" alt=""><img src="images/lifestyle-8.jpg" alt=""><img src="images/producto-nuevo-7.jpg" alt=""><img src="images/modelo-8.jpg" alt=""><img src="images/lifestyle-9.jpg" alt="">
-                <img src="images/modelo-6.jpg" alt=""><img src="images/lifestyle-7.jpg" alt=""><img src="images/producto-nuevo-6.jpg" alt=""><img src="images/modelo-7.jpg" alt=""><img src="images/lifestyle-8.jpg" alt=""><img src="images/producto-nuevo-7.jpg" alt=""><img src="images/modelo-8.jpg" alt=""><img src="images/lifestyle-9.jpg" alt="">
-            </div>
-        </div>
+    <section class="hero-impact" id="inicio">
+        <img src="images/2B51DE78-C3EE-4395-B60E-F1D1D7D358B5.PNG" alt="GULA Impact" class="hero-impact-image">
+        <div class="hero-impact-overlay"></div>
+    </section>
+
+    <section class="hero-content-section" id="bienvenida">
         <div class="hero-content">
             <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-60px;right:-40px;animation:decoFloat 10s ease-in-out infinite;" alt="">
             <h1>Bienvenido a <span class="orange">GULA</span></h1>
