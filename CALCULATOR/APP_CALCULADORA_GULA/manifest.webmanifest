@@ -1,0 +1,11 @@
+{
+  "name": "GULA Calculadora",
+  "short_name": "GULA Calc",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#00a651",
+  "description": "Calculadora de precios y promociones GULA disponible offline.",
+  "icons": []
+}

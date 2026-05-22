@@ -1,0 +1,38 @@
+.gd2{font-family:'Inter',system-ui,sans-serif;color:#fff;max-width:520px;margin:0 auto;padding:18px 14px 90px}
+.gd2 *{box-sizing:border-box}
+.gd2-eyebrow{font-family:'Akira Expanded','Inter',sans-serif;text-transform:uppercase;letter-spacing:1.5px;font-size:10px;color:#FF5800;margin-bottom:6px}
+.gd2-h{font-family:'Aveline','Inter',sans-serif;text-transform:uppercase;letter-spacing:1.5px;font-size:22px;margin:0 0 14px}
+.gd2-card{background:linear-gradient(135deg,rgba(255,88,0,.16),rgba(255,88,0,.04));border:1px solid rgba(255,88,0,.28);border-radius:22px;padding:18px;margin-bottom:16px}
+.gd2-wallet{position:relative;background:linear-gradient(160deg,#FF5800 0%,#FF8C42 60%,#cc4400 100%);border-radius:26px;padding:22px;color:#0a0a0a;overflow:hidden;box-shadow:0 22px 70px rgba(255,88,0,.35)}
+.gd2-wallet:before{content:'GULA';position:absolute;right:-30px;top:-40px;font-family:'Aveline',sans-serif;font-size:160px;color:rgba(255,255,255,.08);font-weight:900;pointer-events:none}
+.gd2-wallet-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:relative;margin-bottom:14px}
+.gd2-avatar{width:54px;height:54px;border-radius:50%;background:#0a0a0a;color:#FF5800;display:flex;align-items:center;justify-content:center;font-family:'Aveline',sans-serif;font-size:22px;border:3px solid rgba(255,255,255,.6)}
+.gd2-wallet-name{font-family:'Aveline',sans-serif;font-size:22px;text-transform:uppercase;letter-spacing:1.1px;line-height:1;margin-top:4px}
+.gd2-wallet-tier{display:inline-block;background:#0a0a0a;color:#FF5800;padding:5px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;margin-top:6px;font-family:'Akira Expanded',sans-serif}
+.gd2-wallet-mid{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:14px 0;position:relative}
+.gd2-points{font-family:'Aveline',sans-serif;font-size:54px;line-height:1}
+.gd2-points-sub{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;opacity:.85}
+.gd2-qr-wrap{background:#fff;border-radius:14px;padding:7px;display:flex;align-items:center;justify-content:center;width:96px;height:96px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.gd2-wallet-bottom{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;position:relative;padding-top:12px;border-top:1px dashed rgba(0,0,0,.25)}
+.gd2-code{font-family:'Akira Expanded',monospace;letter-spacing:2px}
+.gd2-progress{height:8px;border-radius:999px;background:rgba(0,0,0,.18);overflow:hidden;margin-top:12px;position:relative}
+.gd2-progress-bar{height:100%;background:#0a0a0a;border-radius:999px;transition:width .6s ease}
+.gd2-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.gd2-quick button{background:rgba(255,88,0,.1);border:1px solid rgba(255,88,0,.28);color:#fff;border-radius:18px;padding:13px 4px;font-family:'Akira Expanded','Inter',sans-serif;text-transform:uppercase;letter-spacing:.8px;font-size:9px;font-weight:900;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px}
+.gd2-quick button:hover{border-color:#FF5800;transform:translateY(-2px)}
+.gd2-quick .ico{width:22px;height:22px;color:#FF5800;font-size:18px}
+.gd2-section-h{display:flex;justify-content:space-between;align-items:center;margin:22px 6px 10px}
+.gd2-section-h h3{margin:0;font-family:'Aveline','Inter',sans-serif;font-size:17px;text-transform:uppercase;letter-spacing:1.1px}
+.gd2-section-h a{font-size:10px;color:#FF5800;text-decoration:none;font-family:'Akira Expanded',sans-serif;letter-spacing:1px}
+.gd2-mission,.gd2-event,.gd2-blog{display:grid;grid-template-columns:84px 1fr;gap:12px;background:rgba(255,88,0,.06);border:1px solid rgba(255,88,0,.18);border-radius:18px;padding:12px;margin-bottom:10px;text-decoration:none;color:#fff}
+.gd2-mission img,.gd2-event img,.gd2-blog img{width:84px;height:84px;border-radius:14px;object-fit:cover;background:#222}
+.gd2-mission .pts{display:inline-block;background:#FF5800;color:#0a0a0a;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:900;margin-top:4px;letter-spacing:.6px}
+.gd2-mission h4,.gd2-event h4,.gd2-blog h4{margin:0;font-family:'Aveline','Inter',sans-serif;text-transform:uppercase;letter-spacing:.8px;font-size:14px;line-height:1.2}
+.gd2-mission p,.gd2-event p,.gd2-blog p{margin:6px 0 0;font-size:12px;color:#bcbcbc;line-height:1.4}
+.gd2-event time{display:block;color:#FF5800;font-size:10px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;margin-top:4px;font-family:'Akira Expanded',sans-serif}
+.gd2-empty{text-align:center;color:#888;font-size:12px;padding:20px}
+.gd2-loadmore{text-align:center;padding:14px;color:#FF5800;font-size:11px;font-family:'Akira Expanded',sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer}
+.gd2-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.gd2-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,88,0,.2);border-radius:14px;padding:12px;text-align:center}
+.gd2-stat .v{font-family:'Aveline',sans-serif;font-size:22px;color:#FF5800}
+.gd2-stat .l{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#9c9c9c;font-family:'Akira Expanded',sans-serif}

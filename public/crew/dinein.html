@@ -22,7 +22,7 @@
         .nav-logo{font-family:'Aveline',sans-serif;font-size:1.55rem;font-weight:900;color:var(--gula-orange);letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.3s ease}
         .nav-logo:hover{transform:scale(1.05);text-shadow:0 0 20px rgba(255,88,0,0.5)}
         .nav-center{display:flex;gap:24px;align-items:center;list-style:none}
-        .nav-center a{font-family:'Akira Expanded',sans-serif;color:var(--text-primary);text-decoration:none;font-size:0.72rem;font-weight:600;position:relative;transition:color 0.3s ease;letter-spacing:1px;text-transform:uppercase}
+        .nav-center a{font-family:'Akira Expanded',sans-serif;color:var(--text-primary);text-decoration:none;font-size:0.72rem;font-weight:600;position:relative;transition:color 0.3s ease;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
         .nav-center a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gula-orange),#FF7A29);transition:width 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 10px rgba(255,88,0,0.5)}
         .nav-center a:hover{color:var(--gula-orange);text-shadow:0 0 15px rgba(255,88,0,0.5)}
         .nav-center a:hover::after{width:100%}
@@ -109,24 +109,41 @@
         /* RESPONSIVE */
         @media (max-width:968px){.nav-center{display:none}.search-bar{display:none}}
         @media (max-width:640px){nav{padding:0 20px}.nav-btn-outline{display:none}section.content-block{padding:60px 20px}.cta-block{padding:60px 20px}}
+        .nav-btn-outline { background: transparent; color: #FF5800; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; border: 1.5px solid #FF5800; white-space: nowrap; }
+        .nav-btn-outline:hover { background: #FF5800; color: #000; }
+        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; white-space: nowrap; }
+        .nav-btn-primary:hover { transform: scale(1.05); }
+        .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
+        .hamburger-btn:hover { transform: scale(1.1); }
+        @media (max-width: 768px) {
+            nav { overflow: visible; flex-wrap: wrap; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+        }
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="mainNav">
         <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
+            <i class="fas fa-bars" id="hamburgerIcon"></i>
+        </button>
         <ul class="nav-center">
             <li><a href="gulatemplate.html">Inicio</a></li>
             <li><a href="sobre.html">Nosotros</a></li>
             <li><a href="marketplace.html">Carta</a></li>
-            <li><a href="CLUBGULA.html">Club GULA</a></li>
+            <li><a href="club.html">Club GULA</a></li>
             <li><a href="franquicias.html">Franquicia</a></li>
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
         <div class="nav-right">
             <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
-            <div class="cart-icon" onclick="openCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
+            <div class="cart-icon" onclick="openCart()"><img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt=""><span class="cart-count" id="cartCount">0</span></div>
             <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+            <a href="club.html" class="nav-btn-primary">Pronto</a>
         </div>
     </nav>
 
@@ -238,5 +255,22 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
+<script>
+function toggleMobileNav() {
+    var nav = document.getElementById('mainNav');
+    var icon = document.getElementById('hamburgerIcon');
+    nav.classList.toggle('mobile-open');
+    icon.className = nav.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+}
+document.querySelectorAll('.nav-center a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        var nav = document.getElementById('mainNav');
+        nav.classList.remove('mobile-open');
+        var icon = document.getElementById('hamburgerIcon');
+        if (icon) icon.className = 'fas fa-bars';
+    });
+});
+</script>
+<script src="assets/js/cookie-consent.js"></script>
 </body>
 </html>

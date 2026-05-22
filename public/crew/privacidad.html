@@ -10,33 +10,34 @@
         :root{--gula-orange:#FF5800;--bg-dark:#0a0a0a;--text-primary:#fff;--text-secondary:#b0b0b0;--border-color:rgba(255,88,0,0.2)}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary)}
-        nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 0 40px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 80px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 0 28px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 72px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
         nav::before { content: 'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Aveline', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255, 88, 0, 0.08); white-space: nowrap; letter-spacing: 20px; animation: slideHorizontal 20s linear infinite; z-index: -1; pointer-events: none; }
         @keyframes slideHorizontal { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
         @font-face { font-family: 'Aveline'; src: url('AvelineRegular.otf') format('opentype'); font-display: swap; }
         @font-face { font-family: 'Akira Expanded'; src: url('Akira Expanded Demo.otf') format('opentype'); font-display: swap; }
-        .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.55rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
-        .nav-center { display: flex; gap: 40px; align-items: center; list-style: none; }
-        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.95rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center { display: flex; gap: 24px; align-items: center; list-style: none; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
         .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover::after { width: 100%; }
-        .nav-right { display: flex; gap: 20px; align-items: center; }
-        .search-bar { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(10px); border: 1.5px solid var(--border-color); color: var(--text-primary); padding: 10px 15px; border-radius: 50px; width: 200px; font-size: 0.9rem; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 0 20px rgba(255, 88, 0, 0.05); }
+        .nav-right { display: flex; gap: 12px; align-items: center; }
+        .search-bar { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(10px); border: 1.5px solid var(--border-color); color: var(--text-primary); padding: 8px 13px; border-radius: 50px; width: 170px; font-size: 0.82rem; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 0 20px rgba(255, 88, 0, 0.05); }
         .search-bar::placeholder { color: rgba(255, 255, 255, 0.4); }
         .search-bar:focus { outline: none; border-color: var(--gula-orange); box-shadow: 0 0 20px rgba(255, 88, 0, 0.3), inset 0 0 20px rgba(255, 88, 0, 0.08); background: rgba(17, 17, 17, 0.8); }
         .cart-icon { position: relative; cursor: pointer; font-size: 1.3rem; color: var(--gula-orange); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .cart-icon:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(255, 88, 0, 0.5)); }
         .cart-count { position: absolute; top: -8px; right: -8px; background: var(--gula-orange); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; }
-        .nav-btn-outline { background: transparent; color: #FF5800; padding: 10px 20px; border-radius: 25px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.75rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; border: 2px solid #FF5800; }
+        .nav-btn-outline { background: transparent; color: #FF5800; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; border: 1.5px solid #FF5800; white-space: nowrap; }
         .nav-btn-outline:hover { background: #FF5800; color: #000; }
-        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 10px 20px; border-radius: 25px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.75rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; white-space: nowrap; }
         .nav-btn-primary:hover { transform: scale(1.05); }
         .container{max-width:800px;margin:0 auto;padding:100px 40px 60px}
         h1{font-family:'Aveline',sans-serif;font-size:3rem;color:var(--gula-orange);letter-spacing:3px;margin-bottom:10px}
         .updated{color:var(--text-secondary);font-size:0.85rem;margin-bottom:40px}
         h2{font-family:'Aveline',sans-serif;font-size:1.4rem;color:var(--gula-orange);letter-spacing:2px;margin:30px 0 12px}
+        h3{font-family:'Aveline',sans-serif;font-size:1.05rem;color:var(--gula-orange);letter-spacing:1.5px;margin:24px 0 8px;opacity:0.9}
         p,li{color:var(--text-secondary);line-height:1.8;font-size:0.95rem;margin-bottom:12px}
         ul{padding-left:20px}
         a{color:var(--gula-orange);text-decoration:none}
@@ -46,11 +47,24 @@
         .table-data td{color:var(--text-secondary);padding:10px 14px;font-size:0.9rem;border-bottom:1px solid rgba(255,88,0,0.1)}
         footer{border-top:1px solid var(--border-color);padding:30px 40px;text-align:center;color:var(--text-secondary);font-size:0.85rem}
         footer a{color:var(--text-secondary);text-decoration:none;margin:0 10px}footer a:hover{color:var(--gula-orange)}
+        .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
+        .hamburger-btn:hover { transform: scale(1.1); }
+        @media (max-width: 768px) {
+            nav { overflow: visible; flex-wrap: wrap; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+        }
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="mainNav">
         <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
+            <i class="fas fa-bars" id="hamburgerIcon"></i>
+        </button>
         <ul class="nav-center">
             <li><a href="gulatemplate.html">Inicio</a></li>
             <li><a href="sobre.html">Nosotros</a></li>
@@ -60,66 +74,166 @@
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
         <div class="nav-right">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar..." onclick="window.location.href='gulatemplate.html'" readonly style="cursor:pointer;">
             <div class="cart-icon" onclick="openCart()">
-                <i class="fas fa-shopping-cart"></i>
+                <img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt="">
                 <span class="cart-count" id="cartCount">0</span>
             </div>
             <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+            <a href="club.html" class="nav-btn-primary">Pronto</a>
         </div>
     </nav>
 <div class="container">
-    <h1>Política de Privacidad</h1>
-    <p class="updated">Última actualización: Abril 2026</p>
+    <h1>Política de Privacidad y Tratamiento de Datos</h1>
+    <p class="updated">Club GULA · Última actualización: Mayo 2026</p>
 
-    <h2>1. Responsable del Tratamiento</h2>
-    <p><strong>GULA Corp S.L.</strong> · Murcia, España · <a href="mailto:marketing@thegulacorp.com">marketing@thegulacorp.com</a></p>
-
-    <h2>2. Datos que Recopilamos</h2>
-    <table class="table-data">
-        <thead><tr><th>Dato</th><th>Finalidad</th><th>Base Legal</th></tr></thead>
-        <tbody>
-            <tr><td>Nombre y apellido</td><td>Identificación en el Club GULA</td><td>Consentimiento</td></tr>
-            <tr><td>Email</td><td>Comunicaciones y envío de puntos/promos</td><td>Consentimiento</td></tr>
-            <tr><td>Teléfono</td><td>Contacto opcional (suma puntos)</td><td>Consentimiento</td></tr>
-            <tr><td>Código postal</td><td>Localizar tienda más cercana</td><td>Interés legítimo</td></tr>
-            <tr><td>Datos de navegación (PostHog)</td><td>Análisis de uso y mejora del servicio</td><td>Interés legítimo</td></tr>
-            <tr><td>Datos de pago (Stripe)</td><td>Procesamiento de pagos</td><td>Ejecución contrato</td></tr>
-        </tbody>
-    </table>
-
-    <h2>3. Finalidades del Tratamiento</h2>
+    <h2>0. Estructura de Implementación</h2>
+    <p><strong>Ubicación en la web/app:</strong></p>
     <ul>
-        <li>Gestionar tu membresía en el Club GULA (puntos, niveles, promociones).</li>
-        <li>Enviarte comunicaciones comerciales y promociones personalizadas (solo si das tu consentimiento).</li>
-        <li>Mejorar el servicio y la experiencia de usuario en la web.</li>
-        <li>Gestionar consultas, solicitudes y formularios de contacto.</li>
-        <li>Procesar pagos a través de plataformas seguras certificadas.</li>
+        <li><strong>Pantalla de registro:</strong> checkbox obligatorio para aceptación de política, checkbox opcional para comunicaciones comerciales, texto explicativo breve y link a la política completa.</li>
+        <li><strong>Pantalla/modal adicional:</strong> política completa (este documento).</li>
     </ul>
 
-    <h2>4. Conservación de los Datos</h2>
-    <p>Conservamos tus datos mientras seas miembro activo del Club GULA. Puedes solicitar la baja en cualquier momento. Los datos de facturación se conservan durante 7 años por obligación legal fiscal.</p>
+    <h2>1. Formulario de Registro — Elementos Obligatorios</h2>
 
-    <h2>5. Compartición con Terceros</h2>
-    <p>No vendemos ni cedemos tus datos. Trabajamos con proveedores de servicios bajo acuerdos de tratamiento de datos:</p>
+    <h3>1.1 Checkbox obligatorio (privacidad)</h3>
+    <p><strong>Ubicación:</strong> debajo del formulario, antes del botón de registro.</p>
+    <p><strong>Texto:</strong> Acepto la Política de Privacidad y el tratamiento de mis datos para la gestión de mi cuenta en Club Gula.</p>
+
+    <h3>1.2 Checkbox opcional (comunicaciones comerciales)</h3>
+    <p><strong>Ubicación:</strong> inmediatamente debajo del checkbox anterior.</p>
+    <p><strong>Texto:</strong> Quiero recibir promociones, ventajas exclusivas y novedades de Gula por email, SMS o WhatsApp.</p>
+
+    <h3>1.3 Texto informativo breve</h3>
+    <p><strong>Texto:</strong> Tus datos se utilizan para gestionar tu cuenta, mejorar tu experiencia y, si lo aceptas, enviarte ventajas y contenido relevante. Puedes darte de baja en cualquier momento.</p>
+
+    <h3>1.4 Enlace a política completa</h3>
+    <p><strong>Texto del enlace:</strong> <a href="privacidad.html">Política de Privacidad</a></p>
+
+    <h2>2. Política de Privacidad y Tratamiento de Datos</h2>
+
+    <h3>2.1 Responsable del tratamiento</h3>
+    <p><strong>Responsable:</strong> Gula (The Gula Corporation)</p>
+    <p><strong>Email de contacto:</strong> <a href="mailto:marketing@thegulacorp.com">marketing@thegulacorp.com</a></p>
+    <p>Gula es responsable del tratamiento de los datos personales facilitados por los usuarios a través del Club Gula.</p>
+
+    <h3>2.2 Datos que recopilamos</h3>
+    <p>Recogemos los siguientes datos personales cuando te registras en Club Gula:</p>
     <ul>
-        <li><strong>Supabase</strong> (base de datos) — servidores en la UE.</li>
-        <li><strong>Stripe</strong> (pagos) — certificado PCI DSS.</li>
-        <li><strong>Resend</strong> (emails transaccionales).</li>
-        <li><strong>PostHog</strong> (analytics) — sin datos personales identificables.</li>
+        <li>Nombre</li>
+        <li>Correo electrónico</li>
+        <li>Dirección</li>
+        <li>Código postal</li>
+        <li>Número de teléfono (opcional)</li>
+    </ul>
+    <p>Asimismo, podremos recoger información derivada del uso de la plataforma:</p>
+    <ul>
+        <li>Interacciones dentro del Club Gula</li>
+        <li>Historial de actividad y participación</li>
+        <li>Preferencias y comportamiento de uso</li>
+    </ul>
+    <p>Estos datos se utilizan exclusivamente para mejorar el servicio y la experiencia del usuario.</p>
+
+    <h3>2.3 Finalidad del tratamiento</h3>
+    <p>Los datos personales serán tratados con las siguientes finalidades:</p>
+    <ul>
+        <li>Gestionar el registro y acceso al Club Gula</li>
+        <li>Administrar el sistema de puntos, recompensas y beneficios</li>
+        <li>Personalizar la experiencia del usuario</li>
+        <li>Analizar el uso de la plataforma para optimizar el servicio</li>
+        <li>Desarrollar acciones de fidelización y mejora continua</li>
+        <li>Enviar comunicaciones comerciales, promociones y novedades (únicamente si el usuario ha dado su consentimiento)</li>
     </ul>
 
-    <h2>6. Tus Derechos (RGPD)</h2>
-    <p>Tienes derecho a: <strong>acceso, rectificación, supresión, portabilidad, limitación y oposición</strong> al tratamiento de tus datos. Para ejercerlos, escribe a <a href="mailto:marketing@thegulacorp.com">marketing@thegulacorp.com</a> con asunto "RGPD".</p>
-    <p>También puedes presentar reclamación ante la <a href="https://www.aepd.es" target="_blank" rel="noopener">Agencia Española de Protección de Datos (AEPD)</a>.</p>
+    <h3>2.4 Comunicaciones comerciales</h3>
+    <p>En caso de que el usuario lo autorice expresamente, Gula podrá enviar comunicaciones comerciales a través de:</p>
+    <ul>
+        <li>Correo electrónico</li>
+        <li>SMS</li>
+        <li>WhatsApp</li>
+    </ul>
+    <p>Estas comunicaciones podrán incluir promociones, novedades, lanzamientos, ventajas exclusivas y contenido relacionado con la marca. El usuario podrá retirar su consentimiento en cualquier momento, utilizando los mecanismos habilitados en cada comunicación o contactando directamente con Gula.</p>
 
-    <h2>7. Seguridad</h2>
-    <p>Aplicamos medidas técnicas y organizativas apropiadas para proteger tus datos: conexiones cifradas (HTTPS), acceso controlado por roles, y almacenamiento en infraestructura certificada.</p>
+    <h3>2.5 Base legal del tratamiento</h3>
+    <p>La base legal para el tratamiento de los datos es:</p>
+    <ul>
+        <li>El consentimiento del usuario al registrarse en Club Gula</li>
+        <li>El consentimiento específico para el envío de comunicaciones comerciales</li>
+    </ul>
+    <p>El usuario puede retirar su consentimiento en cualquier momento, sin que ello afecte a la licitud del tratamiento previo.</p>
+
+    <h3>2.6 Conservación de los datos</h3>
+    <p>Los datos personales se conservarán:</p>
+    <ul>
+        <li>Mientras el usuario mantenga activa su cuenta en Club Gula</li>
+        <li>Hasta que solicite la eliminación de sus datos</li>
+    </ul>
+    <p>Una vez finalizada la relación, los datos podrán mantenerse bloqueados durante los plazos legalmente exigidos.</p>
+
+    <h3>2.7 Destinatarios y cesión de datos</h3>
+    <p><strong>Gula no vende ni cede datos personales a terceros.</strong></p>
+    <p>Podrá apoyarse en proveedores tecnológicos que prestan servicios necesarios para la operativa del Club Gula:</p>
+    <ul>
+        <li>Plataformas de gestión de datos (CRM)</li>
+        <li>Herramientas de email marketing</li>
+        <li>Sistemas de mensajería (incluido WhatsApp Business)</li>
+        <li>Servicios de analítica y optimización</li>
+    </ul>
+    <p>Estos proveedores actúan como encargados del tratamiento y operan bajo las garantías legales y de seguridad exigidas por la normativa vigente.</p>
+
+    <h3>2.8 Derechos del usuario</h3>
+    <p>El usuario tiene derecho a:</p>
+    <ul>
+        <li>Acceder a sus datos personales</li>
+        <li>Solicitar la rectificación de datos inexactos</li>
+        <li>Solicitar la supresión de sus datos</li>
+        <li>Solicitar la limitación del tratamiento</li>
+        <li>Oponerse al tratamiento</li>
+        <li>Solicitar la portabilidad de sus datos</li>
+    </ul>
+    <p>Para ejercer estos derechos, el usuario puede contactar a través de: <a href="mailto:marketing@thegulacorp.com">marketing@thegulacorp.com</a></p>
+
+    <h3>2.9 Seguridad de los datos</h3>
+    <p>Gula aplica medidas técnicas y organizativas adecuadas para garantizar la seguridad, integridad y confidencialidad de los datos personales, evitando su alteración, pérdida, tratamiento o acceso no autorizado.</p>
+
+    <h3>2.10 Modificaciones</h3>
+    <p>Gula se reserva el derecho de modificar la presente política de privacidad para adaptarla a novedades legislativas o cambios en el servicio. En caso de modificaciones relevantes, se informará a los usuarios a través de los canales habituales.</p>
+
+    <h2>3. Bloque Informativo sobre WhatsApp</h2>
+    <p>Si has aceptado recibir comunicaciones, podremos enviarte promociones y ventajas a través de WhatsApp. Siempre tendrás control total sobre lo que recibes y podrás darte de baja en cualquier momento.</p>
+
+    <h2>4. Bloque Instagram (Gamificación)</h2>
+    <p>Síguenos en Instagram y consigue más puntos dentro del Club Gula. Forma parte de la crew.</p>
+
+    <h2>5. Notas Operativas</h2>
+    <ul>
+        <li>Ningún checkbox puede estar pre-marcado</li>
+        <li>El registro debe requerir aceptación de la política</li>
+        <li>El consentimiento para marketing debe ser independiente</li>
+        <li>El sistema debe permitir baja de comunicaciones</li>
+        <li>El acceso a la política debe ser permanente desde la web</li>
+    </ul>
 </div>
 <footer>
     <p><a href="gulatemplate.html">Inicio</a> · <a href="legal.html">Aviso Legal</a> · <a href="cookies.html">Cookies</a> · <a href="contacto.html">Contacto</a></p>
     <p style="margin-top:10px">© 2026 GULA Corp S.L.</p>
 </footer>
+<script>
+function toggleMobileNav() {
+    var nav = document.getElementById('mainNav');
+    var icon = document.getElementById('hamburgerIcon');
+    nav.classList.toggle('mobile-open');
+    icon.className = nav.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+}
+document.querySelectorAll('.nav-center a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        var nav = document.getElementById('mainNav');
+        nav.classList.remove('mobile-open');
+        var icon = document.getElementById('hamburgerIcon');
+        if (icon) icon.className = 'fas fa-bars';
+    });
+});
+</script>
+<script src="assets/js/cookie-consent.js"></script>
 </body>
 </html>

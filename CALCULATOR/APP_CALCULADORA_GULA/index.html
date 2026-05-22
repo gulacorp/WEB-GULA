@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#00a651">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GULA Calculadora</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Controls Section */
+        .controls {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #00a651;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #00a651;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #008c44;
+        }
+
+        .btn-secondary {
+            background: #1f2937;
+        }
+
+        .btn-secondary:hover {
+            background: #111827;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+
+        .table th {
+            background: #f9f9f9;
+            padding: 12px 8px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e5e5e5;
+            white-space: normal;
+            line-height: 1.3;
+            vertical-align: middle;
+        }
+
+        .table th span {
+            display: block;
+        }
+
+        .table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e5e5;
+            vertical-align: middle;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* Price Input */
+        .price-input {
+            width: 90px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .price-input:focus {
+            outline: none;
+            border-color: #00a651;
+        }
+
+        /* Status Indicators */
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-profitable {
+            background: #00a651;
+        }
+
+        .status-not-profitable {
+            background: #e74c3c;
+        }
+
+        .profitable {
+            color: #00a651;
+            font-weight: 600;
+        }
+
+        .not-profitable {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GULA - Calculadora de Precios y Promociones</h1>
+            <p>Calcula rentabilidad, ajusta precios y simula promociones en tiempo real</p>
+        </div>
+
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="form-group">
+                    <label>Canal</label>
+                    <select id="channelSelect">
+                        <option value="sala">Sala (0% comisión)</option>
+                        <option value="uber">Uber Eats (30% comisión)</option>
+                        <option value="glovo">Glovo (32% comisión)</option>
+                        <option value="takeaway">Takeaway (0% comisión)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Promoción</label>
+                    <select id="promoType">
+                        <option value="none">Sin promoción</option>
+                        <option value="percent">Porcentaje descuento</option>
+                        <option value="fixed">Importe fijo descuento</option>
+                        <option value="2x1">2x1</option>
+                        <option value="3x2">3x2</option>
+                    </select>
+                </div>
+                <div class="form-group" id="promoValueGroup" style="display: none;">
+                    <label>Valor Promoción</label>
+                    <input type="number" id="promoValue" value="10" min="0" step="1">
+                </div>
+                <div class="form-group">
+                    <label>Margen Mínimo Deseado (%)</label>
+                    <input type="number" id="minMargin" value="30" min="0" max="100">
+                </div>
+                <div class="actions">
+                    <button class="btn" onclick="updateAllCalculations()">Actualizar</button>
+                    <button class="btn btn-secondary" onclick="exportCsv()">Exportar CSV</button>
+                    <button class="btn btn-secondary" onclick="exportHtml()">Exportar HTML visible</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th><span>Coste</span><span>Base</span></th>
+                        <th><span>Coste</span><span>Inflado</span><span>(+15%)</span></th>
+                        <th><span>Precio</span><span>Venta</span></th>
+                        <th>Comisión</th>
+                        <th><span>Precio</span><span>Promo</span></th>
+                        <th><span>Beneficio</span><span>Normal</span></th>
+                        <th><span>Beneficio</span><span>Promo</span></th>
+                        <th><span>Pérdida</span><span>por</span><span>Promo</span></th>
+                        <th><span>Margen</span><span>Normal</span></th>
+                        <th><span>Margen</span><span>Promo</span></th>
+                        <th><span>Margen</span><span>Normal</span><span>(Inflado)</span></th>
+                        <th><span>Margen</span><span>Promo</span><span>(Inflado)</span></th>
+                        <th><span>Unidades</span><span>para</span><span>Recuperar</span></th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTable">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Datos reales de GULA extraídos de PDFs
+        const productsData = [
+            { id: 1, name: "BBK", category: "Burgers", basePrice: 13.90, cost: 4.31 },
+            { id: 2, name: "Bohemian Chicken", category: "Burgers", basePrice: 13.90, cost: 4.90 },
+            { id: 3, name: "Buffalo Ranch (Carne)", category: "Burgers", basePrice: 13.90, cost: 4.12 },
+            { id: 4, name: "Cheese Bacon", category: "Burgers", basePrice: 13.90, cost: 4.55 },
+            { id: 5, name: "Cheeseburger", category: "Burgers", basePrice: 11.90, cost: 4.22 },
+            { id: 6, name: "Pope's", category: "Burgers", basePrice: 12.90, cost: 4.02 },
+            { id: 7, name: "Spicy V", category: "Burgers", basePrice: 13.90, cost: 4.55 },
+            { id: 8, name: "The Sinner", category: "Burgers", basePrice: 13.90, cost: 4.33 },
+            { id: 9, name: "The Trufa Corp", category: "Burgers", basePrice: 14.90, cost: 5.15 },
+            { id: 10, name: "Trufa Corp Chicken", category: "Burgers", basePrice: 13.90, cost: 5.72 },
+            { id: 11, name: "Nuestras fritas", category: "Sides", basePrice: 3.40, cost: 0.57 },
+            { id: 12, name: "Fritas Trufadas", category: "Sides", basePrice: 6.50, cost: 1.33 },
+            { id: 13, name: "Fritas Bacon & Queso", category: "Sides", basePrice: 7.50, cost: 1.64 },
+            { id: 14, name: "Fritas Buffalo Ranch", category: "Sides", basePrice: 6.50, cost: 1.43 },
+            { id: 15, name: "Alitas", category: "Sides", basePrice: 8.50, cost: 2.65 },
+            { id: 16, name: "Pollo Frito", category: "Sides", basePrice: 9.90, cost: 2.92 },
+            { id: 17, name: "Golden Slider", category: "Sliders", basePrice: 11.29, cost: 2.21 }
+        ];
+
+        // Configuración de canales
+        const channelConfig = {
+            sala: { commission: 0, name: "Sala" },
+            uber: { commission: 30, name: "Uber Eats" },
+            glovo: { commission: 32, name: "Glovo" },
+            takeaway: { commission: 0, name: "Takeaway" }
+        };
+
+        let currentChannel = 'sala';
+        let currentPromoType = 'none';
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+            setupEventListeners();
+            if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+                navigator.serviceWorker.register('service-worker.js');
+            }
+        });
+
+        function setupEventListeners() {
+            document.getElementById('channelSelect').addEventListener('change', (e) => {
+                currentChannel = e.target.value;
+                updateAllCalculations();
+            });
+
+            document.getElementById('promoType').addEventListener('change', (e) => {
+                currentPromoType = e.target.value;
+                const promoValueGroup = document.getElementById('promoValueGroup');
+                
+                if (currentPromoType === 'percent' || currentPromoType === 'fixed') {
+                    promoValueGroup.style.display = 'block';
+                } else {
+                    promoValueGroup.style.display = 'none';
+                }
+                
+                updateAllCalculations();
+            });
+
+            document.getElementById('promoValue').addEventListener('input', updateAllCalculations);
+            document.getElementById('minMargin').addEventListener('input', updateAllCalculations);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('productsTable');
+            tbody.innerHTML = '';
+
+            productsData.forEach(product => {
+                const row = document.createElement('tr');
+                row.dataset.productId = product.id;
+                tbody.appendChild(row);
+            });
+
+            updateAllCalculations();
+        }
+
+        function updateAllCalculations() {
+            const config = channelConfig[currentChannel];
+            const promoType = currentPromoType;
+            const promoValue = parseFloat(document.getElementById('promoValue').value) || 0;
+            const minMargin = parseFloat(document.getElementById('minMargin').value) || 30;
+
+            productsData.forEach(product => {
+                const row = document.querySelector(`tr[data-product-id="${product.id}"]`);
+                
+                // Precio de venta actual (editable)
+                const priceInputId = `price-${product.id}`;
+                let currentPrice = product.basePrice;
+                const existingInput = document.getElementById(priceInputId);
+                if (existingInput) {
+                    currentPrice = parseFloat(existingInput.value) || product.basePrice;
+                }
+
+                // Cálculos normales
+                const commission = currentPrice * (config.commission / 100);
+                const normalProfit = currentPrice - product.cost - commission;
+                const normalMargin = (normalProfit / currentPrice) * 100;
+
+                // Cálculos con coste inflado (+15%)
+                const inflatedCost = product.cost * 1.15;
+                const normalProfitInflated = currentPrice - inflatedCost - commission;
+                const normalMarginInflated = (normalProfitInflated / currentPrice) * 100;
+
+                // Cálculos promocionales
+                let promoPrice = currentPrice;
+                let promoProfit = normalProfit;
+                let promoMargin = normalMargin;
+                let promoProfitInflated = normalProfitInflated;
+                let promoMarginInflated = normalMarginInflated;
+                let unitsGivenAway = 0; // Unidades regaladas en la promo
+
+                if (promoType === 'percent') {
+                    promoPrice = currentPrice * (1 - promoValue / 100);
+                    const promoCommission = promoPrice * (config.commission / 100);
+                    promoProfit = promoPrice - product.cost - promoCommission;
+                    promoMargin = (promoProfit / promoPrice) * 100;
+                    promoProfitInflated = promoPrice - inflatedCost - promoCommission;
+                    promoMarginInflated = (promoProfitInflated / promoPrice) * 100;
+                } else if (promoType === 'fixed') {
+                    promoPrice = Math.max(0, currentPrice - promoValue);
+                    const promoCommission = promoPrice * (config.commission / 100);
+                    promoProfit = promoPrice - product.cost - promoCommission;
+                    promoMargin = (promoProfit / promoPrice) * 100;
+                    promoProfitInflated = promoPrice - inflatedCost - promoCommission;
+                    promoMarginInflated = (promoProfitInflated / promoPrice) * 100;
+                } else if (promoType === '2x1') {
+                    // 2x1: Cliente paga 1 precio por 2 unidades
+                    // Precio efectivo por unidad = currentPrice / 2
+                    promoPrice = currentPrice / 2;
+                    // Comisión sobre el total pagado (currentPrice)
+                    const totalCommission = currentPrice * (config.commission / 100);
+                    // Beneficio total por las 2 unidades
+                    const totalProfit = currentPrice - (product.cost * 2) - totalCommission;
+                    // Beneficio por unidad
+                    promoProfit = totalProfit / 2;
+                    promoMargin = (totalProfit / currentPrice) * 100;
+                    // Versión inflada
+                    const totalProfitInflated = currentPrice - (inflatedCost * 2) - totalCommission;
+                    promoProfitInflated = totalProfitInflated / 2;
+                    promoMarginInflated = (totalProfitInflated / currentPrice) * 100;
+                    unitsGivenAway = 1; // Regalas 1 unidad
+                } else if (promoType === '3x2') {
+                    // 3x2: Cliente paga 2 precios por 3 unidades
+                    // Precio efectivo por unidad = (currentPrice * 2) / 3
+                    promoPrice = (currentPrice * 2) / 3;
+                    // Comisión sobre el total pagado (currentPrice * 2)
+                    const totalCommission = (currentPrice * 2) * (config.commission / 100);
+                    // Beneficio total por las 3 unidades
+                    const totalProfit = (currentPrice * 2) - (product.cost * 3) - totalCommission;
+                    // Beneficio por unidad
+                    promoProfit = totalProfit / 3;
+                    promoMargin = (totalProfit / (currentPrice * 2)) * 100;
+                    // Versión inflada
+                    const totalProfitInflated = (currentPrice * 2) - (inflatedCost * 3) - totalCommission;
+                    promoProfitInflated = totalProfitInflated / 3;
+                    promoMarginInflated = (totalProfitInflated / (currentPrice * 2)) * 100;
+                    unitsGivenAway = 1; // Regalas 1 unidad (3x2 = 1 gratis)
+                }
+
+                // Cálculo de pérdida por promo y unidades para recuperar
+                let lossPerPromo = 0;
+                let unitsToRecover = 0;
+
+                if (promoType !== 'none') {
+                    if (unitsGivenAway > 0) {
+                        // Para 2x1, 3x2: Pérdida es la diferencia entre beneficio normal y beneficio promocional por unidad
+                        lossPerPromo = normalProfit - promoProfit;
+                        if (lossPerPromo > 0) {
+                            unitsToRecover = lossPerPromo / normalProfit;
+                        }
+                    } else {
+                        // Para descuentos: Pérdida es la diferencia de beneficio
+                        lossPerPromo = normalProfit - promoProfit;
+                        if (lossPerPromo > 0) {
+                            unitsToRecover = lossPerPromo / normalProfit;
+                        }
+                    }
+                }
+
+                // Determinar estado (solo verde o rojo)
+                const isProfitable = promoMargin >= minMargin;
+                const statusClass = isProfitable ? 'profitable' : 'not-profitable';
+                const statusDotClass = isProfitable ? 'status-profitable' : 'status-not-profitable';
+
+                row.innerHTML = `
+                    <td><strong>${product.name}</strong></td>
+                    <td>${product.category}</td>
+                    <td>€${product.cost.toFixed(2)}</td>
+                    <td style="background: #fff3cd; font-weight: 500;">€${inflatedCost.toFixed(2)}</td>
+                    <td>
+                        <input type="number" class="price-input" id="${priceInputId}" value="${currentPrice.toFixed(2)}" step="0.10" onchange="updateAllCalculations()">
+                    </td>
+                    <td>€${commission.toFixed(2)} (${config.commission}%)</td>
+                    <td>${promoType === 'none' ? '-' : '€' + promoPrice.toFixed(2)}</td>
+                    <td class="${normalMargin >= minMargin ? 'profitable' : 'not-profitable'}">€${normalProfit.toFixed(2)}</td>
+                    <td class="${isProfitable ? 'profitable' : 'not-profitable'}">${promoType === 'none' ? '-' : '€' + promoProfit.toFixed(2)}</td>
+                    <td class="${lossPerPromo > 0 ? 'not-profitable' : 'profitable'}">${promoType === 'none' ? '-' : '€' + lossPerPromo.toFixed(2)}</td>
+                    <td class="${normalMargin >= minMargin ? 'profitable' : 'not-profitable'}">${normalMargin.toFixed(1)}%</td>
+                    <td class="${isProfitable ? 'profitable' : 'not-profitable'}">${promoType === 'none' ? '-' : promoMargin.toFixed(1) + '%'}</td>
+                    <td class="${normalMarginInflated >= minMargin ? 'profitable' : 'not-profitable'}" style="background: #fff3cd;">${normalMarginInflated.toFixed(1)}%</td>
+                    <td class="${promoMarginInflated >= minMargin ? 'profitable' : 'not-profitable'}" style="background: #fff3cd;">${promoType === 'none' ? '-' : promoMarginInflated.toFixed(1) + '%'}</td>
+                    <td>${promoType === 'none' ? '-' : (unitsToRecover > 0 ? Math.ceil(unitsToRecover) + ' ventas' : '0')}</td>
+                    <td>
+                        <span class="status-dot ${statusDotClass}"></span>
+                        <span class="${statusClass}" style="margin-left: 8px;">${isProfitable ? 'Rentable' : 'No rentable'}</span>
+                    </td>
+                `;
+            });
+        }
+
+        function getCurrentRows() {
+            const config = channelConfig[currentChannel];
+            const promoType = currentPromoType;
+            const promoValue = parseFloat(document.getElementById('promoValue').value) || 0;
+            const minMargin = parseFloat(document.getElementById('minMargin').value) || 30;
+
+            return productsData.map(product => {
+                const priceInput = document.getElementById(`price-${product.id}`);
+                const currentPrice = priceInput ? parseFloat(priceInput.value) || product.basePrice : product.basePrice;
+                const commission = currentPrice * (config.commission / 100);
+                const normalProfit = currentPrice - product.cost - commission;
+                const normalMargin = currentPrice > 0 ? (normalProfit / currentPrice) * 100 : 0;
+                const inflatedCost = product.cost * 1.15;
+                const normalProfitInflated = currentPrice - inflatedCost - commission;
+                const normalMarginInflated = currentPrice > 0 ? (normalProfitInflated / currentPrice) * 100 : 0;
+                let promoPrice = currentPrice;
+                let promoProfit = normalProfit;
+                let promoMargin = normalMargin;
+                let promoProfitInflated = normalProfitInflated;
+                let promoMarginInflated = normalMarginInflated;
+                let unitsGivenAway = 0;
+
+                if (promoType === 'percent') {
+                    promoPrice = currentPrice * (1 - promoValue / 100);
+                    const promoCommission = promoPrice * (config.commission / 100);
+                    promoProfit = promoPrice - product.cost - promoCommission;
+                    promoMargin = promoPrice > 0 ? (promoProfit / promoPrice) * 100 : 0;
+                    promoProfitInflated = promoPrice - inflatedCost - promoCommission;
+                    promoMarginInflated = promoPrice > 0 ? (promoProfitInflated / promoPrice) * 100 : 0;
+                } else if (promoType === 'fixed') {
+                    promoPrice = Math.max(0, currentPrice - promoValue);
+                    const promoCommission = promoPrice * (config.commission / 100);
+                    promoProfit = promoPrice - product.cost - promoCommission;
+                    promoMargin = promoPrice > 0 ? (promoProfit / promoPrice) * 100 : 0;
+                    promoProfitInflated = promoPrice - inflatedCost - promoCommission;
+                    promoMarginInflated = promoPrice > 0 ? (promoProfitInflated / promoPrice) * 100 : 0;
+                } else if (promoType === '2x1') {
+                    promoPrice = currentPrice / 2;
+                    const totalCommission = currentPrice * (config.commission / 100);
+                    const totalProfit = currentPrice - (product.cost * 2) - totalCommission;
+                    promoProfit = totalProfit / 2;
+                    promoMargin = currentPrice > 0 ? (totalProfit / currentPrice) * 100 : 0;
+                    const totalProfitInflated = currentPrice - (inflatedCost * 2) - totalCommission;
+                    promoProfitInflated = totalProfitInflated / 2;
+                    promoMarginInflated = currentPrice > 0 ? (totalProfitInflated / currentPrice) * 100 : 0;
+                    unitsGivenAway = 1;
+                } else if (promoType === '3x2') {
+                    promoPrice = (currentPrice * 2) / 3;
+                    const totalCommission = (currentPrice * 2) * (config.commission / 100);
+                    const totalProfit = (currentPrice * 2) - (product.cost * 3) - totalCommission;
+                    promoProfit = totalProfit / 3;
+                    promoMargin = currentPrice > 0 ? (totalProfit / (currentPrice * 2)) * 100 : 0;
+                    const totalProfitInflated = (currentPrice * 2) - (inflatedCost * 3) - totalCommission;
+                    promoProfitInflated = totalProfitInflated / 3;
+                    promoMarginInflated = currentPrice > 0 ? (totalProfitInflated / (currentPrice * 2)) * 100 : 0;
+                    unitsGivenAway = 1;
+                }
+
+                const lossPerPromo = promoType !== 'none' ? normalProfit - promoProfit : 0;
+                const unitsToRecover = promoType !== 'none' && lossPerPromo > 0 && normalProfit > 0 ? lossPerPromo / normalProfit : 0;
+
+                return {
+                    producto: product.name,
+                    categoria: product.category,
+                    canal: config.name,
+                    promocion: promoType,
+                    valorPromocion: promoValue,
+                    margenMinimo: minMargin,
+                    costeBase: product.cost,
+                    costeInflado: inflatedCost,
+                    precioVenta: currentPrice,
+                    comision: commission,
+                    precioPromo: promoType === 'none' ? null : promoPrice,
+                    beneficioNormal: normalProfit,
+                    beneficioPromo: promoType === 'none' ? null : promoProfit,
+                    perdidaPromo: promoType === 'none' ? null : lossPerPromo,
+                    margenNormal: normalMargin,
+                    margenPromo: promoType === 'none' ? null : promoMargin,
+                    margenNormalInflado: normalMarginInflated,
+                    margenPromoInflado: promoType === 'none' ? null : promoMarginInflated,
+                    unidadesParaRecuperar: promoType === 'none' ? null : Math.ceil(unitsToRecover),
+                    estado: promoMargin >= minMargin ? 'Rentable' : 'No rentable',
+                    unidadesRegaladas: unitsGivenAway
+                };
+            });
+        }
+
+        function saveFile(fileName, content, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function csvValue(value) {
+            if (value === null || value === undefined) return '';
+            return `"${String(value).replace(/"/g, '""')}"`;
+        }
+
+        function exportCsv() {
+            updateAllCalculations();
+            const rows = getCurrentRows();
+            const headers = Object.keys(rows[0]);
+            const lines = [headers.map(csvValue).join(';')];
+            rows.forEach(row => lines.push(headers.map(header => csvValue(row[header])).join(';')));
+            saveFile('calculadora-gula-resultados.csv', '\ufeff' + lines.join('\n'), 'text/csv;charset=utf-8');
+        }
+
+        function exportHtml() {
+            updateAllCalculations();
+            const html = document.documentElement.outerHTML;
+            saveFile('calculadora-gula-visible.html', '<!DOCTYPE html>\n' + html, 'text/html;charset=utf-8');
+        }
+    </script>
+</body>
+</html>

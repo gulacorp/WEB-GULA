@@ -1,0 +1,10 @@
+{
+  "name": "GULA Biblioteca de Materias Primas",
+  "short_name": "GULA Inventario",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f1ea",
+  "theme_color": "#111111",
+  "lang": "es",
+  "icons": []
+}

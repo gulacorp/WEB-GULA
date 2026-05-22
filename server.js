@@ -248,6 +248,64 @@ function calcularNivel(puntos) {
     return 'NEOPHYTE';
 }
 
+
+function wrapGulaEmail(bodyHtml, opts = {}) {
+    const headerHtml = opts.noHeader
+        ? ''
+        : `<div class="gula-header"><h1>${opts.header || 'GULA'}</h1></div>`;
+    const title = opts.title || 'GULA';
+    return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+  <style>
+    body{margin:0;padding:0;background:#0a0a0a;font-family:'Inter',Arial,Helvetica,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+    .gula-wrap{max-width:600px;margin:0 auto;background:#111;border-left:4px solid #FF5800;border-right:4px solid #FF5800}
+    .gula-header{background:linear-gradient(135deg,#FF5800,#FF7A29);padding:40px 24px;text-align:center}
+    .gula-header h1{margin:0;font-size:2rem;font-weight:900;color:#000;letter-spacing:3px;text-transform:uppercase}
+    .gula-body{padding:40px 32px}
+    .gula-body h1,.gula-body h2,.gula-body h3{color:#FF5800;margin-top:0}
+    .gula-body p{line-height:1.6;color:#ccc}
+    .gula-body strong{color:#fff}
+    .gula-logo{font-size:32px;font-weight:900;color:#FF5800;text-align:center;margin-bottom:30px;letter-spacing:4px}
+    .gula-btn{display:inline-block;background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000!important;padding:15px 40px;text-decoration:none;border-radius:50px;font-weight:900;font-size:1rem;margin-top:20px;text-transform:uppercase;letter-spacing:1px}
+    .gula-btn-alt{display:inline-block;background:#FF5800;color:#000!important;padding:15px 30px;text-decoration:none;border-radius:10px;font-weight:700;margin-top:20px}
+    .gula-code-box{background:#000;border:2px dashed #FF5800;border-radius:15px;padding:30px;text-align:center;margin:30px 0}
+    .gula-code{font-size:2rem;font-weight:900;color:#FF5800;letter-spacing:4px}
+    .gula-points{display:inline-block;background:#FF5800;color:#000;padding:8px 20px;border-radius:20px;font-weight:900;margin-top:15px}
+    .gula-card{background:rgba(255,255,255,0.05);border-radius:10px;padding:20px;margin:20px 0}
+    .gula-card h3{color:#FF5800;margin-bottom:15px}
+    .gula-card ul{list-style:none;padding:0;margin:0}
+    .gula-card li{padding:8px 0;color:#ddd}
+    .gula-card li::before{content:"✓ ";color:#FF5800;font-weight:bold}
+    .gula-highlight{color:#FF5800;font-weight:700}
+    .gula-badge{display:inline-block;background:#FF5800;color:#000;font-weight:900;text-transform:uppercase;letter-spacing:2px;padding:10px 24px;border-radius:30px;font-size:1.1rem;margin:16px 0}
+    .gula-total-box{background:rgba(255,88,0,0.1);border:1px solid #FF5800;border-radius:15px;padding:20px;margin:24px 0;text-align:center}
+    .gula-total-box .gula-total{font-size:28px;font-weight:900;color:#FF5800}
+    .gula-table{width:100%;border-collapse:collapse;margin-top:20px}
+    .gula-table th,.gula-table td{padding:10px;border-bottom:1px solid #333;text-align:left}
+    .gula-table th{color:#FF5800;font-weight:700}
+    .gula-footer{background:#000;padding:24px;text-align:center;color:#666;font-size:0.8rem;border-top:1px solid rgba(255,88,0,0.13)}
+    .gula-footer a{color:#FF5800;text-decoration:none}
+    .center{text-align:center}
+  </style>
+</head>
+<body>
+  <div class="gula-wrap">
+    ${headerHtml}
+    <div class="gula-body">
+      ${bodyHtml}
+    </div>
+    <div class="gula-footer">
+      <p>The Gula Corporation &middot; marketing@thegulacorp.com</p>
+      <p>&copy; ${new Date().getFullYear()} GULA Corp</p>
+    </div>
+  </div>
+</body>
+</html>`;
+}
 async function enviarEmailBienvenida(member) {
     if (!resend) return;
     try {
@@ -255,45 +313,24 @@ async function enviarEmailBienvenida(member) {
             from: FROM_EMAIL,
             to: member.email,
             subject: '¡Bienvenido a la CREW de GULA! 🔥',
-            html: `
-<!DOCTYPE html><html><head><meta charset="UTF-8">
-<style>
-  body{background:#0a0a0a;color:#ffffff;font-family:Inter,sans-serif;margin:0;padding:0}
-  .container{max-width:600px;margin:0 auto;background:#111;border-left:4px solid #FF5800;border-right:4px solid #FF5800}
-  .header{background:linear-gradient(135deg,#FF5800,#FF7A29);padding:40px;text-align:center}
-  .header h1{margin:0;font-size:2.5rem;font-weight:900;color:#000;letter-spacing:3px}
-  .body{padding:40px}
-  .code-box{background:#000;border:2px dashed #FF5800;border-radius:15px;padding:30px;text-align:center;margin:30px 0}
-  .code{font-size:2rem;font-weight:900;color:#FF5800;letter-spacing:4px}
-  .points{display:inline-block;background:#FF5800;color:#000;padding:8px 20px;border-radius:20px;font-weight:900;margin-top:15px}
-  .btn{display:inline-block;background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000;padding:15px 40px;border-radius:50px;text-decoration:none;font-weight:900;font-size:1rem;margin-top:20px}
-  .footer{background:#000;padding:20px;text-align:center;color:#666;font-size:0.8rem;border-top:1px solid #FF580022}
-</style>
-</head><body>
-<div class="container">
-  <div class="header"><h1>GULA CREW</h1></div>
-  <div class="body">
+            html: wrapGulaEmail(`
     <p>Hola <strong>${member.nombre}</strong>, ¡ya eres parte de la familia más exclusiva!</p>
-    <div class="code-box">
+    <div class="gula-code-box">
       <small style="text-transform:uppercase;font-weight:900;opacity:0.7">Tu código de miembro</small>
-      <div class="code">${member.member_code}</div>
-      <div class="points">+${member.puntos} PUNTOS ACUMULADOS</div>
+      <div class="gula-code">${member.member_code}</div>
+      <div class="gula-points">+${member.puntos} PUNTOS ACUMULADOS</div>
     </div>
     <p style="color:#b0b0b0">Guarda este código para consultar tu estado, canjear puntos y acceder a ofertas exclusivas.</p>
     <p>Niveles disponibles:<br>
       <span style="color:#FF5800">NEOPHYTE (0pts) → CREW (250pts) → HIGH CREW (700pts) → FOUNDERS (1200pts)</span>
     </p>
-    <center><a href="https://thegulacorp.com/crew" class="btn">VER MI PERFIL</a></center>
-  </div>
-  <div class="footer">© 2026 GULA Corp · marketing@thegulacorp.com</div>
-</div>
-</body></html>`,
+    <center><a href="https://thegulacorp.com/crew" class="gula-btn">VER MI PERFIL</a></center>
+  `, { title: 'Bienvenido a la CREW', header: 'GULA CREW' }),
         });
     } catch (err) {
         console.error('[EMAIL] Error enviando bienvenida:', err.message);
     }
 }
-
 async function enviarEmailPromo(member, promo) {
     if (!resend) return;
     try {
@@ -301,41 +338,21 @@ async function enviarEmailPromo(member, promo) {
             from: FROM_EMAIL,
             to: member.email,
             subject: `🎁 ${promo.descuento}% OFF solo para ti, ${member.nombre}`,
-            html: `
-<!DOCTYPE html><html><head><meta charset="UTF-8">
-<style>
-  body{background:#0a0a0a;color:#ffffff;font-family:Inter,sans-serif;margin:0}
-  .container{max-width:600px;margin:0 auto;background:#111;border-left:4px solid #FF5800;border-right:4px solid #FF5800}
-  .header{background:linear-gradient(135deg,#FF5800,#FF7A29);padding:40px;text-align:center}
-  .header h1{margin:0;font-size:2rem;font-weight:900;color:#000}
-  .body{padding:40px;text-align:center}
-  .code-box{background:#000;border:2px dashed #FF5800;border-radius:15px;padding:30px;margin:30px 0}
-  .code{font-size:2.5rem;font-weight:900;color:#FF5800;letter-spacing:4px}
-  .btn{display:inline-block;background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000;padding:15px 40px;border-radius:50px;text-decoration:none;font-weight:900;margin-top:20px}
-  .footer{background:#000;padding:20px;text-align:center;color:#666;font-size:0.8rem}
-</style>
-</head><body>
-<div class="container">
-  <div class="header"><h1>¡PROMO EXCLUSIVA CREW!</h1></div>
-  <div class="body">
+            html: wrapGulaEmail(`
     <p>Hola <strong>${member.nombre}</strong>, por ser parte de la CREW tienes:</p>
-    <div class="code-box">
+    <div class="gula-code-box">
       <div style="font-size:3rem;font-weight:900;color:#FF5800">${promo.descuento}% OFF</div>
       <small style="opacity:0.7;text-transform:uppercase">Código de descuento</small>
-      <div class="code">${promo.codigo}</div>
+      <div class="gula-code">${promo.codigo}</div>
       <small style="color:#666">Válido hasta ${new Date(promo.expires_at).toLocaleDateString('es-ES')}</small>
     </div>
-    <a href="https://thegulacorp.com" class="btn">USAR AHORA</a>
-  </div>
-  <div class="footer">© 2026 GULA Corp</div>
-</div>
-</body></html>`,
+    <center><a href="https://thegulacorp.com" class="gula-btn">USAR AHORA</a></center>
+  `, { title: 'Promo exclusiva CREW', header: 'GULA CREW' }),
         });
     } catch (err) {
         console.error('[EMAIL] Error enviando promo:', err.message);
     }
 }
-
 async function enviarEmailLevelUp(member, newLevel) {
     if (!resend || !member.email) return;
     const icons = { 'CREW': '🔥', 'HIGH CREW': '⭐', 'FOUNDERS': '👑' };
@@ -352,29 +369,19 @@ async function enviarEmailLevelUp(member, newLevel) {
             from: FROM_EMAIL,
             to: member.email,
             subject: `${icon} ¡Subiste al nivel ${newLevel}! — GULA CREW`,
-            html: `<!DOCTYPE html><html><head><style>
-  body{margin:0;padding:0;background:#000;font-family:Inter,sans-serif;color:#fff}
-  .wrap{max-width:520px;margin:0 auto;padding:32px 20px}
-  .badge{display:inline-block;background:${color};color:#000;font-weight:900;text-transform:uppercase;letter-spacing:2px;padding:10px 24px;border-radius:30px;font-size:1.1rem;margin:16px 0}
-  .footer{color:#555;font-size:0.8rem;text-align:center;margin-top:24px}
-  .btn{display:inline-block;background:#FF5800;color:#000;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:1px}
-</style></head><body>
-<div class="wrap">
-  <h1 style="color:${color};font-size:2rem;margin-bottom:4px">${icon} ¡NIVEL UP!</h1>
-  <p style="color:#aaa">Hola <strong style="color:#fff">${member.nombre}</strong>,</p>
-  <div class="badge">${newLevel}</div>
-  <p>${benefits[newLevel] || 'Sigue acumulando puntos para desbloquear más beneficios.'}</p>
-  <p style="color:#aaa">Sigue disfrutando de GULA para escalar aún más.</p>
-  <center style="margin:24px 0"><a href="https://thegulacorp.com/crew" class="btn">VER MI PERFIL</a></center>
-</div>
-<div class="footer">© 2026 GULA Corp</div>
-</body></html>`,
+            html: wrapGulaEmail(`
+    <h1 style="color:${color};font-size:2rem;margin-bottom:4px">${icon} ¡NIVEL UP!</h1>
+    <p style="color:#aaa">Hola <strong style="color:#fff">${member.nombre}</strong>,</p>
+    <div class="gula-badge" style="background:${color}">${newLevel}</div>
+    <p>${benefits[newLevel] || 'Sigue acumulando puntos para desbloquear más beneficios.'}</p>
+    <p style="color:#aaa">Sigue disfrutando de GULA para escalar aún más.</p>
+    <center style="margin:24px 0"><a href="https://thegulacorp.com/crew" class="gula-btn">VER MI PERFIL</a></center>
+  `, { title: 'Subiste de nivel - GULA CREW', header: 'GULA CREW' }),
         });
     } catch (err) {
         console.error('[EMAIL LEVEL UP]', err.message);
     }
 }
-
 // POST /api/crew/register — Registro nuevo miembro
 app.post('/api/crew/register', async (req, res) => {
     try {

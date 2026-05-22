@@ -37,7 +37,7 @@
         .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.55rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
         .nav-center { display: flex; gap: 24px; align-items: center; list-style: none; }
-        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
         .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover::after { width: 100%; }
@@ -365,6 +365,54 @@
             font-style: italic;
         }
 
+        /* Standalone sexy shot */
+        .gula-shot {
+            margin: 2.5rem -1.5rem;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,88,0,0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .gula-shot::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(255,88,0,0.08) 100%);
+            pointer-events: none;
+            opacity: 0.6;
+            mix-blend-mode: overlay;
+        }
+        .gula-shot img {
+            width: 100%;
+            height: auto;
+            max-height: 520px;
+            object-fit: contain;
+            display: block;
+            filter: grayscale(90%) brightness(0.45) blur(1.2px);
+            transition: filter 1s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .gula-shot:hover img {
+            filter: grayscale(0%) brightness(1.05) blur(0) saturate(1.2);
+            transform: scale(1.02);
+        }
+        .gula-shot:hover {
+            border-color: rgba(255,88,0,0.5);
+            box-shadow: 0 0 40px rgba(255,88,0,0.2), 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .gula-deco {
+            position: absolute;
+            width: 120px;
+            opacity: 0.08;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255,88,0,0.12));
+            z-index: 0;
+        }
+        @keyframes decoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
         /* People grid — sleek */
         .people-grid {
             display: grid;
@@ -445,7 +493,7 @@
             margin-bottom: 0.6rem;
             font-size: 1.5rem;
         }
-        .end-cta p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .end-cta p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.85rem; font-family: 'Akira Expanded', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
         .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
         @media (max-width: 700px) {
@@ -557,53 +605,112 @@
                 height: 250px;
             }
         }
+        .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
+        .hamburger-btn:hover { transform: scale(1.1); }
+        @media (max-width: 768px) {
+            nav { overflow: visible; flex-wrap: wrap; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+        }
+
+        /* Collage background for Nosotros */
+        .collage-bg {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 4px;
+            z-index: 0;
+            opacity: 0.35;
+            filter: blur(10px) brightness(0.25) saturate(0.6);
+            overflow: hidden;
+        }
+        .collage-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .collage-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.6) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="mainNav">
         <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
+            <i class="fas fa-bars" id="hamburgerIcon"></i>
+        </button>
         <ul class="nav-center">
             <li><a href="gulatemplate.html">Inicio</a></li>
             <li><a href="sobre.html" style="color: var(--gula-orange);">Nosotros</a></li>
             <li><a href="marketplace.html">Carta</a></li>
-            <li><a href="CLUBGULA.html">Club GULA</a></li>
+            <li><a href="club.html">Club GULA</a></li>
             <li><a href="franquicias.html">Franquicia</a></li>
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
         <div class="nav-right">
             <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
-            <div class="cart-icon" onclick="openCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
+            <div class="cart-icon" onclick="openCart()"><img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt=""><span class="cart-count" id="cartCount">0</span></div>
             <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-            <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+            <a href="club.html" class="nav-btn-primary">Pronto</a>
         </div>
     </nav>
 
     <main>
         <!-- BLOG HERO -->
-        <div class="blog-hero">
+        <div class="blog-hero" style="position: relative;">
+            <div class="collage-bg">
+                <img src="images/lifestyle-1.jpg" alt="">
+                <img src="images/lifestyle-2.jpg" alt="">
+                <img src="images/producto-nuevo-1.jpg" alt="">
+                <img src="images/modelo-1.jpg" alt="">
+                <img src="images/lifestyle-3.jpg" alt="">
+                <img src="images/producto-nuevo-5.jpg" alt="">
+                <img src="images/lifestyle-4.jpg" alt="">
+                <img src="images/modelo-3.jpg" alt="">
+                <img src="images/producto-nuevo-7.jpg" alt="">
+                <img src="images/lifestyle-6.jpg" alt="">
+                <img src="images/producto-nuevo-10.jpg" alt="">
+                <img src="images/modelo-5.jpg" alt="">
+            </div>
+            <div class="collage-overlay"></div>
             <div class="aurora-orb o1"></div>
             <div class="aurora-orb o2"></div>
+            <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:20px;right:10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
+            <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:30px;left:10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
             <div style="position: relative; z-index: 1;">
                 <div class="eyebrow reveal">Sobre Nosotros</div>
                 <h1 class="reveal">No vendemos hamburguesas.<br>Construimos un <span class="or">sistema</span>.</h1>
                 <p class="lede reveal">La historia detrás de GULA: una cocina oscura, una obsesión con el producto, y una comunidad que decide.</p>
                 <div class="meta-row reveal">
-                    <span><i class="fas fa-calendar"></i> Fundada en 2023</span>
-                    <span><i class="fas fa-store"></i> 4 tiendas</span>
-                    <span><i class="fas fa-users"></i> +X CREW</span>
+                    <span><img src="images/graficos/1.png" style="width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:0.4rem;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""> Fundada en 2023</span>
+                    <span><img src="images/graficos/2.png" style="width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:0.4rem;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""> 4 tiendas</span>
+                    <span><img src="images/graficos/3.png" style="width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:0.4rem;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""> +X CREW</span>
                 </div>
             </div>
         </div>
 
         <!-- ARTICLE BODY -->
-        <article class="article">
+        <article class="article" style="position: relative;">
+            <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:20px;right:10px;animation:decoFloat 11s ease-in-out infinite;" alt="">
+            <img src="images/graficos/3.png" class="gula-deco" style="bottom:40px;left:10px;animation:decoFloat 13s ease-in-out infinite reverse;" alt="">
             <h2 class="reveal">El <span class="or">origen</span></h2>
             <p class="reveal">Empezamos en una cocina oscura, sin foco, sin ruido. Solo nosotros, una plancha y la obsesión por hacer la mejor smash burger de España. Sin atajos, sin marketing, sin promesas.</p>
             <p class="reveal">Ahí estábamos cuando los primeros pedidos empezaron a repetirse. Y se corrió la voz. Lo que nació como un experimento se convirtió en una marca. Lo que iba a ser una tienda, se convirtió en cuatro.</p>
 
-            <div class="image-block reveal">
-                <div class="ib-emoji">🍔</div>
-                <div class="ib-caption">El primer prototipo. Murcia, 2023.</div>
+            <div class="gula-shot reveal">
+                <img src="images/lifestyle-5.jpg" alt="GULA vibe">
             </div>
 
             <div class="pull-quote reveal">No queremos ser la cadena más grande. Queremos ser la más deseada.</div>
@@ -617,6 +724,10 @@
             <p class="reveal">Comer en GULA no es un acto puntual. Es entrar en un sistema que premia la recurrencia, la participación y el afán de ser parte de algo más grande.</p>
 
             <div class="pull-quote reveal">Hoy somos una cadena en crecimiento, pero la obsesión es la misma.</div>
+
+            <div class="gula-shot reveal">
+                <img src="images/producto-nuevo-7.jpg" alt="GULA craft">
+            </div>
 
             <h2 class="reveal">Los <span class="or">fundadores</span></h2>
             <p class="reveal">Dos hermanos, dos perfiles complementarios. Uno construye la marca, el otro construye las operaciones. Y juntos están construyendo lo que será una de las redes de smash burgers más relevantes de España.</p>
@@ -658,6 +769,10 @@
                 </div>
             </div>
 
+            <div class="gula-shot reveal">
+                <img src="images/modelo-5.jpg" alt="GULA attitude">
+            </div>
+
             <!-- CTA -->
             <div class="end-cta reveal">
                 <h3>¿Quieres formar parte?</h3>
@@ -684,5 +799,22 @@
     </script>
 
     <script src="footer.js" defer></script>
+<script>
+function toggleMobileNav() {
+    var nav = document.getElementById('mainNav');
+    var icon = document.getElementById('hamburgerIcon');
+    nav.classList.toggle('mobile-open');
+    icon.className = nav.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+}
+document.querySelectorAll('.nav-center a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        var nav = document.getElementById('mainNav');
+        nav.classList.remove('mobile-open');
+        var icon = document.getElementById('hamburgerIcon');
+        if (icon) icon.className = 'fas fa-bars';
+    });
+});
+</script>
+<script src="assets/js/cookie-consent.js"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@
         .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.55rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
         .nav-center { display: flex; gap: 24px; align-items: center; list-style: none; }
-        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--text-primary); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
         .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover::after { width: 100%; }
@@ -64,34 +64,62 @@
         .benefits{display:flex;flex-direction:column;gap:20px}
         .benefit-card{background:rgba(20,20,20,0.8);border:1.5px solid var(--border-color);border-radius:16px;padding:25px;display:flex;gap:20px;align-items:flex-start;transition:border-color 0.3s}
         .benefit-card:hover{border-color:rgba(255,88,0,0.5)}
-        .benefit-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--gula-orange),var(--gula-orange-light));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#000;font-size:1.3rem;flex-shrink:0}
+        .benefit-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--gula-orange),var(--gula-orange-light));border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:8px;overflow:hidden}
+        .benefit-icon img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 2px rgba(0,0,0,0.3))}
         .benefit-text h3{font-weight:900;font-size:1rem;margin-bottom:6px}
         .benefit-text p{color:var(--text-secondary);font-size:0.88rem;line-height:1.5}
         footer{background:rgba(0,0,0,0.95);border-top:1px solid var(--border-color);padding:40px;text-align:center;color:var(--text-secondary);font-size:0.85rem}
         footer a{color:var(--text-secondary);text-decoration:none;margin:0 12px}footer a:hover{color:var(--gula-orange)}
         @media(max-width:768px){.container{grid-template-columns:1fr;padding:40px 20px;gap:30px}.form-row{grid-template-columns:1fr}.stats{gap:30px;padding:30px 20px}}
+        .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
+        .hamburger-btn:hover { transform: scale(1.1); }
+        @media (max-width: 768px) {
+            nav { overflow: visible; flex-wrap: wrap; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+        }
+        .gula-deco {
+            position: absolute;
+            width: 120px;
+            opacity: 0.08;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255,88,0,0.12));
+            z-index: 0;
+        }
+        @keyframes decoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
     </style>
 </head>
 <body>
-<nav>
+<nav id="mainNav">
     <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+    </button>
     <ul class="nav-center">
         <li><a href="gulatemplate.html">Inicio</a></li>
         <li><a href="sobre.html">Nosotros</a></li>
         <li><a href="marketplace.html">Carta</a></li>
-        <li><a href="CLUBGULA.html">Club GULA</a></li>
+        <li><a href="club.html">Club GULA</a></li>
         <li><a href="franquicias.html" style="color:var(--gula-orange)">Franquicia</a></li>
         <li><a href="contacto.html">Contacto</a></li>
     </ul>
     <div class="nav-right">
         <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
-        <div class="cart-icon" onclick="openCart()"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
+        <div class="cart-icon" onclick="openCart()"><img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt=""><span class="cart-count" id="cartCount">0</span></div>
         <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-        <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+        <a href="club.html" class="nav-btn-primary">Pronto</a>
     </div>
 </nav>
 <main>
-    <div class="page-hero">
+    <div class="page-hero" style="position: relative;">
+        <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:10px;right:10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
+        <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:10px;left:10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
         <h1>Únete a la Familia GULA</h1>
         <p>Solicita información para abrir tu propio restaurante GULA en tu ciudad. Nuestro equipo te contactará en 48h.</p>
     </div>
@@ -104,27 +132,29 @@
     <div class="container">
         <div class="benefits">
             <div class="benefit-card">
-                <div class="benefit-icon"><i class="fas fa-rocket"></i></div>
+                <div class="benefit-icon"><img src="images/graficos/Diablito.png" alt=""></div>
                 <div class="benefit-text"><h3>Modelo probado</h3><p>Sistema operativo testeado en múltiples ubicaciones. Manual de operaciones completo y formación incluida.</p></div>
             </div>
             <div class="benefit-card">
-                <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="benefit-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div>
                 <div class="benefit-text"><h3>Tecnología y datos</h3><p>Acceso a nuestra plataforma de gestión, analytics en tiempo real y sistema de fidelización automático.</p></div>
             </div>
             <div class="benefit-card">
-                <div class="benefit-icon"><i class="fas fa-bullhorn"></i></div>
+                <div class="benefit-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div>
                 <div class="benefit-text"><h3>Marketing incluido</h3><p>Campañas de lanzamiento, gestión de redes sociales y soporte de marketing continuo para tu tienda.</p></div>
             </div>
             <div class="benefit-card">
-                <div class="benefit-icon"><i class="fas fa-handshake"></i></div>
+                <div class="benefit-icon"><img src="images/graficos/Diablito_GULA_fantasma.png" alt=""></div>
                 <div class="benefit-text"><h3>Soporte total</h3><p>Un Account Manager dedicado, formación inicial de 4 semanas y soporte operativo permanente.</p></div>
             </div>
             <div class="benefit-card">
-                <div class="benefit-icon"><i class="fas fa-store"></i></div>
+                <div class="benefit-icon"><img src="images/graficos/1.png" alt=""></div>
                 <div class="benefit-text"><h3>Exclusividad territorial</h3><p>Zona exclusiva garantizada. Ninguna otra franquicia GULA dentro de tu radio de influencia.</p></div>
             </div>
         </div>
-        <div class="form-card">
+        <div class="form-card" style="position: relative;">
+            <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-20px;right:-10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
+            <img src="images/graficos/2.png" class="gula-deco" style="bottom:-20px;left:-10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
             <h2>Solicitar Información</h2>
             <p>Rellena el formulario y te llamamos en menos de 48 horas.</p>
             <form id="franqForm">
@@ -172,6 +202,14 @@
                     <label>Cuéntanos más (opcional)</label>
                     <textarea id="mensaje" placeholder="¿Por qué quieres abrir un GULA? ¿Tienes local en mente?"></textarea>
                 </div>
+                <div class="form-group" style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true">
+                    <label for="website">Website</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" id="privacyAccepted" required> Acepto la política de privacidad *</label>
+                    <label><input type="checkbox" id="marketingConsent"> Quiero recibir comunicaciones sobre franquicias GULA</label>
+                </div>
                 <button type="submit" class="submit-btn" id="submitBtn">Quiero mi GULA</button>
                 <div class="success-msg" id="successMsg">✓ Solicitud recibida. Nuestro equipo te contactará en menos de 48h.</div>
             </form>
@@ -185,6 +223,11 @@
 
     document.getElementById('franqForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        // Honeypot check: bots fill this hidden field
+        if (document.getElementById('website').value) {
+            console.warn('Honeypot triggered');
+            return;
+        }
         const btn = document.getElementById('submitBtn');
         btn.disabled = true; btn.textContent = 'Enviando...';
         const ciudad = document.getElementById('ciudad').value;
@@ -203,7 +246,11 @@
                     telefono: document.getElementById('telefono').value,
                     tipo: 'franquiciado',
                     ciudad,
-                    mensaje: `Inversión: ${document.getElementById('inversion').value} | Experiencia: ${document.getElementById('experiencia').value} | ${document.getElementById('mensaje').value}`
+                    mensaje: `Inversión: ${document.getElementById('inversion').value} | Experiencia: ${document.getElementById('experiencia').value} | ${document.getElementById('mensaje').value}`,
+                    privacy_accepted: document.getElementById('privacyAccepted').checked,
+                    marketing_consent: document.getElementById('marketingConsent').checked,
+                    consent_source: 'franquiciado_form',
+                    consent_version: '2026-04'
                 })
             });
             if (!res.ok) throw new Error('No se pudo guardar la solicitud');
@@ -216,5 +263,22 @@
         finally { btn.disabled = false; btn.textContent = 'Quiero mi GULA'; }
     });
 </script>
+<script>
+function toggleMobileNav() {
+    var nav = document.getElementById('mainNav');
+    var icon = document.getElementById('hamburgerIcon');
+    nav.classList.toggle('mobile-open');
+    icon.className = nav.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+}
+document.querySelectorAll('.nav-center a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        var nav = document.getElementById('mainNav');
+        nav.classList.remove('mobile-open');
+        var icon = document.getElementById('hamburgerIcon');
+        if (icon) icon.className = 'fas fa-bars';
+    });
+});
+</script>
+<script src="assets/js/cookie-consent.js"></script>
 </body>
 </html>

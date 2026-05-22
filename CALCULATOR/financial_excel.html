@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Financiero - Formato Excel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+            padding: 20px;
+            color: #000000;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: #4472C4;
+            color: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #000000;
+        }
+        
+        .section-header {
+            background: #D9D9D9;
+            padding: 10px;
+            font-weight: bold;
+            border-bottom: 1px solid #000000;
+            font-size: 14px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        
+        th {
+            background: #D9D9D9;
+            border: 1px solid #000000;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        td {
+            border: 1px solid #000000;
+            padding: 6px 8px;
+            text-align: right;
+        }
+        
+        td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        tr.total td {
+            background: #FFC000;
+            font-weight: bold;
+        }
+        
+        tr.subtotal td {
+            background: #E7E6E6;
+            font-weight: bold;
+        }
+        
+        .positive {
+            color: #000000;
+        }
+        
+        .negative {
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Analisis Financiero - Uber Eats y Glovo</div>
+
+        <div class="section">
+            <div class="section-header">UBER EATS - Por Tienda</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tienda</th>
+                        <th>Ordenes</th>
+                        <th>Ventas (inc IVA)</th>
+                        <th>Offers</th>
+                        <th>Marketing Adj</th>
+                        <th>Delivery Fee</th>
+                        <th>Pick Pack</th>
+                        <th>Bag Fee</th>
+                        <th>Tips</th>
+                        <th>Marketplace Fee</th>
+                        <th>Total Payout</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>GULA - Cartagena</td>
+                        <td>52</td>
+                        <td>1472.90</td>
+                        <td>-297.39</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>-269.60</td>
+                        <td>409.04</td>
+                    </tr>
+
+                    <tr>
+                        <td>GULA - Móstoles</td>
+                        <td>61</td>
+                        <td>1406.12</td>
+                        <td>-120.60</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>-291.43</td>
+                        <td>832.03</td>
+                    </tr>
+
+                    <tr>
+                        <td>GULA - Sevilla</td>
+                        <td>40</td>
+                        <td>950.60</td>
+                        <td>-199.73</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>-166.01</td>
+                        <td>370.34</td>
+                    </tr>
+
+                    <tr>
+                        <td>GULA - Valencia Ruzafa</td>
+                        <td>64</td>
+                        <td>1632.50</td>
+                        <td>-92.80</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>-352.16</td>
+                        <td>1176.72</td>
+                    </tr>
+
+                    <tr class="subtotal">
+                        <td>TOTAL UBER EATS</td>
+                        <td>217</td>
+                        <td>5462.12</td>
+                        <td>-710.52</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>-1079.20</td>
+                        <td>2788.13</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-header">GLOVO - Por Tienda</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tienda</th>
+                        <th>Ordenes</th>
+                        <th>Subtotal</th>
+                        <th>Service Fee</th>
+                        <th>Packaging Fee</th>
+                        <th>Commission</th>
+                        <th>Ads Fee</th>
+                        <th>Marketing Fees</th>
+                        <th>Online Pay Fee</th>
+                        <th>Discount Funded</th>
+                        <th>Voucher Funded</th>
+                        <th>Estimated Earnings</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>GULA - CAA - Calle Jimenez de la Espada</td>
+                        <td>159</td>
+                        <td>4865.60</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>890.90</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>1296.75</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                    </tr>
+
+                    <tr>
+                        <td>GULA - MOS - Calle Río Segura</td>
+                        <td>30</td>
+                        <td>980.95</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>210.84</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>186.74</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                    </tr>
+
+                    <tr>
+                        <td>GULA - SEV - Calle Chucena</td>
+                        <td>41</td>
+                        <td>1259.65</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>237.91</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>310.70</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                    </tr>
+
+                    <tr>
+                        <td>GULA - VAL - Calle Cadis</td>
+                        <td>59</td>
+                        <td>1472.45</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>302.40</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>269.29</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                    </tr>
+
+                    <tr class="subtotal">
+                        <td>TOTAL GLOVO</td>
+                        <td>289</td>
+                        <td>8578.65</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>1642.05</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>2063.48</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-header">RESUMEN CONSOLIDADO - UBER EATS + GLOVO</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plataforma</th>
+                        <th>Ordenes</th>
+                        <th>Ventas</th>
+                        <th>Total Deducciones</th>
+                        <th>Net Payout</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Uber Eats</td>
+                        <td>217</td>
+                        <td>5462.12</td>
+                        <td>1789.72</td>
+                        <td>2788.13</td>
+                    </tr>
+                    <tr>
+                        <td>Glovo</td>
+                        <td>289</td>
+                        <td>8578.65</td>
+                        <td>3705.53</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr class="total">
+                        <td>TOTAL CONSOLIDADO</td>
+                        <td>506</td>
+                        <td>14040.77</td>
+                        <td>5495.25</td>
+                        <td>2788.13</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

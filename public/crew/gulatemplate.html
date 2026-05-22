@@ -605,6 +605,7 @@
             transition: color 0.3s ease;
             letter-spacing: 1px;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .nav-center a::after {
@@ -739,10 +740,52 @@
             overflow: hidden;
         }
 
+        .hero-marquee {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 0;
+            opacity: 0.45;
+            filter: blur(2px) brightness(0.4);
+            pointer-events: none;
+        }
+
+        .hero-marquee-row {
+            display: flex;
+            gap: 8px;
+            width: max-content;
+            animation: marqueeScroll 35s linear infinite;
+        }
+
+        .hero-marquee-row:nth-child(2) {
+            animation-direction: reverse;
+            animation-duration: 45s;
+        }
+
+        .hero-marquee-row:nth-child(3) {
+            animation-duration: 40s;
+        }
+
+        .hero-marquee img {
+            height: 180px;
+            width: auto;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         .hero-content {
             max-width: 900px;
             animation: fadeInUp 1s ease-out;
             z-index: 2;
+            position: relative;
         }
 
         .hero-badge {
@@ -1041,12 +1084,42 @@
         .cta-card:hover::before { opacity: 1; }
         .cta-card .cta-icon {
             display: flex; align-items: center; justify-content: center;
-            width: 52px; height: 52px;
+            width: 68px; height: 68px;
             margin: 0 auto 0.8rem;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
-            color: #000;
-            font-size: 1.3rem;
+            overflow: hidden;
+            padding: 4px;
+        }
+        .cta-card .cta-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
+        }
+
+        .gula-icon {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255,88,0,0.35));
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: block;
+        }
+        .gula-icon:hover {
+            transform: scale(1.15) rotate(-4deg);
+        }
+        .gula-deco {
+            position: absolute;
+            width: 140px;
+            opacity: 0.1;
+            pointer-events: none;
+            filter: drop-shadow(0 0 12px rgba(255,88,0,0.15));
+            z-index: 0;
+        }
+        @keyframes decoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
         }
         .cta-card .cta-label {
             font-family: 'Akira Expanded', sans-serif;
@@ -1247,7 +1320,12 @@
             z-index: 3;
         }
 
-        .club-chip i { color: var(--gula-orange); }
+        .club-chip img {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 4px rgba(255,88,0,0.6));
+        }
         .club-chip.c1 { top: 16%; left: 10%; }
         .club-chip.c2 { top: 18%; right: 8%; }
         .club-chip.c3 { bottom: 18%; left: 13%; }
@@ -1350,16 +1428,61 @@
         /* === SYSTEM ROWS (Comes/Vuelves/Participas) === */
         .sys-row {
             display: flex;
-            align-items: center;
-            gap: 0.9rem;
-            padding: 0.9rem 1rem;
-            background: rgba(255,88,0,0.07);
-            border-left: 2px solid var(--gula-orange);
-            border-radius: 8px;
-            font-size: 0.92rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 1.6rem 1.4rem;
+            background: linear-gradient(135deg, rgba(255,88,0,0.06) 0%, rgba(20,20,20,0.5) 100%);
+            border: 1.5px solid rgba(255,88,0,0.18);
+            border-radius: 16px;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .sys-row i { color: var(--gula-orange); font-size: 1.1rem; }
-        .sys-row strong { color: #fff; }
+        .sys-row::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(255,88,0,0.12) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .sys-row:hover {
+            border-color: rgba(255,88,0,0.5);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(255,88,0,0.15);
+        }
+        .sys-row:hover::before { opacity: 1; }
+        .sys-row i {
+            color: var(--gula-orange);
+            font-size: 1.6rem;
+            filter: drop-shadow(0 0 8px rgba(255,88,0,0.4));
+            position: relative;
+            z-index: 1;
+        }
+        .sys-row strong {
+            color: #fff;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        .sys-row div {
+            color: #ccc;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+        .sys-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
 
         /* === SECTION CTA WRAPPER === */
         .section-cta {
@@ -1958,8 +2081,11 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
+            gap: 60px 80px;
+            align-items: start;
+        }
+        .about-container .sys-stack {
+            width: 100%;
         }
 
         .about-text h2 {
@@ -1984,33 +2110,33 @@
         .about-visual {
             position: relative;
             height: 500px;
-            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1) 0%, rgba(255, 88, 0, 0.05) 100%);
             border: 2px solid var(--border-color);
             border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
-            animation: glow 3s ease-in-out infinite;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
 
-        .about-visual::before {
+        .about-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(60%) contrast(1.1) brightness(0.7);
+            transition: filter 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .about-visual:hover img {
+            filter: grayscale(0%) contrast(1) brightness(0.9);
+            transform: scale(1.05);
+        }
+
+        .about-visual::after {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, var(--gula-orange), #ff7a29, var(--gula-orange));
-            animation: rotate 20s linear infinite;
-        }
-
-        .about-visual-text {
-            position: relative;
-            z-index: 2;
-            font-family: 'Aveline', sans-serif;
-            font-size: 5rem;
-            font-weight: 900;
-            color: rgba(255, 88, 0, 0.2);
-            letter-spacing: 10px;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.15) 0%, transparent 60%);
+            mix-blend-mode: overlay;
+            pointer-events: none;
         }
 
         .testimonials-grid {
@@ -2102,10 +2228,16 @@
         }
 
         .contact-icon {
-            font-size: 1.8rem;
-            color: var(--gula-orange);
             min-width: 50px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .contact-icon img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255,88,0,0.3));
         }
 
         .contact-details h3 {
@@ -2315,6 +2447,196 @@
             section { padding: 60px 20px; }
             .section-title { font-size: 2rem; }
         }
+
+        /* === GLOBAL SEARCH OVERLAY (Command+F) === */
+        .search-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 12vh;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .search-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .search-overlay-inner {
+            width: 92%;
+            max-width: 680px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .search-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1.5px solid rgba(255, 88, 0, 0.3);
+            border-radius: 16px;
+            padding: 0 1.2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 30px rgba(255,88,0,0.08);
+        }
+        .search-input-wrap i {
+            color: var(--gula-orange);
+            font-size: 1.1rem;
+            margin-right: 0.8rem;
+        }
+        .search-input-wrap input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            padding: 1.1rem 0;
+            outline: none;
+        }
+        .search-input-wrap input::placeholder { color: rgba(255,255,255,0.35); }
+        .search-input-wrap .shortcut-hint {
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            font-family: 'Inter', sans-serif;
+            margin-left: 0.6rem;
+            white-space: nowrap;
+        }
+        .search-results {
+            margin-top: 0.6rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1.5px solid rgba(255, 88, 0, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            display: none;
+        }
+        .search-results.has-results { display: block; }
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255,88,0,0.08);
+        }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover, .search-result-item.selected {
+            background: rgba(255, 88, 0, 0.1);
+        }
+        .search-result-item i {
+            color: var(--gula-orange);
+            font-size: 1rem;
+            width: 1.5rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .search-result-text {
+            flex: 1;
+            min-width: 0;
+        }
+        .search-result-title {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-desc {
+            color: #888;
+            font-size: 0.78rem;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-type {
+            color: var(--gula-orange);
+            font-size: 0.65rem;
+            font-family: 'Akira Expanded', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255,88,0,0.12);
+            padding: 3px 8px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .search-empty {
+            padding: 2rem;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .search-empty i {
+            color: rgba(255,88,0,0.3);
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.6rem;
+        }
+
+        /* === LIFESTYLE GALLERY === */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 220px;
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.03) translateY(-4px);
+            box-shadow: 0 20px 40px rgba(255, 88, 0, 0.2);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item.wide { grid-column: span 2; }
+        .gallery-item.tall { grid-row: span 2; }
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .gallery-item:hover::after {
+            opacity: 0.15;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.12);
+            filter: brightness(1.1);
+        }
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 160px;
+                gap: 8px;
+                padding: 0 16px;
+            }
+            .gallery-item.wide { grid-column: span 2; }
+        }
     </style>
 </head>
 <body>
@@ -2334,33 +2656,60 @@
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
         <div class="nav-right">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar..." onclick="openSearchOverlay()" readonly>
             <div class="cart-icon" onclick="openCart()">
-                <i class="fas fa-shopping-cart"></i>
+                <img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt="">
                 <span class="cart-count" id="cartCount">0</span>
             </div>
             <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-            <a href="./CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+            <a href="club.html" class="nav-btn-primary">Pronto</a>
         </div>
     </nav>
 
+    <!-- GLOBAL SEARCH OVERLAY -->
+    <div class="search-overlay" id="searchOverlay" onclick="closeSearchOverlay(event)">
+        <div class="search-overlay-inner" onclick="event.stopPropagation()">
+            <div class="search-input-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="globalSearchInput" placeholder="Buscar en GULA..." autocomplete="off" oninput="handleGlobalSearch(this.value)" onkeydown="navigateSearchResults(event)">
+                <span class="shortcut-hint">ESC para cerrar</span>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
     <section class="hero" id="inicio">
+        <div class="hero-marquee">
+            <div class="hero-marquee-row">
+                <img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
+                <img src="images/lifestyle-1.jpg" alt=""><img src="images/modelo-1.jpg" alt=""><img src="images/producto-nuevo-1.jpg" alt=""><img src="images/lifestyle-2.jpg" alt=""><img src="images/modelo-2.jpg" alt=""><img src="images/producto-nuevo-2.jpg" alt=""><img src="images/lifestyle-3.jpg" alt=""><img src="images/modelo-3.jpg" alt="">
+            </div>
+            <div class="hero-marquee-row">
+                <img src="images/producto-nuevo-3.jpg" alt=""><img src="images/lifestyle-4.jpg" alt=""><img src="images/modelo-4.jpg" alt=""><img src="images/producto-nuevo-4.jpg" alt=""><img src="images/lifestyle-5.jpg" alt=""><img src="images/modelo-5.jpg" alt=""><img src="images/producto-nuevo-5.jpg" alt=""><img src="images/lifestyle-6.jpg" alt="">
+                <img src="images/producto-nuevo-3.jpg" alt=""><img src="images/lifestyle-4.jpg" alt=""><img src="images/modelo-4.jpg" alt=""><img src="images/producto-nuevo-4.jpg" alt=""><img src="images/lifestyle-5.jpg" alt=""><img src="images/modelo-5.jpg" alt=""><img src="images/producto-nuevo-5.jpg" alt=""><img src="images/lifestyle-6.jpg" alt="">
+            </div>
+            <div class="hero-marquee-row">
+                <img src="images/modelo-6.jpg" alt=""><img src="images/lifestyle-7.jpg" alt=""><img src="images/producto-nuevo-6.jpg" alt=""><img src="images/modelo-7.jpg" alt=""><img src="images/lifestyle-8.jpg" alt=""><img src="images/producto-nuevo-7.jpg" alt=""><img src="images/modelo-8.jpg" alt=""><img src="images/lifestyle-9.jpg" alt="">
+                <img src="images/modelo-6.jpg" alt=""><img src="images/lifestyle-7.jpg" alt=""><img src="images/producto-nuevo-6.jpg" alt=""><img src="images/modelo-7.jpg" alt=""><img src="images/lifestyle-8.jpg" alt=""><img src="images/producto-nuevo-7.jpg" alt=""><img src="images/modelo-8.jpg" alt=""><img src="images/lifestyle-9.jpg" alt="">
+            </div>
+        </div>
         <div class="hero-content">
+            <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-60px;right:-40px;animation:decoFloat 10s ease-in-out infinite;" alt="">
             <h1>Bienvenido a <span class="orange">GULA</span></h1>
             <p class="hero-subtitle">Esto empieza con una gran burger.<br>Pero puede ir mucho más allá.</p>
             <div class="hero-cta-trio">
                 <a href="marketplace.html" class="cta-card" data-tilt>
-                    <div class="cta-icon"><i class="fas fa-utensils"></i></div>
+                    <div class="cta-icon"><img src="images/graficos/Diablito.png" alt=""></div>
                     <div class="cta-label">Ver Carta</div>
                     <div class="cta-sub">Pide ahora</div>
                 </a>
-                <a href="#club" class="cta-card" data-tilt>
-                    <div class="cta-icon"><i class="fas fa-crown"></i></div>
+                <a href="club.html" class="cta-card" data-tilt>
+                    <div class="cta-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div>
                     <div class="cta-label">El Sistema</div>
-                    <div class="cta-sub">Conoce el Club</div>
+                    <div class="cta-sub">Pronto</div>
                 </a>
                 <a href="franquicias.html" class="cta-card" data-tilt>
-                    <div class="cta-icon"><i class="fas fa-store"></i></div>
+                    <div class="cta-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div>
                     <div class="cta-label">Abre tu GULA</div>
                     <div class="cta-sub">Franquicia</div>
                 </a>
@@ -2368,7 +2717,9 @@
         </div>
     </section>
 
-    <section class="dark-section" id="nosotros">
+    <section class="dark-section" id="nosotros" style="position: relative; overflow: hidden;">
+        <img src="images/graficos/Diablito_sentado_1.png" class="gula-deco" style="top:30px;left:20px;animation:decoFloat 11s ease-in-out infinite;" alt="">
+        <img src="images/graficos/Diablito_sentado_2.png" class="gula-deco" style="bottom:40px;right:20px;animation:decoFloat 13s ease-in-out infinite reverse;" alt="">
         <div class="section-header">
             <h2 class="section-title">Qué es <span class="highlight">GULA</span>?</h2>
             <p class="section-description">Nacimos en una cocina oscura obsesionados con hacer producto de verdad. Hoy somos una cadena en crecimiento, pero la obsesión es la misma.</p>
@@ -2376,15 +2727,14 @@
         <div class="about-container reveal">
             <div class="about-text">
                 <h2 style="font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 1rem;">Más que <span class="orange">comida</span>, un <span class="orange">sistema</span></h2>
-                <p style="font-size: 0.95rem; line-height: 1.6;">GULA va más allá de la comida: un sistema donde comer bien te hace subir de nivel y desbloquear experiencias únicas. Aquí nuestros clientes forman parte de la <strong style="color:var(--gula-orange)">CREW</strong>; y la CREW participa, decide y construye lo que GULA será mañana.</p>
-                <div style="margin-top: 1.5rem; display: grid; gap: 0.7rem;">
-                    <div class="sys-row"><i class="fas fa-utensils"></i><div><strong>Comes</strong> → sumas y gozas</div></div>
-                    <div class="sys-row"><i class="fas fa-sync-alt"></i><div><strong>Vuelves</strong> → desbloqueas experiencias</div></div>
-                    <div class="sys-row"><i class="fas fa-users"></i><div><strong>Participas</strong> → eres parte de la CREW</div></div>
+                <div class="sys-stack">
+                    <div class="sys-row"><img src="images/graficos/Diablito.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""><strong>Comes</strong><div>Cada mordisco, poder. Cada orden, un escalón.</div></div>
+                    <div class="sys-row"><img src="images/graficos/Diablito_sentado_1.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""><strong>Vuelves</strong><div>Lo prohibido, al alcance. Lo exclusivo, por recurrente.</div></div>
+                    <div class="sys-row"><img src="images/graficos/Diablito_sentado_2.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""><strong>Participas</strong><div>La CREW no espera. La CREW disecciona y decide.</div></div>
                 </div>
             </div>
             <div class="about-visual">
-                <div class="about-visual-text">G</div>
+                <img src="images/producto-nuevo-10.jpg" alt="GULA craft">
             </div>
         </div>
     </section>
@@ -2412,31 +2762,48 @@
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                    <i class="fab fa-google" style="color: #FF5800; font-size: 1.3rem;"></i>
+                    <img src="images/graficos/1.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
                     <span style="color: #888; font-size: 0.85rem;">Google · Valencia</span>
                 </div>
-                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-stars" style="color: var(--gula-orange); font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">5.0 / 5.0</div>
                 <p class="testimonial-text">"La mejor smash burger que he probado en Valencia. La carne se nota de calidad y el pan está espectacular. Volveré seguro."</p>
                 <p class="testimonial-author">— María G.</p>
             </div>
             <div class="testimonial-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                    <i class="fas fa-motorcycle" style="color: #FF5800; font-size: 1.3rem;"></i>
+                    <img src="images/graficos/2.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
                     <span style="color: #888; font-size: 0.85rem;">Uber Eats · Móstoles</span>
                 </div>
-                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-stars" style="color: var(--gula-orange); font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">5.0 / 5.0</div>
                 <p class="testimonial-text">"Llegó caliente, en tiempo y con un sabor brutal. La Trufa Corp es una pasada. Mi nueva burger favorita a domicilio."</p>
                 <p class="testimonial-author">— Carlos L.</p>
             </div>
             <div class="testimonial-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                    <i class="fab fa-google" style="color: #FF5800; font-size: 1.3rem;"></i>
+                    <img src="images/graficos/1.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
                     <span style="color: #888; font-size: 0.85rem;">Google · Cartagena</span>
                 </div>
-                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div class="testimonial-stars" style="color: var(--gula-orange); font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">5.0 / 5.0</div>
                 <p class="testimonial-text">"Producto de verdad, sin trampas. El equipo es majo, el sitio tiene rollo y la relación calidad-precio es top. 100% recomendable."</p>
                 <p class="testimonial-author">— Sofía M.</p>
             </div>
+        </div>
+    </section>
+
+    <section class="dark-section" id="galeria">
+        <div class="section-header">
+            <h2 class="section-title">La <span class="highlight">Experiencia</span></h2>
+            <p class="section-description">Esto es GULA. Producto real. Gente real. Pecado real.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item wide"><img src="images/lifestyle-1.jpg" alt="GULA experience"></div>
+            <div class="gallery-item"><img src="images/modelo-1.jpg" alt="GULA lifestyle"></div>
+            <div class="gallery-item tall"><img src="images/lifestyle-2.jpg" alt="GULA food"></div>
+            <div class="gallery-item"><img src="images/producto-nuevo-1.jpg" alt="GULA product"></div>
+            <div class="gallery-item"><img src="images/lifestyle-3.jpg" alt="GULA crew"></div>
+            <div class="gallery-item wide"><img src="images/modelo-2.jpg" alt="GULA style"></div>
+            <div class="gallery-item"><img src="images/producto-nuevo-3.jpg" alt="GULA burger"></div>
+            <div class="gallery-item"><img src="images/lifestyle-4.jpg" alt="GULA vibe"></div>
         </div>
     </section>
 
@@ -2521,10 +2888,10 @@
         <div class="club-system reveal" style="position: relative; z-index: 2;">
             <div class="club-orbit spotlight" data-tilt>
                 <div class="club-core">G</div>
-                <div class="club-chip c1"><i class="fas fa-coins"></i> SUMA</div>
-                <div class="club-chip c2"><i class="fas fa-bolt"></i> SUBE</div>
-                <div class="club-chip c3"><i class="fas fa-gift"></i> GANA</div>
-                <div class="club-chip c4"><i class="fas fa-users"></i> DECIDE</div>
+                <div class="club-chip c1"><img src="images/graficos/1.png" alt=""> SUMA</div>
+                <div class="club-chip c2"><img src="images/graficos/2.png" alt=""> SUBE</div>
+                <div class="club-chip c3"><img src="images/graficos/3.png" alt=""> GANA</div>
+                <div class="club-chip c4"><img src="images/graficos/Diablito_GULA_fantasma.png" alt=""> DECIDE</div>
             </div>
             <div class="club-panel spotlight">
                 <div class="club-kicker">El sistema de la CREW</div>
@@ -2535,7 +2902,7 @@
                     <div class="club-flow-card"><strong>SUBES</strong><span>Pasas de Neophyte → Crew → High Crew → Founders.</span></div>
                     <div class="club-flow-card"><strong>DECIDES</strong><span>La CREW vota productos, drops y experiencias.</span></div>
                 </div>
-                <a href="./CLUBGULA.html#registro" class="btn-pill primary magnetic">Acceder al Club →</a>
+                <a href="club.html" class="btn-pill primary magnetic">Club GULA pronto →</a>
             </div>
         </div>
     </section>
@@ -2549,12 +2916,14 @@
         </div>
 
         <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;">
+            <img src="images/graficos/Diablito.png" class="gula-deco" style="top:-50px;left:-30px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
+            <img src="images/graficos/Diablito_sentado_2.png" class="gula-deco" style="bottom:-40px;right:-20px;animation:decoFloat 14s ease-in-out infinite;" alt="">
             <!-- KPIs -->
             <div class="stat-grid reveal">
-                <div class="stat-card spotlight" data-tilt><i class="fas fa-store" style="color:var(--gula-orange);font-size:1.3rem;margin-bottom:0.6rem;"></i><div class="stat-num">4</div><div class="stat-label">Tiendas</div></div>
-                <div class="stat-card spotlight" data-tilt><i class="fas fa-redo" style="color:var(--gula-orange);font-size:1.3rem;margin-bottom:0.6rem;"></i><div class="stat-num">61%</div><div class="stat-label">Recurrencia</div></div>
-                <div class="stat-card spotlight" data-tilt><i class="fas fa-chart-line" style="color:var(--gula-orange);font-size:1.3rem;margin-bottom:0.6rem;"></i><div class="stat-num">40%</div><div class="stat-label">Retención</div></div>
-                <div class="stat-card spotlight" data-tilt><i class="fas fa-layer-group" style="color:var(--gula-orange);font-size:1.3rem;margin-bottom:0.6rem;"></i><div class="stat-num">3</div><div class="stat-label">Modelos</div></div>
+                <div class="stat-card spotlight" data-tilt"><div style="margin-bottom:0.6rem;display:flex;align-items:center;justify-content:center;"><img src="images/graficos/Diablito.png" style="width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,88,0,0.4));" alt=""></div><div class="stat-num">4</div><div class="stat-label">Tiendas</div></div>
+                <div class="stat-card spotlight" data-tilt"><div style="margin-bottom:0.6rem;display:flex;align-items:center;justify-content:center;"><img src="images/graficos/Diablito_sentado_1.png" style="width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,88,0,0.4));" alt=""></div><div class="stat-num">61%</div><div class="stat-label">Recurrencia</div></div>
+                <div class="stat-card spotlight" data-tilt"><div style="margin-bottom:0.6rem;display:flex;align-items:center;justify-content:center;"><img src="images/graficos/Diablito_sentado_2.png" style="width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,88,0,0.4));" alt=""></div><div class="stat-num">40%</div><div class="stat-label">Retención</div></div>
+                <div class="stat-card spotlight" data-tilt"><div style="margin-bottom:0.6rem;display:flex;align-items:center;justify-content:center;"><img src="images/graficos/1.png" style="width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,88,0,0.4));" alt=""></div><div class="stat-num">3</div><div class="stat-label">Modelos</div></div>
             </div>
 
             <!-- MODELOS DE TIENDA (Tiers) -->
@@ -2563,7 +2932,7 @@
                 <div class="conic-card" data-tilt>
                     <div class="dynamic-card spotlight" style="text-align:left; padding: 2rem 1.5rem;">
                         <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
-                            <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--gula-orange),#FF7A29); display:flex; align-items:center; justify-content:center; color:#000;"><i class="fas fa-crown"></i></div>
+                            <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--gula-orange),#FF7A29); display:flex; align-items:center; justify-content:center; overflow:hidden; padding:6px;"><img src="images/graficos/Diablito.png" style="width:100%;height:100%;object-fit:contain;" alt=""></div>
                             <div>
                                 <div style="font-family:'Akira Expanded',sans-serif; font-size:0.75rem; color:var(--gula-orange); letter-spacing:2px;">TIER 1</div>
                                 <div style="font-family:'Akira Expanded',sans-serif; font-size:1rem; color:#fff; letter-spacing:1px;">FLAGSHIP</div>
@@ -2580,7 +2949,7 @@
                 <div class="conic-card" data-tilt>
                     <div class="dynamic-card spotlight" style="text-align:left; padding: 2rem 1.5rem;">
                         <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
-                            <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,#C0C0C0,#E8E8E8); display:flex; align-items:center; justify-content:center; color:#000;"><i class="fas fa-store"></i></div>
+                            <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,#C0C0C0,#E8E8E8); display:flex; align-items:center; justify-content:center; overflow:hidden; padding:6px;"><img src="images/graficos/Diablito_sentado_1.png" style="width:100%;height:100%;object-fit:contain;" alt=""></div>
                             <div>
                                 <div style="font-family:'Akira Expanded',sans-serif; font-size:0.75rem; color:#C0C0C0; letter-spacing:2px;">TIER 2</div>
                                 <div style="font-family:'Akira Expanded',sans-serif; font-size:1rem; color:#fff; letter-spacing:1px;">STANDARD</div>
@@ -2597,7 +2966,7 @@
                 <div class="conic-card" data-tilt>
                     <div class="dynamic-card spotlight" style="text-align:left; padding: 2rem 1.5rem;">
                         <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
-                            <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,#CD7F32,#A0522D); display:flex; align-items:center; justify-content:center; color:#fff;"><i class="fas fa-bolt"></i></div>
+                            <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,#CD7F32,#A0522D); display:flex; align-items:center; justify-content:center; overflow:hidden; padding:6px;"><img src="images/graficos/Diablito_GULA_fantasma.png" style="width:100%;height:100%;object-fit:contain;" alt=""></div>
                             <div>
                                 <div style="font-family:'Akira Expanded',sans-serif; font-size:0.75rem; color:#CD7F32; letter-spacing:2px;">TIER 3</div>
                                 <div style="font-family:'Akira Expanded',sans-serif; font-size:1rem; color:#fff; letter-spacing:1px;">DARK / EXPRESS</div>
@@ -2620,7 +2989,9 @@
         </div>
     </section>
 
-    <section id="contacto">
+    <section id="contacto" style="position: relative; overflow: hidden;">
+        <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:20px;right:30px;animation:decoFloat 10s ease-in-out infinite;" alt="">
+        <img src="images/graficos/3.png" class="gula-deco" style="bottom:30px;left:20px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
         <div class="section-header">
             <h2 class="section-title">Ponte en <span class="highlight">Contacto</span></h2>
             <p class="section-description">Estamos listos para recibir tu reserva</p>
@@ -2628,21 +2999,21 @@
         <div class="contact-wrapper">
             <div class="contact-info">
                 <div class="contact-item">
-                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-icon"><img src="images/graficos/1.png" alt=""></div>
                     <div class="contact-details">
                         <h3>Ubicación</h3>
                         <p>C/ Victorio 26<br>30003 - Murcia</p>
                     </div>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-icon"><img src="images/graficos/2.png" alt=""></div>
                     <div class="contact-details">
                         <h3>Email</h3>
                         <p><a href="mailto:gula@thegulacorp.com" style="color: var(--gula-orange); text-decoration: none;">gula@thegulacorp.com</a></p>
                     </div>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                    <div class="contact-icon"><img src="images/graficos/3.png" alt=""></div>
                     <div class="contact-details">
                         <h3>Horario</h3>
                         <p>Lun - Jue: 13:00 - 23:00<br>Vie - Sab: 13:00 - 00:00</p>
@@ -2677,9 +3048,9 @@
                 <h4>GULA</h4>
                 <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; font-weight: 300;">Experiencia gastronómica sin límites en el corazón de Murcia.</p>
                 <div class="social-links">
-                    <a href="https://www.instagram.com/thegulacorp/" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/thegulacorp/" target="_blank"><img src="images/graficos/3.png" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""></a>
+                    <a href="#"><img src="images/graficos/Diablito.png" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""></a>
+                    <a href="#"><img src="images/graficos/Diablito_sentado_1.png" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""></a>
                 </div>
             </div>
             <div class="footer-section">
@@ -2688,7 +3059,7 @@
                     <li><a href="#inicio">Inicio</a></li>
                     <li><a href="sobre.html">Nosotros</a></li>
                     <li><a href="marketplace.html">Marketplace</a></li>
-                    <li><a href="CLUBGULA.html">Club GULA</a></li>
+                    <li><a href="club.html">Club GULA</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -2719,14 +3090,14 @@
         <div class="cart-content">
             <div class="cart-header">
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="font-size: 2rem;">🛒</div>
+                    <img src="images/graficos/Diablito.png" style="width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.35));" alt="">
                     <h2>Tu Pedido</h2>
                 </div>
                 <button class="close-btn" onclick="closeCart()"><i class="fas fa-times"></i></button>
             </div>
             <div class="cart-items" id="cartItems">
                 <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
-                    <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;">🛍️</div>
+                    <img src="images/graficos/Diablito_sentado_1.png" style="width:60px;height:60px;object-fit:contain;opacity:0.5;margin-bottom:15px;filter:drop-shadow(0 0 8px rgba(255,88,0,0.2));" alt="">
                     <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito está vacío</p>
                     <p style="font-size: 0.9rem; margin-top: 8px;">¡Explora nuestro menú y agrega tus favoritos!</p>
                 </div>
@@ -2814,12 +3185,12 @@
                         <div class="product-title">${product.title}</div>
                         <div class="product-description">${product.description}</div>
                         <div class="product-rating">
-                            <span class="star">${'⭐'.repeat(Math.floor(product.rating))}</span>
+                            <span class="star" style="color: var(--gula-orange); font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem;">${product.rating.toFixed(1)}</span>
                             <span class="rating-text">${product.rating}</span>
                         </div>
                         <div class="product-footer">
                             <div class="product-price">${product.price.toFixed(2)}€</div>
-                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})"><i class="fas fa-plus"></i></button>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})"><img src="images/graficos/Diablito.png" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.5));" alt=""></button>
                         </div>
                     </div>
                 </div>
@@ -2840,12 +3211,12 @@
                         <div class="product-title">${product.title}</div>
                         <div class="product-description">${product.description}</div>
                         <div class="product-rating">
-                            <span class="star">${'⭐'.repeat(Math.floor(product.rating))}</span>
+                            <span class="star" style="color: var(--gula-orange); font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem;">${product.rating.toFixed(1)}</span>
                             <span class="rating-text">${product.rating}</span>
                         </div>
                         <div class="product-footer">
                             <div class="product-price">${product.price.toFixed(2)}€</div>
-                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})"><i class="fas fa-plus"></i></button>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})"><img src="images/graficos/Diablito.png" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.5));" alt=""></button>
                         </div>
                     </div>
                 </div>
@@ -2871,6 +3242,8 @@
         }
 
         function addToCart(productId) {
+            window.location.href = 'marketplace.html';
+            return;
             const product = products.find(p => p.id === productId);
             const existingItem = cart.find(item => item.id === productId);
             if (existingItem) {
@@ -2891,7 +3264,7 @@
             if (cart.length === 0) {
                 cartItems.innerHTML = `
                     <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
-                        <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;">🛍️</div>
+                        <img src="images/graficos/Diablito_sentado_1.png" style="width:60px;height:60px;object-fit:contain;opacity:0.5;margin-bottom:15px;filter:drop-shadow(0 0 8px rgba(255,88,0,0.2));" alt="">
                         <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito está vacío</p>
                         <p style="font-size: 0.9rem; margin-top: 8px;">¡Explora nuestro menú y agrega tus favoritos!</p>
                     </div>
@@ -2931,7 +3304,8 @@
         }
 
         function openCart() {
-            document.getElementById('cartModal').classList.add('active');
+            showToast('Carrito propio pronto. Mira la carta y pide por Glovo o Uber Eats.');
+            setTimeout(function () { window.location.href = 'marketplace.html'; }, 700);
         }
 
         function closeCart() {
@@ -2962,39 +3336,8 @@
         }
 
         function initializeStripeCheckout() {
-            if (cart.length === 0) {
-                showToast('Tu carrito está vacío 🛒');
-                return;
-            }
-
-            initializeStripe();
-            
-            // Mostrar formulario de pago
-            document.getElementById('stripe-payment').style.display = 'block';
-            document.getElementById('checkoutBtn').style.display = 'none';
-
-            // Montar card element si no está montado
-            if (!cardElement.parentElement) {
-                cardElement.mount('#card-element');
-            }
-
-            // Event listener para errores
-            cardElement.addEventListener('change', function(event) {
-                const displayError = document.getElementById('card-error');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                } else {
-                    displayError.textContent = '';
-                }
-            });
-
-            // Event listener para submit del formulario
-            const form = document.getElementById('payment-form');
-            if (form) {
-                // Remover listeners anteriores si existen
-                form.removeEventListener('submit', handlePaymentSubmit);
-                form.addEventListener('submit', handlePaymentSubmit);
-            }
+            showToast('Pago propio pronto. Ahora el pedido va por Glovo o Uber Eats.');
+            setTimeout(function () { window.location.href = 'marketplace.html'; }, 700);
         }
 
         async function handlePaymentSubmit(e) {
@@ -3171,7 +3514,7 @@
         const floatingCart = document.createElement('div');
         floatingCart.innerHTML = `
             <div id="floatingCart" onclick="openCart()" style="position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:linear-gradient(135deg,#FF5800,#FF7A29);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 20px rgba(255,88,0,0.4);z-index:999;transform:scale(0);transition:transform 0.3s;">
-                <i class="fas fa-shopping-cart" style="color:#000;font-size:1.3rem;"></i>
+                <img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;" alt="">
                 <span id="floatingCartCount" style="position:absolute;top:-5px;right:-5px;background:#000;color:#FF5800;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900;">0</span>
             </div>
         `;
@@ -3242,7 +3585,7 @@
                             <p style="color:#b0b0b0;margin-bottom:20px;line-height:1.6;">${product.description}</p>
                             <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
                                 <span style="font-size:1.5rem;font-weight:900;">${product.price.toFixed(2)}€</span>
-                                <span style="color:#FF5800;">${'⭐'.repeat(Math.floor(product.rating))} ${product.rating}</span>
+                                <span style="color:#FF5800; font-family: 'Akira Expanded', sans-serif; font-size: 0.85rem;">${product.rating.toFixed(1)}</span>
                             </div>
                             <button onclick="addToCart(${product.id});closeQuickView();" style="width:100%;background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000;padding:15px;border:none;border-radius:12px;font-family:'Akira Expanded',sans-serif;font-weight:900;cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">AGREGAR AL CARRITO</button>
                         </div>
@@ -3395,6 +3738,182 @@
             });
         }, { threshold: 0.5 });
         document.querySelectorAll('.stat-num').forEach(el => counterObserver.observe(el));
+
+        // ===== GLOBAL SEARCH (Command+F style) =====
+        let searchIndex = [];
+        let searchSelectedIndex = -1;
+
+        function buildSearchIndex() {
+            searchIndex = [];
+
+            // Sections from page
+            const sections = document.querySelectorAll('section[id]');
+            sections.forEach(sec => {
+                const h2 = sec.querySelector('h2');
+                const title = h2 ? h2.innerText.replace(/<[^>]*>/g, '').trim() : '';
+                if (title) {
+                    searchIndex.push({
+                        type: 'Sección',
+                        title: title,
+                        desc: 'Ir a esta sección de la página',
+                        icon: 'images/graficos/Diablito.png',
+                        action: () => {
+                            closeSearchOverlay();
+                            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                }
+            });
+
+            // Products
+            if (typeof products !== 'undefined') {
+                products.forEach(p => {
+                    searchIndex.push({
+                        type: 'Producto',
+                        title: p.title,
+                        desc: p.description,
+                        icon: 'images/graficos/Diablito_sentado_1.png',
+                        action: () => { window.location.href = 'marketplace.html'; }
+                    });
+                });
+            }
+
+            // Store pages
+            searchIndex.push(
+                { type: 'Tienda', title: 'Móstoles', desc: 'C. Río Segura, 30 — Madrid', icon: 'images/graficos/1.png', action: () => { closeSearchOverlay(); scrollToSection('tiendas'); } },
+                { type: 'Tienda', title: 'Valencia', desc: 'C/ de Cadis, 41 — València', icon: 'images/graficos/2.png', action: () => { closeSearchOverlay(); scrollToSection('tiendas'); } },
+                { type: 'Tienda', title: 'Cartagena', desc: 'C. Jiménez de la Espada, 17 — Murcia', icon: 'images/graficos/3.png', action: () => { closeSearchOverlay(); scrollToSection('tiendas'); } },
+                { type: 'Tienda', title: 'Sevilla', desc: 'C. Chucena, s/n — Sevilla', icon: 'images/graficos/Diablito_GULA_fantasma.png', action: () => { closeSearchOverlay(); scrollToSection('tiendas'); } }
+            );
+
+            // Pages
+            searchIndex.push(
+                { type: 'Página', title: 'Carta / Marketplace', desc: 'Ver todos los productos', icon: 'images/graficos/Diablito.png', action: () => { window.location.href = 'marketplace.html'; } },
+                { type: 'Página', title: 'Club GULA', desc: 'El sistema de fidelización', icon: 'images/graficos/Diablito_sentado_1.png', action: () => { window.location.href = 'club.html'; } },
+                { type: 'Página', title: 'Franquicias', desc: 'Abre tu propio GULA', icon: 'images/graficos/Diablito_sentado_2.png', action: () => { window.location.href = 'franquicias.html'; } },
+                { type: 'Página', title: 'Contacto', desc: 'Habla con nosotros', icon: 'images/graficos/1.png', action: () => { window.location.href = 'contacto.html'; } },
+                { type: 'Página', title: 'Nosotros', desc: 'Historia y equipo', icon: 'images/graficos/2.png', action: () => { window.location.href = 'sobre.html'; } }
+            );
+        }
+
+        function openSearchOverlay() {
+            const overlay = document.getElementById('searchOverlay');
+            overlay.classList.add('active');
+            document.getElementById('globalSearchInput').focus();
+            document.body.style.overflow = 'hidden';
+            if (searchIndex.length === 0) buildSearchIndex();
+        }
+
+        function closeSearchOverlay(e) {
+            if (e && e.target !== document.getElementById('searchOverlay')) return;
+            document.getElementById('searchOverlay').classList.remove('active');
+            document.getElementById('globalSearchInput').value = '';
+            document.getElementById('searchResults').innerHTML = '';
+            document.getElementById('searchResults').classList.remove('has-results');
+            document.body.style.overflow = '';
+            searchSelectedIndex = -1;
+        }
+
+        function handleGlobalSearch(query) {
+            const resultsBox = document.getElementById('searchResults');
+            if (!query.trim()) {
+                resultsBox.innerHTML = '';
+                resultsBox.classList.remove('has-results');
+                searchSelectedIndex = -1;
+                return;
+            }
+            const q = query.toLowerCase();
+            const matches = searchIndex.filter(item =>
+                item.title.toLowerCase().includes(q) ||
+                item.desc.toLowerCase().includes(q) ||
+                item.type.toLowerCase().includes(q)
+            );
+
+            if (matches.length === 0) {
+                resultsBox.innerHTML = '<div class="search-empty"><img src="images/graficos/Diablito_GULA_fantasma.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-5px;margin-right:6px;opacity:0.5;" alt="">Nada encontrado</div>';
+                resultsBox.classList.add('has-results');
+                searchSelectedIndex = -1;
+                return;
+            }
+
+            resultsBox.innerHTML = matches.map((m, i) => `
+                <div class="search-result-item" data-index="${i}" onclick="executeSearchAction(${i})">
+                    <img src="${m.icon}" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt="">
+                    <div class="search-result-text">
+                        <div class="search-result-title">${highlightMatch(m.title, q)}</div>
+                        <div class="search-result-desc">${highlightMatch(m.desc, q)}</div>
+                    </div>
+                    <span class="search-result-type">${m.type}</span>
+                </div>
+            `).join('');
+            resultsBox.classList.add('has-results');
+            searchSelectedIndex = 0;
+            updateSelectedResult();
+        }
+
+        function highlightMatch(text, query) {
+            const idx = text.toLowerCase().indexOf(query);
+            if (idx === -1) return text;
+            return text.substring(0, idx) + '<mark style="background:rgba(255,88,0,0.3);color:#fff;border-radius:3px;">' + text.substring(idx, idx + query.length) + '</mark>' + text.substring(idx + query.length);
+        }
+
+        function navigateSearchResults(e) {
+            const resultsBox = document.getElementById('searchResults');
+            const items = resultsBox.querySelectorAll('.search-result-item');
+            if (items.length === 0) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                searchSelectedIndex = (searchSelectedIndex + 1) % items.length;
+                updateSelectedResult();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                searchSelectedIndex = (searchSelectedIndex - 1 + items.length) % items.length;
+                updateSelectedResult();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                executeSearchAction(searchSelectedIndex);
+            } else if (e.key === 'Escape') {
+                closeSearchOverlay();
+            }
+        }
+
+        function updateSelectedResult() {
+            const items = document.querySelectorAll('.search-result-item');
+            items.forEach((el, i) => el.classList.toggle('selected', i === searchSelectedIndex));
+            const selected = items[searchSelectedIndex];
+            if (selected) selected.scrollIntoView({ block: 'nearest' });
+        }
+
+        function executeSearchAction(index) {
+            const resultsBox = document.getElementById('searchResults');
+            const items = resultsBox.querySelectorAll('.search-result-item');
+            if (!items[index]) return;
+            const query = document.getElementById('globalSearchInput').value.toLowerCase();
+            const matches = searchIndex.filter(item =>
+                item.title.toLowerCase().includes(query) ||
+                item.desc.toLowerCase().includes(query) ||
+                item.type.toLowerCase().includes(query)
+            );
+            if (matches[index] && matches[index].action) {
+                matches[index].action();
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearchOverlay();
+            }
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('searchOverlay');
+                if (overlay.classList.contains('active')) {
+                    e.preventDefault();
+                    closeSearchOverlay();
+                }
+            }
+        });
     </script>
+    <script src="assets/js/cookie-consent.js"></script>
 </body>
 </html>

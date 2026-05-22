@@ -1,0 +1,3 @@
+Campaign UUID,Campaign Name,Store name,Store address,Status,Start Date,End date,Timezone,Audience targeted,Budget,Budget currency,Budget unit,Ad sales (EUR),Ad spend (EUR),ROAS,Average cost per click (EUR),Average cost per order (EUR),Impressions,Clicks,Orders,Click through rate,Click to order rate,Average order value (EUR)
+92ec2760-264f-533a-8ab6-3c3a54643d3c,IS-Ads-campaign,GULA - Móstoles,"Calle Río Segura 30, Móstoles, ES",ACTIVE,1/15/2025,Ongoing,Europe/Madrid,,49.00,EUR,WEEKLY,858.93,80.47,10.67,0.28,2.60,3352,286,31,0.09,0.11,27.71
+3cf16985-de1c-5608-9407-d80ce99a904d,Ad Campaign 03/23/2026,GULA - Móstoles,"Calle Río Segura 30, Móstoles, ES",PAUSED,3/23/2026,Ongoing,Europe/Madrid,,35.00,EUR,DAILY,0.00,0.00,0.00,0.00,0.00,0,0,0,0.00,0.00,0.00

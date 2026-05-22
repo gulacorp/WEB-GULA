@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis de Costos por Pedido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            padding: 20px;
+            color: #000000;
+            font-size: 12px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: #000000;
+            color: #ffffff;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .platform-section {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #000000;
+        }
+        
+        .platform-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000000;
+        }
+        
+        .order-card {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #000000;
+        }
+        
+        .order-header {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .order-meta {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 11px;
+        }
+        
+        .calculation-table th {
+            background: #000000;
+            color: #ffffff;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .calculation-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #cccccc;
+        }
+        
+        .calculation-table tr.total td {
+            background: #000000;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 11px;
+        }
+        
+        .items-table th {
+            background: #333333;
+            color: #ffffff;
+            padding: 6px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .items-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid #cccccc;
+        }
+        
+        .positive {
+            color: #006400;
+        }
+        
+        .negative {
+            color: #8b0000;
+        }
+        
+        .deduction-source {
+            font-size: 10px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Analisis de Costos por Pedido</h1>
+            <p>Origen de Ventas y Deducciones</p>
+        </div>
+
+        <div class="platform-section">
+            <div class="platform-header">UBER EATS - Analisis por Pedido</div>
+
+        </div>
+
+        <div class="platform-section">
+            <div class="platform-header">GLOVO - Analisis por Pedido</div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648211683</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€15.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€3.42</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€3.42</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 The Sinner Combo [1 Burger BBK, 1 Coca-Cola Zero Azúcar lata 330ml.]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648232918</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€33.60</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€8.40</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€8.40</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Pollo Frito Al Estilo GULA [1 Extra: Salsa bacon, 1 Salsa BBK], 1 The Golden Bite Combo [1 Burger Cheese Bacon, 1 Fritas bacon queso, 1 Fuze Tea Limón Sabor Original Lata 330ml, 1 Sin Extras]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648306586</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€1.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€0.27</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€0.27</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Salsa Bacon</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648326631</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€6.95</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€1.04</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€1.04</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Cheese Jr.</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648802655</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€15.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€3.42</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€3.42</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 The Sinner Combo [1 Burger Cheese Bacon, 1 Fanta Naranja lata 330ml.]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648814747</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€21.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€5.48</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€5.48</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 The Golden Bite Combo [1 Gula Cheeseburger, 1 Fritas buffalo ranch, 1 Agua Cabreiroa (330 ml.)]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648826040</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€30.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€6.58</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€6.58</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 The Sinner Combo [1 Gula Cheeseburger, 1 Coca-Cola Zero Azúcar lata 330ml.], 1 The Sinner Combo [1 Burger Cheese Bacon, 1 Coca-Cola Zero Azúcar lata 330ml.]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648858084</div>
+                <div class="order-meta">Tienda: GULA - VAL - Calle Cadis | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€15.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€3.42</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€3.42</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 The Sinner Combo [1 Burger Cheese Bacon, 1 Agua Cabreiroa (330 ml.)]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648182992</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€1.50</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€0.23</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€0.23</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Salsa Queen</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648255686</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€34.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€6.33</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€6.33</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Pleasure For 2 Combo [1 Burger Spicy V, 1 Burger The Trufa Corp Chicken, 1 Fritas buffalo ranch, 2 Fuze Tea Maracuyá (330 ml.), 1 Sin Extras]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648295634</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€34.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€6.33</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€6.33</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Pleasure For 2 Combo [1 Burger The Trufa Corp, 1 Burger Spicy V, 1 Fritas bacon queso, 1 Coca-Cola Zero Azúcar Zero Cafeína lata 330ml., 1 Fuze Tea Maracuyá (330 ml.), 1 Sin Extras]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648300279</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€11.29</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€1.98</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€1.98</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Golden Slider</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648317746</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€22.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€5.60</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€5.60</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 The Sinner Combo [1 The Pope's Burger, 1 Fuze Tea Limón Sabor Original Lata 330ml, 1 Extra: Fritas trufadas, 1 Sin Extras]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648327326</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€27.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€4.87</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€4.87</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Cheese Bacon, 1 The Trufa Corp Chicken</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648333177</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€14.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€3.73</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€3.73</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 The Sinner Combo [1 Gula Cheeseburger, 1 Coca-Cola Zero Azúcar lata 330ml.]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648408164</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€37.70</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€7.03</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€7.03</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Pleasure For 2 Combo [2 Gula Cheeseburger, 1 Fritas bacon queso, 2 Fanta Naranja lata 330ml., 1 Extra: Tarta de Lotus]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648446010</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€32.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€5.71</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€5.71</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Pleasure For 2 Combo [2 Gula Cheeseburger, 1 Fritas trufadas, 1 Agua Cabreiroa (330 ml.), 1 Cerveza Estrella Galicia 1906 (330 ml.)]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648449257</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€24.30</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€3.73</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€3.73</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Cheese Bacon, 2 Nuestras Fritas [1 Extra: Salsa GULA]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648540428</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€40.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€7.22</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€7.22</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Fritas Trufadas, 1 Pleasure For 2 Combo [1 Burger Spicy V, 1 Burger The Trufa Corp Chicken, 1 Fritas trufadas, 1 Agua Cabreiroa (330 ml.), 1 Fanta Naranja lata 330ml.]</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">Orden: 101648649030</div>
+                <div class="order-meta">Tienda: GULA - CAA - Calle Jimenez de la Espada | Fecha: 2026-05-10</div>
+                
+                <table class="calculation-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Origen</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Subtotal (Ventas)</td>
+                            <td class="deduction-source">Suma de items</td>
+                            <td class="positive">+€13.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>Commission</td>
+                            <td class="deduction-source">Comision de plataforma Glovo</td>
+                            <td class="negative">-€2.43</td>
+                        </tr>
+
+                        <tr class="total">
+                            <td>TOTAL DEDUCCIONES</td>
+                            <td></td>
+                            <td>-€2.43</td>
+                        </tr>
+                        <tr class="total">
+                            <td>ESTIMATED EARNINGS</td>
+                            <td>Ventas - Deducciones</td>
+                            <td>€0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1 Cheese Bacon</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

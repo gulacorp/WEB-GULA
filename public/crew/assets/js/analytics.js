@@ -23,6 +23,12 @@
 
   var ANON_KEY = 'gula_anon_id';
   var MEMBER_KEY = 'gula_member_id';
+  var initialized = false;
+  var ctaBound = false;
+
+  function hasAnalyticsConsent() {
+    return !!(window.gulaConsent && window.gulaConsent.hasAnalytics && window.gulaConsent.hasAnalytics());
+  }
 
   function uuid() {
     if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
@@ -70,6 +76,7 @@
 
   // ─── Doble envío: PostHog + Supabase events ─────────────────────────
   function postToSupabase(eventName, properties) {
+    if (!hasAnalyticsConsent()) return;
     if (!window.GULA_CONFIG || !window.GULA_CONFIG.supabaseUrl || !window.GULA_CONFIG.supabaseAnonKey) return;
     var attr = (window.gulaAttr && window.gulaAttr.get()) || {};
     var body = {
@@ -97,6 +104,7 @@
   }
 
   function track(eventName, properties) {
+    if (!hasAnalyticsConsent()) return;
     properties = properties || {};
     if (window.posthog && window.posthog.capture) {
       window.posthog.capture(eventName, properties);
@@ -126,6 +134,8 @@
   }
 
   function bindCtaClicks() {
+    if (ctaBound) return;
+    ctaBound = true;
     document.addEventListener('click', function (e) {
       var el = e.target.closest('[data-track]');
       if (!el) return;
@@ -143,8 +153,11 @@
 
   // ─── Inicialización ─────────────────────────────────────────────────
   function init() {
+    if (initialized || !hasAnalyticsConsent()) return;
     if (!window.GULA_CONFIG_READY) return;
     window.GULA_CONFIG_READY.then(function (cfg) {
+      if (initialized || !hasAnalyticsConsent()) return;
+      initialized = true;
       if (cfg.posthog && cfg.posthog.apiKey) {
         loadPostHog(cfg.posthog.apiKey, cfg.posthog.host);
         var memberId = getMemberId();
@@ -165,6 +178,10 @@
     getAnonId: getAnonId,
     getMemberId: getMemberId
   };
+
+  window.addEventListener('gula:consent-updated', function () {
+    init();
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

@@ -82,7 +82,7 @@
         .nav-logo { font-family: 'Aveline', sans-serif; font-size: 1.55rem; font-weight: 900; color: var(--gula-orange); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
         .nav-logo:hover { transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 88, 0, 0.5); }
         .nav-center { display: flex; gap: 24px; align-items: center; list-style: none; margin: 0; padding: 0; }
-        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--accent-white); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-center a { font-family: 'Akira Expanded', sans-serif; color: var(--accent-white); text-decoration: none; font-size: 0.72rem; font-weight: 600; position: relative; transition: color 0.3s ease; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
         .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gula-orange), #FF7A29); transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 10px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover { color: var(--gula-orange); text-shadow: 0 0 15px rgba(255, 88, 0, 0.5); }
         .nav-center a:hover::after { width: 100%; }
@@ -180,7 +180,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .input-group { 
+        .input-group {
             margin-bottom: 12px;
             position: relative;
         }
@@ -330,7 +330,7 @@
             box-shadow: 0 8px 25px rgba(255, 88, 0, 0.5);
         }
 
-        button:active { 
+        button:active {
             transform: scale(0.96);
         }
 
@@ -485,8 +485,8 @@
             box-shadow: 0 4px 15px rgba(255, 88, 0, 0.3);
         }
 
-        .highlight { 
-            color: var(--accent-white); 
+        .highlight {
+            color: var(--accent-white);
             font-weight: 900;
             text-shadow: 0 2px 5px rgba(255, 88, 0, 0.3);
         }
@@ -1049,12 +1049,15 @@
         }
 
         .classification-item:nth-child(4)::before {
-            content: '👑';
+            content: '';
             position: absolute;
-            top: -5px;
-            right: 10px;
-            font-size: 1.2rem;
-            opacity: 0.8;
+            top: -8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            background: url('images/graficos/Diablito_sentado_2.png') center/contain no-repeat;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 4px rgba(255,88,0,0.3));
         }
 
         .classification-item:nth-child(4) strong {
@@ -1600,7 +1603,7 @@
         .achievements-section {
             margin-bottom: 20px;
         }
-        
+
         .achievements-section summary {
             color: var(--gula-orange);
             font-size: 1.2rem;
@@ -1609,7 +1612,7 @@
             font-weight: 900;
             cursor: pointer;
         }
-        
+
         .achievements-section h4 {
             color: var(--gula-orange);
             font-size: 1rem;
@@ -1617,31 +1620,133 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        .phase-lock {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: rgba(0, 0, 0, 0.58);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .phase-lock-card {
+            width: min(620px, 100%);
+            text-align: center;
+            padding: clamp(34px, 7vw, 72px) clamp(24px, 5vw, 52px);
+            border: 1.5px solid rgba(255, 88, 0, 0.55);
+            border-radius: 32px;
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.78), rgba(0, 0, 0, 0.92));
+            box-shadow: 0 30px 120px rgba(255, 88, 0, 0.18);
+        }
+
+        .phase-lock-kicker {
+            color: var(--gula-orange);
+            font-family: 'Akira Expanded', 'Inter', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .phase-lock-title {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(3.4rem, 13vw, 8rem);
+            line-height: 0.9;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 42px rgba(255, 88, 0, 0.55);
+            margin-bottom: 18px;
+        }
+
+        .phase-lock-text {
+            color: #cfcfcf;
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: clamp(1rem, 2.4vw, 1.2rem);
+            line-height: 1.6;
+            margin: 0 auto 26px;
+            max-width: 440px;
+        }
+
+        .phase-lock-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: 999px;
+            background: var(--gula-orange);
+            color: #000;
+            font-family: 'Akira Expanded', 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 1.3px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
+        .hamburger-btn:hover { transform: scale(1.1); }
+        @media (max-width: 768px) {
+            nav { overflow: visible; flex-wrap: wrap; }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+        }
+        .gula-deco {
+            position: absolute;
+            width: 140px;
+            opacity: 0.1;
+            pointer-events: none;
+            filter: drop-shadow(0 0 12px rgba(255,88,0,0.15));
+            z-index: 0;
+        }
+        @keyframes decoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
     </style>
 </head>
 <body>
 
-<nav>
+<nav id="mainNav">
     <div class="nav-logo" onclick="window.location.href='gulatemplate.html'">GULA</div>
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+    </button>
     <ul class="nav-center">
         <li><a href="gulatemplate.html">Inicio</a></li>
         <li><a href="sobre.html">Nosotros</a></li>
         <li><a href="marketplace.html">Carta</a></li>
-        <li><a href="CLUBGULA.html" style="color: var(--gula-orange);">Club GULA</a></li>
+        <li><a href="club.html" style="color: var(--gula-orange);">Club GULA</a></li>
         <li><a href="franquicias.html">Franquicia</a></li>
         <li><a href="contacto.html">Contacto</a></li>
     </ul>
     <div class="nav-right">
         <input type="text" class="search-bar" placeholder="Buscar...">
-        <div class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></div>
+        <div class="cart-icon" onclick="openCart()"><img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt=""><span class="cart-count" id="cartCount">0</span></div>
         <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
-        <a href="CLUBGULA.html#registro" class="nav-btn-primary">Acceder</a>
+        <a href="club.html" class="nav-btn-primary">Pronto</a>
     </div>
 </nav>
 
+<div class="phase-lock" role="dialog" aria-modal="true" aria-labelledby="phaseLockTitle">
+    <div class="phase-lock-card">
+        <div class="phase-lock-kicker">Pronto</div>
+        <div class="phase-lock-title" id="phaseLockTitle">CREW?...</div>
+        <p class="phase-lock-text">Todavía no. Lo estamos cocinando lento para que entre como tiene que entrar.</p>
+        <a class="phase-lock-action" href="marketplace.html">Ver la carta</a>
+    </div>
+</div>
+
 <div class="page-wrapper" id="registro">
 <div class="main-content">
-<div class="card">
+<div class="card" style="position: relative;">
+    <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-30px;right:-20px;animation:decoFloat 10s ease-in-out infinite;" alt="">
+    <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:-20px;left:-20px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
     <div class="gula-title">GULA</div>
 
     <!-- PASO 0: INICIO / SELECCIÓN -->
@@ -1649,7 +1754,7 @@
         <h1>ÚNETE A LA <span>CREW</span></h1>
         <p class="subtitle">Beneficios exclusivos y puntos</p>
         <img src="" alt="Diablito" class="character-img" style="display:none">
-        
+
         <button onclick="console.log('Botón NUEVO REGISTRO clickeado'); goToStep(1)">NUEVO REGISTRO</button>
         <button class="btn-outline" onclick="console.log('Botón YA SOY PARTE clickeado'); goToStep(10)">YA SOY PARTE DE LA CREW</button>
     </div>
@@ -1659,7 +1764,7 @@
         <div class="back-arrow" onclick="goToStep(0)">←</div>
         <h1>ACCESO A TU <span>DASHBOARD</span></h1>
         <p class="subtitle">Ingresa tu código único de miembro</p>
-        
+
         <div style="background: rgba(255, 88, 0, 0.1); border-left: 4px solid #FF5800; padding: 20px; border-radius: 8px; margin: 25px 0; font-family: 'Inter', Arial, sans-serif;">
             <p style="font-size: 0.9rem; color: #ccc; margin: 0; font-family: 'Inter', Arial, sans-serif;">
                 ✓ Tu código fue enviado a tu email de bienvenida
@@ -1671,9 +1776,9 @@
 
         <div style="margin-top: 30px;">
             <label style="display: block; color: #FF5800; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; font-size: 0.9rem; font-family: 'Inter', Arial, sans-serif;">Código de Miembro</label>
-            <input 
-                type="text" 
-                id="memberCodeInput" 
+            <input
+                type="text"
+                id="memberCodeInput"
                 placeholder="Ej: GULA-AM2847"
                 style="
                     width: 100%;
@@ -1713,12 +1818,12 @@
             <div class="input-group"><input type="text" id="apellido" placeholder="APELLIDO" required></div>
             <div class="input-group"><input type="email" id="email" placeholder="EMAIL" required></div>
             <div class="input-group"><input type="text" id="zip" placeholder="CÓDIGO POSTAL" required></div>
-            
+
             <div class="input-group">
                 <input type="text" id="referralCode" placeholder="CÓDIGO DE REFERIDO (OPCIONAL)" style="background: rgba(255, 88, 0, 0.08); border: 1px solid rgba(255, 88, 0, 0.3);">
                 <small style="margin-top:5px; font-size:0.75rem; color:#999; font-family: 'Inter', Arial, sans-serif;">Si alguien te invitó, pega su código aquí</small>
             </div>
-            
+
             <div class="phone-input-wrapper">
                 <div class="phone-input-container">
                     <select id="countryCode">
@@ -1930,6 +2035,10 @@
                 </div>
             </div>
 
+            <div style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
             <button type="submit">SIGUIENTE</button>
         </form>
     </div>
@@ -1957,9 +2066,9 @@
 
         <div style="margin-top: 30px;">
             <label style="display: block; color: #FF5800; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; font-size: 0.9rem; font-family: 'Inter', Arial, sans-serif;">Tu Código de Miembro</label>
-            <input 
-                type="text" 
-                id="memberCodeInput3" 
+            <input
+                type="text"
+                id="memberCodeInput3"
                 placeholder="Ej: GULA-AM2847"
                 style="
                     width: 100%;
@@ -2003,7 +2112,7 @@
                 <h3 style="margin: 0; font-size: 1.2rem; color: #FF5800; font-family: 'Akira Expanded', 'Inter', sans-serif;">TU TARJETA GULA</h3>
                 <button onclick="closeWalletSection()" style="background: none; border: none; color: #FF5800; font-size: 1.5rem; cursor: pointer;">X</button>
             </div>
-            
+
             <!-- CARD VISUAL -->
             <div id="walletCard" style="background: linear-gradient(135deg, #FF5800 0%, #FF8C42 100%); border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 10px 40px rgba(255, 88, 0, 0.4); color: white; position: relative; overflow: hidden;">
                 <div style="margin-bottom: 15px;">
@@ -2147,7 +2256,7 @@
         <div class="achievements-section">
             <details>
                 <summary>LOGROS Y RECOMPENSAS</summary>
-            
+
             <h4>Recompensas Disponibles</h4>
             <div class="reward-card">
                 <div class="reward-header">
@@ -2157,7 +2266,7 @@
                 <p class="reward-description">Válido en tu próximo pedido en sala</p>
                 <button class="btn-claim" onclick="claimReward('20off')">CANJEAR</button>
             </div>
-            
+
             <div class="reward-card">
                 <div class="reward-header">
                     <span class="reward-name">Acceso al canal Gula</span>
@@ -2166,7 +2275,7 @@
                 <p class="reward-description">Contenido interno y exclusivo</p>
                 <button class="btn-claim" onclick="claimReward('canal')">ACCEDER</button>
             </div>
-            
+
             <h4>Histórico de Puntos, Misiones y Objetivos Acumulados</h4>
             <div class="points-list">
                 <div class="point-item">
@@ -2197,7 +2306,7 @@
                 <div class="preview-item">Votación real en decisiones</div>
                 <div class="preview-item">Eventos abiertos Crew</div>
             </div>
-            
+
             <p class="upcoming-text" style="margin-top: 20px;">Alcanza HIGH CREW para desbloquear:</p>
             <div class="reward-preview">
                 <div class="preview-item">Eventos privados y degustaciones</div>
@@ -2205,7 +2314,7 @@
                 <div class="preview-item">Perks en sala (Fast Pass)</div>
                 <div class="preview-item">Influencia real en decisiones</div>
             </div>
-            
+
             <p class="upcoming-text" style="margin-top: 20px;">Conviértete en FOUNDER para acceder a:</p>
             <div class="reward-preview">
                 <div class="preview-item">Acceso directo a la marca</div>
@@ -2225,7 +2334,7 @@
                 <p>Cada euro (€) gastado en nuestros productos equivale a <strong>3 puntos</strong> en tu cuenta Gula Crew.</p>
                 <p>Por ejemplo: Si gastas 10€, obtienes 30 puntos.</p>
             </div>
-            
+
             <h4>Puntos Sociales</h4>
             <div class="points-list">
                 <div class="point-item">
@@ -2245,10 +2354,10 @@
                     <span class="point-value">+20 pts</span>
                 </div>
             </div>
-            
+
             <div class="menu-points">
                 <h4>Valor en Puntos de Nuestra Carta</h4>
-                
+
                 <div class="menu-category">
                     <h5>Entrantes</h5>
                     <div class="menu-items">
@@ -2289,7 +2398,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-category">
                     <h5>Burgers</h5>
                     <div class="menu-items">
@@ -2340,7 +2449,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-category">
                     <h5>Gula Sliders</h5>
                     <div class="menu-items">
@@ -2351,7 +2460,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-category">
                     <h5>Postres</h5>
                     <div class="menu-items">
@@ -2367,7 +2476,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-category">
                     <h5>Salsas</h5>
                     <div class="menu-items">
@@ -2408,7 +2517,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-category">
                     <h5>Combos</h5>
                     <div class="menu-items">
@@ -2467,7 +2576,7 @@
         <span class="close-modal" onclick="closeLeaderboard()">&times;</span>
         <h2>RANKING SEMANAL</h2>
         <p style="color: #ccc; text-align: center; margin: 10px 0 20px 0;">Top 10 miembros esta semana</p>
-        
+
         <div id="leaderboardList" style="max-height: 400px; overflow-y: auto;">
             <!-- Se genera dinámicamente -->
         </div>
@@ -2479,7 +2588,7 @@
     <div class="modal-content">
         <span class="close-modal" onclick="closeEvents()">&times;</span>
         <h2>EVENTOS DEL MES</h2>
-        
+
         <div id="eventsList" style="max-height: 400px; overflow-y: auto;">
             <!-- Se genera dinámicamente -->
         </div>
@@ -2503,7 +2612,7 @@
     <div class="modal-content">
         <span class="close-modal" onclick="closePointsHistory()">&times;</span>
         <h2>HISTORIAL DE PUNTOS</h2>
-        
+
         <div id="pointsHistoryList" style="max-height: 450px; overflow-y: auto;">
             <!-- Se genera dinámicamente -->
         </div>
@@ -2609,7 +2718,7 @@
     <div class="modal-content">
         <span class="close-modal" onclick="closeMissionsModal()">&times;</span>
         <h2>MISIONES DISPONIBLES</h2>
-        
+
         <div id="missionsList">
             <!-- Misiones se cargarán dinámicamente -->
             <p style="text-align: center; color: #ccc;">Cargando misiones...</p>
@@ -2620,7 +2729,7 @@
     <div class="modal-content">
         <span class="close-modal" onclick="closeProfileModal()">&times;</span>
         <h2>MI PERFIL</h2>
-        
+
         <div class="profile-section">
             <h3>Información Personal</h3>
             <p style="margin: 10px 0;"><strong>Nombre:</strong> <span id="pName">--</span></p>
@@ -2631,7 +2740,7 @@
 
         <div class="mission-category">
             <h3>EDITAR CONTACTO</h3>
-            
+
             <div class="mission-item">
                 <h4>Correo Electrónico</h4>
                 <p class="mission-description">Actualiza tu email para recibir notificaciones y ofertas exclusivas.</p>
@@ -2640,7 +2749,7 @@
                     <button class="btn-mission" onclick="saveEmail()" style="width: 100%; margin-top: 10px;">Guardar Email</button>
                 </div>
             </div>
-            
+
             <div class="mission-item">
                 <h4>Número de Teléfono</h4>
                 <p class="mission-description">Añade o cambia tu número de teléfono para confirmaciones y beneficios.</p>
@@ -2653,7 +2762,7 @@
 
         <div class="mission-category">
             <h3>CÓDIGO DE REFERIDOS</h3>
-            
+
             <div class="mission-item">
                 <h4>Tu Código Personal</h4>
                 <p class="mission-description">Comparte este código con amigos para ganar +20 pts por cada registro.</p>
@@ -2710,7 +2819,7 @@
 
     // Gmail Configuration - Emails sent directly via Google Apps Script
     // No EmailJS needed - using GmailApp from Google Apps Script for direct Gmail sending
-    
+
     // Email notifications are now handled server-side by Google Apps Script:
     // - Welcome emails sent automatically after registration
     // - Promotional emails can be sent via sendPromotionalEmail() function in Apps Script
@@ -2725,7 +2834,7 @@
         submitBtn.disabled = isLoading;
         submitBtn.innerText = isLoading ? 'Cargando...' : submitBtn.dataset.originalText;
     }
-    
+
     // ======================= WALLET FUNCTIONS =======================
     let currentUserForWallet = {};
 
@@ -2741,11 +2850,11 @@
     function generateQRCode(data) {
         const canvas = document.getElementById('qrCanvas');
         if (!canvas) return;
-        
+
         // Limpiar canvas anterior
         canvas.width = 70;
         canvas.height = 70;
-        
+
         try {
             new QRCode(canvas, {
                 text: data,
@@ -2768,16 +2877,16 @@
     // Mostrar tarjeta en el dashboard
     function displayWalletInDashboard(userData) {
         currentUserForWallet = userData;
-        
+
         // Generar MemberId único si no existe
         if (!userData.memberId) {
             userData.memberId = `GULA-${Date.now().toString().slice(-6)}`;
         }
-        
+
         // Actualizar card visual
         document.getElementById('cardName').textContent = `${userData.nombre} ${userData.apellido}`.toUpperCase();
         document.getElementById('cardNumber').textContent = `${userData.memberId}`;
-        
+
         // Generar QR con datos del usuario
         const qrData = JSON.stringify({
             memberId: userData.memberId,
@@ -2786,12 +2895,12 @@
             email: userData.email,
             timestamp: Date.now()
         });
-        
+
         generateQRCode(qrData);
-        
+
         // Mostrar la sección de wallet
         document.getElementById('walletSection').style.display = 'block';
-        
+
         // Actualizar texto del botón según SO
         const os = getOperatingSystem();
         const btn = document.getElementById('addWalletBtn');
@@ -2821,7 +2930,7 @@
             } else {
                 await downloadCard();
             }
-            
+
             btn.textContent = 'COMPLETADO';
             setTimeout(() => {
                 btn.disabled = false;
@@ -2851,7 +2960,7 @@
         const card = document.getElementById('walletCard');
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        
+
         canvas.width = 800;
         canvas.height = 500;
 
@@ -2866,10 +2975,10 @@
         ctx.fillStyle = '#FFFFFF';
         ctx.font = 'bold 24px Arial';
         ctx.fillText('GULA LOYALTY', 30, 50);
-        
+
         ctx.font = 'bold 40px Arial';
         ctx.fillText(document.getElementById('cardNumber').textContent, 30, 120);
-        
+
         ctx.font = 'bold 28px Arial';
         ctx.fillText(document.getElementById('cardName').textContent, 30, 450);
 
@@ -2941,7 +3050,7 @@
         const missionsModal = document.getElementById('missionsModal');
         const profileModal = document.getElementById('profileModal');
         const duplicateModal = document.getElementById('duplicateEmailModal');
-        
+
         if (event.target == privacyModal) {
             privacyModal.style.display = 'none';
         }
@@ -3196,21 +3305,28 @@
             crewForm.addEventListener('submit', async (e) => {
                 console.log('[FORM SUBMIT] Formulario enviado');
                 e.preventDefault();
-            
+
+                // Honeypot check: bots fill this hidden field
+                const honeypot = document.getElementById('website');
+                if (honeypot && honeypot.value) {
+                    console.warn('Honeypot triggered');
+                    return;
+                }
+
             const email = document.getElementById('email').value.trim();
             const phone = document.getElementById('tel').value.trim();
             const countryCode = document.getElementById('countryCode').value;
             const emailInput = document.getElementById('email');
             const phoneInput = document.getElementById('tel');
-            
+
             // Limpiar errores previos
             emailInput.classList.remove('error');
             phoneInput.classList.remove('error');
             const prevErrors = document.querySelectorAll('.error-message');
             prevErrors.forEach(err => err.remove());
-            
+
             setCrewFormLoading(true);
-            
+
             try {
                 // Validar email (formato real)
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -3218,7 +3334,7 @@
             if (email && !emailRegex.test(email)) {
                 emailValid = false;
             }
-            
+
             // Validar teléfono (solo si se proporciona)
             let phoneValid = true;
             if (phone) {
@@ -3227,7 +3343,7 @@
                     phoneValid = false;
                 }
             }
-            
+
             // Validar duplicados (usando Supabase)
             let emailExists = false;
             let phoneExists = false;
@@ -3296,17 +3412,17 @@
             if (!emailValid || !phoneValid || emailExists || phoneExists) {
                 return;
             }
-            
+
             // Validar aceptación de política de privacidad
             const privacyAccept = document.getElementById('privacyAccept');
             if (!privacyAccept.checked) {
                 alert('Debes aceptar la Política de Privacidad para continuar.');
                 return;
             }
-            
+
             const selectedCountryCode = document.getElementById('countryCode').value;
             const fullPhoneNumber = phone ? `${selectedCountryCode}${phone}` : '';
-            
+
             currentSession = {
                 nombre: document.getElementById('nombre').value.trim(),
                 apellido: document.getElementById('apellido').value.trim(),
@@ -3315,6 +3431,7 @@
                 telefono: fullPhoneNumber,
                 puntos: (phone !== "") ? 22 : 0,
                 marketingConsent: document.getElementById('marketingConsent').checked,
+                privacyAccepted: privacyAccept.checked,
                 fecha: new Date().toLocaleString()
             };
             goToStep(2);
@@ -3344,7 +3461,7 @@
         console.log('[FINISH REGISTRATION] Botón presionado');
         const referralCodeInput = document.getElementById('referralCode').value.trim().toUpperCase();
 
-        const { nombre, apellido, email, zip, telefono, marketingConsent } = currentSession;
+        const { nombre, apellido, email, zip, telefono, marketingConsent, privacyAccepted } = currentSession;
         const followed_ig = followedInsta;
         const referido_por = referralCodeInput || null;
 
@@ -3388,7 +3505,15 @@
                     nivel,
                     member_code,
                     followed_ig: !!followed_ig,
-                    referido_por
+                    referido_por,
+                    marketing_consent: !!marketingConsent,
+                    marketing_consent_at: marketingConsent ? new Date().toISOString() : null,
+                    privacy_accepted: !!privacyAccepted,
+                    privacy_accepted_at: new Date().toISOString(),
+                    terms_accepted: !!privacyAccepted,
+                    terms_accepted_at: new Date().toISOString(),
+                    consent_source: 'club_gula_registration',
+                    consent_version: '2026-04'
                 })
                 .select()
                 .single();
@@ -3470,7 +3595,7 @@
     function updateDashboard(memberData) {
         // Store current user data
         localStorage.setItem('currentUser', JSON.stringify(memberData));
-        
+
         const totalPts = memberData.puntos || 77;
         const levels = [
             { name: 'NEOPHYTE', min: 0, max: 250 },
@@ -3478,10 +3603,10 @@
             { name: 'HIGH CREW', min: 700, max: 1200 },
             { name: 'FOUNDERS', min: 1200, max: Infinity }
         ];
-        
+
         let currentLevel = levels[0];
         let nextLevel = levels[1];
-        
+
         for (let level of levels) {
             if (totalPts >= level.min && totalPts < level.max) {
                 currentLevel = level;
@@ -3497,26 +3622,26 @@
                 break;
             }
         }
-        
+
         // Update DOM
         document.getElementById('totalPoints').innerText = totalPts;
         document.getElementById('levelName').innerText = currentLevel.name;
         document.getElementById('memberCodeDisplay').innerText = memberData.id || 'GULA-XX0000';
-        
+
         const ptsToNext = nextLevel.min - totalPts;
         const ptsInRange = nextLevel.min - currentLevel.min;
         const ptsEarned = totalPts - currentLevel.min;
         const progressPercent = Math.max(0, Math.min(100, (ptsEarned / ptsInRange) * 100));
-        
+
         document.getElementById('progressFill').style.width = progressPercent + '%';
         document.getElementById('nextLevelPoints').innerText = nextLevel.min;
-        
+
         if (ptsToNext > 0) {
             document.getElementById('progressText').innerText = 'Te faltan ' + ptsToNext + ' pts para ' + nextLevel.name;
         } else {
             document.getElementById('progressText').innerText = 'Felicidades! Ya eres ' + currentLevel.name;
         }
-        
+
         // Mostrar tarjeta de wallet
         displayWalletInDashboard(memberData);
     }
@@ -3566,20 +3691,20 @@
     async function accessDashboard() {
         const codeInput = document.getElementById('memberCodeInput').value.toUpperCase().trim();
         const errorMsg = document.getElementById('accessError');
-        
+
         if (!codeInput) {
             errorMsg.style.display = 'block';
             errorMsg.innerText = '❌ Por favor ingresa tu código';
             return;
         }
-        
+
         const foundMember = await findMemberByCode(codeInput);
         if (!foundMember) {
             errorMsg.style.display = 'block';
             errorMsg.innerText = '❌ Código no encontrado. Verifica que sea correcto.';
             return;
         }
-        
+
         errorMsg.style.display = 'none';
         updateDashboard(foundMember);
         goToStep(11);
@@ -3589,20 +3714,20 @@
     async function accessDashboardFromStep3() {
         const codeInput = document.getElementById('memberCodeInput3').value.toUpperCase().trim();
         const errorMsg = document.getElementById('accessError3');
-        
+
         if (!codeInput) {
             errorMsg.style.display = 'block';
             errorMsg.innerText = 'Por favor ingresa tu codigo';
             return;
         }
-        
+
         const foundMember = await findMemberByCode(codeInput);
         if (!foundMember) {
             errorMsg.style.display = 'block';
             errorMsg.innerText = 'Codigo no encontrado. Verifica que sea correcto.';
             return;
         }
-        
+
         errorMsg.style.display = 'none';
         updateDashboard(foundMember);
         goToStep(11);
@@ -3612,7 +3737,7 @@
     function logoutDashboard() {
         // Clear current user data
         localStorage.removeItem('currentUser');
-        
+
         document.getElementById('memberCodeInput').value = '';
         document.getElementById('memberCodeInput3').value = '';
         document.getElementById('accessError').style.display = 'none';
@@ -3626,7 +3751,7 @@
         closeProfileModal();
         closePrivacyModal();
         closeStoresDropdown();
-        
+
         document.getElementById('missionsModal').style.display = 'block';
         generateMissions();
     }
@@ -3638,12 +3763,12 @@
     function generateMissions() {
         const missionsList = document.getElementById('missionsList');
         if (!missionsList) return;
-        
+
         const missionTypes = ['Misiones Semanales', 'Misiones Flash', 'Misiones de Comunidad'];
         let hasMissions = false;
-        
+
         missionsList.innerHTML = '';
-        
+
         missionTypes.forEach(type => {
             const missions = sheetMissions[type] || [];
             if (missions.length > 0) {
@@ -3651,13 +3776,13 @@
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'mission-category';
                 categoryDiv.innerHTML = `<h3>${type.toUpperCase()}</h3>`;
-                
+
                 missions.forEach(mission => {
                     // Determinar clase CSS para el badge según el tipo
                     let badgeClass = 'comunidad'; // default
                     if (mission.type === 'Misiones Semanales') badgeClass = 'semanales';
                     else if (mission.type === 'Misiones Flash') badgeClass = 'flash';
-                    
+
                     const missionItem = document.createElement('div');
                     missionItem.className = 'mission-item';
                     missionItem.innerHTML = `
@@ -3670,11 +3795,11 @@
                     `;
                     categoryDiv.appendChild(missionItem);
                 });
-                
+
                 missionsList.appendChild(categoryDiv);
             }
         });
-        
+
         if (!hasMissions) {
             missionsList.innerHTML = '<p style="text-align: center; color: #ccc;">No hay misiones disponibles en este momento.</p>';
         }
@@ -3683,12 +3808,12 @@
     function handleProfileClick() {
         const modal = document.getElementById('profileModal');
         const user = getCurrentUser();
-        
+
         if (!user) {
             alert('Por favor accede primero');
             return;
         }
-        
+
         if (!modal) {
             alert('Error: Modal no encontrado');
             return;
@@ -3699,13 +3824,13 @@
         document.getElementById('pLastName').innerText = user.apellido || '--';
         document.getElementById('pLevel').innerText = getLevelName(user.puntos || 0);
         document.getElementById('pPoints').innerText = user.puntos || 0;
-        
+
         // Contacto
         document.getElementById('pEmailDisplay').innerText = user.email || '--';
         document.getElementById('pEmailInput').value = user.email || '';
         document.getElementById('pPhoneDisplay').innerText = user.telefono || '--';
         document.getElementById('pPhoneInput').value = user.telefono || '';
-        
+
         // Registro
         document.getElementById('pDate').innerText = user.fecha || '--';
         document.getElementById('pCode').innerText = user.id || '--';
@@ -3731,7 +3856,7 @@
         closeMissionsModal();
         closePrivacyModal();
         closeStoresDropdown();
-        
+
         // Abrir nueva ventana con la página de perfil
         window.open('profile.html', '_blank', 'width=700,height=900');
     }
@@ -3820,25 +3945,25 @@
     function loadBadges(currentUser) {
         const badgesContainer = document.getElementById('badgesContainer');
         if (!badgesContainer) return;
-        
+
         badgesContainer.innerHTML = '';
-        
+
         // Define all possible badges
         const allBadges = [
-            { id: 'first_purchase', name: 'Primera Compra', condition: () => currentUser.puntos > 0, icon: '🎯' },
-            { id: 'crew_member', name: 'Miembro Crew', condition: () => currentUser.puntos >= 250, icon: '👥' },
-            { id: 'high_crew', name: 'High Crew', condition: () => currentUser.puntos >= 700, icon: '⭐' },
-            { id: 'founder', name: 'Founder', condition: () => currentUser.puntos >= 1200, icon: '👑' },
-            { id: 'top_referrer', name: 'Top Referidor', condition: () => (currentUser.referralCount || 0) >= 5, icon: '🔗' },
-            { id: 'social_star', name: 'Estrella Social', condition: () => currentUser.instagramFollow === 'SI', icon: '📸' },
-            { id: 'weekend_warrior', name: 'Guerrero Fin de Semana', condition: () => (currentUser.pointsHistory || []).filter(p => p.type === 'weekend').length >= 3, icon: '🎉' },
-            { id: 'point_collector', name: 'Colector de Puntos', condition: () => currentUser.puntos >= 500, icon: '💎' }
+            { id: 'first_purchase', name: 'Primera Compra', condition: () => currentUser.puntos > 0, icon: 'images/graficos/Diablito.png' },
+            { id: 'crew_member', name: 'Miembro Crew', condition: () => currentUser.puntos >= 250, icon: 'images/graficos/Diablito_sentado_1.png' },
+            { id: 'high_crew', name: 'High Crew', condition: () => currentUser.puntos >= 700, icon: 'images/graficos/Diablito_sentado_2.png' },
+            { id: 'founder', name: 'Founder', condition: () => currentUser.puntos >= 1200, icon: 'images/graficos/Diablito_GULA_fantasma.png' },
+            { id: 'top_referrer', name: 'Top Referidor', condition: () => (currentUser.referralCount || 0) >= 5, icon: 'images/graficos/1.png' },
+            { id: 'social_star', name: 'Estrella Social', condition: () => currentUser.instagramFollow === 'SI', icon: 'images/graficos/2.png' },
+            { id: 'weekend_warrior', name: 'Guerrero Fin de Semana', condition: () => (currentUser.pointsHistory || []).filter(p => p.type === 'weekend').length >= 3, icon: 'images/graficos/3.png' },
+            { id: 'point_collector', name: 'Colector de Puntos', condition: () => currentUser.puntos >= 500, icon: 'images/graficos/Diablito_GULA_fantasma.png' }
         ];
-        
+
         if (!currentUser.badges) {
             currentUser.badges = [];
         }
-        
+
         allBadges.forEach(badge => {
             if (badge.condition()) {
                 if (!currentUser.badges.includes(badge.id)) {
@@ -3847,16 +3972,16 @@
                 }
             }
         });
-        
+
         allBadges.forEach(badge => {
             if (badge.condition()) {
                 const badgeEl = document.createElement('div');
                 badgeEl.style.cssText = 'display: inline-flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 12px; text-align: center; font-weight: bold; color: #333; min-width: 80px;';
-                badgeEl.innerHTML = `<div style="font-size: 24px;">${badge.icon}</div><div style="font-size: 12px;">${badge.name}</div>`;
+                badgeEl.innerHTML = `<img src="${badge.icon}" style="width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(0,0,0,0.4));" alt=""><div style="font-size: 12px;">${badge.name}</div>`;
                 badgesContainer.appendChild(badgeEl);
             }
         });
-        
+
         if (currentUser.badges.length === 0) {
             badgesContainer.innerHTML = '<p style="color: #999; padding: 16px; text-align: center;">Gana puntos para desbloquear badges</p>';
         }
@@ -3905,11 +4030,11 @@
         closeProfileModal();
         closePrivacyModal();
         closeStoresDropdown();
-        
+
         const leaderboardModal = document.getElementById('leaderboardModal');
         leaderboardModal.style.display = 'block';
         leaderboardModal.style.zIndex = '1001';
-        
+
         generateLeaderboard();
     }
 
@@ -3936,18 +4061,18 @@
 
         // Sort users by points (highest first)
         const sorted = [...data].sort((a, b) => (b.puntos || 0) - (a.puntos || 0));
-        
+
         leaderboardList.innerHTML = '';
-        
+
         sorted.slice(0, 10).forEach((user, index) => {
             const rank = index + 1;
             let medal = '';
             if (rank === 1) medal = '🥇';
             else if (rank === 2) medal = '🥈';
             else if (rank === 3) medal = '🥉';
-            
+
             const levelColor = getLevelColor(getLevelName(user.puntos || 0));
-            
+
             const row = document.createElement('div');
             row.style.cssText = `
                 display: flex;
@@ -3959,7 +4084,7 @@
                 border-radius: 8px;
                 border-left: 4px solid ${levelColor};
             `;
-            
+
             row.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
                     <span style="font-size: 18px; min-width: 30px; font-weight: bold;">${medal || rank}</span>
@@ -3972,7 +4097,7 @@
                     <div style="font-weight: bold; color: ${levelColor};">${user.puntos || 0} PTS</div>
                 </div>
             `;
-            
+
             leaderboardList.appendChild(row);
         });
     }
@@ -3993,11 +4118,11 @@
         closeLeaderboard();
         closePrivacyModal();
         closeStoresDropdown();
-        
+
         const eventsModal = document.getElementById('eventsModal');
         eventsModal.style.display = 'block';
         eventsModal.style.zIndex = '1001';
-        
+
         generateEvents();
     }
 
@@ -4009,15 +4134,15 @@
     function generateEvents() {
         const eventsList = document.getElementById('eventsList');
         if (!eventsList) return;
-        
+
         if (sheetEvents.length === 0) {
             eventsList.innerHTML = '<p style="text-align: center; color: #ccc;">No hay eventos disponibles en este momento.</p>';
             return;
         }
-        
+
         const currentUser = getCurrentUser();
         eventsList.innerHTML = '';
-        
+
         sheetEvents.forEach(event => {
             const eventEl = document.createElement('div');
             eventEl.style.cssText = `
@@ -4027,7 +4152,7 @@
                 border-radius: 10px;
                 border-left: 4px solid #FF8C00;
             `;
-            
+
             eventEl.innerHTML = `
                 <div style="font-weight: bold; color: #333; margin-bottom: 6px;">${event.title}</div>
                 <div style="font-size: 13px; color: #666; margin-bottom: 4px;">📅 ${event.date}</div>
@@ -4037,7 +4162,7 @@
                     RESERVAR
                 </button>
             `;
-            
+
             eventsList.appendChild(eventEl);
         });
     }
@@ -4053,11 +4178,11 @@
         if (!currentUser.eventReservations) {
             currentUser.eventReservations = [];
         }
-        
+
         if (!currentUser.eventReservations.includes(eventId)) {
             currentUser.eventReservations.push(eventId);
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
+
             alert('¡Reserva confirmada! Recibirás más detalles por WhatsApp.');
             generateEvents(); // Refresh events
         } else {
@@ -4072,11 +4197,11 @@
         closeLeaderboard();
         closeEvents();
         closePrivacyModal();
-        
+
         const historyModal = document.getElementById('pointsHistoryModal');
         historyModal.style.display = 'block';
         historyModal.style.zIndex = '1001';
-        
+
         displayPointsHistory();
     }
 
@@ -4088,17 +4213,17 @@
     function displayPointsHistory() {
         const historyList = document.getElementById('pointsHistoryList');
         if (!historyList) return;
-        
+
         const currentUser = getCurrentUser();
         const history = currentUser.pointsHistory || [];
-        
+
         historyList.innerHTML = '';
-        
+
         if (history.length === 0) {
             historyList.innerHTML = '<p style="color: #999; padding: 16px; text-align: center;">Sin historial de puntos aún</p>';
             return;
         }
-        
+
         // Show in reverse order (newest first)
         [...history].reverse().forEach(entry => {
             const historyEl = document.createElement('div');
@@ -4112,7 +4237,7 @@
                 justify-content: space-between;
                 align-items: center;
             `;
-            
+
             historyEl.innerHTML = `
                 <div>
                     <div style="font-weight: bold; color: #333; margin-bottom: 4px;">${entry.action}</div>
@@ -4122,7 +4247,7 @@
                     ${entry.points > 0 ? '+' : ''}${entry.points}
                 </div>
             `;
-            
+
             historyList.appendChild(historyEl);
         });
     }
@@ -4211,13 +4336,13 @@
             'attend_event': 60,
             'google_review': 33
         };
-        
+
         const points = pointsMap[missionType] || 0;
         const currentUser = getCurrentUser();
-        
+
         if (currentUser && points > 0) {
             currentUser.puntos += points;
-            
+
             // Add to point history
             if (!currentUser.pointsHistory) {
                 currentUser.pointsHistory = [];
@@ -4232,7 +4357,7 @@
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             // Update dashboard display
             updateDashboard(currentUser);
-            
+
             // Show animation feedback
             showPointsAnimation(points);
 
@@ -4269,7 +4394,7 @@
                 })();
             }
         }
-        
+
         alert(`¡Misión completada! Has ganado ${points} puntos.`);
     }
 
@@ -4371,10 +4496,10 @@
             'menu': 'Acceso al menú secreto concedido.',
             'founder': 'Bienvenido al nivel FOUNDER. 20% OFF de por vida activado.'
         };
-        
+
         const message = rewardMessages[rewardId] || 'Recompensa canjeada! Presenta tu código en tienda.';
         alert(`¡${message}`);
-        
+
         // Abrir link de WhatsApp para el canal Gula
         if (rewardId === 'canal') {
             window.open('https://whatsapp.com/channel/0029Vb6fOx8Au3aSkRXjwt2y', '_blank');
@@ -4407,12 +4532,12 @@
         try {
             console.log('📧 Email será enviado automáticamente por el servidor');
             console.log('Datos del miembro:', memberData);
-            
+
             // El email se envía desde registerMemberViaGet en Google Apps Script
             // No necesitamos hacer POST adicional aquí
-            
+
             return { status: 'email_queued', email: memberData.email };
-            
+
         } catch (error) {
             console.error('❌ Error en sendRewardEmail:', error.message);
             return { status: 'email_failed', error: error.message };
@@ -4488,5 +4613,23 @@
     }
 </script>
 
-</div></div></body>
+</div></div><link rel="stylesheet" href="assets/css/club-dashboard-v2.css">
+<script src="assets/js/cookie-consent.js" defer></script>
+<script src="assets/js/club-dashboard-v2.js" defer></script>
+<script>
+function toggleMobileNav() {
+    var nav = document.getElementById('mainNav');
+    var icon = document.getElementById('hamburgerIcon');
+    nav.classList.toggle('mobile-open');
+    icon.className = nav.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+}
+document.querySelectorAll('.nav-center a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        var nav = document.getElementById('mainNav');
+        nav.classList.remove('mobile-open');
+        var icon = document.getElementById('hamburgerIcon');
+        if (icon) icon.className = 'fas fa-bars';
+    });
+});
+</script></body>
 </html>

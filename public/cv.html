@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV - Alexis Murillo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Inter", sans-serif; background: #fff; color: #1a1a1a; font-size: 13px; line-height: 1.6; }
+  .page { max-width: 780px; margin: 0 auto; padding: 52px 56px; }
+
+  .header { border-bottom: 2px solid #1a1a1a; padding-bottom: 18px; margin-bottom: 26px; }
+  .header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1; text-align: center; }
+  .header .subtitle { font-size: 0.79rem; font-weight: 500; color: #555; text-transform: uppercase; letter-spacing: 2.5px; margin-top: 6px; }
+  .contact-line { margin-top: 10px; font-size: 0.77rem; color: #444; display: flex; flex-wrap: wrap; gap: 4px 20px; justify-content: center; }
+
+  .section { margin-bottom: 22px; }
+  .section-title { font-size: 0.63rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1a1a1a; margin-bottom: 11px; padding-bottom: 5px; border-bottom: 1px solid #1a1a1a; }
+
+  .summary { font-size: 0.83rem; color: #333; line-height: 1.75; text-align: justify; }
+
+  .exp-item { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #e5e5e5; }
+  .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .exp-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 1px; }
+  .exp-role { font-weight: 700; font-size: 0.88rem; }
+  .exp-date { font-size: 0.73rem; color: #666; white-space: nowrap; flex-shrink: 0; }
+  .exp-company { font-size: 0.77rem; color: #555; margin-bottom: 6px; font-style: italic; }
+  .exp-bullets { padding-left: 14px; }
+  .exp-bullets li { font-size: 0.79rem; color: #333; margin-bottom: 3px; line-height: 1.55; text-align: justify; }
+
+  .projects-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 32px; }
+  .proj-name { font-weight: 700; font-size: 0.82rem; margin-bottom: 2px; }
+  .proj-tech { font-size: 0.69rem; color: #666; margin-bottom: 3px; font-style: italic; }
+  .proj-desc { font-size: 0.77rem; color: #444; line-height: 1.5; text-align: justify; }
+
+  .edu-item { margin-bottom: 10px; }
+  .edu-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .edu-degree { font-weight: 700; font-size: 0.84rem; }
+  .edu-date { font-size: 0.73rem; color: #666; white-space: nowrap; flex-shrink: 0; }
+  .edu-school { font-size: 0.77rem; color: #555; font-style: italic; }
+  .edu-note { font-size: 0.74rem; color: #666; margin-top: 2px; text-align: justify; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 32px; }
+  .skill-item { font-size: 0.78rem; color: #333; text-align: justify; }
+  .skill-item::before { content: "\2022\00a0"; color: #888; }
+
+  .bottom-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 32px; }
+  .mini-title { font-size: 0.63rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1a1a1a; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid #1a1a1a; }
+  .mini-item { font-size: 0.77rem; color: #444; margin-bottom: 3px; text-align: justify; }
+
+  @media print {
+    body { background: #fff; }
+    .page { padding: 32px 40px; }
+    .exp-item { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <h1>Alexis Murillo</h1>
+    <div class="contact-line">
+      <span>+34 625 369 929</span>
+      <span>a14murillo@gmail.com</span>
+      <span>Murcia, Espa&ntilde;a</span>
+    </div>
+  </header>
+
+  <div class="section">
+    <p class="section-title">Perfil Profesional</p>
+    <p class="summary">
+      Graduado en Business Administration (BBA) con experiencia pr&aacute;ctica en marketing, ventas, gesti&oacute;n comercial y operaciones digitales. Proactivo, orientado a resultados y con visi&oacute;n de negocio desarrollada tanto en entornos corporativos como emprendedores. Durante el &uacute;ltimo a&ntilde;o he podido construir de manera autodidacta herramientas digitales reales para The Gula Corporation (incluyendo un programa de fidelizaci&oacute;n, una plataforma de pedidos y una API backend), combinando la capacidad de entender el negocio con la de ejecutar soluciones concretas. Complemento mi perfil con experiencia en liderazgo de equipos deportivos, disciplina competitiva en baloncesto y f&uacute;tbol americano a alto rendimiento, y una formaci&oacute;n s&oacute;lida en finanzas, estrategia y an&aacute;lisis de mercado.
+    </p>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Experiencia Laboral</p>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Head of Business & Revenue Operations</span>
+        <span class="exp-date">07/2025 &mdash; Actual</span>
+      </div>
+      <p class="exp-company">The Gula Corporation · Murcia</p>
+      <ul class="exp-bullets">
+        <li>Construir y optimizar sistemas de automatizaci&oacute;n y datos que conecten procesos internos y generaci&oacute;n de revenue.</li>
+        <li>Dise&ntilde;ar, mejorar y automatizar procesos clave de la compa&ntilde;&iacute;a en operaciones, tecnolog&iacute;a, marketing y finanzas.</li>
+        <li>Orquestar sistema de ventas y revenue: centralizar datos de TPV y plataformas de todas las tiendas y franquicias.</li>
+        <li>Dise&ntilde;ar y optimizar funnel del cliente desde descubrimiento hasta cliente recurrente con m&eacute;tricas clave.</li>
+        <li>Liderar gobierno funcional de sistemas core y dise&ntilde;ar dashboards automatizados para ventas, costes y KPIs de revenue.
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Director de Marketing & Operaciones Digitales</span>
+        <span class="exp-date">07/2025 &mdash; 12/2025</span>
+      </div>
+      <p class="exp-company">The Gula Corporation · Murcia</p>
+      <ul class="exp-bullets">
+        <li>Liderazgo de campa&ntilde;as multicanal para aumentar visibilidad de marca y ventas en tienda y plataformas de delivery.</li>
+        <li>Gesti&oacute;n de redes sociales, web oficial y presencia en Uber Eats, The Fork y Glovo.</li>
+        <li>Dise&ntilde;o y desarrollo del programa de fidelizaci&oacute;n <strong>Club GULA</strong> y <strong>marketplace de pedidos online</strong> (desarrollado, pendiente de lanzamiento).</li>
+        <li>Desarrollo de API backend (Node.js / Supabase): gesti&oacute;n de miembros, historial de puntos y pases digitales.</li>
+        <li>An&aacute;lisis de ventas, precios y competencia usando datos de Agora POS y Uber Eats; reportes ejecutivos y dashboards.
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Entrenador &mdash; Equipo de Baloncesto Veterano</span>
+        <span class="exp-date">11/2025 &mdash; Actual</span>
+      </div>
+      <p class="exp-company">Murcia Suns · Murcia</p>
+      <ul class="exp-bullets">
+        <li>Planificaci&oacute;n y direcci&oacute;n de entrenamientos para equipo veterano de baloncesto.</li>
+        <li>Dise&ntilde;o de estrategias de juego, gesti&oacute;n del grupo y desarrollo individual de jugadores.</li>
+        <li>Aplicaci&oacute;n de experiencia competitiva propia en motivaci&oacute;n y liderazgo del equipo.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Colaborador de Dise&ntilde;o de Negocio y Estrategia de Marca</span>
+        <span class="exp-date">05/2025 &mdash; 07/2025</span>
+      </div>
+      <p class="exp-company">SpaceInk Tattoo Studio · Murcia</p>
+      <ul class="exp-bullets">
+        <li>Apoyo al fundador en estructuraci&oacute;n, formalizaci&oacute;n e identidad de la marca del estudio.</li>
+        <li>Articulaci&oacute;n y documentaci&oacute;n de la esencia de la marca para guiar su identidad y comunicaci&oacute;n.</li>
+        <li>Conceptualizaci&oacute;n del modelo de negocio e identificaci&oacute;n de oportunidades de crecimiento y optimizaci&oacute;n operativa.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Becario &mdash; Plan de Negocio Estrat&eacute;gico</span>
+        <span class="exp-date">05/2025 &mdash; 06/2025</span>
+      </div>
+      <p class="exp-company">Cella Medical Solutions · Murcia</p>
+      <ul class="exp-bullets">
+        <li>Desarrollo de un plan de negocio para analizar la viabilidad de crear una consultora estrat&eacute;gica de impresi&oacute;n y modelado 3D en hospitales, en copropiedad con un hospital nacional de referencia.</li>
+        <li>Investigaci&oacute;n sobre modelos de Unidades 3D hospitalarias, valor del modelado 3D en cirug&iacute;a, marco regulatorio europeo (MDR), ISO 13485 y protecci&oacute;n de datos.</li>
+        <li>Definici&oacute;n de estrategia corporativa, modelo de producto, plan de marketing y proyecciones financieras.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Mesero</span>
+        <span class="exp-date">11/2024 &mdash; 11/2024</span>
+      </div>
+      <p class="exp-company">El Garaje de Mam&aacute; T&iacute;a · Murcia</p>
+      <ul class="exp-bullets">
+        <li>Atenci&oacute;n al cliente, gesti&oacute;n de mesas y coordinaci&oacute;n con cocina en entorno de restauraci&oacute;n de ritmo elevado.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Asistente de Chef</span>
+        <span class="exp-date">04/2022 &mdash; 06/2022</span>
+      </div>
+      <p class="exp-company">Gogarty's Irish Bar · Murcia</p>
+      <ul class="exp-bullets">
+        <li>Gesti&oacute;n integral de operaciones en cocina, supervisi&oacute;n de higiene, control de inventario y coordinaci&oacute;n con proveedores.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Fundador & Operador</span>
+        <span class="exp-date">08/2020 &mdash; 03/2021</span>
+      </div>
+      <p class="exp-company">Buysumt &mdash; Negocio de reventa online (Panam&aacute;)</p>
+      <ul class="exp-bullets">
+        <li>Creaci&oacute;n y administraci&oacute;n de un negocio de reventa en Instagram (Panam&aacute;), con importaci&oacute;n de productos desde China (tecnolog&iacute;a, moda y accesorios) y uso de apartado postal en EE.UU. para optimizar entregas.</li>
+        <li>Gesti&oacute;n integral de operaciones: compras, promoci&oacute;n, ventas y atenci&oacute;n al cliente. Fortaleci&oacute; competencias en liderazgo de startups, marketing en redes sociales y emprendimiento.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Coordinador de Ventas & Promotor</span>
+        <span class="exp-date">08/2019 &mdash; 01/2020</span>
+      </div>
+      <p class="exp-company">Festival de M&uacute;sica Paradise Peskito · Panam&aacute;</p>
+      <ul class="exp-bullets">
+        <li>Liderazgo de equipo de 7 promotores de ventas con implementaci&oacute;n de estrategias multicanal para distribuci&oacute;n de entradas.</li>
+        <li>Uso de redes sociales y plataformas digitales para maximizar venta y promoci&oacute;n del evento.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="section">
+    <p class="section-title">Proyectos Desarrollados</p>
+    <div class="projects-list">
+      <div>
+        <p class="proj-name">Club GULA &mdash; Programa de Fidelizaci&oacute;n</p>
+        <p class="proj-tech">Node.js &middot; Express &middot; Supabase &middot; API REST &middot; Apple Wallet &middot; Google Wallet &middot; Resend</p>
+        <p class="proj-desc">Aplicaci&oacute;n web completa de loyalty: registro de miembros, sistema de puntos con niveles, misiones, c&oacute;digos de referido y pases digitales para Apple Wallet y Google Wallet. API backend propia para gesti&oacute;n de miembros, historial de puntos, detecci&oacute;n de subida de nivel y correos autom&aacute;ticos (bienvenida, promoci&oacute;n, level-up). Pendiente de lanzamiento p&uacute;blico.</p>
+      </div>
+      <div>
+        <p class="proj-name">Marketplace de Pedidos GULA</p>
+        <p class="proj-tech">HTML/CSS/JS &middot; Stripe &middot; Supabase &middot; Webhooks</p>
+        <p class="proj-desc">Plataforma de pedidos online con carrito interactivo, selecci&oacute;n de m&eacute;todos de entrega (takeaway, domicilio, dine-in), c&oacute;digos de descuento vinculados al programa de puntos y pasarela de pago Stripe. Sistema de webhooks para acreditar puntos autom&aacute;ticamente al completar un pago. Pendiente de lanzamiento p&uacute;blico.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Formaci&oacute;n</p>
+    <div class="edu-item">
+      <div class="edu-top">
+        <span class="edu-degree">Grado en Business Administration &mdash; BBA (ingl&eacute;s)</span>
+        <span class="edu-date">10/2021 &mdash; 07/2025</span>
+      </div>
+      <p class="edu-school">Universidad Cat&oacute;lica San Antonio de Murcia (UCAM) &middot; Graduado</p>
+      <p class="edu-note">Representante estudiantil en todos los cursos · Representante de Facultad en el discurso de graduaci&oacute;n.</p>
+    </div>
+    <div class="edu-item">
+      <div class="edu-top">
+        <span class="edu-degree">Ingenier&iacute;a Industrial (3 a&ntilde;os cursados)</span>
+        <span class="edu-date">2019 &mdash; 2021</span>
+      </div>
+      <p class="edu-school">Universidad Tecnol&oacute;gica de Panam&aacute; · Discontinuado por beca en Espa&ntilde;a</p>
+    </div>
+    <div class="edu-item">
+      <div class="edu-top">
+        <span class="edu-degree">Bachiller en Ciencias y Letras</span>
+        <span class="edu-date">2013 &mdash; 2018</span>
+      </div>
+      <p class="edu-school">Colegio De La Salle · Panam&aacute;</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Aptitudes</p>
+    <div class="two-col">
+      <span class="skill-item">Marketing digital y estrategia de marca</span>
+      <span class="skill-item">Liderazgo y direcci&oacute;n de equipos</span>
+      <span class="skill-item">Gesti&oacute;n comercial y desarrollo de ventas</span>
+      <span class="skill-item">Pensamiento estrat&eacute;gico y visi&oacute;n de negocio</span>
+      <span class="skill-item">An&aacute;lisis de resultados y estudios de mercado</span>
+      <span class="skill-item">Desarrollo y gesti&oacute;n de proyectos digitales</span>
+      <span class="skill-item">Integraci&oacute;n de IA y herramientas anal&iacute;ticas</span>
+      <span class="skill-item">Mejora de procesos de negocio y automatizaci&oacute;n</span>
+      <span class="skill-item">Gesti&oacute;n de ingresos y rentabilidad</span>
+      <span class="skill-item">Coordinaci&oacute;n interdepartamental</span>
+      <span class="skill-item">Iniciativa, proactividad y adaptabilidad</span>
+    </div>
+  </div>
+
+  <div class="bottom-grid">
+    <div>
+      <p class="mini-title">Idiomas</p>
+      <p class="mini-item">Espa&ntilde;ol &mdash; Nativo</p>
+      <p class="mini-item">Ingl&eacute;s &mdash; Biling&uuml;e funcional</p>
+    </div>
+    <div>
+      <p class="mini-title">Certificaciones</p>
+      <p class="mini-item" style="font-weight:600;">Especializaci&oacute;n en Gesti&oacute;n de Inversiones</p>
+      <p class="mini-item" style="color:#777;font-size:0.72rem;margin-bottom:2px;">Universidad de Ginebra · 2024</p>
+      <p class="mini-item" style="color:#555;font-size:0.72rem;">Meeting Investors' Goals</p>
+      <p class="mini-item" style="color:#555;font-size:0.72rem;">Planning Your Client's Wealth over a 5-Year Horizon</p>
+      <p class="mini-item" style="color:#555;font-size:0.72rem;">Portfolio and Risk Management</p>
+      <p class="mini-item" style="color:#555;font-size:0.72rem;">Securing Investment Returns in the Long Run</p>
+      <p class="mini-item" style="color:#555;font-size:0.72rem;">Understanding Financial Markets</p>
+    </div>
+    <div>
+      <p class="mini-title">Intereses</p>
+      <p class="mini-item">Baloncesto, Fitness, Tecnolog&iacute;a</p>
+      <p class="mini-item">Fotograf&iacute;a, Dibujo, Moda, Ajedrez</p>
+      <p class="mini-item">Cocina, Senderismo, Meditaci&oacute;n</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

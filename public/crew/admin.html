@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GULA · Merchant OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@0.330.0/font/lucide.css">
+<link rel="stylesheet" href="assets/css/admin-os.css">
+<link rel="stylesheet" href="assets/css/gula-fx.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-brand">GULA</div>
+    <div class="auth-eyebrow">Merchant OS · Acceso autorizado</div>
+    <label>Email</label>
+    <input id="email" type="email" value="marketing@thegulacorp.com" autocomplete="email">
+    <label>Password</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <div id="recoveryBox" class="hidden">
+      <label>Nueva contraseña</label>
+      <input id="newPassword" type="password" autocomplete="new-password">
+      <button id="updatePasswordBtn" class="btn">Actualizar contraseña</button>
+    </div>
+    <div class="row">
+      <button id="loginBtn" class="btn btn-primary">Entrar</button>
+      <button id="resetBtn" class="btn btn-ghost">Recuperar</button>
+    </div>
+    <div id="loginMsg" class="hint"></div>
+    <div class="hint">Supabase Auth valida la contraseña. <code>admin_users</code> autoriza el acceso al panel.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <aside class="sidebar">
+    <div class="brand">GULA</div>
+    <div class="brand-sub">Merchant OS</div>
+    <nav>
+      <button class="nav active" data-tab="overview"><i class="lu lu-home"></i><span>Overview</span><kbd>O</kbd></button>
+      <button class="nav" data-tab="catalog"><i class="lu lu-shopping-bag"></i><span>Catálogo</span><kbd>C</kbd></button>
+      <button class="nav" data-tab="content"><i class="lu lu-pencil-line"></i><span>Editor web</span><kbd>E</kbd></button>
+      <button class="nav" data-tab="club"><i class="lu lu-trophy"></i><span>Club</span><kbd>L</kbd></button>
+      <button class="nav" data-tab="orders"><i class="lu lu-receipt"></i><span>Pedidos</span><kbd>P</kbd></button>
+      <button class="nav" data-tab="growth"><i class="lu lu-trending-up"></i><span>Growth</span><kbd>G</kbd></button>
+      <button class="nav" data-tab="settings"><i class="lu lu-settings"></i><span>Sistema</span><kbd>,</kbd></button>
+    </nav>
+    <div class="side-foot">
+      <button id="cmdkBtn" class="cmdk-hint"><i class="lu lu-search"></i> Buscar <kbd>⌘K</kbd></button>
+      <button id="logoutBtn" class="btn btn-ghost btn-sm" style="width:100%"><i class="lu lu-log-out"></i> Salir</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============= OVERVIEW ============= -->
+    <section id="overview" class="tab active">
+      <header class="page-head">
+        <div>
+          <div class="page-eyebrow">Panel ejecutivo</div>
+          <h1>Buenas tardes, <span id="greetingName">marketing</span>.</h1>
+        </div>
+        <div class="row">
+          <button id="refreshBtn" class="btn btn-ghost"><i class="lu lu-refresh-cw"></i> Refrescar</button>
+          <button class="btn btn-primary" data-goto="catalog"><i class="lu lu-plus"></i> Nuevo producto</button>
+        </div>
+      </header>
+
+      <div class="kpi-grid">
+        <article class="kpi"><span class="lab">Revenue 30d</span><span class="val" id="kpiRevenue">—</span><canvas class="spark" data-spark="revenue"></canvas></article>
+        <article class="kpi"><span class="lab">Miembros CREW</span><span class="val" id="kpiMembers">—</span><canvas class="spark" data-spark="members"></canvas></article>
+        <article class="kpi"><span class="lab">Leads</span><span class="val" id="kpiLeads">—</span><canvas class="spark" data-spark="leads"></canvas></article>
+        <article class="kpi"><span class="lab">Pedidos</span><span class="val" id="kpiOrders">—</span><canvas class="spark" data-spark="orders"></canvas></article>
+        <article class="kpi"><span class="lab">Margen medio</span><span class="val" id="kpiMargin">—</span><span class="trend" id="kpiMarginTrend"></span></article>
+        <article class="kpi"><span class="lab">Opt-ins MKT</span><span class="val" id="kpiOptins">—</span><canvas class="spark" data-spark="optins"></canvas></article>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <header class="card-head"><h2>Top productos por margen</h2><span class="hint">Modelo calculadora</span></header>
+          <div id="topProducts" class="skeleton-list"></div>
+        </article>
+        <article class="card">
+          <header class="card-head"><h2>Últimas señales</h2><span class="hint">Auditoría</span></header>
+          <div id="recentAudit" class="skeleton-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============= CATALOG ============= -->
+    <section id="catalog" class="tab">
+      <header class="page-head">
+        <div><div class="page-eyebrow">Catálogo · rentabilidad en vivo</div><h1>Productos</h1></div>
+        <div class="row">
+          <div class="search"><i class="lu lu-search"></i><input id="catSearch" placeholder="Buscar por nombre…"></div>
+          <select id="catFilter" class="select-pill">
+            <option value="all">Todas</option>
+            <option value="burgers">Burgers</option><option value="sliders">Sliders</option>
+            <option value="sides">Entrantes</option><option value="combos">Combos</option>
+            <option value="postres">Postres</option><option value="bebidas">Bebidas</option>
+          </select>
+          <div class="seg">
+            <button class="seg-btn active" data-view="table"><i class="lu lu-table"></i></button>
+            <button class="seg-btn" data-view="grid"><i class="lu lu-grid-3x3"></i></button>
+          </div>
+          <button id="seedBtn" class="btn btn-ghost">Cargar menú base</button>
+          <button id="newProductBtn" class="btn btn-primary"><i class="lu lu-plus"></i> Producto</button>
+        </div>
+      </header>
+
+      <article class="card pricing-bar">
+        <div class="pb-head">
+          <div class="pb-eyebrow">Calculadora · canal y promoción</div>
+          <div class="pb-meta" id="pbMeta">Recalcula en tiempo real</div>
+        </div>
+        <div class="pb-grid">
+          <label>Canal de venta
+            <select id="pbChannel">
+              <option value="direct" data-rate="0">Directo · 0%</option>
+              <option value="glovo_default" data-rate="25" selected>Glovo · 25% (estándar)</option>
+              <option value="glovo_tier" data-rate="auto">Glovo · 23–25% por ticket medio (post 600k€)</option>
+              <option value="glovo_pickup" data-rate="15">Glovo Pick-Up · 15%</option>
+              <option value="ubereats" data-rate="30">UberEats · 30%</option>
+            </select>
+          </label>
+          <label>Ticket medio (€) <input id="pbTicket" type="number" step="0.5" value="24"></label>
+          <label>Promoción
+            <select id="pbType">
+              <option value="none">Sin promoción</option>
+              <option value="percent_items">% off productos seleccionados</option>
+              <option value="percent_order">% off pedido total</option>
+              <option value="amount_order">€ off pedido (con mínimo)</option>
+              <option value="bogo">Buy 1 Get 1 Free · 2x1</option>
+              <option value="3x2">3x2</option>
+              <option value="free_item_purchase">Producto gratis con compra mín.</option>
+              <option value="bogo_diff">Compra X · gratis Y</option>
+              <option value="free_delivery">Envío gratis</option>
+              <option value="happy_hour">Happy Hour (% off en horario)</option>
+              <option value="percent_legacy">% Descuento (legacy)</option>
+              <option value="fixed">€ Descuento (legacy)</option>
+            </select>
+          </label>
+          <label>Valor (% o €) <input id="pbValue" type="number" step="0.5" value="10"></label>
+          <label>Mínimo pedido (€) <input id="pbMinOrder" type="number" step="0.5" value="20"></label>
+          <label>Margen mínimo target % <input id="pbMin" type="number" value="30"></label>
+          <label>Coste regalo (€) <input id="pbGift" type="number" step="0.01" value="0"></label>
+        </div>
+        <p class="pb-hint" id="pbHint"></p>
+      </article>
+
+      <article class="card">
+        <div id="catalogTable"></div>
+        <div id="catalogGrid" class="hidden"></div>
+      </article>
+    </section>
+
+    <!-- ============= EDITOR WEB VISUAL ============= -->
+    <section id="content" class="tab">
+      <header class="page-head">
+        <div><div class="page-eyebrow">Editor visual · Click to edit</div><h1>Edita tu web en tiempo real</h1></div>
+        <div class="row">
+          <select id="visualPage" class="select-pill">
+            <option value="index.html">Home</option>
+            <option value="crew/marketplace.html">Marketplace</option>
+            <option value="crew/CLUBGULA.html">Club Gula</option>
+            <option value="crew/contacto.html">Contacto</option>
+            <option value="crew/franquiciado.html">Franquiciado</option>
+          </select>
+          <button id="visualModeBtn" class="btn btn-primary"><i class="lu lu-edit-3"></i> Modo edición</button>
+          <button id="visualPreviewBtn" class="btn btn-ghost"><i class="lu lu-eye"></i> Vista previa</button>
+        </div>
+      </header>
+      <div class="visual-editor-shell">
+        <div class="visual-toolbar">
+          <div class="toolbar-group">
+            <button class="tool-btn active" data-tool="select" title="Seleccionar"><i class="lu lu-mouse-pointer-2"></i></button>
+            <button class="tool-btn" data-tool="text" title="Texto"><i class="lu lu-type"></i></button>
+            <button class="tool-btn" data-tool="image" title="Imagen"><i class="lu lu-image"></i></button>
+            <button class="tool-btn" data-tool="link" title="Enlace"><i class="lu lu-link"></i></button>
+            <button class="tool-btn" data-tool="color" title="Color"><i class="lu lu-palette"></i></button>
+          </div>
+          <div class="toolbar-spacer"></div>
+          <div class="toolbar-group">
+            <button id="visualUndo" class="tool-btn" title="Deshacer"><i class="lu lu-undo-2"></i></button>
+            <button id="visualRedo" class="tool-btn" title="Rehacer"><i class="lu lu-redo-2"></i></button>
+          </div>
+          <div class="toolbar-spacer"></div>
+          <div class="toolbar-group">
+            <button id="visualSave" class="btn btn-primary btn-sm"><i class="lu lu-save"></i> Guardar cambios</button>
+            <button id="visualPublish" class="btn btn-ghost btn-sm"><i class="lu lu-send"></i> Publicar</button>
+          </div>
+        </div>
+        <div class="visual-workspace">
+          <div class="visual-sidebar" id="visualSidebar">
+            <div class="sidebar-header">
+              <span class="sidebar-title">Propiedades</span>
+              <button class="btn btn-ghost btn-xs" id="sidebarClose"><i class="lu lu-x"></i></button>
+            </div>
+            <div class="sidebar-content" id="sidebarContent">
+              <div class="empty-state">Selecciona un elemento para editar</div>
+            </div>
+          </div>
+          <div class="visual-canvas">
+            <iframe id="visualFrame" class="visual-iframe" src="../index.html"></iframe>
+            <div class="visual-overlay" id="visualOverlay"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= CLUB ============= -->
+    <section id="club" class="tab">
+      <header class="page-head">
+        <div><div class="page-eyebrow">Club Gula · contenidos</div><h1>Misiones, eventos y blog</h1></div>
+        <div class="row">
+          <div class="seg">
+            <button class="seg-btn active" data-club="missions">Misiones</button>
+            <button class="seg-btn" data-club="events">Eventos</button>
+            <button class="seg-btn" data-club="blog">Blog</button>
+          </div>
+          <button id="newClubItemBtn" class="btn btn-primary"><i class="lu lu-plus"></i> Nuevo</button>
+        </div>
+      </header>
+      <div class="editor-shell two">
+        <article class="card editor-list"><div id="clubList" class="blocks-list"></div></article>
+        <article class="card editor-form" id="clubForm"></article>
+      </div>
+    </section>
+
+    <!-- ============= ORDERS ============= -->
+    <section id="orders" class="tab">
+      <header class="page-head"><div><div class="page-eyebrow">Pedidos</div><h1>Inbox de transacciones</h1></div></header>
+      <article class="card"><div id="ordersTable"></div></article>
+    </section>
+
+    <!-- ============= GROWTH ============= -->
+    <section id="growth" class="tab">
+      <header class="page-head"><div><div class="page-eyebrow">Growth</div><h1>Leads, miembros, promos, consents</h1></div></header>
+      <div class="grid-2">
+        <article class="card"><h2>Leads</h2><div id="leadsTable"></div></article>
+        <article class="card"><h2>Miembros CREW</h2><div id="membersTable"></div></article>
+        <article class="card">
+          <h2>Promos</h2>
+          <form id="promoForm" class="form-grid">
+            <label>Código <input id="promoCode" required></label>
+            <label>Descuento % <input id="promoDiscount" type="number" required></label>
+            <label>Motivo <input id="promoReason" value="marketing"></label>
+            <label>Usado <select id="promoUsed"><option value="false">No</option><option value="true">Sí</option></select></label>
+            <div class="row right" style="grid-column:1/-1"><button class="btn btn-primary"><i class="lu lu-check"></i> Guardar</button></div>
+          </form>
+          <div id="promosTable"></div>
+        </article>
+        <article class="card"><h2>Consentimientos</h2><div id="consentsTable"></div></article>
+      </div>
+    </section>
+
+    <!-- ============= SETTINGS ============= -->
+    <section id="settings" class="tab">
+      <header class="page-head"><div><div class="page-eyebrow">Sistema</div><h1>Vault, integraciones y status</h1></div></header>
+      <div class="grid-2">
+        <article class="card vault">
+          <h2><i class="lu lu-shield"></i> Configuración Supabase</h2>
+          <div class="vault-row"><span>Project ref</span><code id="cfgRef">gblmjealpcyswcgjrhzk</code><button class="btn btn-ghost btn-xs" data-copy="cfgRef"><i class="lu lu-copy"></i></button></div>
+          <div class="vault-row"><span>API URL</span><code id="cfgUrl"></code><button class="btn btn-ghost btn-xs" data-copy="cfgUrl"><i class="lu lu-copy"></i></button></div>
+          <div class="vault-row secret"><span>Anon key</span><code id="cfgAnon" data-secret="1">●●●●●●●●●●●●●●●●●●●●</code><button class="btn btn-ghost btn-xs" data-toggle="cfgAnon"><i class="lu lu-eye"></i></button><button class="btn btn-ghost btn-xs" data-copy="cfgAnon"><i class="lu lu-copy"></i></button></div>
+          <div class="vault-row"><span>Auth callback</span><code id="cfgCallback"></code></div>
+          <div class="vault-row"><span>Edge function</span><code>https://gblmjealpcyswcgjrhzk.supabase.co/functions/v1/send-email</code></div>
+          <div class="status-row" id="statusRow"></div>
+        </article>
+        <article class="card vault">
+          <h2><i class="lu lu-mail"></i> Email · Edge Function</h2>
+          <div class="vault-row"><span>RESEND_API_KEY</span><code class="warn">[secreto · pegar manualmente en Supabase Secrets]</code></div>
+          <div class="vault-row"><span>FROM_EMAIL</span><code>Gula &lt;onboarding@resend.dev&gt;</code><button class="btn btn-ghost btn-xs" data-copy-text="Gula <onboarding@resend.dev>"><i class="lu lu-copy"></i></button></div>
+          <div class="vault-row"><span>ADMIN_EMAIL</span><code>marketing@thegulacorp.com</code><button class="btn btn-ghost btn-xs" data-copy-text="marketing@thegulacorp.com"><i class="lu lu-copy"></i></button></div>
+          <div class="vault-row"><span>EMAIL_WEBHOOK_SECRET</span><code>gula_phase2_email_webhook_2026_change_me</code><button class="btn btn-ghost btn-xs" data-copy-text="gula_phase2_email_webhook_2026_change_me"><i class="lu lu-copy"></i></button></div>
+          <div class="row"><button id="testEmailBtn" class="btn btn-primary"><i class="lu lu-send"></i> Enviar email de prueba</button></div>
+        </article>
+        <article class="card vault" style="grid-column:1/-1">
+          <h2><i class="lu lu-list-checks"></i> Checklist de despliegue</h2>
+          <div id="checklist" class="skeleton-list"></div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- SIDE PANEL universal (productos / club items) -->
+<div id="panel" class="panel hidden" aria-hidden="true">
+  <div class="panel-bg"></div>
+  <aside class="panel-card">
+    <header class="panel-head">
+      <span class="panel-eyebrow" id="panelEyebrow">Editar</span>
+      <button class="btn btn-ghost btn-xs" id="panelClose"><i class="lu lu-x"></i></button>
+    </header>
+    <div class="panel-body" id="panelBody"></div>
+  </aside>
+</div>
+
+<!-- Command palette -->
+<div id="cmdk" class="cmdk hidden">
+  <div class="cmdk-bg"></div>
+  <div class="cmdk-card">
+    <div class="cmdk-input"><i class="lu lu-search"></i><input id="cmdkInput" placeholder="Buscar producto, misión, evento, sección..."></div>
+    <div id="cmdkList" class="cmdk-list"></div>
+    <div class="cmdk-foot"><kbd>↵</kbd> Abrir · <kbd>Esc</kbd> Cerrar · <kbd>⌘K</kbd> Toggle</div>
+  </div>
+</div>
+
+<!-- Quick actions premium -->
+<div id="quickDock" class="quick-dock hidden" aria-label="Acciones rápidas">
+  <button class="quick-btn" data-quick="catalog"><i class="lu lu-shopping-bag"></i><span>Catálogo</span></button>
+  <button class="quick-btn" data-quick="content"><i class="lu lu-sparkles"></i><span>Editor</span></button>
+  <button class="quick-btn" data-quick-action="new-product"><i class="lu lu-plus"></i><span>Producto</span></button>
+  <button class="quick-btn" data-quick-action="refresh"><i class="lu lu-refresh-cw"></i><span>Refresh</span></button>
+</div>
+
+<script src="assets/js/gula-fx.js" defer></script>
+<script src="assets/js/admin-os.js" defer></script>
+<script src="assets/js/cookie-consent.js" defer></script>
+</body>
+</html>

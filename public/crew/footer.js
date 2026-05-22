@@ -3,6 +3,30 @@
 // Inserta el footer al final de <body> si no existe ya uno con id="gula-footer"
 
 (function () {
+    if (!document.querySelector('script[src$="cookie-consent.js"]')) {
+        const consentScript = document.createElement('script');
+        consentScript.src = 'assets/js/cookie-consent.js';
+        consentScript.defer = true;
+        document.head.appendChild(consentScript);
+    }
+    if (!document.querySelector('link[href$="gula-fx.css"]')) {
+        const fxCss = document.createElement('link');
+        fxCss.rel = 'stylesheet';
+        fxCss.href = 'assets/js/gula-fx.css';
+        document.head.appendChild(fxCss);
+    }
+    if (!document.querySelector('script[src$="gula-fx.js"]')) {
+        const fxJs = document.createElement('script');
+        fxJs.src = 'assets/js/gula-fx.js';
+        fxJs.defer = true;
+        document.head.appendChild(fxJs);
+    }
+    if (!document.querySelector('script[src$="cms-loader.js"]')) {
+        const cms = document.createElement('script');
+        cms.src = 'assets/js/cms-loader.js';
+        cms.defer = true;
+        document.head.appendChild(cms);
+    }
     if (document.getElementById('gula-footer')) return;
     const style = document.createElement('style');
     style.textContent = `
