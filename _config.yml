@@ -1,0 +1,12 @@
+include:
+  - public/crew
+exclude:
+  - node_modules
+  - .venv
+  - FOTOS
+  - dist
+  - CALCULATOR
+  - CVS
+  - Elementos graficos
+  - Fotos Menu Actualizado
+  - supabase/.temp
