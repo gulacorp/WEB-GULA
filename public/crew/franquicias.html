@@ -421,20 +421,20 @@
             .nav-logo { font-size: 1.3rem; }
         }
 
-        /* Full-bleed editorial shot */
+        /* Sexy editorial shot — flush to container edges, no frame, no gaps */
         .gula-shot {
-            margin: 3rem calc(-50vw + 50%);
-            width: 100vw;
+            margin: 3rem -2rem;
             overflow: hidden;
             position: relative;
             isolation: isolate;
+            border-radius: 0;
         }
         .gula-shot::before {
             content: '';
             position: absolute;
             inset: 0;
             z-index: 2;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="g"><feTurbulence baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23g)" opacity="0.05"/></svg>') repeat;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="g"><feTurbulence baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23g)" opacity="0.04"/></svg>') repeat;
             mix-blend-mode: soft-light;
             pointer-events: none;
         }
@@ -443,19 +443,23 @@
             position: absolute;
             inset: 0;
             z-index: 1;
-            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
+            background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.35));
             pointer-events: none;
         }
         .gula-shot img {
             width: 100%;
-            height: auto;
-            max-height: 55vh;
+            height: 380px;
             object-fit: cover;
             display: block;
-            filter: contrast(1.06) saturate(0.88) brightness(0.93);
+            filter: contrast(1.06) saturate(0.9) brightness(0.92);
+            transition: filter 0.6s ease;
         }
         .gula-shot:hover img {
-            filter: contrast(1.08) saturate(0.95) brightness(0.96);
+            filter: contrast(1.1) saturate(1) brightness(0.96);
+        }
+        @media (max-width: 768px) {
+            .gula-shot { margin: 2.5rem -1rem; }
+            .gula-shot img { height: 240px; }
         }
 
         .gula-icon {
