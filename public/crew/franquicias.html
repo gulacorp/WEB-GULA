@@ -132,19 +132,28 @@
 
         h1 {
             font-family: 'Aveline', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            margin-bottom: 1.4rem;
+            font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+            margin-bottom: 1.2rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: #fff;
-            line-height: 0.95;
+            line-height: 1;
             font-weight: 900;
         }
         h1 .or {
             color: var(--gula-orange);
             font-style: italic;
-            text-shadow: 0 0 50px rgba(255,88,0,0.5), 0 0 120px rgba(255,88,0,0.2);
+            text-shadow: 0 0 40px rgba(255,88,0,0.45), 0 0 100px rgba(255,88,0,0.18);
         }
+
+        /* Cinematic hero backdrop */
+        .franq-hero{position:relative;min-height:52vh;padding:90px 40px 50px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;margin:-3rem -2rem 2rem}
+        .franq-hero .backdrop{position:absolute;inset:0;z-index:0;overflow:hidden}
+        .franq-hero .backdrop img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1) saturate(0.65) brightness(0.4)}
+        .franq-hero .backdrop::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(255,88,0,0.3),transparent 50%,rgba(0,0,0,0.65)),linear-gradient(180deg,rgba(5,5,5,0.5) 0%,transparent 30%,transparent 55%,#050505 100%);mix-blend-mode:multiply}
+        .franq-hero .backdrop::after{content:'';position:absolute;inset:0;z-index:2;opacity:0.22;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;mix-blend-mode:overlay}
+        .franq-hero::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,88,0,0.4),transparent);z-index:5}
+        .franq-hero .inner{position:relative;z-index:3;max-width:780px;margin:0 auto}
 
         .intro-text {
             font-size: 1.05rem;
@@ -412,43 +421,37 @@
             border-radius: 18px;
             overflow: hidden;
             position: relative;
-            border: 1px solid rgba(255,88,0,0.2);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            isolation: isolate;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+        .gula-shot img{filter:contrast(1.08) saturate(0.85) brightness(0.92);transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+        .gula-shot:hover img{transform:scale(1.03)}
+        .gula-shot::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,88,0,0.22), rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.65));
+            mix-blend-mode: soft-light;
         }
         .gula-shot::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(255,88,0,0.08) 100%);
+            z-index: 2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px;
+            mix-blend-mode: overlay;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.18;
             mix-blend-mode: overlay;
         }
         .gula-shot img {
             width: 100%;
-            height: 300px;
+            height: 320px;
             object-fit: cover;
             display: block;
-            filter: grayscale(100%) brightness(0.7) contrast(1.4);
-            transition: filter 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .gula-shot::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gula-orange);
-            mix-blend-mode: multiply;
-            opacity: 0.55;
-            transition: opacity 0.7s ease;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .gula-shot:hover::before {
-            opacity: 0;
-        }
-        .gula-shot:hover img {
-            filter: grayscale(0%) brightness(1) contrast(1);
-            transform: scale(1.04);
         }
 
         .gula-icon {
@@ -462,7 +465,17 @@
         .gula-icon:hover {
             transform: scale(1.15) rotate(-4deg);
         }
-        .gula-deco {
+        /* Cinematic cleanup: hide random PNG clipart icons, let typography breathe */
+        .kpi-card .kpi-icon{display:none}
+        .kpi-card{padding:2.2rem 1rem 1.8rem}
+        .kpi-card .kpi-num{font-size:clamp(2.4rem,5.5vw,3.2rem);font-style:italic;letter-spacing:-1px}
+        .benefit-card .benefit-icon{display:none}
+        .model-card .badge img{display:none}
+        .model-card .badge{position:relative;width:auto;background:none;border:none;padding:0}
+        .model-card .badge::before{content:attr(data-num);font-family:'Aveline',sans-serif;font-size:2rem;font-weight:900;font-style:italic;color:var(--gula-orange);letter-spacing:-1px;line-height:1}
+        /* Drop random floating diablito decorations site-wide */
+        .gula-deco{display:none !important}
+        .gula-deco-keep {
             position: absolute;
             width: 120px;
             opacity: 0.1;
@@ -512,27 +525,23 @@
         <div class="aurora-orb o1"></div>
         <div class="aurora-orb o2"></div>
         <div class="container" style="position: relative; z-index: 1;">
-            <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-30px;right:-20px;animation:decoFloat 10s ease-in-out infinite;" alt="">
-            <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:-20px;left:-20px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
-            <div style="text-align: center; margin: 2rem 0 1.4rem;" class="reveal">
-                <div class="eyebrow" style="margin-bottom: 1.4rem;">Expansión · Crew</div>
-                <h1>No buscamos<br>franquiciados.<br><span class="or">Buscamos<br>cómplices.</span></h1>
-            </div>
-            <p class="intro-text reveal" style="text-align: center; margin: 0 auto 3.5rem; font-size: 1.15rem; max-width: 640px; line-height: 1.8;">
-                Sistema validado en 4 sedes. Ticket medio 22€, recurrencia 61%, payback estimado 24 meses.
-                Detrás, un Club que convierte clientes en CREW activa. Si lo tuyo es hacer las cosas bien
-                y no firmas nada que no entiendas — sigue leyendo.
-            </p>
 
-            <div class="gula-shot reveal">
-                <img src="images/lifestyle-6.jpg" alt="GULA local">
-            </div>
+            <!-- Cinematic hero -->
+            <section class="franq-hero reveal">
+                <div class="backdrop"><img src="images/lifestyle-6.jpg" alt="" loading="eager"></div>
+                <div class="inner">
+                    <div class="eyebrow" style="margin-bottom: 1.2rem;">Expansión · Crew</div>
+                    <h1>No buscamos<br>franquiciados. <span class="or">Buscamos<br>cómplices.</span></h1>
+                    <p class="intro-text" style="text-align:center;margin:0 auto;font-size:1rem;max-width:560px;line-height:1.75;color:#d8d8d8">
+                        4 sedes. Ticket 22 €. Recurrencia 61 %. Payback 24 meses. Y un Club que convierte
+                        clientes en CREW. Si lo tuyo es hacer las cosas bien — sigue leyendo.
+                    </p>
+                </div>
+            </section>
 
             <!-- NÚMEROS CLAVE -->
-            <h2 class="sect-heading reveal">— Los números —</h2>
+            <h2 class="sect-heading reveal">Los números · 02</h2>
             <div class="kpi-grid reveal" style="position: relative;">
-                <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-20px;right:-10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
-                <img src="images/graficos/3.png" class="gula-deco" style="bottom:-20px;left:-10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
                 <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito.png" alt=""></div><div class="kpi-num">4</div><div class="kpi-label">Tiendas</div></div>
                 <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div><div class="kpi-num">61%</div><div class="kpi-label">Recurrencia</div></div>
                 <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div><div class="kpi-num">40%</div><div class="kpi-label">Retención</div></div>
@@ -543,13 +552,13 @@
             <p style="text-align:center; color:#666; font-size:0.75rem; margin-top:-1rem; margin-bottom:3rem;">*Payback estimado para el modelo Standard</p>
 
             <!-- MODELOS DE TIENDA -->
-            <h2 class="sect-heading reveal">— Formatos —</h2>
+            <h2 class="sect-heading reveal">Formatos · 03</h2>
             <h3 class="sect-title reveal">Tres tiers. <span class="or">Mismo ADN.</span></h3>
             <div class="models-grid reveal">
                 <div class="model-card m-flagship spotlight" data-tilt>
                     <div class="inner">
                         <div class="head">
-                            <div class="badge"><img src="images/graficos/Diablito.png" class="gula-icon" style="width:40px;height:40px;" alt=""></div>
+                            <div class="badge" data-num="01"></div>
                             <div>
                                 <div class="tier">TIER 1</div>
                                 <div class="mname">FLAGSHIP</div>
@@ -567,7 +576,7 @@
                 <div class="model-card m-standard spotlight" data-tilt>
                     <div class="inner">
                         <div class="head">
-                            <div class="badge"><img src="images/graficos/Diablito_sentado_1.png" class="gula-icon" style="width:40px;height:40px;" alt=""></div>
+                            <div class="badge" data-num="02"></div>
                             <div>
                                 <div class="tier">TIER 2</div>
                                 <div class="mname">STANDARD</div>
@@ -585,7 +594,7 @@
                 <div class="model-card m-dark spotlight" data-tilt>
                     <div class="inner">
                         <div class="head">
-                            <div class="badge"><img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-icon" style="width:40px;height:40px;" alt=""></div>
+                            <div class="badge" data-num="03"></div>
                             <div>
                                 <div class="tier">TIER 3</div>
                                 <div class="mname">DARK / EXPRESS</div>
@@ -603,7 +612,7 @@
             </div>
 
             <!-- PROCESO -->
-            <h2 class="sect-heading reveal">— El camino —</h2>
+            <h2 class="sect-heading reveal">El camino · 04</h2>
             <h3 class="sect-title reveal">De la conversación a la <span class="or">apertura</span></h3>
             <div class="timeline reveal">
                 <div class="step-card"><div class="step-num">1</div><h4>Solicitud</h4><p>Rellenas el formulario y nos cuentas tu perfil.</p></div>
@@ -618,7 +627,7 @@
             </div>
 
             <!-- POR QUÉ FUNCIONA -->
-            <h2 class="sect-heading reveal">— Por qué GULA —</h2>
+            <h2 class="sect-heading reveal">Por qué GULA · 05</h2>
             <div class="benefits-grid reveal">
                 <div class="benefit-card" data-tilt><div class="benefit-icon"><img src="images/graficos/Diablito.png" alt=""></div><h3>Datos reales</h3><p>4 tiendas operando. Números de venta, recurrencia y retención sobre la mesa.</p></div>
                 <div class="benefit-card" data-tilt><div class="benefit-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div><h3>El Club</h3><p>Sistema de fidelización propio que convierte una visita en diez.</p></div>

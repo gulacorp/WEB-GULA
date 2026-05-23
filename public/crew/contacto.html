@@ -44,13 +44,17 @@
         .nav-btn-primary:hover { transform: scale(1.05); }
         main{padding-top:72px;min-height:100vh;position:relative;z-index:1}
 
-        /* HERO */
-        .contact-hero{padding:140px 40px 80px;text-align:center;position:relative;overflow:hidden}
-        .contact-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(255,88,0,0.14),transparent 65%);z-index:-1}
-        .contact-hero::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,88,0,0.4),transparent)}
-        .contact-hero .word-mark{font-family:'Aveline',sans-serif;font-weight:900;font-size:clamp(3.5rem,11vw,9rem);line-height:0.9;letter-spacing:2px;text-transform:uppercase;margin:14px 0 28px}
-        .contact-hero .word-mark .accent{color:var(--gula-orange);font-style:italic;text-shadow:0 0 50px rgba(255,88,0,0.5),0 0 120px rgba(255,88,0,0.2)}
-        .contact-hero .lede{font-size:1.15rem;color:var(--text-secondary);max-width:560px;margin:0 auto;line-height:1.75;font-weight:300}
+        /* HERO — cinematic, contenido */
+        .contact-hero{padding:110px 40px 60px;text-align:center;position:relative;overflow:hidden;min-height:52vh;display:flex;align-items:center;justify-content:center}
+        .contact-hero .backdrop{position:absolute;inset:0;z-index:0;overflow:hidden}
+        .contact-hero .backdrop img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1) saturate(0.65) brightness(0.4)}
+        .contact-hero .backdrop::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(255,88,0,0.3),transparent 50%,rgba(0,0,0,0.65)),linear-gradient(180deg,rgba(5,5,5,0.5) 0%,transparent 30%,transparent 55%,var(--bg-dark) 100%);mix-blend-mode:multiply}
+        .contact-hero .backdrop::after{content:'';position:absolute;inset:0;z-index:2;opacity:0.22;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;mix-blend-mode:overlay}
+        .contact-hero::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,88,0,0.4),transparent);z-index:5}
+        .contact-hero .inner{position:relative;z-index:3;max-width:800px;margin:0 auto}
+        .contact-hero .word-mark{font-family:'Aveline',sans-serif;font-weight:900;font-size:clamp(2.4rem,5.4vw,4.2rem);line-height:1;letter-spacing:1px;text-transform:uppercase;margin:14px 0 22px}
+        .contact-hero .word-mark .accent{color:var(--gula-orange);font-style:italic;text-shadow:0 0 40px rgba(255,88,0,0.45),0 0 100px rgba(255,88,0,0.18)}
+        .contact-hero .lede{font-size:1.05rem;color:#d8d8d8;max-width:520px;margin:0 auto;line-height:1.7;font-weight:300}
 
         /* CHANNEL CHIPS */
         .channels{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:48px auto 0;max-width:760px;padding:0 20px}
@@ -166,14 +170,19 @@
 <main style="position: relative;">
     <!-- HERO -->
     <section class="contact-hero reveal-up">
-        <div class="eyebrow">Habla con la CREW</div>
-        <h1 class="word-mark">No vendemos<br>burgers. <span class="accent">Vendemos<br>pertenencia.</span></h1>
-        <p class="lede">Propuestas, prensa, catering, eventos privados, dudas existenciales. Lo que sea, llega aquí. Sin filtros, sin formularios eternos, sin "te respondemos en 5–7 días".</p>
+        <div class="backdrop">
+            <img src="images/lifestyle-3.jpg" alt="" loading="eager">
+        </div>
+        <div class="inner">
+            <div class="eyebrow">Habla con la CREW</div>
+            <h1 class="word-mark">Si tienes algo<br>que decir, <span class="accent">dilo.</span></h1>
+            <p class="lede">Propuestas, prensa, catering, eventos privados. Llega aquí. Sin formularios eternos.</p>
 
-        <div class="channels">
-            <a class="channel-chip" href="mailto:marketing@thegulacorp.com"><i class="fas fa-envelope"></i> marketing@thegulacorp.com</a>
-            <a class="channel-chip" href="https://www.instagram.com/thegulacorp/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> @thegulacorp</a>
-            <a class="channel-chip" href="https://wa.me/34600000000" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp directo</a>
+            <div class="channels">
+                <a class="channel-chip" href="mailto:marketing@thegulacorp.com"><i class="fas fa-envelope"></i> marketing@thegulacorp.com</a>
+                <a class="channel-chip" href="https://www.instagram.com/thegulacorp/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> @thegulacorp</a>
+                <a class="channel-chip" href="https://wa.me/34600000000" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
         </div>
     </section>
 
