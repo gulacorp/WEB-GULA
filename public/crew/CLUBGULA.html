@@ -2899,12 +2899,14 @@
 
     // Waitlist function for Club GULA overlay
     async function joinWaitlist() {
+        console.log('joinWaitlist called');
         const emailInput = document.getElementById('waitlistEmail');
         const btn = document.getElementById('waitlistBtn');
         const successMsg = document.getElementById('waitlistSuccess');
         const errorMsg = document.getElementById('waitlistError');
 
         const email = emailInput.value.trim();
+        console.log('Email:', email);
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             showGulaToast('Email no válido. Revísalo.', false);
@@ -2920,6 +2922,7 @@
         errorMsg.style.display = 'none';
 
         try {
+            console.log('Calling waitlist function...');
             const res = await fetch(`${SUPABASE_URL}/functions/v1/waitlist`, {
                 method: 'POST',
                 headers: {
@@ -2929,7 +2932,9 @@
                 body: JSON.stringify({ email })
             });
 
+            console.log('Response status:', res.status);
             const data = await res.json();
+            console.log('Response data:', data);
 
             if (!res.ok) {
                 if (res.status === 409) {
