@@ -1749,6 +1749,7 @@
             50% { transform: translateY(-12px) rotate(2deg); }
         }
     </style>
+    <link rel="stylesheet" href="assets/css/gula-shared.css">
 </head>
 <body>
 
@@ -1765,10 +1766,7 @@
         <li><a href="franquicias.html">Franquicia</a></li>
         <li><a href="contacto.html">Contacto</a></li>
     </ul>
-    <div class="nav-right">
-        <input type="text" class="search-bar" placeholder="Buscar...">
-        <div class="cart-icon" onclick="openCart()"><img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt=""><span class="cart-count" id="cartCount">0</span></div>
-        <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+    <div class="nav-right"><a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
         <a href="club.html" class="nav-btn-primary">Pronto</a>
     </div>
 </nav>
@@ -2852,25 +2850,42 @@
     window.supabase.client = window.supabase.client || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const supabase = window.supabase.client;
 
+    // Toast helper — confirmación discreta GULA
+    function showGulaToast(message, success = true) {
+        let toast = document.querySelector('.gula-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'gula-toast';
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML = `<span class="check">${success ? '✓' : '!'}</span><span>${message}</span>`;
+        // Force reflow then show
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => toast.classList.remove('show'), 4500);
+    }
+
     // Waitlist function for Club GULA overlay
     async function joinWaitlist() {
         const emailInput = document.getElementById('waitlistEmail');
         const btn = document.getElementById('waitlistBtn');
         const successMsg = document.getElementById('waitlistSuccess');
-        
+
         const email = emailInput.value.trim();
-        
-        if (!email || !email.includes('@')) {
-            alert('Por favor ingresa un email válido');
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showGulaToast('Email no válido. Revísalo.', false);
+            emailInput.focus();
             return;
         }
-        
+
         btn.disabled = true;
-        btn.textContent = 'Registrando...';
+        const originalText = btn.textContent;
+        btn.textContent = 'Registrando…';
         btn.style.opacity = '0.7';
-        
+
         try {
-            // Guardar en tabla contactos con tipo 'waitlist'
             const { error } = await supabase
                 .from('contactos')
                 .insert({
@@ -2883,10 +2898,10 @@
                     consent_source: 'club_gula_waitlist',
                     consent_version: '2026-04'
                 });
-            
-            if (error) throw error;
-            
-            // Enviar email de confirmación
+
+            // Si el email ya existe (unique constraint) lo consideramos OK también
+            if (error && !/duplicate|unique/i.test(error.message || '')) throw error;
+
             const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
                 method: 'POST',
                 headers: {
@@ -2904,21 +2919,25 @@
                     }
                 })
             });
-            
+
+            // No bloquear UX si el email falla; ya está en BD
             if (!emailRes.ok) {
-                console.error('Email error:', await emailRes.text());
-                throw new Error('No se pudo enviar el email');
+                console.warn('Email send warning:', await emailRes.text());
             }
-            
+
             emailInput.value = '';
-            successMsg.style.display = 'block';
+            if (successMsg) {
+                successMsg.style.display = 'block';
+                successMsg.innerHTML = '<strong>Estás dentro.</strong> Revisa tu email para confirmar.';
+            }
             btn.style.display = 'none';
-            
+            showGulaToast('Estás en la lista. Revisa tu email.', true);
+
         } catch (error) {
             console.error('Waitlist error:', error);
-            alert('Hubo un error al registrar tu email. Por favor intenta de nuevo.');
+            showGulaToast('No pudimos guardarte. Intenta de nuevo.', false);
             btn.disabled = false;
-            btn.textContent = 'Notificarme cuando esté listo';
+            btn.textContent = originalText;
             btn.style.opacity = '1';
         }
     }

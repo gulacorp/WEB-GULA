@@ -336,10 +336,21 @@
 
         .blog-hero {
             position: relative;
-            padding: 5rem 2rem 3rem;
+            min-height: 78vh;
+            padding: 120px 40px 80px;
             text-align: center;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
         }
+        .blog-hero .bh-backdrop{position:absolute;inset:0;z-index:0;overflow:hidden}
+        .blog-hero .bh-backdrop img{width:100%;height:100%;object-fit:cover;filter:contrast(1.12) saturate(0.65) brightness(0.42);transform:scale(1.04)}
+        .blog-hero .bh-backdrop::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(255,88,0,0.32),transparent 50%,rgba(0,0,0,0.7)),linear-gradient(180deg,rgba(5,5,5,0.55) 0%,transparent 32%,transparent 60%,#050505 100%);mix-blend-mode:multiply}
+        .blog-hero .bh-backdrop::after{content:'';position:absolute;inset:0;z-index:2;opacity:0.24;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;mix-blend-mode:overlay;pointer-events:none}
+        .blog-hero::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,88,0,0.45),transparent);z-index:5}
+        .blog-hero .inner-wrap{position:relative;z-index:3;max-width:840px;margin:0 auto}
         .blog-hero .eyebrow {
             font-family: 'Akira Expanded', sans-serif;
             font-size: 0.7rem;
@@ -351,8 +362,9 @@
         }
         .blog-hero h1 {
             font-family: 'Aveline', sans-serif;
-            font-size: clamp(2.2rem, 6vw, 4rem);
-            line-height: 1.05;
+            font-weight: 900;
+            font-size: clamp(2.4rem, 5.6vw, 4.4rem);
+            line-height: 1;
             letter-spacing: 1px;
             color: #fff;
             background: none;
@@ -361,7 +373,7 @@
             background-clip: initial;
             margin-bottom: 1.2rem;
         }
-        .blog-hero h1 .or { color: var(--gula-orange); text-shadow: 0 0 30px rgba(255,88,0,0.5); }
+        .blog-hero h1 .or { color: var(--gula-orange); font-style: italic; text-shadow: 0 0 45px rgba(255,88,0,0.55), 0 0 120px rgba(255,88,0,0.2); }
         .blog-hero .lede {
             font-size: 1.05rem;
             color: var(--text-secondary);
@@ -447,6 +459,7 @@
             margin: 2.5rem -1.5rem;
             border-radius: 18px;
             overflow: hidden;
+            isolation: isolate;
             position: relative;
             border: 1px solid rgba(255,88,0,0.2);
             box-shadow: 0 20px 50px rgba(0,0,0,0.4);
@@ -460,18 +473,26 @@
             opacity: 0.6;
             mix-blend-mode: overlay;
         }
+        .gula-shot::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(255,88,0,0.22), rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.6));
+            mix-blend-mode: soft-light;
+            pointer-events: none;
+        }
         .gula-shot img {
             width: 100%;
             height: auto;
             max-height: 520px;
-            object-fit: contain;
+            object-fit: cover;
             display: block;
-            filter: grayscale(90%) brightness(0.45) blur(1.2px);
-            transition: filter 1s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: contrast(1.08) saturate(0.85) brightness(0.92);
+            transition: filter 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .gula-shot:hover img {
-            filter: grayscale(0%) brightness(1.05) blur(0) saturate(1.2);
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
         .gula-shot:hover {
             border-color: rgba(255,88,0,0.5);
@@ -721,6 +742,7 @@
         }
 
     </style>
+    <link rel="stylesheet" href="assets/css/gula-shared.css">
 </head>
 <body class="gula-atmosphere">
     <div class="grain"></div>
@@ -742,50 +764,31 @@
             <li><a href="franquicias.html">Franquicia</a></li>
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
-        <div class="nav-right">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
-            <div class="cart-icon" onclick="openCart()"><img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt=""><span class="cart-count" id="cartCount">0</span></div>
-            <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+        <div class="nav-right"><a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
             <a href="club.html" class="nav-btn-primary">Pronto</a>
         </div>
     </nav>
 
     <main>
-        <!-- BLOG HERO -->
-        <div class="blog-hero" style="position: relative; overflow: hidden;">
-            <div class="aurora-orb o1"></div>
-            <div class="aurora-orb o2"></div>
-            <div class="collage-bg">
-                <img src="images/lifestyle-1.jpg" alt="">
-                <img src="images/lifestyle-2.jpg" alt="">
-                <img src="images/producto-nuevo-1.jpg" alt="">
-                <img src="images/modelo-1.jpg" alt="">
-                <img src="images/lifestyle-3.jpg" alt="">
-                <img src="images/producto-nuevo-5.jpg" alt="">
-                <img src="images/lifestyle-4.jpg" alt="">
-                <img src="images/modelo-3.jpg" alt="">
-                <img src="images/producto-nuevo-7.jpg" alt="">
-                <img src="images/lifestyle-6.jpg" alt="">
-                <img src="images/producto-nuevo-10.jpg" alt="">
-                <img src="images/modelo-5.jpg" alt="">
+        <!-- HERO CINEMATOGRÁFICO -->
+        <section class="blog-hero heat-haze">
+            <div class="bh-backdrop">
+                <img src="images/lifestyle-4.jpg" alt="" loading="eager">
             </div>
-            <div class="collage-overlay"></div>
-            <div style="position: relative; z-index: 1;" class="spotlight">
-                <div class="eyebrow reveal">La historia</div>
-                <h1 class="reveal">No vendemos hamburguesas.<br>Construimos un <span class="or">culto</span>.</h1>
-                <p class="lede reveal">Una cocina oscura. Una obsesión enfermiza por el producto. Y una comunidad que no solo come — decide.</p>
+            <div class="inner-wrap">
+                <div class="eyebrow reveal">Capítulo 01 · La historia</div>
+                <h1 class="reveal heat-text">Pecar nos hace humanos.<br>GULA <span class="or">lo celebra</span>.</h1>
+                <p class="lede reveal">Una cocina oscura. Una obsesión por el detalle. Y una CREW que vota lo que vendemos.</p>
                 <div class="meta-row reveal">
-                    <span><img src="images/graficos/1.png" style="width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:0.4rem;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""> 2023</span>
-                    <span><img src="images/graficos/2.png" style="width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:0.4rem;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""> 4 puntos</span>
-                    <span><img src="images/graficos/3.png" style="width:16px;height:16px;object-fit:contain;vertical-align:-3px;margin-right:0.4rem;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""> España</span>
+                    <span>2023</span>
+                    <span>4 sedes</span>
+                    <span>España</span>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- ARTICLE BODY -->
         <article class="article" style="position: relative;">
-            <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:20px;right:10px;animation:decoFloat 11s ease-in-out infinite;" alt="">
-            <img src="images/graficos/3.png" class="gula-deco" style="bottom:40px;left:10px;animation:decoFloat 13s ease-in-out infinite reverse;" alt="">
             <h2 class="reveal">El <span class="or">origen</span></h2>
             <p class="reveal">Nacimos en una cocina sin nombre. Sin logo. Sin Instagram. Solo una plancha, carne de verdad y la pregunta: ¿se puede hacer la mejor smash burger de España sin presupuesto?</p>
             <p class="reveal">Los primeros pedidos se repitieron solos. Sin ads, sin promos. El boca a boca hizo lo que ninguna campaña podría haber hecho. Lo que iba a ser un experimento se volvió inevitable.</p>
@@ -794,11 +797,11 @@
                 <img src="images/lifestyle-5.jpg" alt="GULA origins">
             </div>
 
-            <div class="pull-quote reveal">No queremos ser la cadena más grande. Queremos ser la más deseada.</div>
+            <div class="pull-quote reveal">Queremos ser la más deseada. La más grande viene después.</div>
 
             <h2 class="reveal">El <span class="or">sistema</span></h2>
-            <p class="reveal">GULA no es un restaurante con app de puntos. Es un ecosistema donde la CREW — nuestra comunidad — acumula, sube de nivel, desbloquea drops y, sobre todo, vota. Tú decides qué entra en la carta, qué se queda, y qué desaparece.</p>
-            <p class="reveal">Comer aquí no es un acto puntual. Es un juego con recompensas reales para gente que quiere ser parte de algo más grande que una hamburguesa.</p>
+            <p class="reveal">La CREW acumula, sube de nivel, desbloquea drops y vota. Tú decides qué entra en la carta, qué se queda y qué desaparece. La fidelización clásica te da puntos. Esto te da voto.</p>
+            <p class="reveal">Comer aquí es entrar en un juego con recompensas reales. Para gente que entiende que el restaurante es solo la excusa.</p>
 
             <div class="gula-shot reveal">
                 <img src="images/producto-nuevo-7.jpg" alt="GULA product">
@@ -807,24 +810,24 @@
             <div class="pull-quote reveal">Lo que antes era fidelización, aquí es poder.</div>
 
             <h2 class="reveal">Los <span class="or">fundadores</span></h2>
-            <p class="reveal">Dos hermanos. Dos obsesiones complementarias. Uno construye marca, el otro construye máquinas operativas. Juntos diseñaron un modelo que escala sin perder identidad.</p>
+            <p class="reveal">Dos hermanos. Dos obsesiones complementarias. Uno construye marca. El otro construye máquinas operativas. Juntos diseñaron un modelo que escala sin perder identidad.</p>
             <div class="people-grid reveal">
                 <div class="person-card founder spotlight">
                     <div class="person-avatar">GP</div>
                     <div class="person-name">GONZALO PAEZ</div>
                     <div class="person-role">CEO · Brand & Product</div>
-                    <p class="person-bio">+10 años escalando marcas en consumo, publicidad digital y restauración. La visión creativa detrás de todo.</p>
+                    <p class="person-bio">+10 años escalando marcas en consumo, publicidad digital y restauración. La visión creativa detrás del producto.</p>
                 </div>
                 <div class="person-card founder spotlight">
                     <div class="person-avatar">AP</div>
                     <div class="person-name">ANTONIO PAEZ</div>
                     <div class="person-role">COO · Operations & Scale</div>
-                    <p class="person-bio">Hostelería internacional y grandes operaciones. Diseña el sistema que hace que GULA funcione a cualquier escala.</p>
+                    <p class="person-bio">Hostelería internacional y grandes operaciones. Diseña el sistema que escala sin perder identidad.</p>
                 </div>
             </div>
 
             <h2 class="reveal">La <span class="or">máquina</span> detrás</h2>
-            <p class="reveal">Cada burger que llega a tu mesa tiene detrás un equipo obsesionado con que el sistema no falle: finanzas, growth, supply chain, tecnología.</p>
+            <p class="reveal">Cada burger que sale tiene detrás un equipo obsesionado: finanzas, growth, supply chain, tecnología. Lo invisible que hace que lo visible funcione.</p>
             <div class="people-grid reveal">
                 <div class="person-card spotlight">
                     <div class="person-avatar">MB</div>

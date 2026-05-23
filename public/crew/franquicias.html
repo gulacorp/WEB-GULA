@@ -146,8 +146,8 @@
             text-shadow: 0 0 40px rgba(255,88,0,0.45), 0 0 100px rgba(255,88,0,0.18);
         }
 
-        /* Cinematic hero backdrop */
-        .franq-hero{position:relative;min-height:52vh;padding:90px 40px 50px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;margin:-3rem -2rem 2rem}
+        /* Cinematic hero backdrop full-bleed */
+        .franq-hero{position:relative;min-height:78vh;padding:120px 40px 80px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;margin:-3rem calc(50% - 50vw) 3rem;width:100vw}
         .franq-hero .backdrop{position:absolute;inset:0;z-index:0;overflow:hidden}
         .franq-hero .backdrop img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1) saturate(0.65) brightness(0.4)}
         .franq-hero .backdrop::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(255,88,0,0.3),transparent 50%,rgba(0,0,0,0.65)),linear-gradient(180deg,rgba(5,5,5,0.5) 0%,transparent 30%,transparent 55%,#050505 100%);mix-blend-mode:multiply}
@@ -470,6 +470,8 @@
         .kpi-card{padding:2.2rem 1rem 1.8rem}
         .kpi-card .kpi-num{font-size:clamp(2.4rem,5.5vw,3.2rem);font-style:italic;letter-spacing:-1px}
         .benefit-card .benefit-icon{display:none}
+        .benefit-card{position:relative;padding-top:2.8rem}
+        .benefit-card[data-num]::before{content:attr(data-num);position:absolute;top:1rem;right:1.2rem;font-family:'Aveline',sans-serif;font-style:italic;font-weight:900;font-size:2.2rem;line-height:1;color:var(--gula-orange);opacity:0.7;letter-spacing:-1px}
         .model-card .badge img{display:none}
         .model-card .badge{position:relative;width:auto;background:none;border:none;padding:0}
         .model-card .badge::before{content:attr(data-num);font-family:'Aveline',sans-serif;font-size:2rem;font-weight:900;font-style:italic;color:var(--gula-orange);letter-spacing:-1px;line-height:1}
@@ -489,6 +491,7 @@
         }
 
     </style>
+    <link rel="stylesheet" href="assets/css/gula-shared.css">
 </head>
 <body class="gula-atmosphere">
     <div class="grain"></div>
@@ -510,13 +513,7 @@
             <li><a href="franquicias.html" style="color: var(--gula-orange);">Franquicia</a></li>
             <li><a href="contacto.html">Contacto</a></li>
         </ul>
-        <div class="nav-right">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Buscar...">
-            <div class="cart-icon" onclick="openCart()">
-                <img src="images/graficos/Diablito.png" style="width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.4));" alt="">
-                <span class="cart-count" id="cartCount">0</span>
-            </div>
-            <a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+        <div class="nav-right"><a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
             <a href="club.html" class="nav-btn-primary">Pronto</a>
         </div>
     </nav>
@@ -524,30 +521,30 @@
     <main>
         <div class="aurora-orb o1"></div>
         <div class="aurora-orb o2"></div>
-        <div class="container" style="position: relative; z-index: 1;">
+        <!-- Cinematic hero full-bleed -->
+        <section class="franq-hero reveal heat-haze">
+            <div class="backdrop"><img src="images/modelo-7.jpg" alt="" loading="eager"></div>
+            <div class="inner">
+                <div class="eyebrow" style="margin-bottom: 1.2rem;">Expansión · Crónica de la CREW</div>
+                <h1 class="heat-text">Buscamos <span class="or">cómplices</span>.</h1>
+                <p class="intro-text" style="text-align:center;margin:0 auto;font-size:1rem;max-width:560px;line-height:1.75;color:#d8d8d8">
+                    4 sedes operando. Ticket medio 22 €. Recurrencia 61 %. Payback estimado en 24 meses.
+                    Detrás, una CREW de 3.000 personas que vota lo que vendemos.
+                </p>
+            </div>
+        </section>
 
-            <!-- Cinematic hero -->
-            <section class="franq-hero reveal">
-                <div class="backdrop"><img src="images/lifestyle-6.jpg" alt="" loading="eager"></div>
-                <div class="inner">
-                    <div class="eyebrow" style="margin-bottom: 1.2rem;">Expansión · Crew</div>
-                    <h1>No buscamos<br>franquiciados. <span class="or">Buscamos<br>cómplices.</span></h1>
-                    <p class="intro-text" style="text-align:center;margin:0 auto;font-size:1rem;max-width:560px;line-height:1.75;color:#d8d8d8">
-                        4 sedes. Ticket 22 €. Recurrencia 61 %. Payback 24 meses. Y un Club que convierte
-                        clientes en CREW. Si lo tuyo es hacer las cosas bien — sigue leyendo.
-                    </p>
-                </div>
-            </section>
+        <div class="container" style="position: relative; z-index: 1;">
 
             <!-- NÚMEROS CLAVE -->
             <h2 class="sect-heading reveal">Los números · 02</h2>
             <div class="kpi-grid reveal" style="position: relative;">
-                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito.png" alt=""></div><div class="kpi-num">4</div><div class="kpi-label">Tiendas</div></div>
-                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div><div class="kpi-num">61%</div><div class="kpi-label">Recurrencia</div></div>
-                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div><div class="kpi-num">40%</div><div class="kpi-label">Retención</div></div>
-                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/1.png" alt=""></div><div class="kpi-num">22</div><div class="kpi-label">Ticket medio (€)</div></div>
-                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/2.png" alt=""></div><div class="kpi-num">24</div><div class="kpi-label">Meses payback*</div></div>
-                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/3.png" alt=""></div><div class="kpi-num">3000</div><div class="kpi-label">CREW activos</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-num">4</div><div class="kpi-label">Tiendas</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-num">61%</div><div class="kpi-label">Recurrencia</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-num">40%</div><div class="kpi-label">Retención</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-num">22</div><div class="kpi-label">Ticket medio (€)</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-num">24</div><div class="kpi-label">Meses payback*</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-num">3000</div><div class="kpi-label">CREW activos</div></div>
             </div>
             <p style="text-align:center; color:#666; font-size:0.75rem; margin-top:-1rem; margin-bottom:3rem;">*Payback estimado para el modelo Standard</p>
 
@@ -629,10 +626,10 @@
             <!-- POR QUÉ FUNCIONA -->
             <h2 class="sect-heading reveal">Por qué GULA · 05</h2>
             <div class="benefits-grid reveal">
-                <div class="benefit-card" data-tilt><div class="benefit-icon"><img src="images/graficos/Diablito.png" alt=""></div><h3>Datos reales</h3><p>4 tiendas operando. Números de venta, recurrencia y retención sobre la mesa.</p></div>
-                <div class="benefit-card" data-tilt><div class="benefit-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div><h3>El Club</h3><p>Sistema de fidelización propio que convierte una visita en diez.</p></div>
-                <div class="benefit-card" data-tilt><div class="benefit-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div><h3>Todo centralizado</h3><p>Formación, marketing, supply chain, tech y operaciones desde central.</p></div>
-                <div class="benefit-card" data-tilt><div class="benefit-icon"><img src="images/graficos/Diablito_GULA_fantasma.png" alt=""></div><h3>No es una burger más</h3><p>Producto, identidad y comunidad. Esto no compite con fast food genérico.</p></div>
+                <div class="benefit-card spotlight" data-num="01"><h3>Números sobre la mesa</h3><p>4 sedes operando. Ventas, recurrencia, retención. Cero promesas, todo dato.</p></div>
+                <div class="benefit-card spotlight" data-num="02"><h3>El Club</h3><p>Sistema de fidelización propio. Convierte una visita en diez.</p></div>
+                <div class="benefit-card spotlight" data-num="03"><h3>Todo centralizado</h3><p>Formación, marketing, supply chain, tech y operaciones desde central.</p></div>
+                <div class="benefit-card spotlight" data-num="04"><h3>Identidad propia</h3><p>Producto, comunidad, marca. No competimos con fast food. Jugamos otro deporte.</p></div>
             </div>
 
             <div class="gula-shot reveal">
