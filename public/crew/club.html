@@ -1170,29 +1170,33 @@
         <div class="phase-lock-card">
             <div class="phase-lock-kicker">Pronto</div>
             <div class="phase-lock-title" id="phaseLockTitle">CREW?...</div>
-            <p class="phase-lock-text" style="margin-bottom: 28px; color: #aaa; font-size: 0.82rem; font-family: 'Akira Expanded', sans-serif; text-transform: uppercase; letter-spacing: 1.5px;">Algo se est&aacute; cocinando. D&eacute;janos tu email y ser&aacute;s de los primeros.</p>
 
-            <div class="waitlist-form" style="margin-top: 0; max-width: 380px; margin-left: auto; margin-right: auto;">
+            <div class="waitlist-form" style="margin-top: 32px; max-width: 420px; margin-left: auto; margin-right: auto;">
                 <input type="email" id="waitlistEmail" placeholder="tu@email.com"
-                       style="width: 100%; padding: 14px 20px; border: 1.5px solid rgba(255,88,0,0.25);
-                              border-radius: 14px; background: rgba(255,255,255,0.04); color: #fff;
-                              font-size: 0.95rem; font-family: 'Inter', sans-serif; outline: none; margin-bottom: 14px;
-                              box-sizing: border-box; transition: border-color 0.3s;">
-                <div style="display: flex; gap: 10px;">
+                       style="width: 100%; padding: 18px 24px; border: 2px solid rgba(255,88,0,0.3);
+                              border-radius: 16px; background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+                              color: #fff; font-size: 1rem; font-family: 'Inter', sans-serif; outline: none; margin-bottom: 16px;
+                              box-sizing: border-box; transition: all 0.3s ease; backdrop-filter: blur(10px);
+                              box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                <div style="display: flex; gap: 12px;">
                     <button id="waitlistBtn" onclick="joinWaitlist()"
-                            class="phase-lock-action" style="flex: 1; margin: 0; padding: 14px 0; font-size: 0.68rem;">
-                        Av&iacute;same
+                            class="phase-lock-action" style="flex: 1; margin: 0; padding: 16px 0; font-size: 0.72rem; letter-spacing: 1.5px;
+                            background: linear-gradient(135deg, #FF5800 0%, #FF7A29 100%); border: none; color: #000;
+                            box-shadow: 0 8px 25px rgba(255,88,0,0.4); transition: all 0.3s ease;">
+                        Avísame
                     </button>
                     <a class="phase-lock-action" href="marketplace.html"
-                       style="flex: 1; margin: 0; padding: 14px 0; font-size: 0.68rem; background: transparent; border: 1.5px solid var(--gula-orange); color: var(--gula-orange);">
+                       style="flex: 1; margin: 0; padding: 16px 0; font-size: 0.72rem; letter-spacing: 1.5px;
+                       background: transparent; border: 2px solid rgba(255,88,0,0.5); color: var(--gula-orange);
+                       transition: all 0.3s ease;">
                         Ver la carta
                     </a>
                 </div>
-                <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 0.8rem; margin-top: 14px; text-align: center;">
-                    Hecho. Te avisaremos.
+                <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 0.9rem; margin-top: 16px; text-align: center; font-weight: 600; letter-spacing: 0.5px;">
+                    ✓ Estás en la lista. Te avisaremos.
                 </p>
-                <p id="waitlistError" style="display: none; color: #ff4444; font-size: 0.8rem; margin-top: 14px; text-align: center;">
-                    Error. Int&eacute;ntalo de nuevo.
+                <p id="waitlistError" style="display: none; color: #ff4444; font-size: 0.85rem; margin-top: 16px; text-align: center;">
+                    Error. Inténtalo de nuevo.
                 </p>
             </div>
         </div>
