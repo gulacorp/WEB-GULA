@@ -1781,11 +1781,30 @@
     <div class="phase-lock-card">
         <div class="phase-lock-kicker">Pronto</div>
         <div class="phase-lock-title" id="phaseLockTitle">CREW?...</div>
-        <div style="margin-top: 20px;">
-            <a class="phase-lock-action" href="marketplace.html"
-               style="display: inline-block; padding: 14px 40px; font-size: 0.68rem;">
-                Ver la carta
-            </a>
+        <p class="phase-lock-text" style="margin-bottom: 28px; color: #aaa; font-size: 0.82rem; font-family: 'Akira Expanded', sans-serif; text-transform: uppercase; letter-spacing: 1.5px;">Algo se est&aacute; cocinando. D&eacute;janos tu email y ser&aacute;s de los primeros.</p>
+
+        <div class="waitlist-form" style="margin-top: 0; max-width: 380px; margin-left: auto; margin-right: auto;">
+            <input type="email" id="waitlistEmail" placeholder="tu@email.com"
+                   style="width: 100%; padding: 14px 20px; border: 1.5px solid rgba(255,88,0,0.25);
+                          border-radius: 14px; background: rgba(255,255,255,0.04); color: #fff;
+                          font-size: 0.95rem; font-family: 'Inter', sans-serif; outline: none; margin-bottom: 14px;
+                          box-sizing: border-box; transition: border-color 0.3s;">
+            <div style="display: flex; gap: 10px;">
+                <button id="waitlistBtn" onclick="joinWaitlist()"
+                        class="phase-lock-action" style="flex: 1; margin: 0; padding: 14px 0; font-size: 0.68rem;">
+                    Avísame
+                </button>
+                <a class="phase-lock-action" href="marketplace.html"
+                   style="flex: 1; margin: 0; padding: 14px 0; font-size: 0.68rem; background: transparent; border: 1.5px solid var(--gula-orange); color: var(--gula-orange);">
+                    Ver la carta
+                </a>
+            </div>
+            <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 0.8rem; margin-top: 14px; text-align: center;">
+                Hecho. Te avisaremos.
+            </p>
+            <p id="waitlistError" style="display: none; color: #ff4444; font-size: 0.8rem; margin-top: 14px; text-align: center;">
+                Error. Inténtalo de nuevo.
+            </p>
         </div>
     </div>
 </div>
@@ -2879,6 +2898,7 @@
         const emailInput = document.getElementById('waitlistEmail');
         const btn = document.getElementById('waitlistBtn');
         const successMsg = document.getElementById('waitlistSuccess');
+        const errorMsg = document.getElementById('waitlistError');
 
         const email = emailInput.value.trim();
 
@@ -2892,60 +2912,43 @@
         const originalText = btn.textContent;
         btn.textContent = 'Registrando…';
         btn.style.opacity = '0.7';
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
 
         try {
-            const { error } = await supabase
-                .from('contactos')
-                .insert({
-                    nombre: 'Waitlist',
-                    email: email,
-                    tipo: 'waitlist',
-                    mensaje: 'Interesado en notificaciones Club GULA',
-                    privacy_accepted: true,
-                    marketing_consent: true,
-                    consent_source: 'club_gula_waitlist',
-                    consent_version: '2026-04'
-                });
-
-            // Si el email ya existe (unique constraint) lo consideramos OK también
-            if (error && !/duplicate|unique/i.test(error.message || '')) throw error;
-
-            const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+            const res = await fetch(`${SUPABASE_URL}/functions/v1/waitlist`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
                 },
-                body: JSON.stringify({
-                    to: email,
-                    type: 'waitlist',
-                    data: {
-                        nombre: 'Miembro futuro',
-                        email: email,
-                        tipo: 'waitlist',
-                        mensaje: 'Te avisaremos cuando GULA CREW esté disponible'
-                    }
-                })
+                body: JSON.stringify({ email })
             });
 
-            // No bloquear UX si el email falla; ya está en BD
-            if (!emailRes.ok) {
-                console.warn('Email send warning:', await emailRes.text());
-            }
+            const data = await res.json();
 
-            emailInput.value = '';
-            if (successMsg) {
+            if (!res.ok) {
+                if (res.status === 409) {
+                    // Email already in waitlist - show success anyway
+                    successMsg.style.display = 'block';
+                    emailInput.value = '';
+                } else {
+                    throw new Error(data.error || 'Error al registrarse');
+                }
+            } else {
                 successMsg.style.display = 'block';
-                successMsg.innerHTML = '<strong>Estás dentro.</strong> Revisa tu email para confirmar.';
+                emailInput.value = '';
             }
-            btn.style.display = 'none';
-            showGulaToast('Estás en la lista. Revisa tu email.', true);
 
-        } catch (error) {
-            console.error('Waitlist error:', error);
-            showGulaToast('No pudimos guardarte. Intenta de nuevo.', false);
-            btn.disabled = false;
             btn.textContent = originalText;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+
+        } catch (err) {
+            console.error('Waitlist error:', err);
+            errorMsg.style.display = 'block';
+            btn.textContent = originalText;
+            btn.disabled = false;
             btn.style.opacity = '1';
         }
     }
