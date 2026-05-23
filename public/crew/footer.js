@@ -60,7 +60,7 @@
             <div>
                 <h4>Navegación</h4>
                 <ul>
-                    <li><a href="gulatemplate.html">Inicio</a></li>
+                    <li><a href="index.html">Inicio</a></li>
                     <li><a href="sobre.html">Nosotros</a></li>
                     <li><a href="marketplace.html">Menú</a></li>
                     <li><a href="CLUBGULA.html">Club GULA</a></li>
