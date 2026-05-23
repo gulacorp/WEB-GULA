@@ -16,7 +16,17 @@
         :root { --gula-orange:#FF5800; --gula-orange-light:#FF7A29; --bg-dark:#000; --bg-card:#111; --text-primary:#fff; --text-secondary:#b0b0b0; --border-color:rgba(255,88,0,0.3); --border-color-strong:rgba(255,88,0,0.6); }
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         html{scroll-behavior:smooth}
-        body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden;line-height:1.6}
+        body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-primary);overflow-x:hidden;line-height:1.6;position:relative}
+        body::before{content:'';position:fixed;width:400px;height:400px;background:#FF5800;border-radius:50%;filter:blur(100px);opacity:0.25;top:-100px;left:-100px;animation:auroraShift 18s ease-in-out infinite;pointer-events:none;z-index:0}
+        body::after{content:'';position:fixed;width:350px;height:350px;background:#FF7A29;border-radius:50%;filter:blur(100px);opacity:0.2;bottom:-80px;right:-80px;animation:auroraShift 22s ease-in-out infinite reverse;pointer-events:none;z-index:0}
+        @keyframes auroraShift{0%,100%{transform:translate(0,0)scale(1)}33%{transform:translate(30px,-30px)scale(1.1)}66%{transform:translate(-20px,20px)scale(0.95)}}
+        .aurora-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.4;pointer-events:none;z-index:0}
+        .aurora-orb.o1{width:350px;height:350px;background:#FF5800;top:-100px;left:-100px;animation:auroraShift 18s ease-in-out infinite}
+        .aurora-orb.o2{width:280px;height:280px;background:#FF7A29;bottom:-80px;right:-80px;animation:auroraShift 22s ease-in-out infinite reverse}
+        .spotlight{position:relative;overflow:hidden;isolation:isolate}
+        .spotlight::before{content:'';position:absolute;inset:0;background:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%),rgba(255,88,0,0.15),transparent);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:0}
+        .spotlight:hover::before{opacity:1}
+        .spotlight>*{position:relative;z-index:1}
 
         /* NAVBAR — estándar único */
         nav{position:fixed;top:0;width:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border-bottom:2px solid var(--border-color);padding:0 28px;z-index:1000;display:flex;justify-content:space-between;align-items:center;height:72px;box-shadow:0 8px 32px rgba(255,88,0,0.1);overflow:hidden}
@@ -41,7 +51,7 @@
         .nav-btn-primary{background:linear-gradient(135deg,#FF5800,#FF7A29);color:#000;padding:8px 13px;border-radius:999px;font-family:'Akira Expanded',sans-serif;font-weight:900;font-size:0.62rem;text-decoration:none;text-transform:uppercase;letter-spacing:0.8px;transition:all 0.3s;white-space:nowrap}
         .nav-btn-primary:hover{transform:scale(1.05)}
 
-        main{padding-top:80px;min-height:100vh}
+        main{padding-top:80px;min-height:100vh;position:relative;z-index:1}
 
         /* HERO */
         .service-hero{padding:120px 40px 80px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at center,rgba(255,88,0,0.15) 0%,transparent 70%)}

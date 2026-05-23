@@ -30,7 +30,84 @@
             background: var(--bg-dark);
             color: var(--text-primary);
             line-height: 1.6;
+            position: relative;
         }
+        body::before {
+            content: '';
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: #FF5800;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            top: -100px;
+            left: -100px;
+            animation: auroraShift 18s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            background: #FF7A29;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            bottom: -80px;
+            right: -80px;
+            animation: auroraShift 22s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes auroraShift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+        .aurora-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .aurora-orb.o1 {
+            width: 350px;
+            height: 350px;
+            background: #FF5800;
+            top: -100px;
+            left: -100px;
+            animation: auroraShift 18s ease-in-out infinite;
+        }
+        .aurora-orb.o2 {
+            width: 280px;
+            height: 280px;
+            background: #FF7A29;
+            bottom: -80px;
+            right: -80px;
+            animation: auroraShift 22s ease-in-out infinite reverse;
+        }
+        .spotlight {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        .spotlight::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle 200px at var(--mx, 50%) var(--my, 50%), rgba(255,88,0,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .spotlight:hover::before { opacity: 1; }
+        .spotlight > * { position: relative; z-index: 1; }
 
         nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid rgba(255, 88, 0, 0.2); padding: 0 28px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 72px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
         nav::before { content: 'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Aveline', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255, 88, 0, 0.08); white-space: nowrap; letter-spacing: 20px; animation: slideHorizontal 20s linear infinite; z-index: -1; pointer-events: none; }
@@ -59,6 +136,8 @@
         main {
             padding-top: 120px;
             min-height: 100vh;
+            position: relative;
+            z-index: 1;
         }
 
         .container {

@@ -72,6 +72,35 @@
             66% { transform: translate(-20px, 20px) scale(0.95); }
         }
 
+        .aurora-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .aurora-orb.o1 { width: 350px; height: 350px; background: #FF5800; top: -100px; left: -100px; animation: auroraShift 18s ease-in-out infinite; }
+        .aurora-orb.o2 { width: 280px; height: 280px; background: #FF7A29; bottom: -80px; right: -80px; animation: auroraShift 22s ease-in-out infinite reverse; }
+
+        .spotlight {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        .spotlight::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle 200px at var(--mx, 50%) var(--my, 50%), rgba(255,88,0,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .spotlight:hover::before { opacity: 1; }
+        .spotlight > * { position: relative; z-index: 1; }
+
         nav { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px); border-bottom: 2px solid rgba(255, 88, 0, 0.2); padding: 0 28px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 72px; box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1); overflow: hidden; }
         nav::before { content: 'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: 'Aveline', sans-serif; font-size: 2rem; font-weight: 900; color: rgba(255, 88, 0, 0.08); white-space: nowrap; letter-spacing: 20px; animation: slideHorizontal 20s linear infinite; z-index: -1; pointer-events: none; }
         @keyframes slideHorizontal { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
@@ -714,7 +743,9 @@
 
     <main>
         <!-- BLOG HERO -->
-        <div class="blog-hero" style="position: relative;">
+        <div class="blog-hero" style="position: relative; overflow: hidden;">
+            <div class="aurora-orb o1"></div>
+            <div class="aurora-orb o2"></div>
             <div class="collage-bg">
                 <img src="images/lifestyle-1.jpg" alt="">
                 <img src="images/lifestyle-2.jpg" alt="">
@@ -730,11 +761,7 @@
                 <img src="images/modelo-5.jpg" alt="">
             </div>
             <div class="collage-overlay"></div>
-            <div class="aurora-orb o1"></div>
-            <div class="aurora-orb o2"></div>
-            <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:20px;right:10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
-            <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:30px;left:10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
-            <div style="position: relative; z-index: 1;">
+            <div style="position: relative; z-index: 1;" class="spotlight">
                 <div class="eyebrow reveal">Sobre Nosotros</div>
                 <h1 class="reveal">No vendemos hamburguesas.<br>Construimos un <span class="or">sistema</span>.</h1>
                 <p class="lede reveal">La historia detrás de GULA: una cocina oscura, una obsesión con el producto, y una comunidad que decide.</p>
