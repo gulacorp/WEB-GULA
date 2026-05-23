@@ -10,6 +10,8 @@ const corsHeaders = {
 
 serve(async (req) => {
   try {
+    console.log('Waitlist function called')
+    
     if (req.method === 'OPTIONS') {
       return new Response('ok', { headers: corsHeaders })
     }
@@ -22,24 +24,44 @@ serve(async (req) => {
     }
 
     const { email } = await req.json()
+    console.log('Email received:', email)
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.log('Invalid email')
       return new Response(JSON.stringify({ error: 'Invalid email' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
 
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+    console.log('SUPABASE_URL:', supabaseUrl)
+    console.log('SUPABASE_SERVICE_ROLE_KEY exists:', !!supabaseKey)
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('Missing Supabase credentials')
+      return new Response(JSON.stringify({ error: 'Server configuration error' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      })
+    }
+    
     const supabase = createClient(supabaseUrl, supabaseKey)
 
     // Check if email already exists
-    const { data: existing } = await supabase
+    console.log('Checking if email exists...')
+    const { data: existing, error: checkError } = await supabase
       .from('waitlist')
       .select('id')
       .eq('email', email)
       .single()
+
+    if (checkError && checkError.code !== 'PGRST116') {
+      console.error('Check error:', checkError)
+    }
+    
+    console.log('Existing:', existing)
 
     if (existing) {
       return new Response(JSON.stringify({ 
@@ -52,6 +74,7 @@ serve(async (req) => {
     }
 
     // Insert into waitlist
+    console.log('Inserting into waitlist...')
     const { data, error } = await supabase
       .from('waitlist')
       .insert({ email })
@@ -59,17 +82,20 @@ serve(async (req) => {
       .single()
 
     if (error) {
-      console.error('Supabase error:', error)
-      return new Response(JSON.stringify({ error: 'Failed to add to waitlist' }), {
+      console.error('Supabase insert error:', error)
+      return new Response(JSON.stringify({ error: 'Failed to add to waitlist', details: error.message }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
+    
+    console.log('Insert successful:', data)
 
     // Trigger email notification via send-email function
     try {
+      console.log('Sending email notification...')
       const resendUrl = `${supabaseUrl}/functions/v1/send-email`
-      await fetch(resendUrl, {
+      const emailRes = await fetch(resendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,6 +108,11 @@ serve(async (req) => {
           data: { email }
         })
       })
+      console.log('Email response status:', emailRes.status)
+      if (!emailRes.ok) {
+        const emailError = await emailRes.text()
+        console.error('Email response error:', emailError)
+      }
     } catch (emailError) {
       console.error('Email notification failed:', emailError)
       // Don't fail the request if email fails
@@ -98,7 +129,7 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Edge function error:', error)
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ error: 'Internal server error', details: error.message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })
