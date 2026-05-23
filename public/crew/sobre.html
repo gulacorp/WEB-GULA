@@ -10,6 +10,7 @@
     <meta name="description" content="Conoce la historia de GULA, nuestra filosofía, equipo y el sistema de valores que impulsa cada burger que hacemos.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/gula-atmosphere.css">
     <style>
         :root {
             --gula-orange: #FF5800;
@@ -34,6 +35,8 @@
             overflow-x: hidden;
         }
 
+        body.gula-atmosphere::before { background: radial-gradient(ellipse 55% 45% at 12% 18%, rgba(255,88,0,0.10), transparent 65%), radial-gradient(ellipse 45% 55% at 88% 82%, rgba(255,50,0,0.07), transparent 65%), radial-gradient(ellipse 70% 35% at 50% 105%, rgba(255,88,0,0.05), transparent 55%); width: auto !important; height: auto !important; inset: 0 !important; top: 0 !important; left: 0 !important; filter: none !important; opacity: 1 !important; animation: none !important; border-radius: 0 !important; }
+        body.gula-atmosphere::after { background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.55) 100%); width: auto !important; height: auto !important; inset: 0 !important; top: 0 !important; left: auto !important; right: auto !important; bottom: 0 !important; filter: none !important; opacity: 1 !important; animation: none !important; border-radius: 0 !important; }
         body::before {
             content: '';
             position: fixed;
@@ -719,7 +722,13 @@
 
     </style>
 </head>
-<body>
+<body class="gula-atmosphere">
+    <div class="grain"></div>
+    <div class="smoke s1"></div>
+    <div class="smoke s2"></div>
+    <div class="smoke s3"></div>
+    <div class="embers" id="embers"></div>
+
     <nav id="mainNav">
         <div class="nav-logo" onclick="window.location.href='index.html'">GULA</div>
         <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
@@ -883,6 +892,7 @@ document.querySelectorAll('.nav-center a').forEach(function(link) {
     });
 });
 </script>
+<script src="assets/js/gula-atmosphere.js"></script>
 <script src="assets/js/cookie-consent.js"></script>
 </body>
 </html>

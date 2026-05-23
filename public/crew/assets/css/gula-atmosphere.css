@@ -1,0 +1,296 @@
+/* GULA · ATMOSFERA PREMIUM
+   Capa visual cinematográfica reutilizable.
+   Inspiración: thegulacorp Instagram, Club GULA section.
+   Aplicar agregando <div class="grain"></div> + <div class="smoke s1"></div>...
+   y la clase 'gula-atmosphere' al body. */
+
+:root{
+  --gula-orange:#FF5800;
+  --gula-orange-2:#FF7A29;
+  --gula-ember:#FFB870;
+  --gula-ink:#050505;
+  --gula-ink-2:#0a0a0a;
+  --gula-line:rgba(255,88,0,0.16);
+  --gula-line-strong:rgba(255,88,0,0.45);
+  --gula-text:#fff;
+  --gula-text-2:#a8a8a8;
+  --gula-text-3:#6a6a6a;
+  --gula-ease:cubic-bezier(.22,1,.36,1);
+}
+
+/* ========== ATMOSPHERE LAYERS ========== */
+body.gula-atmosphere{background:var(--gula-ink);color:var(--gula-text)}
+
+.grain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.045;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;mix-blend-mode:overlay;
+}
+
+.atmo-glow{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 45% at 12% 18%,rgba(255,88,0,0.10),transparent 65%),
+    radial-gradient(ellipse 45% 55% at 88% 82%,rgba(255,50,0,0.07),transparent 65%),
+    radial-gradient(ellipse 70% 35% at 50% 105%,rgba(255,88,0,0.05),transparent 55%);
+}
+.atmo-vignette{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,0.35) 0%,transparent 18%,transparent 82%,rgba(0,0,0,0.55) 100%);
+}
+
+.smoke{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;mix-blend-mode:screen;will-change:transform}
+.smoke.s1{width:560px;height:560px;background:rgba(255,88,0,0.07);top:-15%;left:-8%;animation:gula-drift 26s ease-in-out infinite}
+.smoke.s2{width:440px;height:440px;background:rgba(255,60,0,0.05);bottom:-12%;right:-6%;animation:gula-drift 32s ease-in-out infinite reverse}
+.smoke.s3{width:340px;height:340px;background:rgba(255,120,40,0.04);top:42%;left:62%;animation:gula-drift 38s ease-in-out infinite 5s}
+@keyframes gula-drift{
+  0%,100%{transform:translate(0,0) scale(1)}
+  25%{transform:translate(40px,-30px) scale(1.15)}
+  50%{transform:translate(-20px,40px) scale(0.92)}
+  75%{transform:translate(30px,20px) scale(1.06)}
+}
+
+.embers{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.ember{position:absolute;width:3px;height:3px;background:var(--gula-ember);border-radius:50%;
+  box-shadow:0 0 6px rgba(255,184,112,0.8);opacity:0;animation:gula-ember linear infinite}
+@keyframes gula-ember{
+  0%{transform:translate(0,100vh) scale(0);opacity:0}
+  10%{opacity:0.85}
+  50%{transform:translate(20px,50vh) scale(1)}
+  90%{opacity:0.4}
+  100%{transform:translate(-15px,-15vh) scale(0.6);opacity:0}
+}
+
+/* Subtle scan lines for that analog feel */
+.scanlines{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.04;
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(255,255,255,0.5) 2px,rgba(255,255,255,0.5) 3px)}
+
+/* ========== TYPOGRAPHY ========== */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Akira Expanded',sans-serif;
+  font-size:0.65rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gula-orange);opacity:0.9;margin-bottom:24px;
+}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--gula-orange);opacity:0.6}
+.eyebrow::after{content:'';width:24px;height:1px;background:var(--gula-orange);opacity:0.6}
+
+.eyebrow-line{
+  font-family:'Akira Expanded',sans-serif;
+  font-size:0.65rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gula-orange);opacity:0.85;
+}
+
+.display-h1{
+  font-family:'Aveline',sans-serif;font-weight:900;
+  font-size:clamp(3.2rem,9vw,7rem);line-height:0.95;letter-spacing:1px;
+  text-transform:uppercase;
+}
+.display-h1 .accent{
+  color:var(--gula-orange);
+  text-shadow:0 0 40px rgba(255,88,0,0.45),0 0 100px rgba(255,88,0,0.18);
+  font-style:italic;
+}
+
+.display-h2{
+  font-family:'Aveline',sans-serif;font-weight:900;
+  font-size:clamp(2.2rem,5.5vw,4rem);line-height:1;letter-spacing:1px;
+  text-transform:uppercase;
+}
+.display-h2 .accent{color:var(--gula-orange);text-shadow:0 0 30px rgba(255,88,0,0.3)}
+
+.lede{
+  font-size:1.1rem;color:var(--gula-text-2);line-height:1.75;
+  font-weight:300;letter-spacing:0.2px;
+}
+
+/* ========== SECTION DIVIDERS ========== */
+.divider-line{
+  height:1px;width:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,88,0,0.35) 30%,rgba(255,88,0,0.35) 70%,transparent);
+}
+.divider-orange{
+  display:inline-block;width:60px;height:2px;
+  background:var(--gula-orange);box-shadow:0 0 20px rgba(255,88,0,0.5);
+  margin:24px 0;
+}
+
+/* ========== PREMIUM GLASS PANELS (Club GULA style) ========== */
+.glass-panel{
+  position:relative;
+  border-radius:24px;
+  border:1px solid rgba(255,88,0,0.18);
+  background:linear-gradient(160deg,rgba(20,20,20,0.78),rgba(0,0,0,0.86));
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:44px 38px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.glass-panel::before{
+  content:'';position:absolute;
+  width:340px;height:340px;border-radius:50%;
+  top:-160px;right:-140px;
+  background:radial-gradient(circle,rgba(255,88,0,0.22),transparent 65%);
+  filter:blur(20px);pointer-events:none;z-index:-1;
+}
+.glass-panel::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,88,0,0.5),transparent);
+  opacity:0;transition:opacity 0.5s var(--gula-ease);
+}
+.glass-panel:hover::after{opacity:1}
+
+.glass-panel .kicker{
+  font-family:'Akira Expanded',sans-serif;
+  color:var(--gula-orange);font-size:0.62rem;
+  letter-spacing:4px;text-transform:uppercase;
+  margin-bottom:16px;display:block;opacity:0.85;
+}
+.glass-panel h3{
+  font-family:'Aveline',sans-serif;
+  font-size:clamp(1.6rem,3.5vw,2.4rem);
+  font-weight:900;letter-spacing:1px;
+  text-transform:uppercase;line-height:1.05;
+  margin-bottom:18px;
+}
+.glass-panel h3 .accent{color:var(--gula-orange)}
+.glass-panel p{
+  color:var(--gula-text-2);font-size:0.95rem;
+  line-height:1.7;font-weight:300;
+}
+
+/* ========== ORBIT VISUAL (Club GULA inspiration) ========== */
+.orbit-visual{
+  position:relative;min-height:380px;
+  border-radius:28px;
+  background:radial-gradient(circle at 50% 50%,rgba(255,88,0,0.12),transparent 70%);
+  border:1px solid rgba(255,88,0,0.12);
+  overflow:hidden;isolation:isolate;
+}
+.orbit-visual::before,.orbit-visual::after{
+  content:'';position:absolute;inset:18%;
+  border:1px dashed rgba(255,88,0,0.25);border-radius:50%;
+  animation:orbitMorph 10s ease-in-out infinite;
+}
+.orbit-visual::after{
+  inset:28%;border-color:rgba(255,255,255,0.08);
+  animation-duration:14s;animation-direction:reverse;
+}
+@keyframes orbitMorph{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  50%{transform:rotate(180deg) scale(1.05)}
+}
+.orbit-core{
+  position:absolute;inset:50% auto auto 50%;
+  transform:translate(-50%,-50%);
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,var(--gula-orange),rgba(255,88,0,0.2));
+  box-shadow:0 0 80px rgba(255,88,0,0.5),inset 0 0 40px rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Aveline',sans-serif;font-weight:900;font-size:2.4rem;
+  color:#000;letter-spacing:2px;z-index:2;
+}
+.orbit-chip{
+  position:absolute;display:inline-flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:999px;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,88,0,0.4);
+  font-family:'Akira Expanded',sans-serif;font-size:0.6rem;
+  letter-spacing:2px;text-transform:uppercase;
+  color:#fff;z-index:3;
+}
+.orbit-chip.c1{top:14%;left:8%}
+.orbit-chip.c2{top:16%;right:6%}
+.orbit-chip.c3{bottom:18%;left:11%}
+.orbit-chip.c4{bottom:14%;right:8%}
+
+/* ========== FLOW CARDS (3-step horizontal grid) ========== */
+.flow-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;
+}
+.flow-card{
+  position:relative;padding:18px 20px;border-radius:14px;
+  border:1px solid rgba(255,88,0,0.18);
+  background:rgba(255,255,255,0.025);
+  transition:all 0.4s var(--gula-ease);
+}
+.flow-card:hover{border-color:rgba(255,88,0,0.4);background:rgba(255,88,0,0.04);transform:translateY(-2px)}
+.flow-card strong{
+  display:block;font-family:'Akira Expanded',sans-serif;
+  font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gula-orange);margin-bottom:6px;
+}
+.flow-card span{color:var(--gula-text-2);font-size:0.78rem;line-height:1.45}
+@media (max-width:760px){.flow-grid{grid-template-columns:1fr}}
+
+/* ========== SPOTLIGHT CURSOR ========== */
+.spotlight{position:relative;overflow:hidden;isolation:isolate}
+.spotlight::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(circle 280px at var(--mx,50%) var(--my,50%),rgba(255,88,0,0.14),transparent 60%);
+  opacity:0;transition:opacity 0.4s var(--gula-ease);
+}
+.spotlight:hover::before{opacity:1}
+.spotlight>*{position:relative;z-index:1}
+
+/* ========== MAGNETIC PILL BUTTON ========== */
+.btn-pill{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;border-radius:999px;
+  font-family:'Akira Expanded',sans-serif;
+  font-size:0.78rem;letter-spacing:2.5px;text-transform:uppercase;
+  font-weight:900;text-decoration:none;cursor:pointer;border:none;
+  transition:all 0.4s var(--gula-ease);
+  position:relative;overflow:hidden;
+}
+.btn-pill.primary{
+  background:var(--gula-orange);color:#000;
+  box-shadow:0 0 40px rgba(255,88,0,0.3),0 4px 20px rgba(255,88,0,0.2);
+}
+.btn-pill.primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 70px rgba(255,88,0,0.55),0 8px 30px rgba(255,88,0,0.35);
+}
+.btn-pill.outline{
+  background:transparent;color:var(--gula-orange);
+  border:1px solid var(--gula-orange);
+}
+.btn-pill.outline:hover{background:rgba(255,88,0,0.1);transform:translateY(-2px)}
+.btn-pill.ghost{
+  background:rgba(255,255,255,0.04);color:#fff;
+  border:1px solid rgba(255,255,255,0.12);
+}
+.btn-pill.ghost:hover{border-color:rgba(255,88,0,0.5);color:var(--gula-orange)}
+
+/* ========== SECTION SCAFFOLDING ========== */
+.section-block{padding:120px 40px;max-width:1200px;margin:0 auto;position:relative;z-index:2}
+.section-narrow{max-width:880px}
+.section-header{text-align:center;margin-bottom:64px}
+.two-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch}
+@media (max-width:900px){.two-grid{grid-template-columns:1fr;gap:32px}.section-block{padding:80px 24px}}
+
+/* ========== STAT TICKERS ========== */
+.stat-row{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:64px;
+  padding:60px 40px;position:relative;
+}
+.stat-row::before,.stat-row::after{
+  content:'';position:absolute;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,88,0,0.3),transparent);
+}
+.stat-row::before{top:0}.stat-row::after{bottom:0}
+.stat-cell{text-align:center}
+.stat-cell .num{
+  font-family:'Aveline',sans-serif;font-size:3rem;font-weight:900;
+  color:var(--gula-orange);letter-spacing:2px;
+  text-shadow:0 0 30px rgba(255,88,0,0.25);
+}
+.stat-cell .lbl{
+  font-family:'Akira Expanded',sans-serif;
+  font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gula-text-3);margin-top:8px;
+}
+
+/* ========== REVEAL ANIMATION ========== */
+.reveal-up{opacity:0;transform:translateY(24px);transition:opacity 0.9s var(--gula-ease),transform 0.9s var(--gula-ease)}
+.reveal-up.in{opacity:1;transform:none}

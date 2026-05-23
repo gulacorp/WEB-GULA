@@ -10,6 +10,7 @@
     <meta name="description" content="Abre tu propia GULA. Franquicias de hamburguesas premium con soporte total, sistema probado y altos márgenes.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/gula-atmosphere.css">
     <style>
         :root {
             --gula-orange: #FF5800;
@@ -27,7 +28,6 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
             color: var(--text-primary);
             line-height: 1.6;
             position: relative;
@@ -35,37 +35,21 @@
         body::before {
             content: '';
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: #FF5800;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.25;
-            top: -100px;
-            left: -100px;
-            animation: auroraShift 18s ease-in-out infinite;
-            pointer-events: none;
+            inset: 0;
             z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 55% 45% at 12% 18%, rgba(255,88,0,0.10), transparent 65%),
+                radial-gradient(ellipse 45% 55% at 88% 82%, rgba(255,50,0,0.07), transparent 65%),
+                radial-gradient(ellipse 70% 35% at 50% 105%, rgba(255,88,0,0.05), transparent 55%);
         }
         body::after {
             content: '';
             position: fixed;
-            width: 350px;
-            height: 350px;
-            background: #FF7A29;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.2;
-            bottom: -80px;
-            right: -80px;
-            animation: auroraShift 22s ease-in-out infinite reverse;
-            pointer-events: none;
+            inset: 0;
             z-index: 0;
-        }
-        @keyframes auroraShift {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.95); }
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.55) 100%);
         }
         .aurora-orb {
             position: absolute;
@@ -148,14 +132,19 @@
 
         h1 {
             font-family: 'Aveline', sans-serif;
-            font-size: clamp(2.2rem, 6vw, 3.5rem);
-            margin-bottom: 1rem;
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1.4rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: #fff;
-            line-height: 1.05;
+            line-height: 0.95;
+            font-weight: 900;
         }
-        h1 .or { color: var(--gula-orange); text-shadow: 0 0 30px rgba(255,88,0,0.5); }
+        h1 .or {
+            color: var(--gula-orange);
+            font-style: italic;
+            text-shadow: 0 0 50px rgba(255,88,0,0.5), 0 0 120px rgba(255,88,0,0.2);
+        }
 
         .intro-text {
             font-size: 1.05rem;
@@ -172,9 +161,7 @@
             66% { transform: translate(-30px,30px) scale(0.95); }
         }
         @keyframes conicSpin { to { transform: rotate(360deg); } }
-        .aurora-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; pointer-events: none; z-index: 0; }
-        .aurora-orb.o1 { width: 380px; height: 380px; background: #FF5800; top: 10%; left: -100px; animation: auroraShift 20s ease-in-out infinite; }
-        .aurora-orb.o2 { width: 300px; height: 300px; background: #FF7A29; top: 50%; right: -80px; animation: auroraShift 24s ease-in-out infinite reverse; }
+        .aurora-orb { display: none; }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -490,7 +477,13 @@
 
     </style>
 </head>
-<body>
+<body class="gula-atmosphere">
+    <div class="grain"></div>
+    <div class="smoke s1"></div>
+    <div class="smoke s2"></div>
+    <div class="smoke s3"></div>
+    <div class="embers" id="embers"></div>
+
     <nav id="mainNav">
         <div class="nav-logo" onclick="window.location.href='index.html'">GULA</div>
         <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
@@ -521,14 +514,14 @@
         <div class="container" style="position: relative; z-index: 1;">
             <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-30px;right:-20px;animation:decoFloat 10s ease-in-out infinite;" alt="">
             <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:-20px;left:-20px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
-            <div style="text-align: center; margin-bottom: 1rem;" class="reveal">
-                <div style="font-family: 'Akira Expanded', sans-serif; font-size: 0.7rem; letter-spacing: 4px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 0.8rem; opacity: 0.85;">Expansión</div>
-                <h1>Monta tu propia <span class="or">GULA</span></h1>
+            <div style="text-align: center; margin: 2rem 0 1.4rem;" class="reveal">
+                <div class="eyebrow" style="margin-bottom: 1.4rem;">Expansión · Crew</div>
+                <h1>No buscamos<br>franquiciados.<br><span class="or">Buscamos<br>cómplices.</span></h1>
             </div>
-            <p class="intro-text reveal" style="text-align: center; margin: 0 auto 3rem;">
-                No buscamos franquiciados. Buscamos gente obsesionada con hacer las cosas bien.
-                Un sistema validado, ticket medio de 22€, recurrencia del 61% y un Club que convierte
-                clientes en comunidad. Si encajas, hablemos.
+            <p class="intro-text reveal" style="text-align: center; margin: 0 auto 3.5rem; font-size: 1.15rem; max-width: 640px; line-height: 1.8;">
+                Sistema validado en 4 sedes. Ticket medio 22€, recurrencia 61%, payback estimado 24 meses.
+                Detrás, un Club que convierte clientes en CREW activa. Si lo tuyo es hacer las cosas bien
+                y no firmas nada que no entiendas — sigue leyendo.
             </p>
 
             <div class="gula-shot reveal">
@@ -540,12 +533,12 @@
             <div class="kpi-grid reveal" style="position: relative;">
                 <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-20px;right:-10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
                 <img src="images/graficos/3.png" class="gula-deco" style="bottom:-20px;left:-10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
-                <div class="kpi-card" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito.png" alt=""></div><div class="kpi-num">4</div><div class="kpi-label">Tiendas</div></div>
-                <div class="kpi-card" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div><div class="kpi-num">61%</div><div class="kpi-label">Recurrencia</div></div>
-                <div class="kpi-card" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div><div class="kpi-num">40%</div><div class="kpi-label">Retención</div></div>
-                <div class="kpi-card" data-tilt><div class="kpi-icon"><img src="images/graficos/1.png" alt=""></div><div class="kpi-num">22</div><div class="kpi-label">Ticket medio (€)</div></div>
-                <div class="kpi-card" data-tilt><div class="kpi-icon"><img src="images/graficos/2.png" alt=""></div><div class="kpi-num">24</div><div class="kpi-label">Meses payback*</div></div>
-                <div class="kpi-card" data-tilt><div class="kpi-icon"><img src="images/graficos/3.png" alt=""></div><div class="kpi-num">3000</div><div class="kpi-label">CREW activos</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito.png" alt=""></div><div class="kpi-num">4</div><div class="kpi-label">Tiendas</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div><div class="kpi-num">61%</div><div class="kpi-label">Recurrencia</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div><div class="kpi-num">40%</div><div class="kpi-label">Retención</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/1.png" alt=""></div><div class="kpi-num">22</div><div class="kpi-label">Ticket medio (€)</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/2.png" alt=""></div><div class="kpi-num">24</div><div class="kpi-label">Meses payback*</div></div>
+                <div class="kpi-card spotlight" data-tilt><div class="kpi-icon"><img src="images/graficos/3.png" alt=""></div><div class="kpi-num">3000</div><div class="kpi-label">CREW activos</div></div>
             </div>
             <p style="text-align:center; color:#666; font-size:0.75rem; margin-top:-1rem; margin-bottom:3rem;">*Payback estimado para el modelo Standard</p>
 
@@ -553,7 +546,7 @@
             <h2 class="sect-heading reveal">— Formatos —</h2>
             <h3 class="sect-title reveal">Tres tiers. <span class="or">Mismo ADN.</span></h3>
             <div class="models-grid reveal">
-                <div class="model-card m-flagship" data-tilt>
+                <div class="model-card m-flagship spotlight" data-tilt>
                     <div class="inner">
                         <div class="head">
                             <div class="badge"><img src="images/graficos/Diablito.png" class="gula-icon" style="width:40px;height:40px;" alt=""></div>
@@ -571,7 +564,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="model-card m-standard" data-tilt>
+                <div class="model-card m-standard spotlight" data-tilt>
                     <div class="inner">
                         <div class="head">
                             <div class="badge"><img src="images/graficos/Diablito_sentado_1.png" class="gula-icon" style="width:40px;height:40px;" alt=""></div>
@@ -589,7 +582,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="model-card m-dark" data-tilt>
+                <div class="model-card m-dark spotlight" data-tilt>
                     <div class="inner">
                         <div class="head">
                             <div class="badge"><img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-icon" style="width:40px;height:40px;" alt=""></div>
@@ -707,6 +700,7 @@ document.querySelectorAll('.nav-center a').forEach(function(link) {
     });
 });
 </script>
+<script src="assets/js/gula-atmosphere.js"></script>
 <script src="assets/js/cookie-consent.js"></script>
 </body>
 </html>
