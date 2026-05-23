@@ -58,15 +58,11 @@
   }
 
   // ---------- Blur frame for inline photos ----------
-  // Auto-applies to .gula-shot and any [data-blur-frame] containers.
-  // Reads inner <img src> and sets --blur-src CSS variable so the
-  // wrapper can display a blurred ambient background while the image
-  // itself is shown with object-fit:contain (no crop, no quality loss).
+  // Only applies to explicit [data-blur-frame] containers (NOT .gula-shot).
+  // .gula-shot uses its own full-cover styling with object-fit:cover.
   function bindBlurFrames(){
-    const wrappers = document.querySelectorAll('.gula-shot, [data-blur-frame]');
+    const wrappers = document.querySelectorAll('[data-blur-frame]');
     wrappers.forEach(w => {
-      // Mark wrapper as blur-frame target so shared CSS applies
-      w.setAttribute('data-blur-frame', 'true');
       const img = w.querySelector('img');
       if(!img) return;
       const apply = () => {

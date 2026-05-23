@@ -39,8 +39,10 @@
   box-shadow:0 6px 22px rgba(255,88,0,0.4);
 }
 @media(max-width:768px){
+  .nav-right{display:none !important}
+  nav.mobile-open .nav-right{display:flex !important;flex-direction:column;width:100%;order:4;padding:6px 8px 0;gap:10px}
   .nav-right .nav-btn-outline,
-  .nav-right .nav-btn-primary{min-width:0}
+  .nav-right .nav-btn-primary{min-width:0;width:100%;justify-content:center}
 }
 
 /* ============ HEAT HAZE — sutil sensación de calor ============ */

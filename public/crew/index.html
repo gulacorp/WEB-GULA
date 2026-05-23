@@ -1097,6 +1097,9 @@
         }
         .cta-card {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 1.5rem 1.2rem;
             background: rgba(20,20,20,0.55);
             backdrop-filter: blur(10px);
@@ -2482,6 +2485,9 @@
             .hero { padding: 100px 20px 40px; margin-top: 70px; min-height: 70vh; }
             .hero h1 { font-size: 2rem; }
             .hero-subtitle { font-size: 1rem; }
+            .hero-cta-trio { grid-template-columns: 1fr; gap: 0.8rem; max-width: 320px; }
+            .cta-card { flex-direction: row; padding: 1rem 1.2rem; text-align: left; gap: 1rem; }
+            .cta-card .cta-icon { width: 50px; height: 50px; margin: 0; flex-shrink: 0; }
             .about-container { grid-template-columns: 1fr; gap: 40px; }
             .about-visual { height: 300px; }
             .products-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -2489,8 +2495,6 @@
             section { padding: 60px 20px; }
             .section-title { font-size: 2rem; }
             .btn-pill { padding: 0.85rem 1.8rem; font-size: 0.8rem; }
-            .cta-card { padding: 1.5rem; }
-            .cta-icon { width: 56px; height: 56px; }
             .sys-row { padding: 1.2rem 1rem; }
             .sys-row i { font-size: 1.4rem; }
             .sys-row strong { font-size: 1rem; }
