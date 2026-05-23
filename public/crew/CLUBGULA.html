@@ -1740,7 +1740,7 @@
     <div class="phase-lock-card">
         <div class="phase-lock-kicker">Pronto</div>
         <div class="phase-lock-title" id="phaseLockTitle">CREW?...</div>
-        <p class="phase-lock-text">Todavía no. Lo estamos cocinando lento para que entre como tiene que entrar.</p>
+        <p class="phase-lock-text"></p>
         
         <div class="waitlist-form" style="margin-top: 25px;">
             <input type="email" id="waitlistEmail" placeholder="Tu email para notificaciones" 
@@ -1750,7 +1750,7 @@
             <button id="waitlistBtn" onclick="joinWaitlist()" 
                     style="width: 100%; padding: 12px 24px; background: linear-gradient(135deg, #FF5800, #E64A00); 
                            color: #000; border: none; border-radius: 25px; font-weight: 700; font-size: 14px; 
-                           cursor: pointer; text-transform: uppercase; letter-spacing: 1px;">
+                           cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: 'Akira Expanded', sans-serif;">
                 Notificarme cuando esté listo
             </button>
             <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 12px; margin-top: 10px; text-align: center;">
@@ -2829,7 +2829,8 @@
         }
         
         btn.disabled = true;
-        btn.textContent = 'Agregando...';
+        btn.textContent = 'Registrando...';
+        btn.style.opacity = '0.7';
         
         try {
             // Guardar en tabla contactos con tipo 'waitlist'
@@ -2867,17 +2868,21 @@
                 })
             });
             
-            if (!emailRes.ok) throw new Error('No se pudo enviar el email');
+            if (!emailRes.ok) {
+                console.error('Email error:', await emailRes.text());
+                throw new Error('No se pudo enviar el email');
+            }
             
             emailInput.value = '';
             successMsg.style.display = 'block';
             btn.style.display = 'none';
             
         } catch (error) {
-            console.error('[WAITLIST ERROR]', error);
-            alert('Error al agregar a la waitlist. Por favor intenta de nuevo.');
+            console.error('Waitlist error:', error);
+            alert('Hubo un error al registrar tu email. Por favor intenta de nuevo.');
             btn.disabled = false;
             btn.textContent = 'Notificarme cuando esté listo';
+            btn.style.opacity = '1';
         }
     }
 
