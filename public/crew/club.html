@@ -959,6 +959,43 @@
             background: rgba(0, 0, 0, 0.58);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+
+        .phase-lock::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: #FF5800;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            top: -100px;
+            left: -100px;
+            animation: auroraShift 18s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .phase-lock::after {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: #FF7A29;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            bottom: -80px;
+            right: -80px;
+            animation: auroraShift 22s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes auroraShift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
         }
 
         .phase-lock-card {
@@ -1146,10 +1183,10 @@
                               border-radius: 25px; background: rgba(0,0,0,0.3); color: #fff; 
                               font-size: 14px; outline: none; margin-bottom: 10px; box-sizing: border-box;">
                 <button id="waitlistBtn" onclick="joinWaitlist()" 
-                        style="width: 100%; padding: 12px 24px; background: linear-gradient(135deg, #FF5800, #E64A00); 
-                               color: #000; border: none; border-radius: 25px; font-weight: 700; font-size: 14px; 
-                               cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: 'Akira Expanded', sans-serif;">
-                    Notificarme cuando esté listo
+                        style="width: 100%; padding: 14px 24px; background: linear-gradient(135deg, #FF5800, #E64A00); 
+                               color: #000; border: none; border-radius: 25px; font-weight: 700; font-size: 0.72rem; 
+                               cursor: pointer; text-transform: uppercase; letter-spacing: 1.3px; font-family: 'Akira Expanded', sans-serif;">
+                    Notificame
                 </button>
                 <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 12px; margin-top: 10px; text-align: center;">
                     ✓ Te avisaremos cuando GULA CREW esté disponible
