@@ -1631,9 +1631,9 @@
             display: grid;
             place-items: center;
             padding: 24px;
-            background: rgba(0, 0, 0, 0.58);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(32px) saturate(0.6);
+            -webkit-backdrop-filter: blur(32px) saturate(0.6);
             overflow: hidden;
         }
 
@@ -1729,12 +1729,18 @@
         .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
         .hamburger-btn:hover { transform: scale(1.1); }
         @media (max-width: 768px) {
-            nav { overflow: visible; flex-wrap: wrap; }
-            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
-            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
-            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav { overflow: visible; flex-wrap: wrap; justify-content: space-between; padding: 0 20px; }
+            nav.mobile-open { height: auto; padding-bottom: 18px; background: rgba(0,0,0,0.97); }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-left: auto; }
+            .nav-center { display: none; }
+            .nav-right { display: none; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; width: 100%; order: 3; padding: 18px 8px 6px; gap: 6px; border-top: 1px solid rgba(255,88,0,0.15); margin-top: 14px; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.08); padding-bottom: 10px; list-style: none; }
             nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
-            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+            nav.mobile-open .nav-center a { font-size: 1rem; padding: 10px 4px; display: block; letter-spacing: 1.5px; }
+            nav.mobile-open .nav-right { display: flex; flex-direction: column; width: 100%; order: 4; padding: 6px 8px 0; gap: 10px; }
+            nav.mobile-open .nav-right .nav-btn-outline, nav.mobile-open .nav-right .nav-btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px 20px; font-size: 0.78rem; letter-spacing: 1.5px; }
+            .nav-logo { font-size: 1.3rem; }
         }
         .gula-deco {
             position: absolute;
@@ -1775,25 +1781,28 @@
     <div class="phase-lock-card">
         <div class="phase-lock-kicker">Pronto</div>
         <div class="phase-lock-title" id="phaseLockTitle">CREW?...</div>
-        <p class="phase-lock-text"></p>
-        
-        <div class="waitlist-form" style="margin-top: 25px;">
-            <input type="email" id="waitlistEmail" placeholder="Tu email para notificaciones" 
-                   style="width: 100%; padding: 12px 16px; border: 1px solid rgba(255,88,0,0.3); 
-                          border-radius: 25px; background: rgba(0,0,0,0.3); color: #fff; 
-                          font-size: 14px; outline: none; margin-bottom: 10px; box-sizing: border-box;">
-            <button id="waitlistBtn" onclick="joinWaitlist()" 
-                    style="width: 100%; padding: 14px 24px; background: linear-gradient(135deg, #FF5800, #E64A00); 
-                           color: #000; border: none; border-radius: 25px; font-weight: 700; font-size: 0.72rem; 
-                           cursor: pointer; text-transform: uppercase; letter-spacing: 1.3px; font-family: 'Akira Expanded', sans-serif;">
-                Notificame
-            </button>
-            <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 12px; margin-top: 10px; text-align: center;">
-                ✓ Te avisaremos cuando GULA CREW esté disponible
+        <p class="phase-lock-text" style="margin-bottom: 28px; color: #aaa; font-size: 0.95rem;">Algo se est&aacute; cocinando. D&eacute;janos tu email y ser&aacute;s de los primeros.</p>
+
+        <div class="waitlist-form" style="margin-top: 0; max-width: 380px; margin-left: auto; margin-right: auto;">
+            <input type="email" id="waitlistEmail" placeholder="tu@email.com"
+                   style="width: 100%; padding: 14px 20px; border: 1.5px solid rgba(255,88,0,0.25);
+                          border-radius: 14px; background: rgba(255,255,255,0.04); color: #fff;
+                          font-size: 0.95rem; font-family: 'Inter', sans-serif; outline: none; margin-bottom: 14px;
+                          box-sizing: border-box; transition: border-color 0.3s;">
+            <div style="display: flex; gap: 10px;">
+                <button id="waitlistBtn" onclick="joinWaitlist()"
+                        class="phase-lock-action" style="flex: 1; margin: 0; padding: 14px 0; font-size: 0.68rem;">
+                    Avísame
+                </button>
+                <a class="phase-lock-action" href="marketplace.html"
+                   style="flex: 1; margin: 0; padding: 14px 0; font-size: 0.68rem; background: transparent; border: 1.5px solid var(--gula-orange); color: var(--gula-orange);">
+                    Ver la carta
+                </a>
+            </div>
+            <p id="waitlistSuccess" style="display: none; color: #FF5800; font-size: 0.8rem; margin-top: 14px; text-align: center;">
+                Hecho. Te avisaremos.
             </p>
         </div>
-        
-        <a class="phase-lock-action" href="marketplace.html" style="margin-top: 20px;">Ver la carta</a>
     </div>
 </div>
 

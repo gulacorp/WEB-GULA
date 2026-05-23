@@ -57,7 +57,28 @@
     });
   }
 
+  // ---------- Blur frame for inline photos ----------
+  // Auto-applies to .gula-shot and any [data-blur-frame] containers.
+  // Reads inner <img src> and sets --blur-src CSS variable so the
+  // wrapper can display a blurred ambient background while the image
+  // itself is shown with object-fit:contain (no crop, no quality loss).
+  function bindBlurFrames(){
+    const wrappers = document.querySelectorAll('.gula-shot, [data-blur-frame]');
+    wrappers.forEach(w => {
+      // Mark wrapper as blur-frame target so shared CSS applies
+      w.setAttribute('data-blur-frame', 'true');
+      const img = w.querySelector('img');
+      if(!img) return;
+      const apply = () => {
+        const src = img.currentSrc || img.src;
+        if(src) w.style.setProperty('--blur-src', `url("${src}")`);
+      };
+      if(img.complete && img.naturalWidth > 0) apply();
+      else img.addEventListener('load', apply, { once:true });
+    });
+  }
+
   if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', () => { spawnEmbers(); bindSpotlight(); bindReveal(); bindMagnetic(); });
-  } else { spawnEmbers(); bindSpotlight(); bindReveal(); bindMagnetic(); }
+    document.addEventListener('DOMContentLoaded', () => { spawnEmbers(); bindSpotlight(); bindReveal(); bindMagnetic(); bindBlurFrames(); });
+  } else { spawnEmbers(); bindSpotlight(); bindReveal(); bindMagnetic(); bindBlurFrames(); }
 })();

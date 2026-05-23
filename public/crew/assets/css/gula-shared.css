@@ -99,6 +99,48 @@
   50%     { transform:translateX(8px) scaleY(1.2); opacity:0.9 }
 }
 
+/* ============ BLOG INLINE PHOTOS — blur ambient frame ============ */
+/* Activate by setting data-blur-frame="true" on the wrapper. JS in gula-atmosphere.js
+   reads the inner <img> and applies it as a blurred CSS background to the wrapper.
+   This lets us use object-fit:contain (no crop, no zoom, no quality loss)
+   while keeping a beautiful ambient frame. */
+[data-blur-frame]{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:#0a0a0a;
+}
+[data-blur-frame]::before{
+  content:'';
+  position:absolute;inset:-30px;
+  background-image:var(--blur-src);
+  background-size:cover;background-position:center;
+  filter:blur(38px) brightness(0.55) saturate(1.05);
+  transform:scale(1.1);
+  z-index:0;pointer-events:none;
+  opacity:0.85;
+}
+[data-blur-frame]::after{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,88,0,0.16),transparent 55%,rgba(0,0,0,0.45));
+  mix-blend-mode:soft-light;
+}
+[data-blur-frame] img{
+  position:relative !important;
+  z-index:2 !important;
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  max-height:520px !important;
+  object-fit:contain !important;
+  filter:contrast(1.06) saturate(0.92) !important;
+  transition:none !important;
+  transform:none !important;
+}
+[data-blur-frame]:hover img{transform:none !important;filter:contrast(1.06) saturate(0.92) !important}
+[data-blur-frame]::after{ z-index:1 !important }
+[data-blur-frame]::before{ z-index:0 !important }
+
 /* ============ CONFIRMATION TOAST ============ */
 .gula-toast{
   position:fixed;left:50%;bottom:32px;transform:translate(-50%,120%);

@@ -454,49 +454,41 @@
             font-style: italic;
         }
 
-        /* Standalone sexy shot */
+        /* Full-bleed editorial shot */
         .gula-shot {
-            margin: 2.5rem -1.5rem;
-            border-radius: 18px;
+            margin: 3rem calc(-50vw + 50%);
+            width: 100vw;
             overflow: hidden;
-            isolation: isolate;
             position: relative;
-            border: 1px solid rgba(255,88,0,0.2);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            isolation: isolate;
         }
         .gula-shot::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(255,88,0,0.08) 100%);
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
+            z-index: 1;
             pointer-events: none;
-            opacity: 0.6;
-            mix-blend-mode: overlay;
         }
         .gula-shot::before {
             content: '';
             position: absolute;
             inset: 0;
-            z-index: 1;
-            background: linear-gradient(135deg, rgba(255,88,0,0.22), rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.6));
+            z-index: 2;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="g"><feTurbulence baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23g)" opacity="0.05"/></svg>') repeat;
             mix-blend-mode: soft-light;
             pointer-events: none;
         }
         .gula-shot img {
             width: 100%;
             height: auto;
-            max-height: 520px;
+            max-height: 65vh;
             object-fit: cover;
             display: block;
-            filter: contrast(1.08) saturate(0.85) brightness(0.92);
-            transition: filter 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+            filter: contrast(1.06) saturate(0.88) brightness(0.93);
         }
         .gula-shot:hover img {
-            transform: scale(1.03);
-        }
-        .gula-shot:hover {
-            border-color: rgba(255,88,0,0.5);
-            box-shadow: 0 0 40px rgba(255,88,0,0.2), 0 20px 50px rgba(0,0,0,0.4);
+            filter: contrast(1.08) saturate(0.95) brightness(0.96);
         }
         .gula-deco {
             position: absolute;
@@ -706,12 +698,18 @@
         .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
         .hamburger-btn:hover { transform: scale(1.1); }
         @media (max-width: 768px) {
-            nav { overflow: visible; flex-wrap: wrap; }
-            .hamburger-btn { display: flex; align-items: center; justify-content: center; }
-            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
-            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            nav { overflow: visible; flex-wrap: wrap; justify-content: space-between; padding: 0 20px; }
+            nav.mobile-open { height: auto; padding-bottom: 18px; background: rgba(0,0,0,0.97); }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-left: auto; }
+            .nav-center { display: none; }
+            .nav-right { display: none; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; width: 100%; order: 3; padding: 18px 8px 6px; gap: 6px; border-top: 1px solid rgba(255,88,0,0.15); margin-top: 14px; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.08); padding-bottom: 10px; list-style: none; }
             nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
-            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+            nav.mobile-open .nav-center a { font-size: 1rem; padding: 10px 4px; display: block; letter-spacing: 1.5px; }
+            nav.mobile-open .nav-right { display: flex; flex-direction: column; width: 100%; order: 4; padding: 6px 8px 0; gap: 10px; }
+            nav.mobile-open .nav-right .nav-btn-outline, nav.mobile-open .nav-right .nav-btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px 20px; font-size: 0.78rem; letter-spacing: 1.5px; }
+            .nav-logo { font-size: 1.3rem; }
         }
 
         /* Collage background for Nosotros */
@@ -794,7 +792,7 @@
             <p class="reveal">Los primeros pedidos se repitieron solos. Sin ads, sin promos. El boca a boca hizo lo que ninguna campaña podría haber hecho. Lo que iba a ser un experimento se volvió inevitable.</p>
 
             <div class="gula-shot reveal">
-                <img src="images/modelo-1.jpg" alt="GULA delivery noche">
+                <img src="images/gula-crew-kitchen.jpg" alt="Cocina CREW">
             </div>
 
             <div class="pull-quote reveal">Queremos ser la más deseada. La más grande viene después.</div>
@@ -804,7 +802,7 @@
             <p class="reveal">Comer aquí es entrar en un juego con recompensas reales. Para gente que entiende que el restaurante es solo la excusa.</p>
 
             <div class="gula-shot reveal">
-                <img src="images/modelo-4.jpg" alt="CREW GULA">
+                <img src="images/gula-crew-gallery.jpg" alt="CREW como cultura">
             </div>
 
             <div class="pull-quote reveal">Lo que antes era fidelización, aquí es poder.</div>

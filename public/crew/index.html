@@ -2464,14 +2464,17 @@
         .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
         .hamburger-btn:hover { transform: scale(1.1); }
         @media (max-width: 768px) {
-            nav { height: 70px; padding: 0 20px; flex-wrap: wrap; overflow: visible; }
-            .hamburger-btn { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+            nav { height: 70px; padding: 0 20px; justify-content: space-between; flex-wrap: wrap; overflow: visible; }
+            nav.mobile-open { height: auto; padding-bottom: 18px; background: rgba(0,0,0,0.97); }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-left: auto; }
             .nav-center { display: none; }
-            nav.mobile-open .nav-center { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 2px solid var(--border-color); padding: 20px 28px; gap: 18px; z-index: 998; }
-            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.1); padding-bottom: 14px; }
+            .nav-right { display: none; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; width: 100%; order: 3; padding: 18px 8px 6px; gap: 6px; border-top: 1px solid rgba(255,88,0,0.15); margin-top: 14px; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.08); padding-bottom: 10px; list-style: none; }
             nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
-            nav.mobile-open .nav-center a { font-size: 1.1rem; padding: 12px 0; display: block; }
-            .nav-right .nav-btn-outline, .nav-right .nav-btn-primary { display: none; }
+            nav.mobile-open .nav-center a { font-size: 1rem; padding: 10px 4px; display: block; letter-spacing: 1.5px; }
+            nav.mobile-open .nav-right { display: flex; flex-direction: column; width: 100%; order: 4; padding: 6px 8px 0; gap: 10px; }
+            nav.mobile-open .nav-right .nav-btn-outline, nav.mobile-open .nav-right .nav-btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px 20px; font-size: 0.78rem; letter-spacing: 1.5px; }
             .nav-logo { font-size: 1.3rem; }
             .search-bar { width: 100%; }
             .hero-impact { margin-top: 70px; height: 80vh; }
@@ -2498,7 +2501,15 @@
             .hero-subtitle { font-size: 0.9rem; }
             .section-title { font-size: 1.6rem; }
             .btn-pill { padding: 0.8rem 1.5rem; font-size: 0.75rem; }
-            .cta-icon { width: 48px; height: 48px; }
+            .hero-content-section { padding: 40px 16px 30px; }
+            .hero-content h1 { font-size: 1.7rem; }
+            .hero-cta-trio { gap: 0.7rem; margin-top: 1.5rem; }
+            .cta-card { padding: 1rem 0.8rem; }
+            .cta-card .cta-icon { width: 48px; height: 48px; margin-bottom: 0.5rem; }
+            .cta-card .cta-label { font-size: 0.7rem; }
+            .cta-card .cta-sub { font-size: 0.7rem; }
+            .hero-badge { padding: 7px 16px; font-size: 0.7rem; margin-bottom: 18px; }
+            .hero-marquee img { height: 100px; }
         }
 
         /* === GLOBAL SEARCH OVERLAY (Command+F) === */
@@ -2727,7 +2738,7 @@
     </div>
 
     <section class="hero-impact" id="inicio">
-        <img src="images/2B51DE78-C3EE-4395-B60E-F1D1D7D358B5.PNG" alt="GULA Impact" class="hero-impact-image">
+        <img src="images/gula-burger-hero.png" alt="GULA" class="hero-impact-image">
         <div class="hero-impact-overlay"></div>
     </section>
 
@@ -2781,7 +2792,7 @@
 
         <div class="club-system reveal" style="position: relative; z-index: 2;">
             <div class="club-visual" style="text-align: center; margin-bottom: 2rem;">
-                <img src="images/PHOTO-2026-05-22-17-51-14.jpg" alt="Club GULA" style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(255, 88, 0, 0.3);">
+                <img src="images/gula-crew-hoodie.jpg" alt="CREW GULA" style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(255, 88, 0, 0.3);">
             </div>
             <div class="club-panel spotlight">
                 <div class="club-kicker">El sistema de la CREW</div>
