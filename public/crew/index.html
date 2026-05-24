@@ -3472,21 +3472,23 @@
                 });
                 if (!res.ok) throw new Error('No se pudo guardar el contacto');
                 
-                // Enviar email vía Edge Function
-                const emailRes = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-                    },
-                    body: JSON.stringify({
-                        to: formData.email,
-                        type: 'contacto',
-                        data: formData
-                    })
-                });
-                
-                if (!emailRes.ok) throw new Error('No se pudo enviar el email');
+                // Enviar email vía Edge Function (no-fatal si falla)
+                try {
+                    await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        },
+                        body: JSON.stringify({
+                            to: formData.email,
+                            type: 'contacto',
+                            data: formData
+                        })
+                    });
+                } catch(emailErr) {
+                    console.warn('Email no enviado:', emailErr);
+                }
                 
                 showToast('¡Mensaje enviado! Te contactaremos pronto 📧');
                 form.reset();
