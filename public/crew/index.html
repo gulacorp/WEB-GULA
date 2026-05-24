@@ -3450,11 +3450,11 @@
             btn.textContent = 'Enviando...';
             
             try {
+                const asunto = document.getElementById('contactAsunto').value;
                 const formData = {
                     nombre: document.getElementById('contactNombre').value,
                     email: document.getElementById('contactEmail').value,
-                    asunto: document.getElementById('contactAsunto').value,
-                    mensaje: document.getElementById('contactMensaje').value,
+                    mensaje: (asunto ? `[${asunto}] ` : '') + document.getElementById('contactMensaje').value,
                     tipo: 'contacto',
                     privacy_accepted: true,
                     marketing_consent: false,
@@ -3707,6 +3707,7 @@
         // 8. Smart Search - Búsqueda predictiva con highlight
         function setupSmartSearch() {
             const searchBar = document.getElementById('searchBar');
+            if (!searchBar) return;
             const originalFilter = setupSearchFilter;
             searchBar.addEventListener('input', function(e) {
                 const query = e.target.value.toLowerCase();
