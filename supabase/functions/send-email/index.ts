@@ -163,8 +163,8 @@ serve(async (req) => {
         break
 
       case 'waitlist':
-        subject = '✓ Estás en la lista - GULA CREW'
-        html = generateContactoEmail(safeData.nombre || 'Miembro futuro', safeData.email, '', '', safeData.mensaje || 'Te avisaremos cuando GULA CREW esté disponible', 'waitlist')
+        subject = 'Estás dentro. — GULA CREW'
+        html = generateWaitlistEmail(safeData.email || to)
         await notifyAdmin('Nueva inscripción waitlist Club GULA', safeData)
         break
 
@@ -257,92 +257,110 @@ function escapeHtml(value: string): string {
 
 // Templates de emails (usan CSS global de styles.ts)
 function generateContactoEmail(nombre: string, email?: string, telefono?: string, ciudad?: string, mensaje?: string, tipo?: string): string {
-  const tipoLabel = tipo ? tipo.toUpperCase() : 'CONTACTO'
   const fechaCreacion = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
   
   return wrapEmail(`
-    <div class="gula-subtitle">CONFIRMACIÓN DE CONTACTO</div>
-    <h1>HOLA, ${escapeHtml(nombre).toUpperCase()}</h1>
+    <div class="gula-subtitle">MENSAJE RECIBIDO</div>
+    <h1>HOLA, ${escapeHtml(nombre || 'AMIGO').toUpperCase()}</h1>
     
     <div style="background:linear-gradient(135deg, #FF5800 0%, #E64A00 100%);border-radius:20px;padding:40px;box-shadow:0 0 40px rgba(255,88,0,0.3);margin:30px 0;position:relative;overflow:hidden;">
       <div style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);"></div>
       <div style="position:relative;z-index:1;">
-        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:15px;">TU SOLICITUD</div>
-        <div style="color:#000;font-size:28px;font-weight:900;letter-spacing:2px;margin-bottom:20px;">${tipoLabel}</div>
-        <div style="color:rgba(0,0,0,0.6);font-size:13px;line-height:1.8;">
-          ${email ? `<div>${escapeHtml(email)}</div>` : ''}
-          ${telefono ? `<div>${escapeHtml(telefono)}</div>` : ''}
-          ${ciudad ? `<div>${escapeHtml(ciudad)}</div>` : ''}
-        </div>
-        <div style="color:rgba(0,0,0,0.4);font-size:11px;margin-top:20px;letter-spacing:1px;">${fechaCreacion}</div>
+        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:10px;">CONFIRMADO</div>
+        <div style="color:#000;font-size:26px;font-weight:900;letter-spacing:2px;line-height:1.2;">Tu mensaje<br/>llegó.</div>
+        <div style="color:rgba(0,0,0,0.5);font-size:11px;margin-top:20px;letter-spacing:1px;">${fechaCreacion}</div>
       </div>
     </div>
     
     ${mensaje ? `
     <div class="gula-card">
-      <h3>TU MENSAJE</h3>
-      <p style="color:#333;line-height:1.8;font-size:1rem;">${escapeHtml(mensaje)}</p>
+      <h3>LO QUE NOS DIJISTE</h3>
+      <p style="color:#333;line-height:1.8;font-size:0.95rem;font-style:italic;">&ldquo;${escapeHtml(mensaje)}&rdquo;</p>
     </div>
     ` : ''}
     
     <div class="gula-card">
-      <h3>GRACIAS POR CONTACTAR</h3>
-      <p style="color:#333;line-height:1.8;">Hemos recibido tu mensaje. Nuestro equipo te contactará en menos de 48 horas.</p>
+      <h3>¿Y AHORA?</h3>
+      <p style="color:#333;line-height:1.8;">Lo leeremos. Si hay algo que hablar, te escribimos — menos de 48 horas.</p>
     </div>
     
     <div class="gula-divider"></div>
     <div class="center">
       <a href="https://thegulacorp.com/marketplace.html" class="gula-btn-alt">VER LA CARTA</a>
     </div>
-    <div class="center" style="margin-top:20px;">
-      <a href="https://www.google.com/maps/search/?api=1&query=GULA+restaurant" class="gula-btn-maps">VALORAR EN GOOGLE MAPS</a>
-    </div>
     <p style="color:#666;font-size:11px;text-align:center;margin-top:40px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
-  `, { title: 'GULA - Confirmación de Contacto' })
+  `, { title: 'GULA — Mensaje recibido' })
 }
 
 function generateFranquiciaEmail(nombre: string, email?: string, telefono?: string, ciudad?: string, mensaje?: string): string {
   const fechaCreacion = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
   
   return wrapEmail(`
-    <div class="gula-subtitle">SOLICITUD DE FRANQUICIA</div>
-    <h1>HOLA, ${escapeHtml(nombre).toUpperCase()}</h1>
+    <div class="gula-subtitle">SOLICITUD DE EXPANSIÓN</div>
+    <h1>HOLA, ${escapeHtml(nombre || 'SOCIO').toUpperCase()}</h1>
     
     <div style="background:linear-gradient(135deg, #FF5800 0%, #E64A00 100%);border-radius:20px;padding:40px;box-shadow:0 0 40px rgba(255,88,0,0.3);margin:30px 0;position:relative;overflow:hidden;">
       <div style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);"></div>
       <div style="position:relative;z-index:1;">
-        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:15px;">TU INTERÉS</div>
-        <div style="color:#000;font-size:28px;font-weight:900;letter-spacing:2px;margin-bottom:20px;">FRANQUICIA</div>
-        <div style="color:rgba(0,0,0,0.6);font-size:13px;line-height:1.8;">
-          ${email ? `<div>${escapeHtml(email)}</div>` : ''}
-          ${telefono ? `<div>${escapeHtml(telefono)}</div>` : ''}
-          ${ciudad ? `<div>${escapeHtml(ciudad)}</div>` : ''}
-        </div>
-        <div style="color:rgba(0,0,0,0.4);font-size:11px;margin-top:20px;letter-spacing:1px;">${fechaCreacion}</div>
+        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:10px;">RECIBIDO</div>
+        <div style="color:#000;font-size:26px;font-weight:900;letter-spacing:2px;line-height:1.2;">Quieres<br/>llevar GULA<br/>más lejos.</div>
+        <div style="color:rgba(0,0,0,0.5);font-size:11px;margin-top:20px;letter-spacing:1px;">${fechaCreacion}</div>
       </div>
     </div>
     
     ${mensaje ? `
     <div class="gula-card">
-      <h3>TU PROYECTO</h3>
-      <p style="color:#333;line-height:1.8;font-size:1rem;">${escapeHtml(mensaje)}</p>
+      <h3>TU PROPUESTA</h3>
+      <p style="color:#333;line-height:1.8;font-size:0.95rem;font-style:italic;">&ldquo;${escapeHtml(mensaje)}&rdquo;</p>
     </div>
     ` : ''}
     
     <div class="gula-card">
-      <h3>ÚNETE A LA FAMILIA</h3>
-      <p style="color:#333;line-height:1.8;">Hemos recibido tu solicitud de franquicia. Nuestro equipo de expansión te contactará en menos de 48 horas.</p>
+      <h3>SIGUIENTE PASO</h3>
+      <p style="color:#333;line-height:1.8;">Nuestro equipo de expansión ya tiene tu solicitud. Te contactamos — menos de 48 horas. Si encaja, hablamos números.</p>
+    </div>
+    
+    <div class="gula-divider"></div>
+    <div class="center">
+      <a href="https://thegulacorp.com/franquicias.html" class="gula-btn-alt">VER EL MODELO</a>
+    </div>
+    <p style="color:#666;font-size:11px;text-align:center;margin-top:40px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
+  `, { title: 'GULA — Solicitud de franquicia recibida' })
+}
+
+function generateWaitlistEmail(email: string): string {
+  const fechaCreacion = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+  
+  return wrapEmail(`
+    <div class="gula-subtitle">CLUB GULA · CREW</div>
+    <h1>YA ESTÁS<br/>DENTRO.</h1>
+    
+    <div style="background:linear-gradient(135deg, #FF5800 0%, #E64A00 100%);border-radius:20px;padding:40px;box-shadow:0 0 40px rgba(255,88,0,0.3);margin:30px 0;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="color:#000;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin-bottom:10px;">LISTA DE ESPERA</div>
+        <div style="color:#000;font-size:26px;font-weight:900;letter-spacing:2px;line-height:1.3;">Cuando GULA CREW<br/>abra sus puertas,<br/>tú serás el primero.</div>
+        <div style="color:rgba(0,0,0,0.5);font-size:11px;margin-top:20px;letter-spacing:1px;">${fechaCreacion}</div>
+      </div>
+    </div>
+    
+    <div class="gula-card">
+      <h3>¿QUÉ ES LA CREW?</h3>
+      <p style="color:#333;line-height:1.8;">Un club gastronómico sin límites. Puntos, recompensas, acceso anticipado a platos, eventos exclusivos. No es una tarjeta de fidelización — es otra forma de comer.</p>
+    </div>
+    
+    <div class="gula-card">
+      <h3>MIENTRAS TANTO</h3>
+      <p style="color:#333;line-height:1.8;">La carta ya está disponible. Pide, come, y cuando CREW arranque, ya tendrás ventaja.</p>
     </div>
     
     <div class="gula-divider"></div>
     <div class="center">
       <a href="https://thegulacorp.com/marketplace.html" class="gula-btn-alt">VER LA CARTA</a>
     </div>
-    <div class="center" style="margin-top:20px;">
-      <a href="https://www.google.com/maps/search/?api=1&query=GULA+restaurant" class="gula-btn-maps">VALORAR EN GOOGLE MAPS</a>
-    </div>
-    <p style="color:#666;font-size:11px;text-align:center;margin-top:40px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
-  `, { title: 'GULA - Solicitud de Franquicia' })
+    <p style="color:#888;font-size:11px;text-align:center;margin-top:30px;letter-spacing:1px;">No compartiremos tu email. Punto.</p>
+    <p style="color:#666;font-size:11px;text-align:center;margin-top:10px;letter-spacing:1px;">${new Date().toISOString().slice(0,10)}</p>
+  `, { title: 'GULA CREW — Estás en la lista' })
 }
 
 function generateClubGulaEmail(nombre: string, email?: string, memberCode?: string, puntos?: number, nivel?: string): string {
