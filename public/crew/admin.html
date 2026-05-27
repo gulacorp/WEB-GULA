@@ -250,7 +250,13 @@
           <h1>Delivery</h1>
         </div>
         <div class="row">
-          <span class="select-pill" style="background:rgba(80,242,168,0.15);color:#50f2a8;border:1px solid rgba(80,242,168,0.3);padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:1px;">TODAS LAS TIENDAS</span>
+          <select id="uberStoreSelect" class="select-pill" onchange="loadDelivery()">
+            <option value="all">Todas las tiendas</option>
+            <option value="742103f3-6a55-5738-86dd-9901b0f26beb">Cartagena</option>
+            <option value="0e2beda7-e867-5f1f-a4f7-fc2a477559a4">Móstoles</option>
+            <option value="46eadb60-99e8-5077-bd3e-0df76c71ccac">Sevilla</option>
+            <option value="1b3e6cfe-0c98-5eda-89c6-079015067a1d">Valencia</option>
+          </select>
           <button class="btn btn-ghost" onclick="loadDelivery()"><i class="lu lu-refresh-cw"></i> Refresh</button>
         </div>
       </header>
