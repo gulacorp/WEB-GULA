@@ -50,6 +50,7 @@
       <button class="nav" data-tab="content"><i class="lu lu-pencil-line"></i><span>Editor web</span><kbd>E</kbd></button>
       <button class="nav" data-tab="club"><i class="lu lu-trophy"></i><span>Club</span><kbd>L</kbd></button>
       <button class="nav" data-tab="orders"><i class="lu lu-receipt"></i><span>Pedidos</span><kbd>P</kbd></button>
+      <button class="nav" data-tab="delivery"><i class="lu lu-truck"></i><span>Delivery</span><kbd>D</kbd></button>
       <button class="nav" data-tab="growth"><i class="lu lu-trending-up"></i><span>Growth</span><kbd>G</kbd></button>
       <button class="nav" data-tab="settings"><i class="lu lu-settings"></i><span>Sistema</span><kbd>,</kbd></button>
     </nav>
@@ -239,6 +240,45 @@
     <section id="orders" class="tab">
       <header class="page-head"><div><div class="page-eyebrow">Pedidos</div><h1>Inbox de transacciones</h1></div></header>
       <article class="card"><div id="ordersTable"></div></article>
+    </section>
+
+    <!-- ============= DELIVERY (UBER EATS) ============= -->
+    <section id="delivery" class="tab">
+      <header class="page-head">
+        <div>
+          <div class="page-eyebrow">Uber Eats · Marketplace API</div>
+          <h1>Delivery</h1>
+        </div>
+        <div class="row">
+          <span id="uberSandboxBadge" class="select-pill" style="background:rgba(255,149,0,0.15);color:#FF9500;border:1px solid rgba(255,149,0,0.3);padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:1px;">SANDBOX</span>
+          <input id="uberStoreInput" class="search" style="width:220px" placeholder="Store ID (UUID)…" oninput="loadDelivery()">
+          <button class="btn btn-ghost" onclick="loadDelivery()"><i class="lu lu-refresh-cw"></i> Refresh</button>
+        </div>
+      </header>
+
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+        <article class="kpi"><span class="lab">Pedidos hoy</span><span class="val" id="uberOrdersToday">—</span></article>
+        <article class="kpi"><span class="lab">Revenue hoy</span><span class="val" id="uberRevenueToday">—</span></article>
+        <article class="kpi"><span class="lab">Ticket medio</span><span class="val" id="uberAvgTicket">—</span></article>
+        <article class="kpi"><span class="lab">Estado tienda</span><span class="val" id="uberStoreStatus">—</span></article>
+      </div>
+
+      <div class="grid-2">
+        <article class="card" style="grid-column:1/-1">
+          <header class="card-head"><h2>Últimos pedidos Uber Eats</h2><span class="hint" id="uberLastSync">—</span></header>
+          <div id="uberOrdersTable"><div class="skeleton-list"></div></div>
+        </article>
+      </div>
+
+      <article class="card vault" style="margin-top:18px">
+        <h2><i class="lu lu-settings"></i> Configuración Uber Eats</h2>
+        <div class="vault-row"><span>App ID</span><code>VQmsfdldDwekmRjycrwtSqhy0x-EFwca</code><button class="btn btn-ghost btn-xs" data-copy-text="VQmsfdldDwekmRjycrwtSqhy0x-EFwca"><i class="lu lu-copy"></i></button></div>
+        <div class="vault-row"><span>Webhook endpoint</span><code>https://gblmjealpcyswcgjrhzk.supabase.co/functions/v1/uber-eats-webhook</code><button class="btn btn-ghost btn-xs" data-copy-text="https://gblmjealpcyswcgjrhzk.supabase.co/functions/v1/uber-eats-webhook"><i class="lu lu-copy"></i></button></div>
+        <div class="vault-row"><span>Edge fn · token</span><code>uber-eats-token ✓ deployed</code></div>
+        <div class="vault-row"><span>Edge fn · orders</span><code>uber-eats-orders ✓ deployed</code></div>
+        <div class="vault-row"><span>Edge fn · webhook</span><code>uber-eats-webhook ✓ deployed</code></div>
+        <div class="vault-row warn"><span>Store ID</span><code id="uberStoreIdDisplay">— Introducir arriba</code></div>
+      </article>
     </section>
 
     <!-- ============= GROWTH ============= -->

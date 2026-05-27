@@ -326,7 +326,7 @@ function openCmdk(){$('cmdk').classList.remove('hidden');$('cmdkInput').value=''
 function closeCmdk(){$('cmdk').classList.add('hidden')}
 function renderCmdk(q){
   q=(q||'').toLowerCase();
-  const tabs=[['Overview','overview'],['Catálogo','catalog'],['Editor web','content'],['Club','club'],['Pedidos','orders'],['Growth','growth'],['Sistema','settings']].map(([n,t])=>({label:n,cat:'Ir a',action:()=>activateTab(t)}));
+  const tabs=[['Overview','overview'],['Catálogo','catalog'],['Editor web','content'],['Club','club'],['Pedidos','orders'],['Delivery','delivery'],['Growth','growth'],['Sistema','settings']].map(([n,t])=>({label:n,cat:'Ir a',action:()=>activateTab(t)}));
   const prods=products.filter(p=>!p._combo).map(p=>({label:p.title,cat:'Producto',action:()=>{activateTab('catalog');openProduct(p.id)}}));
   const cmbos=combos.map(c=>({label:c.name,cat:'Combo',action:()=>{activateTab('catalog');const p=products.find(x=>x._combo&&x._combo.id===c.id);if(p)openProduct(p.id)}}));
   const mis=clubItems.map(it=>({label:it.title||it.slug||'(sin título)',cat:'Club',action:()=>{activateTab('club');clubSel=it.id;renderClubList();renderClubForm()}}));
@@ -526,4 +526,59 @@ function handleQuickAction(action){
 }
 
 sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY'){$('recoveryBox').classList.remove('hidden');$('loginMsg').innerHTML='<span style="color:#50f2a8">Introduce nueva contraseña.</span>'}});
-document.addEventListener('DOMContentLoaded',async()=>{bind();bindPremiumActions();if(await isAdmin())enterApp()});
+document.addEventListener('DOMContentLoaded',async()=>{bind();bindPremiumActions();$$('[data-copy-text]').forEach(btn=>btn.onclick=()=>copyText(btn.dataset.copyText));if(await isAdmin())enterApp()});
+
+// ============= UBER EATS DELIVERY =============
+const UBER_ORDERS_FN=`${SUPABASE_URL}/functions/v1/uber-eats-orders`;
+
+async function loadDelivery(){
+  const storeId=($('uberStoreInput')?.value||'').trim();
+  $('uberStoreIdDisplay').textContent=storeId||'— Introducir arriba';
+  if(!storeId){$('uberOrdersTable').innerHTML='<div class="empty">Introduce un Store ID para cargar datos.</div>';return}
+  $('uberOrdersTable').innerHTML='<div class="skeleton-list"></div>';
+  try{
+    const headers={'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json'};
+    const [ordersRes,storeRes]=await Promise.all([
+      fetch(`${UBER_ORDERS_FN}?endpoint=orders&store_id=${encodeURIComponent(storeId)}`,{headers}),
+      fetch(`${UBER_ORDERS_FN}?endpoint=store&store_id=${encodeURIComponent(storeId)}`,{headers})
+    ]);
+    const ordersData=await ordersRes.json();
+    const storeData=await storeRes.json();
+    renderUberKpis(ordersData,storeData);
+    renderUberOrders(ordersData);
+    $('uberLastSync').textContent='Sync '+new Date().toLocaleTimeString('es-ES');
+  }catch(e){
+    $('uberOrdersTable').innerHTML=`<div class="empty" style="color:#ff4d4d">Error: ${safe(e.message)}</div>`;
+    toast('Uber Eats',e.message,'error');
+  }
+}
+
+function renderUberKpis(ordersData,storeData){
+  const orders=ordersData?.orders||ordersData?.data||[];
+  const today=new Date().toISOString().slice(0,10);
+  const todayOrders=orders.filter(o=>(o.placed_at||o.created_at||'').startsWith(today));
+  const revenue=todayOrders.reduce((s,o)=>s+(Number(o.cart?.total_price?.total_amount||o.total_price||0)/100),0);
+  const avg=todayOrders.length?revenue/todayOrders.length:0;
+  $('uberOrdersToday').textContent=todayOrders.length||orders.length||'0';
+  $('uberRevenueToday').textContent=revenue.toFixed(2)+'€';
+  $('uberAvgTicket').textContent=avg.toFixed(2)+'€';
+  const status=storeData?.status||storeData?.store?.status||storeData?.current_state||'—';
+  const statusEl=$('uberStoreStatus');
+  statusEl.textContent=status;
+  statusEl.style.color=status==='ONLINE'||status==='open'?'#50f2a8':status==='OFFLINE'||status==='closed'?'#ff4d4d':'inherit';
+}
+
+function renderUberOrders(data){
+  const orders=data?.orders||data?.data||[];
+  if(!orders.length){$('uberOrdersTable').innerHTML='<div class="empty">Sin pedidos en sandbox.</div>';return}
+  $('uberOrdersTable').innerHTML=`<table class="data-table"><thead><tr><th>ID</th><th>Estado</th><th>Artículos</th><th>Total</th><th>Fecha</th></tr></thead><tbody>${
+    orders.slice(0,30).map(o=>{
+      const id=(o.id||o.order_id||'—').slice(-8);
+      const status=o.current_state||o.status||'—';
+      const items=(o.cart?.items||[]).length||(o.items||[]).length||'—';
+      const total=((o.cart?.total_price?.total_amount||o.total_price||0)/100).toFixed(2)+'€';
+      const date=new Date(o.placed_at||o.created_at||Date.now()).toLocaleString('es-ES',{month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+      return`<tr><td><code>…${safe(id)}</code></td><td><span class="pill">${safe(status)}</span></td><td>${safe(String(items))}</td><td>${safe(total)}</td><td>${safe(date)}</td></tr>`;
+    }).join('')
+  }</tbody></table>`;
+}
