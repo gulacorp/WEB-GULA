@@ -215,7 +215,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
 // Ruta principal
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'crew', 'gulatemplate.html'));
+    res.sendFile(path.join(__dirname, 'public', 'crew', 'index.html'));
 });
 
 // Endpoint público — expone solo keys seguras para el frontend
