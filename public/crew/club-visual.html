@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club GULA · Membership</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Akira Expanded';
+            src: url('Akira Expanded Demo.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Aveline';
+            src: url('AvelineRegular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        :root {
+            --gula-orange: #FF5800;
+            --bronze: #CD7F32;
+            --silver: #C0C0C0;
+            --gold: #FFD700;
+            --bg-dark: #000000;
+            --bg-card: #111111;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Akira Expanded', 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 88, 0, 0.08) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .hero h1 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: var(--gula-orange);
+            text-shadow: 0 0 60px rgba(255, 88, 0, 0.4);
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        .tier-card {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .tier-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+        }
+        .tier-card.bronze::before { background: linear-gradient(90deg, #8B4513, var(--bronze)); }
+        .tier-card.silver::before { background: linear-gradient(90deg, #808080, var(--silver)); }
+        .tier-card.gold::before { background: linear-gradient(90deg, #DAA520, var(--gold)); }
+        .tier-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 88, 0, 0.2);
+        }
+        .tier-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .tier-card.bronze .tier-icon { color: var(--bronze); }
+        .tier-card.silver .tier-icon { color: var(--silver); }
+        .tier-card.gold .tier-icon { color: var(--gold); }
+        .tier-name {
+            font-family: 'Aveline', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+        .tier-card.bronze .tier-name { color: var(--bronze); }
+        .tier-card.silver .tier-name { color: var(--silver); }
+        .tier-card.gold .tier-name { color: var(--gold); }
+        .tier-points {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 25px;
+        }
+        .tier-benefits {
+            list-style: none;
+            text-align: left;
+        }
+        .tier-benefits li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .tier-benefits li::before {
+            content: '✓';
+            color: var(--gula-orange);
+            font-weight: 900;
+        }
+        .rewards-section {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 88, 0, 0.3);
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin-bottom: 60px;
+        }
+        .section-title {
+            font-family: 'Aveline', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--gula-orange);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+        .reward-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .reward-item:hover {
+            background: rgba(255, 88, 0, 0.1);
+            border-color: var(--gula-orange);
+        }
+        .reward-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .reward-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .reward-points {
+            color: var(--gula-orange);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+        .progress-section {
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+            border: 2px solid rgba(255, 88, 0, 0.3);
+            border-radius: 20px;
+            padding: 50px 40px;
+        }
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+        }
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; width: 100%; height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+        .progress-step {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .progress-step.bronze { border-color: var(--bronze); color: var(--bronze); }
+        .progress-step.silver { border-color: var(--silver); color: var(--silver); }
+        .progress-step.gold { border-color: var(--gold); color: var(--gold); }
+        .progress-step.active {
+            background: var(--gula-orange);
+            border-color: var(--gula-orange);
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 88, 0, 0.5);
+        }
+        .progress-label {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 1px;
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 80px;
+            padding: 60px;
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.15) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border: 2px solid var(--gula-orange);
+            border-radius: 20px;
+        }
+        .cta-section h2 {
+            font-family: 'Aveline', sans-serif;
+            font-size: 2.8rem;
+            color: var(--gula-orange);
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+        .cta-btn {
+            background: var(--gula-orange);
+            color: #000;
+            padding: 18px 50px;
+            border-radius: 999px;
+            font-family: 'Akira Expanded', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(255, 88, 0, 0.3);
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 88, 0, 0.5);
+        }
+        @media (max-width: 1024px) {
+            .tiers { grid-template-columns: 1fr; }
+            .rewards-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>CLUB GULA</h1>
+            <p>La CREW que come mejor</p>
+        </div>
+
+        <div class="tiers">
+            <div class="tier-card bronze">
+                <div class="tier-icon">🥉</div>
+                <div class="tier-name">BRONCE</div>
+                <div class="tier-points">200 - 499 puntos</div>
+                <ul class="tier-benefits">
+                    <li>Acceso a menú exclusivo</li>
+                    <li>2x1 en sliders los martes</li>
+                    <li>Envío gratis +€20</li>
+                    <li>Invitaciones a eventos</li>
+                </ul>
+            </div>
+            <div class="tier-card silver">
+                <div class="tier-icon">🥈</div>
+                <div class="tier-name">PLATA</div>
+                <div class="tier-points">500 - 999 puntos</div>
+                <ul class="tier-benefits">
+                    <li>Todos los beneficios BRONCE</li>
+                    <li>10% descuento en todo</li>
+                    <li>Producto del mes gratis</li>
+                    <li>Acceso anticipado a nuevos lanzamientos</li>
+                    <li>Soporte prioritario</li>
+                </ul>
+            </div>
+            <div class="tier-card gold">
+                <div class="tier-icon">🥇</div>
+                <div class="tier-name">ORO</div>
+                <div class="tier-points">1000+ puntos</div>
+                <ul class="tier-benefits">
+                    <li>Todos los beneficios PLATA</li>
+                    <li>15% descuento en todo</li>
+                    <li>Burger gratis cada mes</li>
+                    <li>Acceso VIP a eventos exclusivos</li>
+                    <li>Merchandising exclusivo</li>
+                    <li>Prioridad en pedidos</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="rewards-section">
+            <h2 class="section-title">CANJE DE PUNTOS</h2>
+            <div class="rewards-grid">
+                <div class="reward-item">
+                    <div class="reward-icon">🍔</div>
+                    <div class="reward-name">Burger Gratis</div>
+                    <div class="reward-points">500 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🍟</div>
+                    <div class="reward-name">Papas XL</div>
+                    <div class="reward-points">200 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🥤</div>
+                    <div class="reward-name">Bebida Grande</div>
+                    <div class="reward-points">100 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🎁</div>
+                    <div class="reward-name">Merch GULA</div>
+                    <div class="reward-points">800 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🎟️</div>
+                    <div class="reward-name">Evento Exclusivo</div>
+                    <div class="reward-points">1500 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🚚</div>
+                    <div class="reward-name">Envío Gratis</div>
+                    <div class="reward-points">150 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">🎂</div>
+                    <div class="reward-name">Cumpleaños</div>
+                    <div class="reward-points">300 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div class="reward-icon">💎</div>
+                    <div class="reward-name">Experiencia VIP</div>
+                    <div class="reward-points">2000 pts</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2 class="section-title">TU PROGRESO</h2>
+            <div class="progress-bar">
+                <div>
+                    <div class="progress-step bronze">0</div>
+                    <div class="progress-label">INICIADO</div>
+                </div>
+                <div>
+                    <div class="progress-step bronze">200</div>
+                    <div class="progress-label">BRONCE</div>
+                </div>
+                <div>
+                    <div class="progress-step silver">500</div>
+                    <div class="progress-label">PLATA</div>
+                </div>
+                <div>
+                    <div class="progress-step gold active">1000</div>
+                    <div class="progress-label">ORO</div>
+                </div>
+            </div>
+            <p style="text-align: center; color: rgba(255,255,255,0.6); font-size: 1.1rem;">
+                Cada €1 gastado = 10 puntos
+            </p>
+        </div>
+
+        <div class="cta-section">
+            <h2>ÚNETE A LA CREW</h2>
+            <p>Empieza a ganar puntos desde tu primer pedido</p>
+            <button class="cta-btn">Unirse Ahora</button>
+        </div>
+    </div>
+</body>
+</html>
