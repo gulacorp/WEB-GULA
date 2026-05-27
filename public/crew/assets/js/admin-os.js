@@ -532,9 +532,8 @@ document.addEventListener('DOMContentLoaded',async()=>{bind();bindPremiumActions
 const UBER_ORDERS_FN=`${SUPABASE_URL}/functions/v1/uber-eats-orders`;
 
 async function loadDelivery(){
-  const storeId=($('uberStoreInput')?.value||'').trim();
-  $('uberStoreIdDisplay').textContent=storeId||'— Introducir arriba';
-  if(!storeId){$('uberOrdersTable').innerHTML='<div class="empty">Introduce un Store ID para cargar datos.</div>';return}
+  const storeId=($('uberStoreSelect')?.value||'').trim();
+  if(!storeId){$('uberOrdersTable').innerHTML='<div class="empty">Selecciona una tienda para cargar datos.</div>';return}
   $('uberOrdersTable').innerHTML='<div class="skeleton-list"></div>';
   try{
     const headers={'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json'};

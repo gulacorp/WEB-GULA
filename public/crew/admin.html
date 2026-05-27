@@ -250,8 +250,13 @@
           <h1>Delivery</h1>
         </div>
         <div class="row">
-          <span id="uberSandboxBadge" class="select-pill" style="background:rgba(255,149,0,0.15);color:#FF9500;border:1px solid rgba(255,149,0,0.3);padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:1px;">SANDBOX</span>
-          <input id="uberStoreInput" class="search" style="width:220px" placeholder="Store ID (UUID)…" oninput="loadDelivery()">
+          <select id="uberStoreSelect" class="select-pill" onchange="loadDelivery()">
+            <option value="">— Seleccionar tienda —</option>
+            <option value="742103f3-6a55-5738-86dd-9901b0f26beb">Cartagena</option>
+            <option value="0e2beda7-e867-5f1f-a4f7-fc2a477559a4">Móstoles</option>
+            <option value="46eadb60-99e8-5077-bd3e-0df76c71ccac">Sevilla</option>
+            <option value="1b3e6cfe-0c98-5eda-89c6-079015067a1d">Valencia</option>
+          </select>
           <button class="btn btn-ghost" onclick="loadDelivery()"><i class="lu lu-refresh-cw"></i> Refresh</button>
         </div>
       </header>
@@ -277,7 +282,10 @@
         <div class="vault-row"><span>Edge fn · token</span><code>uber-eats-token ✓ deployed</code></div>
         <div class="vault-row"><span>Edge fn · orders</span><code>uber-eats-orders ✓ deployed</code></div>
         <div class="vault-row"><span>Edge fn · webhook</span><code>uber-eats-webhook ✓ deployed</code></div>
-        <div class="vault-row warn"><span>Store ID</span><code id="uberStoreIdDisplay">— Introducir arriba</code></div>
+        <div class="vault-row"><span>Cartagena</span><code>742103f3-6a55-5738-86dd-9901b0f26beb</code><button class="btn btn-ghost btn-xs" data-copy-text="742103f3-6a55-5738-86dd-9901b0f26beb"><i class="lu lu-copy"></i></button></div>
+        <div class="vault-row"><span>Móstoles</span><code>0e2beda7-e867-5f1f-a4f7-fc2a477559a4</code><button class="btn btn-ghost btn-xs" data-copy-text="0e2beda7-e867-5f1f-a4f7-fc2a477559a4"><i class="lu lu-copy"></i></button></div>
+        <div class="vault-row"><span>Sevilla</span><code>46eadb60-99e8-5077-bd3e-0df76c71ccac</code><button class="btn btn-ghost btn-xs" data-copy-text="46eadb60-99e8-5077-bd3e-0df76c71ccac"><i class="lu lu-copy"></i></button></div>
+        <div class="vault-row"><span>Valencia</span><code>1b3e6cfe-0c98-5eda-89c6-079015067a1d</code><button class="btn btn-ghost btn-xs" data-copy-text="1b3e6cfe-0c98-5eda-89c6-079015067a1d"><i class="lu lu-copy"></i></button></div>
       </article>
     </section>
 
