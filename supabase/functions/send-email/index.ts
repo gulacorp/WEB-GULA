@@ -346,12 +346,12 @@ function generateWaitlistEmail(email: string): string {
     
     <div class="gula-card">
       <h3>¿QUÉ ES LA CREW?</h3>
-      <p style="color:#333;line-height:1.8;">Un club gastronómico sin límites. Puntos, recompensas, acceso anticipado a platos, eventos exclusivos. No es una tarjeta de fidelización — es otra forma de comer.</p>
+      <p style="color:#333;line-height:1.8;">Puntos que valen algo. Acceso antes que nadie. Platos que el resto no ve. No es fidelización — es pertenecer a algo que todavía no existe del todo.</p>
     </div>
     
     <div class="gula-card">
       <h3>MIENTRAS TANTO</h3>
-      <p style="color:#333;line-height:1.8;">La carta ya está disponible. Pide, come, y cuando CREW arranque, ya tendrás ventaja.</p>
+      <p style="color:#333;line-height:1.8;">La carta ya está aquí. Come bien. Cuando CREW arranque, tú ya llevas ventaja.</p>
     </div>
     
     <div class="gula-divider"></div>
