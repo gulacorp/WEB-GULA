@@ -3,410 +3,1145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club GULA · Membership</title>
+    <title>Club GULA · Pitch Deck</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'Akira Expanded';
             src: url('Akira Expanded Demo.otf') format('opentype');
-            font-weight: 400;
-            font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Aveline';
             src: url('AvelineRegular.otf') format('opentype');
-            font-weight: 400;
-            font-style: normal;
             font-display: swap;
         }
         :root {
-            --gula-orange: #FF5800;
-            --bronze: #CD7F32;
-            --silver: #C0C0C0;
+            --orange: #FF5800;
+            --orange2: #FF8C42;
             --gold: #FFD700;
-            --bg-dark: #000000;
-            --bg-card: #111111;
+            --amber: #FFA500;
+            --crew: #FF8C00;
+            --bg: #000000;
+            --card: #0f0f0f;
+            --card2: #161616;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
-            background: var(--bg-dark);
-            color: #ffffff;
-            font-family: 'Akira Expanded', 'Inter', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            position: relative;
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(255, 88, 0, 0.08) 0%, transparent 50%);
-            pointer-events: none; z-index: 0;
+
+        /* ── GLOBAL WATERMARK ── */
+        body::after {
+            content: 'G  G  G  G  G\AG  G  G  G  G\AG  G  G  G  G';
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Aveline', sans-serif;
+            font-size: 200px; font-weight: 900;
+            color: rgba(255,88,0,0.04);
+            white-space: pre; pointer-events: none;
+            line-height: 0.85; text-align: center;
+            letter-spacing: 50px; z-index: 0;
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 40px;
+
+        /* ── SECTIONS ── */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 40px;
             position: relative;
             z-index: 1;
+            border-bottom: 1px solid rgba(255,88,0,0.12);
         }
-        .hero {
-            text-align: center;
-            margin-bottom: 80px;
+        .slide-inner {
+            width: 100%;
+            max-width: 1200px;
         }
-        .hero h1 {
-            font-family: 'Aveline', sans-serif;
-            font-size: 5rem;
+        .label-kicker {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            color: var(--orange);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+        .section-heading {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: clamp(1.6rem, 3vw, 2.6rem);
             font-weight: 900;
-            letter-spacing: 8px;
-            color: var(--gula-orange);
-            text-shadow: 0 0 60px rgba(255, 88, 0, 0.4);
-            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+            margin-bottom: 8px;
         }
-        .hero p {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.7);
+        .section-heading span { color: var(--orange); }
+        .section-sub {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+        }
+
+        /* ══════════════════════════════════════
+           SLIDE 1 · HERO
+        ══════════════════════════════════════ */
+        #slide-hero {
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 60%, rgba(255,88,0,0.12) 0%, transparent 65%);
+        }
+        .hero-gula {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(5rem, 12vw, 11rem);
+            color: var(--orange);
+            letter-spacing: 8px;
+            line-height: 1;
+            text-shadow: 0 0 80px rgba(255,88,0,0.35);
+            margin-bottom: 24px;
+        }
+        .hero-tagline {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: clamp(0.75rem, 1.5vw, 1.1rem);
+            letter-spacing: 6px;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .hero-stat-val {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 2.2rem;
+            color: var(--orange);
+            display: block;
+        }
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.45);
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-        .tiers {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-bottom: 80px;
+
+        /* ══════════════════════════════════════
+           SLIDE 2 · MOCK DASHBOARD
+        ══════════════════════════════════════ */
+        #slide-dashboard {
+            background: radial-gradient(ellipse at 80% 20%, rgba(255,88,0,0.07) 0%, transparent 55%);
         }
-        .tier-card {
-            background: var(--bg-card);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .dashboard-mock {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        /* phone frame */
+        .phone-frame {
+            background: #0a0a0a;
+            border: 2px solid rgba(255,88,0,0.4);
+            border-radius: 36px;
+            padding: 28px 20px;
+            box-shadow: 0 0 60px rgba(255,88,0,0.12), inset 0 0 40px rgba(0,0,0,0.6);
             position: relative;
-            overflow: hidden;
         }
-        .tier-card::before {
+        .phone-frame::before {
             content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
+            display: block;
+            width: 80px; height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin: 0 auto 24px;
         }
-        .tier-card.bronze::before { background: linear-gradient(90deg, #8B4513, var(--bronze)); }
-        .tier-card.silver::before { background: linear-gradient(90deg, #808080, var(--silver)); }
-        .tier-card.gold::before { background: linear-gradient(90deg, #DAA520, var(--gold)); }
-        .tier-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(255, 88, 0, 0.2);
-        }
-        .tier-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        .tier-card.bronze .tier-icon { color: var(--bronze); }
-        .tier-card.silver .tier-icon { color: var(--silver); }
-        .tier-card.gold .tier-icon { color: var(--gold); }
-        .tier-name {
-            font-family: 'Aveline', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-        }
-        .tier-card.bronze .tier-name { color: var(--bronze); }
-        .tier-card.silver .tier-name { color: var(--silver); }
-        .tier-card.gold .tier-name { color: var(--gold); }
-        .tier-points {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 25px;
-        }
-        .tier-benefits {
-            list-style: none;
-            text-align: left;
-        }
-        .tier-benefits li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .tier-benefits li::before {
-            content: '✓';
-            color: var(--gula-orange);
-            font-weight: 900;
-        }
-        .rewards-section {
-            background: var(--bg-card);
-            border: 2px solid rgba(255, 88, 0, 0.3);
-            border-radius: 20px;
-            padding: 50px 40px;
-            margin-bottom: 60px;
-        }
-        .section-title {
-            font-family: 'Aveline', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 4px;
-            color: var(--gula-orange);
-            margin-bottom: 40px;
+        .pf-header {
             text-align: center;
+            margin-bottom: 22px;
         }
-        .rewards-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
+        .pf-title {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--orange);
         }
-        .reward-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .reward-item:hover {
-            background: rgba(255, 88, 0, 0.1);
-            border-color: var(--gula-orange);
-        }
-        .reward-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        .reward-name {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        .reward-points {
-            color: var(--gula-orange);
+        .pf-name {
+            font-family: 'Inter', sans-serif;
             font-weight: 900;
             font-size: 1.1rem;
+            color: #fff;
+            margin-top: 4px;
         }
-        .progress-section {
-            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
-            border: 2px solid rgba(255, 88, 0, 0.3);
-            border-radius: 20px;
-            padding: 50px 40px;
-        }
-        .progress-bar {
+        .pf-points-card {
+            background: linear-gradient(135deg, rgba(255,88,0,0.2), rgba(255,88,0,0.05));
+            border: 1.5px solid var(--orange);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 40px 0;
-            position: relative;
         }
-        .progress-bar::before {
+        .pf-pts-num {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 2.8rem;
+            color: var(--orange);
+            line-height: 1;
+        }
+        .pf-pts-label {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .pf-level-badge {
+            background: var(--orange);
+            color: #000;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 1px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 900;
+        }
+        .pf-progress-wrap {
+            background: rgba(30,30,30,0.8);
+            border-left: 3px solid var(--orange);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+        .pf-progress-info {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+        }
+        .pf-bar {
+            width: 100%; height: 8px;
+            background: rgba(100,100,100,0.3);
+            border-radius: 4px; overflow: hidden;
+        }
+        .pf-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--orange2));
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(255,88,0,0.5);
+        }
+        .pf-bar-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.62rem;
+            color: #666;
+            margin-top: 6px;
+        }
+        .pf-mission {
+            background: linear-gradient(135deg, rgba(255,88,0,0.18), rgba(255,88,0,0.06));
+            border: 1.5px solid var(--orange);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        .pf-mission-title {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 6px;
+        }
+        .pf-mission-text {
+            font-weight: 900;
+            font-size: 0.85rem;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .pf-mission-reward {
+            background: var(--orange);
+            color: #000;
+            font-weight: 900;
+            font-size: 0.72rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .pf-vote {
+            background: rgba(20,20,20,0.8);
+            border-radius: 10px;
+            padding: 14px;
+        }
+        .pf-vote-label {
+            font-size: 0.65rem;
+            color: var(--orange);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .pf-vote-q {
+            font-weight: 900;
+            font-size: 0.82rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .pf-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .pf-opt-bar {
+            flex: 1; height: 5px;
+            background: rgba(255,88,0,0.15);
+            border-radius: 3px; overflow: hidden;
+        }
+        .pf-opt-fill {
+            height: 100%;
+            background: var(--orange);
+            border-radius: 3px;
+        }
+        .pf-opt-pct {
+            font-weight: 700;
+            color: var(--orange);
+            min-width: 28px;
+            text-align: right;
+            font-size: 0.68rem;
+        }
+
+        /* right side callouts */
+        .dash-callouts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .callout-card {
+            background: var(--card2);
+            border: 1px solid rgba(255,88,0,0.2);
+            border-radius: 18px;
+            padding: 24px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+        .callout-card::before {
             content: '';
             position: absolute;
-            top: 50%; left: 0; width: 100%; height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-50%);
-            z-index: 0;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: var(--orange);
+            border-radius: 4px 0 0 4px;
         }
-        .progress-step {
-            width: 60px;
-            height: 60px;
+        .callout-num {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 2rem;
+            color: var(--orange);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .callout-title {
+            font-weight: 900;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .callout-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+
+        /* ══════════════════════════════════════
+           SLIDE 3 · TIERS
+        ══════════════════════════════════════ */
+        #slide-tiers { background: #000; }
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .tier {
+            border-radius: 20px;
+            padding: 32px 24px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .tier:hover { transform: translateY(-6px); }
+        .tier-neophyte {
+            background: linear-gradient(160deg, rgba(255,88,0,0.12), rgba(255,88,0,0.04));
+            border: 1.5px solid rgba(255,88,0,0.35);
+        }
+        .tier-crew {
+            background: linear-gradient(160deg, rgba(255,140,0,0.15), rgba(255,88,0,0.06));
+            border: 1.5px solid rgba(255,140,0,0.4);
+        }
+        .tier-highcrew {
+            background: linear-gradient(160deg, rgba(255,165,0,0.18), rgba(255,140,0,0.08));
+            border: 1.5px solid rgba(255,165,0,0.5);
+        }
+        .tier-founders {
+            background: linear-gradient(160deg, rgba(255,215,0,0.15), rgba(255,165,0,0.06));
+            border: 1.5px solid rgba(255,215,0,0.5);
+            box-shadow: 0 0 30px rgba(255,215,0,0.08);
+        }
+        .tier-topbar {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+        .tier-neophyte .tier-topbar { background: var(--orange); }
+        .tier-crew .tier-topbar { background: var(--crew); }
+        .tier-highcrew .tier-topbar { background: var(--amber); }
+        .tier-founders .tier-topbar { background: linear-gradient(90deg, var(--amber), var(--gold)); }
+        .tier-name {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+        .tier-neophyte .tier-name { color: var(--orange); }
+        .tier-crew .tier-name { color: var(--crew); }
+        .tier-highcrew .tier-name { color: var(--amber); }
+        .tier-founders .tier-name { color: var(--gold); }
+        .tier-pts {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+        .tier-benefits {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tier-benefits li {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.75);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+        .tier-benefits li::before {
+            content: '→';
+            font-weight: 900;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .tier-neophyte .tier-benefits li::before { color: var(--orange); }
+        .tier-crew .tier-benefits li::before { color: var(--crew); }
+        .tier-highcrew .tier-benefits li::before { color: var(--amber); }
+        .tier-founders .tier-benefits li::before { color: var(--gold); }
+
+        /* ══════════════════════════════════════
+           SLIDE 4 · POINTS ENGINE
+        ══════════════════════════════════════ */
+        #slide-points {
+            background: radial-gradient(ellipse at 20% 80%, rgba(255,88,0,0.07) 0%, transparent 55%);
+        }
+        .points-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+        .pts-block {
+            background: var(--card2);
+            border: 1px solid rgba(255,88,0,0.2);
+            border-radius: 18px;
+            padding: 30px;
+        }
+        .pts-block-title {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 20px;
+        }
+        .pts-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .pts-row:last-child { border-bottom: none; }
+        .pts-row-label {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .pts-row-val {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.9rem;
+            color: var(--gold);
+        }
+        .pts-formula {
+            background: linear-gradient(135deg, rgba(255,88,0,0.2), rgba(255,88,0,0.06));
+            border: 1.5px solid var(--orange);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .pts-formula-big {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 2.2rem;
+            color: var(--orange);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .pts-formula-sub {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 1px;
+        }
+        .pts-example {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.7;
+            padding: 14px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+        }
+        .pts-example strong { color: var(--orange); }
+
+        /* ══════════════════════════════════════
+           SLIDE 5 · JOURNEY / PROGRESSION MAP
+        ══════════════════════════════════════ */
+        #slide-journey {
+            background: #000;
+        }
+        .journey-track {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0;
+            margin-top: 20px;
+        }
+        .journey-track::before {
+            content: '';
+            position: absolute;
+            top: 36px;
+            left: 8%;
+            right: 8%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange), var(--crew), var(--amber), var(--gold));
+            opacity: 0.4;
+        }
+        .journey-node {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 0 12px;
+        }
+        .journey-circle {
+            width: 72px; height: 72px;
             border-radius: 50%;
-            background: var(--bg-card);
-            border: 3px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 16px;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.6rem;
             font-weight: 900;
-            font-size: 1.2rem;
+            letter-spacing: 0.5px;
             position: relative;
             z-index: 1;
-            transition: all 0.3s ease;
         }
-        .progress-step.bronze { border-color: var(--bronze); color: var(--bronze); }
-        .progress-step.silver { border-color: var(--silver); color: var(--silver); }
-        .progress-step.gold { border-color: var(--gold); color: var(--gold); }
-        .progress-step.active {
-            background: var(--gula-orange);
-            border-color: var(--gula-orange);
-            color: #000;
-            box-shadow: 0 0 30px rgba(255, 88, 0, 0.5);
+        .jc-neo {
+            background: rgba(255,88,0,0.12);
+            border: 2.5px solid var(--orange);
+            color: var(--orange);
         }
-        .progress-label {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+        .jc-crew {
+            background: rgba(255,140,0,0.15);
+            border: 2.5px solid var(--crew);
+            color: var(--crew);
+        }
+        .jc-high {
+            background: rgba(255,165,0,0.18);
+            border: 2.5px solid var(--amber);
+            color: var(--amber);
+        }
+        .jc-found {
+            background: rgba(255,215,0,0.15);
+            border: 2.5px solid var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 20px rgba(255,215,0,0.2);
+        }
+        .journey-pts {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 16px;
             letter-spacing: 1px;
         }
-        .cta-section {
+        .journey-perks {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+        .journey-perk {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.65);
+            border-left: 3px solid;
+            line-height: 1.4;
+        }
+        .jp-neo { border-color: var(--orange); }
+        .jp-crew { border-color: var(--crew); }
+        .jp-high { border-color: var(--amber); }
+        .jp-found { border-color: var(--gold); }
+
+        /* ══════════════════════════════════════
+           SLIDE 6 · LOYALTY CARD
+        ══════════════════════════════════════ */
+        #slide-card {
+            background: radial-gradient(ellipse at 50% 50%, rgba(255,88,0,0.1) 0%, transparent 60%);
             text-align: center;
-            margin-top: 80px;
-            padding: 60px;
-            background: linear-gradient(135deg, rgba(255, 88, 0, 0.15) 0%, rgba(0, 0, 0, 0.3) 100%);
-            border: 2px solid var(--gula-orange);
-            border-radius: 20px;
         }
-        .cta-section h2 {
+        .card-showcase {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .loyalty-card {
+            width: 340px;
+            background: linear-gradient(135deg, #FF5800 0%, #FF8C42 60%, #FFB366 100%);
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 20px 60px rgba(255,88,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+        .loyalty-card::before {
+            content: 'GULA';
+            position: absolute;
+            right: -20px; bottom: -30px;
             font-family: 'Aveline', sans-serif;
-            font-size: 2.8rem;
-            color: var(--gula-orange);
-            margin-bottom: 20px;
-            letter-spacing: 4px;
+            font-size: 120px;
+            color: rgba(255,255,255,0.1);
+            line-height: 1;
+            pointer-events: none;
         }
-        .cta-section p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
+        .lc-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 30px;
         }
-        .cta-btn {
-            background: var(--gula-orange);
-            color: #000;
-            padding: 18px 50px;
-            border-radius: 999px;
-            font-family: 'Akira Expanded', sans-serif;
-            font-weight: 900;
-            font-size: 1.1rem;
+        .lc-brand {
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.6rem;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        .lc-type {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.7);
             letter-spacing: 2px;
             text-transform: uppercase;
-            border: none;
-            cursor: pointer;
+            text-align: right;
+            line-height: 1.5;
+        }
+        .lc-code {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 1.3rem;
+            color: #fff;
+            letter-spacing: 3px;
+            margin-bottom: 24px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .lc-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .lc-holder-label {
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .lc-holder-name {
+            font-weight: 900;
+            font-size: 1rem;
+            color: #fff;
+        }
+        .lc-qr {
+            width: 56px; height: 56px;
+            background: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+        }
+        .lc-qr svg { width: 100%; height: 100%; }
+        .card-features {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            text-align: left;
+            max-width: 300px;
+        }
+        .cf-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+        .cf-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--orange);
+            flex-shrink: 0;
+            margin-top: 5px;
+            box-shadow: 0 0 10px rgba(255,88,0,0.5);
+        }
+        .cf-title {
+            font-weight: 900;
+            font-size: 0.92rem;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .cf-desc {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.5;
+        }
+
+        /* ══════════════════════════════════════
+           SLIDE 7 · CTA
+        ══════════════════════════════════════ */
+        #slide-cta {
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 50%, rgba(255,88,0,0.14) 0%, transparent 60%);
+        }
+        .cta-gula {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(4rem, 10vw, 9rem);
+            color: var(--orange);
+            letter-spacing: 6px;
+            line-height: 1;
+            text-shadow: 0 0 80px rgba(255,88,0,0.3);
+            margin-bottom: 24px;
+        }
+        .cta-line {
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: clamp(0.7rem, 1.4vw, 1rem);
+            letter-spacing: 5px;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 50px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: var(--orange);
+            color: #000;
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            padding: 18px 48px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 900;
+            box-shadow: 0 10px 40px rgba(255,88,0,0.35);
             transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(255, 88, 0, 0.3);
         }
         .cta-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 50px rgba(255, 88, 0, 0.5);
+            transform: scale(1.04);
+            box-shadow: 0 14px 50px rgba(255,88,0,0.5);
         }
+
+        /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
-            .tiers { grid-template-columns: 1fr; }
-            .rewards-grid { grid-template-columns: repeat(2, 1fr); }
-            .hero h1 { font-size: 3rem; }
+            .tiers-grid { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-mock { grid-template-columns: 1fr; }
+            .phone-frame { max-width: 380px; margin: 0 auto; }
+            .journey-track { flex-wrap: wrap; gap: 24px; }
+            .journey-track::before { display: none; }
+            .journey-node { flex: 0 0 calc(50% - 12px); }
+        }
+        @media (max-width: 640px) {
+            .slide { padding: 60px 20px; }
+            .tiers-grid { grid-template-columns: 1fr; }
+            .points-layout { grid-template-columns: 1fr; }
+            .hero-stats { gap: 32px; }
+            .journey-node { flex: 0 0 100%; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="hero">
-            <h1>CLUB GULA</h1>
-            <p>La CREW que come mejor</p>
-        </div>
 
-        <div class="tiers">
-            <div class="tier-card bronze">
-                <div class="tier-icon">🥉</div>
-                <div class="tier-name">BRONCE</div>
-                <div class="tier-points">200 - 499 puntos</div>
-                <ul class="tier-benefits">
-                    <li>Acceso a menú exclusivo</li>
-                    <li>2x1 en sliders los martes</li>
-                    <li>Envío gratis +€20</li>
-                    <li>Invitaciones a eventos</li>
-                </ul>
+<!-- ══ SLIDE 1: HERO ══════════════════════════════════════════ -->
+<section class="slide" id="slide-hero">
+    <div class="slide-inner">
+        <div class="label-kicker" style="text-align:center;">Club de Fidelización</div>
+        <div class="hero-gula">GULA</div>
+        <div class="hero-tagline">La CREW que come mejor — Programa de lealtad</div>
+        <div class="hero-stats">
+            <div>
+                <span class="hero-stat-val">4</span>
+                <span class="hero-stat-label">niveles de membresía</span>
             </div>
-            <div class="tier-card silver">
-                <div class="tier-icon">🥈</div>
-                <div class="tier-name">PLATA</div>
-                <div class="tier-points">500 - 999 puntos</div>
-                <ul class="tier-benefits">
-                    <li>Todos los beneficios BRONCE</li>
-                    <li>10% descuento en todo</li>
-                    <li>Producto del mes gratis</li>
-                    <li>Acceso anticipado a nuevos lanzamientos</li>
-                    <li>Soporte prioritario</li>
-                </ul>
+            <div>
+                <span class="hero-stat-val">€1 = 3</span>
+                <span class="hero-stat-label">puntos por cada euro</span>
             </div>
-            <div class="tier-card gold">
-                <div class="tier-icon">🥇</div>
-                <div class="tier-name">ORO</div>
-                <div class="tier-points">1000+ puntos</div>
-                <ul class="tier-benefits">
-                    <li>Todos los beneficios PLATA</li>
-                    <li>15% descuento en todo</li>
-                    <li>Burger gratis cada mes</li>
-                    <li>Acceso VIP a eventos exclusivos</li>
-                    <li>Merchandising exclusivo</li>
-                    <li>Prioridad en pedidos</li>
-                </ul>
+            <div>
+                <span class="hero-stat-val">20%</span>
+                <span class="hero-stat-label">OFF bienvenida</span>
             </div>
-        </div>
-
-        <div class="rewards-section">
-            <h2 class="section-title">CANJE DE PUNTOS</h2>
-            <div class="rewards-grid">
-                <div class="reward-item">
-                    <div class="reward-icon">🍔</div>
-                    <div class="reward-name">Burger Gratis</div>
-                    <div class="reward-points">500 pts</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">🍟</div>
-                    <div class="reward-name">Papas XL</div>
-                    <div class="reward-points">200 pts</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">🥤</div>
-                    <div class="reward-name">Bebida Grande</div>
-                    <div class="reward-points">100 pts</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">🎁</div>
-                    <div class="reward-name">Merch GULA</div>
-                    <div class="reward-points">800 pts</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">🎟️</div>
-                    <div class="reward-name">Evento Exclusivo</div>
-                    <div class="reward-points">1500 pts</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">🚚</div>
-                    <div class="reward-name">Envío Gratis</div>
-                    <div class="reward-points">150 pts</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">🎂</div>
-                    <div class="reward-name">Cumpleaños</div>
-                    <div class="reward-points">300 pts</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon">💎</div>
-                    <div class="reward-name">Experiencia VIP</div>
-                    <div class="reward-points">2000 pts</div>
-                </div>
+            <div>
+                <span class="hero-stat-val">∞</span>
+                <span class="hero-stat-label">recompensas disponibles</span>
             </div>
-        </div>
-
-        <div class="progress-section">
-            <h2 class="section-title">TU PROGRESO</h2>
-            <div class="progress-bar">
-                <div>
-                    <div class="progress-step bronze">0</div>
-                    <div class="progress-label">INICIADO</div>
-                </div>
-                <div>
-                    <div class="progress-step bronze">200</div>
-                    <div class="progress-label">BRONCE</div>
-                </div>
-                <div>
-                    <div class="progress-step silver">500</div>
-                    <div class="progress-label">PLATA</div>
-                </div>
-                <div>
-                    <div class="progress-step gold active">1000</div>
-                    <div class="progress-label">ORO</div>
-                </div>
-            </div>
-            <p style="text-align: center; color: rgba(255,255,255,0.6); font-size: 1.1rem;">
-                Cada €1 gastado = 10 puntos
-            </p>
-        </div>
-
-        <div class="cta-section">
-            <h2>ÚNETE A LA CREW</h2>
-            <p>Empieza a ganar puntos desde tu primer pedido</p>
-            <button class="cta-btn">Unirse Ahora</button>
         </div>
     </div>
+</section>
+
+<!-- ══ SLIDE 2: DASHBOARD ════════════════════════════════════ -->
+<section class="slide" id="slide-dashboard">
+    <div class="slide-inner">
+        <div class="label-kicker">Experiencia de miembro</div>
+        <h2 class="section-heading">Así se ve tu <span>dashboard</span></h2>
+        <p class="section-sub">Tu espacio personal como parte de la CREW</p>
+        <div class="dashboard-mock">
+
+            <!-- Phone mockup -->
+            <div class="phone-frame">
+                <div class="pf-header">
+                    <div class="pf-title">BIENVENIDO AL CLUB GULA</div>
+                    <div class="pf-name">ALEXIS M.</div>
+                </div>
+                <div class="pf-points-card">
+                    <div>
+                        <div class="pf-pts-label">Puntos actuales</div>
+                        <div class="pf-pts-num">77</div>
+                    </div>
+                    <div>
+                        <div class="pf-pts-label">Nivel</div>
+                        <div class="pf-level-badge">NEOPHYTE</div>
+                    </div>
+                </div>
+                <div class="pf-progress-wrap">
+                    <div class="pf-progress-info">Te faltan <strong style="color:var(--orange)">173 pts</strong> para CREW</div>
+                    <div class="pf-bar">
+                        <div class="pf-bar-fill" style="width:31%"></div>
+                    </div>
+                    <div class="pf-bar-labels"><span>0</span><span>250</span></div>
+                </div>
+                <div class="pf-mission">
+                    <div class="pf-mission-title">MISIÓN ACTIVA</div>
+                    <div class="pf-mission-text">Ven 2 veces esta semana</div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+                        <div class="pf-mission-reward">+60 pts</div>
+                        <span style="font-size:0.68rem;color:rgba(255,255,255,0.4)">Progreso: 1/2</span>
+                    </div>
+                </div>
+                <div class="pf-vote">
+                    <div class="pf-vote-label">Decisiones de la CREW</div>
+                    <div class="pf-vote-q">¿Cuál será el próximo side Gula?</div>
+                    <div class="pf-option">
+                        <span style="min-width:110px;font-size:0.7rem;">Mac and Cheese</span>
+                        <div class="pf-opt-bar"><div class="pf-opt-fill" style="width:45%"></div></div>
+                        <span class="pf-opt-pct">45%</span>
+                    </div>
+                    <div class="pf-option">
+                        <span style="min-width:110px;font-size:0.7rem;">Bacon</span>
+                        <div class="pf-opt-bar"><div class="pf-opt-fill" style="width:30%"></div></div>
+                        <span class="pf-opt-pct">30%</span>
+                    </div>
+                    <div class="pf-option">
+                        <span style="min-width:110px;font-size:0.7rem;">Fritas Cacio e Pepe</span>
+                        <div class="pf-opt-bar"><div class="pf-opt-fill" style="width:25%"></div></div>
+                        <span class="pf-opt-pct">25%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Callouts -->
+            <div class="dash-callouts">
+                <div class="callout-card">
+                    <div class="callout-num">01</div>
+                    <div class="callout-title">Wallet de puntos en tiempo real</div>
+                    <div class="callout-desc">El cliente ve sus puntos actuales, su nivel y cuánto le falta para el siguiente. Actualización automática tras cada compra.</div>
+                </div>
+                <div class="callout-card">
+                    <div class="callout-num">02</div>
+                    <div class="callout-title">Misiones semanales</div>
+                    <div class="callout-desc">Retos con puntos extra que generan visitas recurrentes — "Ven 2 veces esta semana", desafíos sociales, flash missions.</div>
+                </div>
+                <div class="callout-card">
+                    <div class="callout-num">03</div>
+                    <div class="callout-title">Votaciones reales de la comunidad</div>
+                    <div class="callout-desc">Los miembros votan por nuevos productos, eventos y decisiones de marca. La CREW tiene voz y voto real.</div>
+                </div>
+                <div class="callout-card">
+                    <div class="callout-num">04</div>
+                    <div class="callout-title">Recompensas canjeables</div>
+                    <div class="callout-desc">20% OFF bienvenida, descuentos mensuales, acceso al canal privado, eventos exclusivos y más según nivel.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SLIDE 3: TIERS ════════════════════════════════════════ -->
+<section class="slide" id="slide-tiers">
+    <div class="slide-inner">
+        <div class="label-kicker">Sistema de niveles</div>
+        <h2 class="section-heading">Los 4 niveles de la <span>CREW</span></h2>
+        <p class="section-sub">Cuanto más comes, más sube tu rango — y más grande el privilegio</p>
+        <div class="tiers-grid">
+
+            <div class="tier tier-neophyte">
+                <div class="tier-topbar"></div>
+                <div class="tier-name">NEOPHYTE</div>
+                <div class="tier-pts">0 – 249 pts</div>
+                <ul class="tier-benefits">
+                    <li>20% OFF en bienvenida</li>
+                    <li>Acceso al grupo WhatsApp Gula</li>
+                    <li>Dashboard de puntos personal</li>
+                    <li>Misiones semanales disponibles</li>
+                    <li>Puntos por compra desde el día 1</li>
+                </ul>
+            </div>
+
+            <div class="tier tier-crew">
+                <div class="tier-topbar"></div>
+                <div class="tier-name">CREW</div>
+                <div class="tier-pts">250 – 699 pts</div>
+                <ul class="tier-benefits">
+                    <li>Reward mensual fijo (2x1)</li>
+                    <li>Drops exclusivos semanales</li>
+                    <li>Acceso anticipado a nuevos productos</li>
+                    <li>Votación real en decisiones de marca</li>
+                    <li>Eventos abiertos CREW</li>
+                </ul>
+            </div>
+
+            <div class="tier tier-highcrew">
+                <div class="tier-topbar"></div>
+                <div class="tier-name">HIGH CREW</div>
+                <div class="tier-pts">700 – 1199 pts</div>
+                <ul class="tier-benefits">
+                    <li>Eventos privados y degustaciones</li>
+                    <li>Menú secreto ampliado</li>
+                    <li>Fast Pass en sala</li>
+                    <li>Influencia real en decisiones</li>
+                    <li>Beneficios premium acumulativos</li>
+                </ul>
+            </div>
+
+            <div class="tier tier-founders">
+                <div class="tier-topbar"></div>
+                <div class="tier-name">FOUNDERS</div>
+                <div class="tier-pts">+1200 pts</div>
+                <ul class="tier-benefits">
+                    <li>20% OFF <strong style="color:var(--gold)">de por vida</strong></li>
+                    <li>Acceso directo a la marca</li>
+                    <li>Experiencias top exclusivas</li>
+                    <li>Charla con el founder y equipo</li>
+                    <li>Identidad FOUNDERS permanente</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ══ SLIDE 4: POINTS ENGINE ═════════════════════════════════ -->
+<section class="slide" id="slide-points">
+    <div class="slide-inner">
+        <div class="label-kicker">Motor de puntos</div>
+        <h2 class="section-heading">¿Cómo se <span>ganan</span> los puntos?</h2>
+        <p class="section-sub">Cada interacción con Gula tiene recompensa</p>
+        <div class="points-layout">
+            <div class="pts-block">
+                <div class="pts-block-title">Por consumo en sala</div>
+                <div class="pts-formula">
+                    <div class="pts-formula-big">€1 = 3 pts</div>
+                    <div class="pts-formula-sub">cada euro gastado</div>
+                </div>
+                <div class="pts-example">
+                    Pides una <strong>The Sinner Burger (12,90€)</strong> → +39 pts<br>
+                    Le añades <strong>Fritas Trufadas (9,50€)</strong> → +29 pts<br>
+                    Total: <strong>+68 pts en una sola visita</strong>
+                </div>
+            </div>
+            <div class="pts-block">
+                <div class="pts-block-title">Por acciones sociales</div>
+                <div class="pts-row">
+                    <span class="pts-row-label">Registro en Club Gula</span>
+                    <span class="pts-row-val">+22 pts</span>
+                </div>
+                <div class="pts-row">
+                    <span class="pts-row-label">Confirmación de teléfono</span>
+                    <span class="pts-row-val">+22 pts</span>
+                </div>
+                <div class="pts-row">
+                    <span class="pts-row-label">Seguir @thegulacorp</span>
+                    <span class="pts-row-val">+50 pts</span>
+                </div>
+                <div class="pts-row">
+                    <span class="pts-row-label">Publicar un Reel</span>
+                    <span class="pts-row-val">+40 pts</span>
+                </div>
+                <div class="pts-row">
+                    <span class="pts-row-label">Publicar una Story</span>
+                    <span class="pts-row-val">+30 pts</span>
+                </div>
+                <div class="pts-row">
+                    <span class="pts-row-label">Repost de contenido</span>
+                    <span class="pts-row-val">+20 pts</span>
+                </div>
+                <div class="pts-row">
+                    <span class="pts-row-label">Completar misión semanal</span>
+                    <span class="pts-row-val">+60 pts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SLIDE 5: JOURNEY MAP ═══════════════════════════════════ -->
+<section class="slide" id="slide-journey">
+    <div class="slide-inner">
+        <div class="label-kicker">Progresión del miembro</div>
+        <h2 class="section-heading">El viaje de un <span>CREW member</span></h2>
+        <p class="section-sub">Beneficios que crecen con cada visita y cada punto acumulado</p>
+        <div class="journey-track">
+            <div class="journey-node">
+                <div class="journey-circle jc-neo">NEOPHYTE</div>
+                <div class="journey-pts">0 – 249 pts</div>
+                <div class="journey-perks">
+                    <div class="journey-perk jp-neo">20% OFF en la primera visita</div>
+                    <div class="journey-perk jp-neo">WhatsApp Gula exclusivo</div>
+                    <div class="journey-perk jp-neo">Puntos desde el día 1</div>
+                </div>
+            </div>
+            <div class="journey-node">
+                <div class="journey-circle jc-crew">CREW</div>
+                <div class="journey-pts">250 – 699 pts</div>
+                <div class="journey-perks">
+                    <div class="journey-perk jp-crew">2x1 mensual fijo</div>
+                    <div class="journey-perk jp-crew">Drops exclusivos semanales</div>
+                    <div class="journey-perk jp-crew">Voto en decisiones de marca</div>
+                </div>
+            </div>
+            <div class="journey-node">
+                <div class="journey-circle jc-high">HIGH CREW</div>
+                <div class="journey-pts">700 – 1199 pts</div>
+                <div class="journey-perks">
+                    <div class="journey-perk jp-high">Eventos privados y tastings</div>
+                    <div class="journey-perk jp-high">Menú secreto ampliado</div>
+                    <div class="journey-perk jp-high">Fast Pass en sala</div>
+                </div>
+            </div>
+            <div class="journey-node">
+                <div class="journey-circle jc-found">FOUNDERS</div>
+                <div class="journey-pts">+1200 pts</div>
+                <div class="journey-perks">
+                    <div class="journey-perk jp-found">20% OFF de por vida</div>
+                    <div class="journey-perk jp-found">Acceso directo al founder</div>
+                    <div class="journey-perk jp-found">Identidad FOUNDERS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SLIDE 6: LOYALTY CARD ══════════════════════════════════ -->
+<section class="slide" id="slide-card">
+    <div class="slide-inner">
+        <div class="label-kicker">Tu identidad como miembro</div>
+        <h2 class="section-heading" style="text-align:center;">La <span>tarjeta GULA</span></h2>
+        <p class="section-sub" style="text-align:center;margin-bottom:50px;">Tu credencial en el wallet del móvil — siempre contigo</p>
+        <div class="card-showcase">
+            <div class="loyalty-card">
+                <div class="lc-top">
+                    <div class="lc-brand">GULA</div>
+                    <div class="lc-type">GULA LOYALTY<br>CREW MEMBER</div>
+                </div>
+                <div class="lc-code">GULA-AM2847</div>
+                <div class="lc-bottom">
+                    <div>
+                        <div class="lc-holder-label">Titular</div>
+                        <div class="lc-holder-name">ALEXIS MURILLO</div>
+                    </div>
+                    <div class="lc-qr">
+                        <svg viewBox="0 0 21 21" fill="#000" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="7" height="7"/><rect x="9" y="0" width="1" height="1"/><rect x="11" y="0" width="3" height="1"/><rect x="15" y="0" width="7" height="7"/>
+                            <rect x="1" y="1" width="5" height="5" fill="#fff"/><rect x="16" y="1" width="5" height="5" fill="#fff"/>
+                            <rect x="2" y="2" width="3" height="3"/><rect x="17" y="2" width="3" height="3"/>
+                            <rect x="9" y="2" width="1" height="1"/><rect x="11" y="3" width="1" height="2"/>
+                            <rect x="0" y="9" width="1" height="1"/><rect x="2" y="9" width="2" height="1"/>
+                            <rect x="0" y="15" width="7" height="7"/><rect x="1" y="16" width="5" height="5" fill="#fff"/><rect x="2" y="17" width="3" height="3"/>
+                            <rect x="9" y="9" width="3" height="3"/><rect x="13" y="9" width="3" height="3"/><rect x="17" y="9" width="3" height="3"/>
+                            <rect x="9" y="13" width="1" height="1"/><rect x="11" y="13" width="3" height="3"/><rect x="15" y="13" width="1" height="3"/>
+                            <rect x="9" y="17" width="3" height="1"/><rect x="13" y="17" width="3" height="3"/><rect x="17" y="17" width="3" height="3"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="card-features">
+                <div class="cf-item">
+                    <div class="cf-dot"></div>
+                    <div>
+                        <div class="cf-title">Añadir a Apple Wallet o Google Pay</div>
+                        <div class="cf-desc">Un tap y la tarjeta vive en el móvil. Sin app, sin fricción, sin excusas para no presentarla.</div>
+                    </div>
+                </div>
+                <div class="cf-item">
+                    <div class="cf-dot"></div>
+                    <div>
+                        <div class="cf-title">Código único por miembro</div>
+                        <div class="cf-desc">Formato GULA-XXXXXX. El staff lo escanea en sala para acreditar puntos al instante.</div>
+                    </div>
+                </div>
+                <div class="cf-item">
+                    <div class="cf-dot"></div>
+                    <div>
+                        <div class="cf-title">Nivel visible en la tarjeta</div>
+                        <div class="cf-desc">NEOPHYTE, CREW, HIGH CREW o FOUNDERS. Tu rango siempre a la vista.</div>
+                    </div>
+                </div>
+                <div class="cf-item">
+                    <div class="cf-dot"></div>
+                    <div>
+                        <div class="cf-title">Dashboard web accesible 24/7</div>
+                        <div class="cf-desc">Consulta puntos, misiones, recompensas y votaciones desde cualquier dispositivo.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SLIDE 7: CTA ═══════════════════════════════════════════ -->
+<section class="slide" id="slide-cta">
+    <div class="slide-inner" style="text-align:center;">
+        <div class="cta-gula">GULA</div>
+        <div class="cta-line">No es un club de puntos. Es la CREW.</div>
+        <a href="CLUBGULA.html" class="cta-btn">UNIRSE A LA CREW</a>
+    </div>
+</section>
+
 </body>
 </html>
