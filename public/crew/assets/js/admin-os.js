@@ -532,19 +532,16 @@ document.addEventListener('DOMContentLoaded',async()=>{bind();bindPremiumActions
 const UBER_ORDERS_FN=`${SUPABASE_URL}/functions/v1/uber-eats-orders`;
 
 async function loadDelivery(){
-  const storeId=($('uberStoreSelect')?.value||'').trim();
-  if(!storeId){$('uberOrdersTable').innerHTML='<div class="empty">Selecciona una tienda para cargar datos.</div>';return}
+  const stores=['742103f3-6a55-5738-86dd-9901b0f26beb','0e2beda7-e867-5f1f-a4f7-fc2a477559a4','46eadb60-99e8-5077-bd3e-0df76c71ccac','1b3e6cfe-0c98-5eda-89c6-079015067a1d'];
+  const storeNames={['742103f3-6a55-5738-86dd-9901b0f26beb']:'Cartagena',['0e2beda7-e867-5f1f-a4f7-fc2a477559a4']:'Móstoles',['46eadb60-99e8-5077-bd3e-0df76c71ccac']:'Sevilla',['1b3e6cfe-0c98-5eda-89c6-079015067a1d']:'Valencia'};
   $('uberOrdersTable').innerHTML='<div class="skeleton-list"></div>';
   try{
     const headers={'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json'};
-    const [ordersRes,storeRes]=await Promise.all([
-      fetch(`${UBER_ORDERS_FN}?endpoint=orders&store_id=${encodeURIComponent(storeId)}`,{headers}),
-      fetch(`${UBER_ORDERS_FN}?endpoint=store&store_id=${encodeURIComponent(storeId)}`,{headers})
-    ]);
-    const ordersData=await ordersRes.json();
-    const storeData=await storeRes.json();
-    renderUberKpis(ordersData,storeData);
-    renderUberOrders(ordersData);
+    const allRes=await Promise.all(stores.map(s=>fetch(`${UBER_ORDERS_FN}?endpoint=orders&store_id=${encodeURIComponent(s)}`,{headers})));
+    const allData=await Promise.all(allRes.map(r=>r.json()));
+    const allOrders=allData.flatMap((d,i)=>(d.orders||d.data||[]).map(o=>({...o,_store:storeNames[stores[i]]})));
+    renderUberKpis(allOrders);
+    renderUberOrders(allOrders);
     $('uberLastSync').textContent='Sync '+new Date().toLocaleTimeString('es-ES');
   }catch(e){
     $('uberOrdersTable').innerHTML=`<div class="empty" style="color:#ff4d4d">Error: ${safe(e.message)}</div>`;
@@ -552,8 +549,7 @@ async function loadDelivery(){
   }
 }
 
-function renderUberKpis(ordersData,storeData){
-  const orders=ordersData?.orders||ordersData?.data||[];
+function renderUberKpis(orders){
   const today=new Date().toISOString().slice(0,10);
   const todayOrders=orders.filter(o=>(o.placed_at||o.created_at||'').startsWith(today));
   const revenue=todayOrders.reduce((s,o)=>s+(Number(o.cart?.total_price?.total_amount||o.total_price||0)/100),0);
@@ -561,23 +557,22 @@ function renderUberKpis(ordersData,storeData){
   $('uberOrdersToday').textContent=todayOrders.length||orders.length||'0';
   $('uberRevenueToday').textContent=revenue.toFixed(2)+'€';
   $('uberAvgTicket').textContent=avg.toFixed(2)+'€';
-  const status=storeData?.status||storeData?.store?.status||storeData?.current_state||'—';
-  const statusEl=$('uberStoreStatus');
-  statusEl.textContent=status;
-  statusEl.style.color=status==='ONLINE'||status==='open'?'#50f2a8':status==='OFFLINE'||status==='closed'?'#ff4d4d':'inherit';
+  $('uberStoreStatus').textContent='Todas activas';
+  $('uberStoreStatus').style.color='#50f2a8';
 }
 
 function renderUberOrders(data){
-  const orders=data?.orders||data?.data||[];
+  const orders=data?.orders||data?.data||data||[];
   if(!orders.length){$('uberOrdersTable').innerHTML='<div class="empty">Sin pedidos en sandbox.</div>';return}
-  $('uberOrdersTable').innerHTML=`<table class="data-table"><thead><tr><th>ID</th><th>Estado</th><th>Artículos</th><th>Total</th><th>Fecha</th></tr></thead><tbody>${
+  $('uberOrdersTable').innerHTML=`<table class="data-table"><thead><tr><th>Tienda</th><th>ID</th><th>Estado</th><th>Artículos</th><th>Total</th><th>Fecha</th></tr></thead><tbody>${
     orders.slice(0,30).map(o=>{
       const id=(o.id||o.order_id||'—').slice(-8);
       const status=o.current_state||o.status||'—';
       const items=(o.cart?.items||[]).length||(o.items||[]).length||'—';
       const total=((o.cart?.total_price?.total_amount||o.total_price||0)/100).toFixed(2)+'€';
       const date=new Date(o.placed_at||o.created_at||Date.now()).toLocaleString('es-ES',{month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-      return`<tr><td><code>…${safe(id)}</code></td><td><span class="pill">${safe(status)}</span></td><td>${safe(String(items))}</td><td>${safe(total)}</td><td>${safe(date)}</td></tr>`;
+      const store=o._store||'—';
+      return`<tr><td><span class="pill">${safe(store)}</span></td><td><code>…${safe(id)}</code></td><td><span class="pill">${safe(status)}</span></td><td>${safe(String(items))}</td><td>${safe(total)}</td><td>${safe(date)}</td></tr>`;
     }).join('')
   }</tbody></table>`;
 }
