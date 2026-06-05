@@ -277,9 +277,11 @@
         .model-card .mname { font-family: 'Akira Expanded', sans-serif; font-size: 1rem; color: #fff; letter-spacing: 1px; }
         .model-card .mdesc { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.55; margin-bottom: 1rem; }
         .model-card .specs { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.2rem; }
-        .model-card .spec { display: flex; flex-direction: column; gap: 0.3rem; padding: 0.8rem 1rem; background: rgba(255,255,255,0.04); border-radius: 12px; border-left: 3px solid var(--mc); font-size: 0.8rem; }
+        .model-card .spec { display: flex; flex-direction: column; gap: 0.3rem; padding: 0.8rem 1rem; background: rgba(255,255,255,0.04); border-radius: 12px; border-left: 3px solid var(--mc); font-size: 0.8rem; min-height: 80px; }
         .model-card .spec .lbl { color: #666; font-family: 'Akira Expanded', sans-serif; font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; }
         .model-card .spec .val { color: #fff; font-weight: 500; line-height: 1.4; }
+        .model-card .inner { display: flex; flex-direction: column; height: 100%; }
+        .model-card .mdesc { flex-grow: 1; }
 
         .m-flagship { --mc: #FF5800; --mc-light: #FF7A29; }
         .m-standard { --mc: #C0C0C0; --mc-light: #E8E8E8; }
@@ -556,22 +558,22 @@
 
             <!-- MODELOS DE TIENDA -->
             <h2 class="sect-heading reveal">Formatos · 03</h2>
-            <h3 class="sect-title reveal">CONSOLIDATE THE BRAND</h3>
+            <h3 class="sect-title reveal">Consolidar la marca</h3>
             <div class="models-grid reveal">
                 <div class="model-card m-flagship spotlight" data-tilt>
                     <div class="inner">
                         <div class="head">
                             <div class="badge" data-num="01"></div>
                             <div>
-                                <div class="tier">TIER 1</div>
-                                <div class="mname">FLAGSHIP</div>
+                                <div class="tier">Tier 1</div>
+                                <div class="mname">Flagship</div>
                             </div>
                         </div>
-                        <p class="mdesc">MAXIMUM BRAND EXPRESSION COMMUNITY, EXPERIENCE AND VISIBILITY</p>
+                        <p class="mdesc">Máxima expresión de marca, comunidad, experiencia y visibilidad</p>
                         <div class="specs">
-                            <div class="spec"><span class="lbl">ROLE</span><span class="val">CONTENT AND STORYTELLING ENGINE</span></div>
-                            <div class="spec"><span class="lbl">CHARACTERISTICS</span><span class="val">RELEVANT DINING ROOM · HIGH BRAND IMPACT · CITY REFERENCE POINT</span></div>
-                            <div class="spec"><span class="lbl">SYSTEM</span><span class="val">BRAND BUILDING, COMMUNITY ACTIVATION AND MARKET LEADERSHIP</span></div>
+                            <div class="spec"><span class="lbl">Rol</span><span class="val">Motor de contenido y storytelling</span></div>
+                            <div class="spec"><span class="lbl">Características</span><span class="val">Sala de comedor relevante · Alto impacto de marca · Punto de referencia de la ciudad</span></div>
+                            <div class="spec"><span class="lbl">Sistema</span><span class="val">Construcción de marca, activación de comunidad y liderazgo de mercado</span></div>
                         </div>
                     </div>
                 </div>
@@ -580,15 +582,15 @@
                         <div class="head">
                             <div class="badge" data-num="02"></div>
                             <div>
-                                <div class="tier">TIER 2</div>
-                                <div class="mname">STANDARD</div>
+                                <div class="tier">Tier 2</div>
+                                <div class="mname">Standard</div>
                             </div>
                         </div>
-                        <p class="mdesc">SCALE VOLUME</p>
+                        <p class="mdesc">Escalar volumen</p>
                         <div class="specs">
-                            <div class="spec"><span class="lbl">ROLE</span><span class="val">BALANCE BETWEEN PROFITABILITY AND PHYSICAL PRESENCE</span></div>
-                            <div class="spec"><span class="lbl">CHARACTERISTICS</span><span class="val">EFFICIENT DINING ROOM · DELIVERY AS THE MAIN GROWTH ENGINE · CONTROLLED COSTS</span></div>
-                            <div class="spec"><span class="lbl">SYSTEM</span><span class="val">THE SCALABLE BACKBONE OF THE NETWORK</span></div>
+                            <div class="spec"><span class="lbl">Rol</span><span class="val">Equilibrio entre rentabilidad y presencia física</span></div>
+                            <div class="spec"><span class="lbl">Características</span><span class="val">Sala de comedor eficiente · Delivery como motor de crecimiento · Costos controlados</span></div>
+                            <div class="spec"><span class="lbl">Sistema</span><span class="val">La espalda escalable de la red</span></div>
                         </div>
                     </div>
                 </div>
@@ -597,15 +599,15 @@
                         <div class="head">
                             <div class="badge" data-num="03"></div>
                             <div>
-                                <div class="tier">TIER 3</div>
-                                <div class="mname">DARK / EXPRESS</div>
+                                <div class="tier">Tier 3</div>
+                                <div class="mname">Dark / Express</div>
                             </div>
                         </div>
-                        <p class="mdesc">VALIDATE THE MARKET</p>
+                        <p class="mdesc">Validar el mercado</p>
                         <div class="specs">
-                            <div class="spec"><span class="lbl">ROLE</span><span class="val">FAST MARKET ENTRY · DEMAND AND PRODUCT TESTING · MINIMAL UPFRONT INVESTMENT</span></div>
-                            <div class="spec"><span class="lbl">CHARACTERISTICS</span><span class="val">NO DINING ROOM · MAXIMUM OPERATIONAL EFFICIENCY · RIDERS CORNER · DATA DRIVEN FROM DAY ONE</span></div>
-                            <div class="spec"><span class="lbl">SYSTEM</span><span class="val">MARKET ENTRY, TESTING AND CAPITAL-EFFICIENT EXPANSION</span></div>
+                            <div class="spec"><span class="lbl">Rol</span><span class="val">Entrada rápida al mercado · Testeo de demanda y producto · Inversión inicial mínima</span></div>
+                            <div class="spec"><span class="lbl">Características</span><span class="val">Sin sala de comedor · Máxima eficiencia operacional · Rincón de riders · Impulsado por datos desde el día 1</span></div>
+                            <div class="spec"><span class="lbl">Sistema</span><span class="val">Entrada al mercado, testeo y expansión eficiente en capital</span></div>
                         </div>
                     </div>
                 </div>
@@ -641,7 +643,7 @@
             <div class="cta-section reveal">
                 <h2>¿Tienes lo que <span style="color:var(--gula-orange);">hace falta</span>?</h2>
                 <p>Dossier completo + llamada con el equipo. Sin compromiso.</p>
-                <a href="franquiciado.html" class="cta-btn magnetic">Solicitar info →</a>
+                <a href="franquiciado.html" class="cta-btn magnetic">Solicitar info</a>
             </div>
         </div>
     </main>
