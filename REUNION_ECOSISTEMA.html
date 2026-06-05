@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reunión: Ecosistema Tecnológico GULA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gula-orange: #FF5800;
+            --gula-orange-dark: #E64A00;
+            --bg-dark: #000000;
+            --bg-card: #111111;
+            --accent-white: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(255, 88, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #000000;
+            color: var(--accent-white);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255,88,0,0.1) 0%, rgba(255,88,0,0.05) 100%);
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .objectives {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .objective-item {
+            background: linear-gradient(135deg, rgba(255,88,0,0.08) 0%, rgba(255,88,0,0.03) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .objective-item:hover {
+            border-color: var(--gula-orange);
+            transform: translateY(-3px);
+        }
+
+        .objective-item i {
+            font-size: 2rem;
+            color: var(--gula-orange);
+            margin-bottom: 10px;
+        }
+
+        .objective-item span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 900;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .component-card {
+            background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(10,10,10,0.9) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .component-card:hover {
+            border-color: var(--gula-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255,88,0,0.15);
+        }
+
+        .component-card.active {
+            border-color: var(--gula-orange);
+            box-shadow: 0 0 30px rgba(255,88,0,0.3);
+        }
+
+        .component-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .component-card.active .component-details {
+            max-height: 2000px;
+        }
+
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 450px;
+            height: 100vh;
+            background: rgba(10,10,10,0.98);
+            border-left: 2px solid var(--gula-orange);
+            padding: 30px;
+            overflow-y: auto;
+            transition: right 0.4s ease;
+            z-index: 1000;
+        }
+
+        .side-panel.active {
+            right: 0;
+        }
+
+        .side-panel-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gula-orange);
+            border: none;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 900;
+        }
+
+        .side-panel h2 {
+            font-size: 1.5rem;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-right: 50px;
+        }
+
+        .side-panel-section {
+            margin-bottom: 25px;
+        }
+
+        .side-panel-section h3 {
+            font-size: 0.9rem;
+            color: var(--accent-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .side-panel-section p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .side-panel-section ul {
+            list-style: none;
+        }
+
+        .side-panel-section li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .side-panel-section li::before {
+            content: '▸';
+            color: var(--gula-orange);
+            position: absolute;
+            left: 0;
+        }
+
+        .pluscula-note {
+            background: linear-gradient(135deg, rgba(255,88,0,0.1) 0%, rgba(255,88,0,0.05) 100%);
+            border: 1px solid var(--gula-orange);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .pluscula-note h4 {
+            color: var(--gula-orange);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .pluscula-note p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .component-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .component-header h3 {
+            font-size: 1.2rem;
+            color: var(--accent-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 700;
+        }
+
+        .status-badge.developed {
+            background: rgba(255,88,0,0.2);
+            color: var(--gula-orange);
+            border: 1px solid var(--gula-orange);
+        }
+
+        .status-badge.inprogress {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            border: 1px solid #FFC107;
+        }
+
+        .status-badge.pending {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .component-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            background: rgba(255,88,0,0.05);
+            border: 1px solid rgba(255,88,0,0.15);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .info-item span {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .metric-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .metric-item i {
+            color: var(--gula-orange);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .metric-item span {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        .questions-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,88,0,0.1);
+        }
+
+        .question-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .question-item i {
+            color: var(--gula-orange);
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+
+        .question-item span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .strategic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .strategic-card {
+            background: linear-gradient(135deg, rgba(255,88,0,0.05) 0%, rgba(255,88,0,0.02) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .strategic-card h3 {
+            font-size: 1rem;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .strategic-card ul {
+            list-style: none;
+        }
+
+        .strategic-card li {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,88,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .strategic-card li:last-child {
+            border-bottom: none;
+        }
+
+        .strategic-card li i {
+            color: var(--gula-orange);
+            font-size: 0.7rem;
+        }
+
+        .key-points {
+            background: linear-gradient(135deg, rgba(255,88,0,0.1) 0%, rgba(255,88,0,0.05) 100%);
+            border: 2px solid var(--gula-orange);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .key-points h3 {
+            font-size: 1.2rem;
+            color: var(--gula-orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .key-points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .key-point-item {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,88,0,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .key-point-item .number {
+            width: 40px;
+            height: 40px;
+            background: var(--gula-orange);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .key-point-item span {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+            .component-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ecosistema Tecnológico</h1>
+            <p>Reunión de Alineación Estratégica — GULA</p>
+        </div>
+
+        <div class="objectives">
+            <div class="objective-item">
+                <i class="fas fa-bullseye"></i>
+                <span>Visión Estratégica</span>
+            </div>
+            <div class="objective-item">
+                <i class="fas fa-cogs"></i>
+                <span>Rol de Herramientas</span>
+            </div>
+            <div class="objective-item">
+                <i class="fas fa-store"></i>
+                <span>Modelo de Franquicia</span>
+            </div>
+            <div class="objective-item">
+                <i class="fas fa-link"></i>
+                <span>Sinergias</span>
+            </div>
+            <div class="objective-item">
+                <i class="fas fa-road"></i>
+                <span>Roadmap</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">Componentes del Ecosistema</h2>
+        <div class="component-grid">
+            <!-- Calculadora -->
+            <div class="component-card" onclick="openSidePanel('calculadora')">
+                <div class="component-header">
+                    <h3>1. Calculadora</h3>
+                    <span class="status-badge inprogress">En desarrollo</span>
+                </div>
+                <div class="component-info">
+                    <div class="info-item">
+                        <label>Estado</label>
+                        <span>/CALCULATOR/</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Función</label>
+                        <span>Costos/Rentabilidad</span>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <i class="fas fa-box"></i>
+                        <span>21 Productos</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>5 Canales</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-tags"></i>
+                        <span>6 Promociones</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-percentage"></i>
+                        <span>Márgenes</span>
+                    </div>
+                </div>
+                <div class="component-details">
+                    <div class="questions-section">
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Uso interno o franquiciados?</strong> Diseñada como PWA portable, sin restricciones de acceso</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Qué métricas calcula?</strong> Coste base/inflado, precio venta, comisiones, beneficios, márgenes, pérdidas por promo</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Integración?</strong> Standalone (HTML+JS), sin integración a Supabase</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CRM -->
+            <div class="component-card" onclick="openSidePanel('crm')">
+                <div class="component-header">
+                    <h3>2. CRM</h3>
+                    <span class="status-badge inprogress">En desarrollo</span>
+                </div>
+                <div class="component-info">
+                    <div class="info-item">
+                        <label>Estado</label>
+                        <span>/admin.html</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Función</label>
+                        <span>Gestión Leads/Miembros</span>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <i class="fas fa-users"></i>
+                        <span>Leads</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-user-check"></i>
+                        <span>Miembros Club</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Pedidos</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-percent"></i>
+                        <span>Promociones</span>
+                    </div>
+                </div>
+                <div class="component-details">
+                    <div class="questions-section">
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿CRM central?</strong> Sí, dashboard conectado a Supabase con KPIs, leads, miembros, pedidos, promociones</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Datos manejados?</strong> Leads (contactos, franquicia, Club GULA, waitlist), Miembros, Pedidos, Promociones, Consentimientos</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Sección franquiciados?</strong> Viable con RLS de Supabase para restringir acceso por franquicia</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-times-circle"></i>
+                            <span><strong>¿Gestión inventario?</strong> No implementada, funcionalidad a desarrollar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketplace -->
+            <div class="component-card" onclick="openSidePanel('marketplace')">
+                <div class="component-header">
+                    <h3>3. Marketplace</h3>
+                    <span class="status-badge inprogress">En desarrollo</span>
+                </div>
+                <div class="component-info">
+                    <div class="info-item">
+                        <label>Estado</label>
+                        <span>/marketplace/</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Función</label>
+                        <span>Showcase Productos</span>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <i class="fas fa-eye"></i>
+                        <span>Showcase</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Delivery Links</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email CTA</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-globe"></i>
+                        <span>Centralizado</span>
+                    </div>
+                </div>
+                <div class="component-details">
+                    <div class="questions-section">
+                        <div class="question-item">
+                            <i class="fas fa-times-circle"></i>
+                            <span><strong>¿Funcional o showcase?</strong> Showcase. Botones redirigen a Glovo/Uber Eats. Sin carrito, checkout o gestión de pedidos</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Integración delivery?</strong> Enlaces directos a glovoapp.com y ubereats.com (redirección básica)</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-times-circle"></i>
+                            <span><strong>¿Integración pedidos tienda?</strong> No hay integración. Pedidos van a plataformas externas</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Rol Club GULA?</strong> Email de bienvenida incluye CTA al marketplace. Canal de descubrimiento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chatbot -->
+            <div class="component-card" onclick="openSidePanel('chatbot')">
+                <div class="component-header">
+                    <h3>4. Chatbot</h3>
+                    <span class="status-badge pending">Por definir</span>
+                </div>
+                <div class="component-info">
+                    <div class="info-item">
+                        <label>Estado</label>
+                        <span>No desarrollado</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Función</label>
+                        <span>Por definir</span>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <i class="fas fa-robot"></i>
+                        <span>Automatización</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-plug"></i>
+                        <span>Integración CRM</span>
+                    </div>
+                </div>
+                <div class="component-details">
+                    <div class="questions-section">
+                        <div class="question-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span><strong>¿Automatización de qué procesos?</strong> Por definir (pedidos, soporte, marketing)</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span><strong>¿Integración con CRM?</strong> Por definir</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web -->
+            <div class="component-card" onclick="openSidePanel('web')">
+                <div class="component-header">
+                    <h3>5. Web</h3>
+                    <span class="status-badge inprogress">En desarrollo</span>
+                </div>
+                <div class="component-info">
+                    <div class="info-item">
+                        <label>Estado</label>
+                        <span>/public/crew/</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Función</label>
+                        <span>Branding + Leads</span>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <i class="fas fa-home"></i>
+                        <span>7 Páginas</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Captación Leads</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-crown"></i>
+                        <span>Club GULA</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Dashboard CRM</span>
+                    </div>
+                </div>
+                <div class="component-details">
+                    <div class="questions-section">
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Rol principal?</strong> Ambos. Branding corporativo + formularios de conversión (leads, registros)</span>
+                        </div>
+                        <div class="question-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>¿Integración Club GULA?</strong> Formulario waitlist conecta a Supabase. Email con CTA a marketplace. Dashboard gestiona miembros</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">Preguntas Estratégicas</h2>
+        <div class="strategic-grid">
+            <div class="strategic-card">
+                <h3><i class="fas fa-store"></i> Modelo de Franquicia</h3>
+                <ul>
+                    <li><i class="fas fa-circle"></i> ¿Herramientas obligatorias?</li>
+                    <li><i class="fas fa-circle"></i> ¿Opcionales/pagadas?</li>
+                    <li><i class="fas fa-circle"></i> ¿Fee mensual?</li>
+                </ul>
+            </div>
+            <div class="strategic-card">
+                <h3><i class="fas fa-bullseye"></i> Propósito</h3>
+                <ul>
+                    <li><i class="fas fa-circle"></i> ¿Problema que resuelve?</li>
+                    <li><i class="fas fa-circle"></i> ¿Cómo medir éxito?</li>
+                    <li><i class="fas fa-circle"></i> ¿ROI esperado?</li>
+                </ul>
+            </div>
+            <div class="strategic-card">
+                <h3><i class="fas fa-database"></i> Propiedad</h3>
+                <ul>
+                    <li><i class="fas fa-circle"></i> ¿Datos centralizados?</li>
+                    <li><i class="fas fa-circle"></i> ¿Acceso GULA Corp?</li>
+                </ul>
+            </div>
+            <div class="strategic-card">
+                <h3><i class="fas fa-list-ol"></i> Prioridades</h3>
+                <ul>
+                    <li><i class="fas fa-circle"></i> ¿Herramienta crítica?</li>
+                    <li><i class="fas fa-circle"></i> ¿Fases posteriores?</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="key-points">
+            <h3><i class="fas fa-key"></i> Puntos Clave para la Reunión</h3>
+            <div class="key-points-grid">
+                <div class="key-point-item">
+                    <div class="number">1</div>
+                    <span>Marketplace: ¿Funcional o showcase?</span>
+                </div>
+                <div class="key-point-item">
+                    <div class="number">2</div>
+                    <span>Modelo datos: ¿Centralizado o independiente?</span>
+                </div>
+                <div class="key-point-item">
+                    <div class="number">3</div>
+                    <span>CRM: ¿Alcance para franquiciados?</span>
+                </div>
+                <div class="key-point-item">
+                    <div class="number">4</div>
+                    <span>Priorizar: Inventario, chatbot, etc.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="side-panel" id="sidePanel">
+        <button class="side-panel-close" onclick="closeSidePanel()">×</button>
+        <h2 id="sidePanelTitle">Componente</h2>
+        <div id="sidePanelContent"></div>
+    </div>
+
+    <script>
+        const componentData = {
+            calculadora: {
+                title: '1. Calculadora',
+                sections: [
+                    {
+                        title: 'Estado y Función',
+                        content: '<p>Desarrollada en /CALCULATOR/</p><p>Cálculo de costos y rentabilidad</p>'
+                    },
+                    {
+                        title: 'Problema que Resuelve',
+                        content: '<p>Permite a los operadores tomar decisiones informadas sobre precios y promociones, calculando el impacto en márgenes y beneficios en tiempo real.</p>'
+                    },
+                    {
+                        title: 'Objetivos Actuales',
+                        content: '<ul><li>Calcular rentabilidad por producto y canal</li><li>Simular promociones y su impacto</li><li>Determinar precios óptimos</li><li>Evaluar pérdida por promociones</li></ul>'
+                    },
+                    {
+                        title: 'Posibles Objetivos Futuros',
+                        content: '<ul><li>Integración con inventario en tiempo real</li><li>Alertas de márgenes bajos</li><li>Histórico de precios y promociones</li><li>Comparativa entre franquicias</li><li>Recomendaciones automáticas de precios y promociones</li></ul>'
+                    },
+                    {
+                        title: 'Métricas Calculadas',
+                        content: '<ul><li>21 productos (burgers, combos, sides, sliders)</li><li>5 canales de venta (Sala, Uber, Glovo, Glovo Pick Up, Takeaway)</li><li>6 tipos de promociones (porcentaje, importe fijo, Uber 30% OFF, 2x1, 3x2)</li><li>Coste base y coste inflado (10% o 15%)</li><li>Precio de venta editable</li><li>Comisiones por canal</li><li>Beneficio normal y promocional</li><li>Márgenes (%)</li><li>Pérdida por promoción</li><li>Unidades para recuperar pérdida</li></ul>'
+                    },
+                    {
+                        title: 'Preguntas Clave',
+                        content: '<p><strong>¿Uso interno o franquiciados?</strong> Diseñada como PWA portable, sin restricciones de acceso</p><p><strong>¿Integración?</strong> Standalone (HTML+JS), sin integración a Supabase</p>'
+                    }
+                ]
+            },
+            crm: {
+                title: '2. CRM',
+                sections: [
+                    {
+                        title: 'Estado y Función',
+                        content: '<p>Dashboard en /public/crew/admin.html</p><p>Gestión de leads, miembros, pedidos</p>'
+                    },
+                    {
+                        title: 'Problema que Resuelve',
+                        content: '<p>Centraliza toda la información del negocio en un solo lugar, permitiendo seguimiento de leads, gestión de miembros y análisis de KPIs.</p>'
+                    },
+                    {
+                        title: 'Objetivos Actuales',
+                        content: '<ul><li>Visualización de KPIs generales</li><li>Gestión de leads (contactos, franquicias, Club GULA)</li><li>Gestión de miembros del Club GULA</li><li>Gestión de pedidos web</li><li>Gestión de promociones</li><li>Exportación de datos</li></ul>'
+                    },
+                    {
+                        title: 'Posibles Objetivos Futuros',
+                        content: '<ul><li>Gestión de inventario</li><li>Control de costes</li><li>Sección limitada para franquiciados (RLS)</li><li>Reportes avanzados y dashboards personalizados</li><li>Integración con POS</li><li>Automatización de marketing</li></ul>'
+                    },
+                    {
+                        title: 'Datos Manejados',
+                        content: '<ul><li><strong>Leads:</strong> Contactos web, solicitudes de franquicia, registros Club GULA, waitlist</li><li><strong>Miembros:</strong> Usuarios registrados en Club GULA</li><li><strong>Pedidos:</strong> Pedidos web</li><li><strong>Promociones:</strong> Gestión de códigos promocionales</li><li><strong>Consentimientos:</strong> Gestión de cookies y privacidad</li></ul>'
+                    },
+                    {
+                        title: 'Preguntas Clave',
+                        content: '<p><strong>¿CRM central?</strong> Sí, conectado a Supabase con KPIs, leads, miembros, pedidos, promociones</p><p><strong>¿Sección franquiciados?</strong> Viable con RLS de Supabase para restringir acceso por franquicia</p><p><strong>¿Gestión inventario?</strong> No implementada, funcionalidad a desarrollar</p>'
+                    }
+                ]
+            },
+            marketplace: {
+                title: '3. Marketplace',
+                sections: [
+                    {
+                        title: 'Estado y Función',
+                        content: '<p>Marketplace en /public/crew/marketplace/</p><p>Showcase de productos</p>'
+                    },
+                    {
+                        title: 'Problema que Resuelve',
+                        content: '<p>Actualmente: Permite a los clientes ver el catálogo de productos y descubrir la oferta de GULA.</p><p>Potencialmente: Podría ser canal de ventas directo con carrito y checkout.</p>'
+                    },
+                    {
+                        title: 'Objetivos Actuales',
+                        content: '<ul><li>Showcase de productos con precios</li><li>Canal de descubrimiento para Club GULA</li><li>Redirección a plataformas de delivery (Glovo, Uber Eats)</li></ul>'
+                    },
+                    {
+                        title: 'Posibles Objetivos Futuros',
+                        content: '<ul><li>Carrito funcional</li><li>Checkout integrado</li><li>Gestión de pedidos en tiempo real</li><li>Integración con inventario</li><li>Pedidos para recoger en tienda</li><li>Programación de pedidos</li></ul>'
+                    },
+                    {
+                        title: 'Funcionalidad Actual',
+                        content: '<ul><li><strong>Tipo:</strong> Showcase (no funcional)</li><li><strong>Botones:</strong> Redirigen a Glovo y Uber Eats</li><li><strong>Carrito:</strong> No implementado</li><li><strong>Checkout:</strong> No implementado</li><li><strong>Gestión pedidos:</strong> No implementada</li></ul>'
+                    },
+                    {
+                        title: 'Integraciones',
+                        content: '<p><strong>Delivery:</strong> Enlaces directos a glovoapp.com y ubereats.com (redirección básica)</p><p><strong>Pedidos tienda:</strong> No hay integración. Pedidos van a plataformas externas</p>'
+                    },
+                    {
+                        title: 'Rol en Club GULA',
+                        content: '<p>Email de bienvenida incluye CTA "VER LA CARTA" al marketplace. Es un canal de descubrimiento de productos, no de compra directa.</p>'
+                    }
+                ]
+            },
+            chatbot: {
+                title: '4. Chatbot',
+                sections: [
+                    {
+                        title: 'Estado',
+                        content: '<p>No desarrollado. No existe código de chatbot en el proyecto actual.</p>'
+                    },
+                    {
+                        title: 'Problema que Podría Resolver',
+                        content: '<p>Automatizar atención al cliente, pedidos y soporte, reduciendo tiempos de respuesta y mejorando la experiencia del usuario.</p>'
+                    },
+                    {
+                        title: 'Objetivos Potenciales',
+                        content: '<ul><li>Automatización de pedidos</li><li>Soporte al cliente 24/7</li><li>Marketing y promociones</li><li>Resolución de dudas frecuentes</li><li>Seguimiento de pedidos</li></ul>'
+                    },
+                    {
+                        title: 'Preguntas a Definir',
+                        content: '<ul><li>¿Automatización de qué procesos? (pedidos, soporte, marketing)</li><li>¿Integración con CRM?</li><li>¿Canal? (WhatsApp, web, ambos)</li></ul>'
+                    }
+                ]
+            },
+            web: {
+                title: '5. Web',
+                sections: [
+                    {
+                        title: 'Estado y Función',
+                        content: '<p>Sitio corporativo en /public/crew/</p><p>Branding corporativo + captación de leads</p>'
+                    },
+                    {
+                        title: 'Problema que Resuelve',
+                        content: '<p>Presencia online de la marca, captación de leads (franquicias, Club GULA) y showcase de productos.</p>'
+                    },
+                    {
+                        title: 'Objetivos Actuales',
+                        content: '<ul><li><strong>Recopilación de datos de clientes</strong></li><li><strong>Canal propio de ventas sin dependencia de plataformas</strong></li><li><strong>Attracción de inversores para franquicias</strong></li><li>Branding corporativo</li><li>Captación de leads (contacto, franquicia, Club GULA)</li><li>Showcase de productos (marketplace)</li><li>Acceso al CRM (admin)</li></ul>'
+                    },
+                    {
+                        title: 'Posibles Objetivos Futuros',
+                        content: '<ul><li>E-commerce funcional</li><li>Blog de contenido</li><li>Área de recursos para franquiciados</li><li>Integración con sistema de reservas</li><li>Personalización por usuario</li></ul>'
+                    },
+                    {
+                        title: 'Páginas',
+                        content: '<ul><li>index.html (home)</li><li>sobre.html (nosotros)</li><li>marketplace.html (carta)</li><li>club.html / CLUBGULA.html (Club GULA)</li><li>franquicias.html (franquicia)</li><li>contacto.html (contacto)</li><li>admin.html (dashboard CRM)</li></ul>'
+                    },
+                    {
+                        title: 'Integración Club GULA',
+                        content: '<p>Formulario waitlist conecta a Supabase Edge Function. Email de confirmación incluye CTA al marketplace. Dashboard admin gestiona los miembros del Club.</p>'
+                    }
+                ]
+            },
+        };
+
+        function openSidePanel(component) {
+            const panel = document.getElementById('sidePanel');
+            const title = document.getElementById('sidePanelTitle');
+            const content = document.getElementById('sidePanelContent');
+            
+            const data = componentData[component];
+            if (data) {
+                title.textContent = data.title;
+                content.innerHTML = data.sections.map(section => `
+                    <div class="side-panel-section">
+                        <h3>${section.title}</h3>
+                        ${section.content}
+                    </div>
+                `).join('');
+                panel.classList.add('active');
+            }
+        }
+
+        function closeSidePanel() {
+            document.getElementById('sidePanel').classList.remove('active');
+        }
+
+        function toggleCard(card) {
+            card.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

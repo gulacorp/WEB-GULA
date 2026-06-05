@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>GULA - Carta</title>
+    <meta name="description" content="Explora la carta de GULA. Burgers smash premium, entrantes, postres y combos. Pide online con entrega o recogida.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_CzhZyojSwkVTiPBfQPEt2esM4swrJeobgmSMeuUUheMU', {api_host:'https://us.posthog.com', person_profiles:'identified_only'});
+    </script>
+    <style>
+        @font-face {
+            font-family: 'Akira Expanded';
+            src: url('Akira Expanded Demo.otf') format('opentype');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Aveline';
+            src: url('AvelineRegular.otf') format('opentype');
+            font-display: swap;
+        }
+
+        :root {
+            --gula-orange: #FF5800;
+            --gula-orange-dark: #E64A00;
+            --bg-dark: #000000;
+            --bg-card: #111111;
+            --bg-hover: #1a1a1a;
+            --accent-white: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(255, 88, 0, 0.3);
+            --border-color-strong: rgba(255, 88, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #000000;
+            color: var(--accent-white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--border-color);
+            padding: 0 28px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+            box-shadow: 0 8px 32px rgba(255, 88, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .nav-logo {
+            font-family: 'Aveline', sans-serif;
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: var(--gula-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(255, 88, 0, 0.5);
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-center a {
+            font-family: 'Akira Expanded', sans-serif;
+            color: var(--accent-white);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 600;
+            position: relative;
+            transition: color 0.3s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .nav-center a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gula-orange), #FF7A29);
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 10px rgba(255, 88, 0, 0.5);
+        }
+
+        .nav-center a:hover {
+            color: var(--gula-orange);
+            text-shadow: 0 0 15px rgba(255, 88, 0, 0.5);
+        }
+
+        .nav-center a:hover::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-bar {
+            background: rgba(17, 17, 17, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid var(--border-color);
+            color: var(--accent-white);
+            padding: 8px 13px;
+            border-radius: 50px;
+            width: 170px;
+            font-size: 0.82rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: inset 0 0 20px rgba(255, 88, 0, 0.05);
+        }
+
+        .search-bar::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--gula-orange);
+            box-shadow: 0 0 20px rgba(255, 88, 0, 0.3), inset 0 0 20px rgba(255, 88, 0, 0.08);
+            background: rgba(17, 17, 17, 0.8);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--gula-orange);
+            transition: all 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-icon.is-disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--gula-orange);
+            color: #000;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 900;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .marketplace-container {
+            max-width: 1400px;
+            margin: 100px auto 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .marketplace-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .marketplace-header h1 {
+            font-size: 3.5rem;
+            font-family: 'Aveline', sans-serif;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .marketplace-header .highlight {
+            color: var(--gula-orange);
+            text-shadow: 0 0 20px rgba(255, 88, 0, 0.3);
+        }
+
+        .marketplace-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.8rem;
+            background: rgba(255, 88, 0, 0.1);
+            border: 2px solid rgba(255, 88, 0, 0.3);
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 50px;
+            font-family: 'Akira Expanded', sans-serif;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--gula-orange);
+            color: #000;
+            border-color: var(--gula-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 88, 0, 0.3);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: rgba(20, 20, 20, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            position: relative;
+            animation: fadeInUp 0.6s ease-out;
+            box-shadow: 0 0 30px rgba(255, 88, 0, 0.05), inset 0 0 30px rgba(255, 88, 0, 0.02);
+        }
+
+        .product-card:hover {
+            border-color: var(--gula-orange);
+            transform: translateY(-20px);
+            box-shadow: 0 40px 60px rgba(255, 88, 0, 0.25), inset 0 0 40px rgba(255, 88, 0, 0.08);
+            background: rgba(20, 20, 20, 0.7);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1) 0%, rgba(255, 88, 0, 0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            font-size: 4rem;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--gula-orange);
+            color: var(--bg-dark);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            z-index: 2;
+            letter-spacing: 1px;
+        }
+
+        .product-content {
+            padding: 25px;
+        }
+
+        .product-category {
+            color: var(--gula-orange);
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+            font-family: 'Akira Expanded', sans-serif;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--accent-white);
+        }
+
+        .product-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .star {
+            color: var(--gula-orange);
+        }
+
+        .rating-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--gula-orange);
+            font-family: 'Aveline', sans-serif;
+        }
+
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, var(--gula-orange) 0%, #FF7A29 100%);
+            color: #000;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 900;
+            box-shadow: 0 5px 20px rgba(255, 88, 0, 0.2);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 15px 40px rgba(255, 88, 0, 0.4);
+        }
+
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: flex-end;
+            z-index: 1000;
+        }
+
+        .cart-modal.active {
+            display: flex;
+        }
+
+        .stores-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stores-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .stores-content {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(25, 25, 25, 0.9) 100%);
+            backdrop-filter: blur(40px);
+            border: 1.5px solid rgba(255, 88, 0, 0.25);
+            border-radius: 24px;
+            width: 92%;
+            max-width: 1100px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 88, 0, 0.08);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .stores-modal.active .stores-content {
+            transform: translateY(0);
+        }
+
+        .stores-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stores-header h2 {
+            font-family: 'Aveline', sans-serif;
+            font-size: clamp(1.4rem, 3.5vw, 2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gula-orange);
+        }
+
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .store-card {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1.5px solid rgba(255, 88, 0, 0.2);
+            border-radius: 18px;
+            padding: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .store-card:hover {
+            border-color: rgba(255, 88, 0, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(255, 88, 0, 0.12);
+        }
+
+        .store-card h3 {
+            color: var(--gula-orange);
+            font-family: 'Akira Expanded', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.6rem;
+        }
+
+        .store-card p {
+            color: #ddd;
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .store-card .store-phone {
+            display: inline-block;
+            color: var(--gula-orange);
+            font-weight: 700;
+            margin: 10px 0;
+            font-size: 0.88rem;
+            text-decoration: none;
+        }
+
+        .store-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+            align-items: center;
+        }
+
+        .store-actions a {
+            text-align: center;
+            padding: 8px;
+            border-radius: 25px;
+            font-size: 0.68rem;
+            text-decoration: none;
+            font-family: 'Akira Expanded', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .store-actions .btn-dark {
+            background: #000;
+            color: #fff;
+            border: 1.5px solid #333;
+        }
+
+        .store-actions .btn-dark:hover {
+            border-color: #fff;
+        }
+
+        .store-actions .btn-outline {
+            background: transparent;
+            color: var(--gula-orange);
+            border: 1.5px solid var(--gula-orange);
+        }
+
+        .store-actions .btn-outline:hover {
+            background: var(--gula-orange);
+            color: #000;
+        }
+
+        .store-actions .btn-glovo {
+            background: #FFC244;
+            color: #000;
+            border: 1.5px solid #FFC244;
+        }
+
+        .store-actions .btn-glovo:hover {
+            background: #FFD700;
+            border-color: #FFD700;
+        }
+
+        .store-actions .btn-maps {
+            background: #1E9E59;
+            color: #fff;
+            border: 1.5px solid #1E9E59;
+        }
+
+        .store-actions .btn-maps:hover {
+            background: #28b866;
+            border-color: #28b866;
+        }
+
+        .store-actions .btn-call {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.3);
+        }
+
+        .store-actions .btn-call:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .cart-content {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.9) 100%);
+            backdrop-filter: blur(30px);
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            border-left: 1.5px solid rgba(255, 88, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -50px 0 100px rgba(0, 0, 0, 0.7);
+        }
+
+        .cart-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.1) 0%, rgba(255, 88, 0, 0.05) 100%);
+            border-bottom: 1.5px solid rgba(255, 88, 0, 0.25);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            font-family: 'Aveline', sans-serif;
+            background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: 2px solid rgba(255, 88, 0, 0.3);
+            color: var(--gula-orange);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-weight: 900;
+        }
+
+        .close-btn:hover {
+            background: var(--gula-orange);
+            color: #000;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.08) 0%, rgba(255, 88, 0, 0.03) 100%);
+            padding: 1.2rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            border: 1.5px solid rgba(255, 88, 0, 0.25);
+            align-items: center;
+        }
+
+        .cart-item-info h4 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-white);
+            font-size: 0.95rem;
+        }
+
+        .cart-item-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .cart-item-price {
+            font-size: 1.2rem;
+            color: var(--gula-orange);
+            font-weight: 900;
+        }
+
+        .cart-summary {
+            background: linear-gradient(135deg, rgba(255, 88, 0, 0.15) 0%, rgba(255, 88, 0, 0.05) 100%);
+            border-top: 1.5px solid rgba(255, 88, 0, 0.3);
+            border-bottom: 1.5px solid rgba(255, 88, 0, 0.3);
+            padding: 1.5rem 2rem;
+            margin: auto 1.5rem 1.5rem 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .summary-row:last-child {
+            border-top: 1px solid rgba(255, 88, 0, 0.2);
+            padding-top: 1rem;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--gula-orange);
+        }
+
+        /* CHECKOUT ACCORDION */
+        .checkout-section { border-top: 1px solid rgba(255,88,0,0.2); padding: 16px 0; }
+        .checkout-toggle { display: flex; justify-content: space-between; align-items: center; width: 100%; background: transparent; border: none; color: #fff; font-family: 'Akira Expanded', sans-serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; padding: 8px 0; transition: color 0.3s; }
+        .checkout-toggle:hover { color: var(--gula-orange); }
+        .checkout-toggle .chevron { transition: transform 0.3s; color: var(--gula-orange); }
+        .checkout-toggle.open .chevron { transform: rotate(180deg); }
+        .checkout-toggle .label-value { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--text-secondary); text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: auto; margin-right: 12px; }
+        .checkout-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .checkout-body.open { max-height: 800px; padding-top: 12px; }
+        .method-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 8px; }
+        .method-option { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 10px; background: rgba(20,20,20,0.6); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 12px; cursor: pointer; transition: all 0.3s; color: #fff; font-family: 'Akira Expanded', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .method-option i { font-size: 1.3rem; color: var(--gula-orange); }
+        .method-option:hover { border-color: var(--gula-orange); background: rgba(255,88,0,0.08); transform: translateY(-2px); }
+        .method-option.selected { border-color: var(--gula-orange); background: rgba(255,88,0,0.15); box-shadow: 0 0 20px rgba(255,88,0,0.2); }
+        .payment-field { margin-bottom: 12px; }
+        .payment-field label { display: block; font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'Akira Expanded', sans-serif; }
+        .payment-field input, .payment-field select { width: 100%; padding: 10px 14px; background: rgba(20,20,20,0.6); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 10px; color: #fff; font-family: 'Inter', sans-serif; font-size: 0.9rem; transition: border-color 0.3s; }
+        .payment-field input:focus, .payment-field select:focus { outline: none; border-color: var(--gula-orange); }
+        .payment-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .club-gate { background: linear-gradient(135deg, rgba(255,88,0,0.1), rgba(255,122,41,0.04)); border: 1.5px solid var(--gula-orange); border-radius: 14px; padding: 20px; text-align: center; margin-bottom: 14px; }
+        .club-gate.hidden { display: none; }
+        .club-gate h3 { font-family: 'Aveline', sans-serif; color: var(--gula-orange); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .club-gate p { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 14px; }
+        .club-gate a { display: inline-block; background: linear-gradient(135deg, var(--gula-orange), #FF7A29); color: #000; padding: 10px 24px; border-radius: 25px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; transition: transform 0.3s; }
+        .club-gate a:hover { transform: scale(1.05); }
+        .logged-user { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: rgba(255,88,0,0.08); border: 1px solid rgba(255,88,0,0.3); border-radius: 12px; margin-bottom: 14px; font-size: 0.85rem; }
+        .logged-user i { color: var(--gula-orange); font-size: 1.1rem; }
+
+        .checkout-btn {
+            background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
+            color: #000;
+            border: none;
+            padding: 1rem;
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 2px;
+            font-family: 'Akira Expanded', sans-serif;
+            box-shadow: 0 5px 20px rgba(255, 88, 0, 0.2);
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 88, 0, 0.4);
+        }
+
+        .order-platforms {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.8rem;
+            position: relative;
+        }
+
+        .delivery-dropdown {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .platform-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .platform-btn { cursor: pointer; user-select: none; font-family: 'Akira Expanded', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+        .platform-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+        .platform-btn.delivery { background: var(--gula-orange); color: #000; box-shadow: 0 10px 28px rgba(255,88,0,0.28); }
+        .platform-btn.uber { background: #000; color: #fff; border-color: #333; }
+        .platform-btn.uber:hover { border-color: #fff; box-shadow: 0 8px 25px rgba(255,255,255,0.1); }
+        .platform-btn.glovo { background: #FFC244; color: #000; }
+        .platform-btn.glovo:hover { box-shadow: 0 8px 25px rgba(255,194,68,0.4); }
+        .platform-btn.justeat { background: #FF8000; color: #fff; }
+        .platform-btn.justeat:hover { box-shadow: 0 8px 25px rgba(255,128,0,0.4); }
+        .platform-btn.outline { background: transparent; color: var(--gula-orange); border-color: var(--gula-orange); }
+        .platform-btn.outline:hover { background: var(--gula-orange); color: #000; }
+
+        .delivery-menu {
+            position: absolute;
+            top: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            min-width: 245px;
+            display: grid;
+            gap: 10px;
+            padding: 12px;
+            border: 1.5px solid rgba(255,88,0,0.35);
+            border-radius: 22px;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 24px 70px rgba(0,0,0,0.45), 0 0 35px rgba(255,88,0,0.16);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+            z-index: 20;
+        }
+
+        .delivery-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .marketplace-footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .marketplace-footer a { color: var(--text-secondary); text-decoration: none; margin: 0 10px; }
+        .marketplace-footer a:hover { color: var(--gula-orange); }
+
+        .nav-crew-btn {
+            background: transparent;
+            color: #fff;
+            padding: 9px 18px;
+            border-radius: 50px;
+            border: 2px solid var(--gula-orange);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-decoration: none;
+            font-family: 'Akira Expanded', sans-serif;
+        }
+        .nav-crew-btn:hover { background: var(--gula-orange); color: #000; }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 20px; height: 70px; overflow: visible; flex-wrap: wrap; }
+            .nav-center { display: none; }
+            .products-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+            .marketplace-header h1 { font-size: 2rem; }
+            .marketplace-container { padding: 2rem 1rem; margin-top: 80px; }
+            .order-platforms { gap: 8px; flex-direction: column; }
+            .order-platforms a { width: 100%; text-align: center; padding: 14px; }
+            .product-card { padding: 1.2rem; }
+            .product-image { height: 180px; }
+            .product-title { font-size: 1.1rem; }
+            .product-price { font-size: 1.2rem; }
+        }
+        .nav-btn-outline { background: transparent; color: #FF5800; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; border: 1.5px solid #FF5800; white-space: nowrap; }
+        .nav-btn-outline:hover { background: #FF5800; color: #000; }
+        .nav-btn-primary { background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 8px 13px; border-radius: 999px; font-family: 'Akira Expanded', sans-serif; font-weight: 900; font-size: 0.62rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.8px; transition: all 0.3s; white-space: nowrap; }
+        .nav-btn-primary:hover { transform: scale(1.05); }
+        .hamburger-btn { display: none; background: none; border: none; color: var(--gula-orange); font-size: 1.5rem; cursor: pointer; padding: 8px; transition: transform 0.3s ease; line-height: 1; }
+        .hamburger-btn:hover { transform: scale(1.1); }
+        @media (max-width: 768px) {
+            nav { overflow: visible; flex-wrap: wrap; justify-content: space-between; padding: 0 20px; }
+            nav.mobile-open { height: auto; padding-bottom: 18px; background: rgba(0,0,0,0.97); }
+            .hamburger-btn { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; margin-left: auto; }
+            .nav-center { display: none; }
+            .nav-right { display: none; }
+            nav.mobile-open .nav-center { display: flex; flex-direction: column; width: 100%; order: 3; padding: 18px 8px 6px; gap: 6px; border-top: 1px solid rgba(255,88,0,0.15); margin-top: 14px; }
+            nav.mobile-open .nav-center li { border-bottom: 1px solid rgba(255,88,0,0.08); padding-bottom: 10px; list-style: none; }
+            nav.mobile-open .nav-center li:last-child { border-bottom: none; padding-bottom: 0; }
+            nav.mobile-open .nav-center a { font-size: 1rem; padding: 10px 4px; display: block; letter-spacing: 1.5px; }
+            nav.mobile-open .nav-right { display: flex; flex-direction: column; width: 100%; order: 4; padding: 6px 8px 0; gap: 10px; }
+            nav.mobile-open .nav-right .nav-btn-outline, nav.mobile-open .nav-right .nav-btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px 20px; font-size: 0.78rem; letter-spacing: 1.5px; }
+            .nav-logo { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 480px) {
+            .marketplace-header h1 { font-size: 1.6rem; }
+            .product-image { height: 150px; }
+            .product-title { font-size: 1rem; }
+            .product-price { font-size: 1.1rem; }
+        }
+        .gula-deco {
+            position: absolute;
+            width: 120px;
+            opacity: 0.08;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255,88,0,0.12));
+            z-index: 0;
+        }
+        @keyframes decoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+    </style>
+    <link rel="stylesheet" href="assets/css/gula-shared.css">
+</head>
+<body>
+    <nav id="mainNav">
+        <div class="nav-logo" onclick="window.location.href='index.html'">GULA</div>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" onclick="toggleMobileNav()">
+            <i class="fas fa-bars" id="hamburgerIcon"></i>
+        </button>
+        <ul class="nav-center">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobre.html">Nosotros</a></li>
+            <li><a href="marketplace.html" style="color: var(--gula-orange);">Carta</a></li>
+            <li><a href="club.html">Club GULA</a></li>
+            <li><a href="franquicias.html">Franquicia</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <div class="nav-right"><a href="franquicias.html" class="nav-btn-outline">Hazte Franquiciado</a>
+            <a href="club.html" class="nav-btn-primary">Pronto</a>
+        </div>
+    </nav>
+
+    <div class="marketplace-container" style="position: relative;">
+        <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-10px;right:10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
+        <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:60px;left:10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
+        <div class="marketplace-header">
+            <h1>Nuestra <span class="highlight">Carta</span></h1>
+            <p style="margin-top:1.5rem; font-family:'Akira Expanded',sans-serif; letter-spacing:2px; text-transform:uppercase; font-size:0.85rem;">La carta se contempla. El pecado, se encarga.</p>
+            <p style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.5rem;margin-bottom:20px; font-family:'Akira Expanded',sans-serif; letter-spacing:1.5px; text-transform:uppercase;">El carrito descansa. El pecado nunca duerme. ¿Dónde? Eso tú decides.</p>
+            <div class="order-platforms">
+                <div class="delivery-dropdown">
+                    <button class="platform-btn delivery" type="button" onclick="toggleDeliveryMenu()" aria-expanded="false" aria-controls="deliveryMenu">
+                        <img src="images/graficos/Diablito.png" style="width:28px;height:28px;object-fit:contain;vertical-align:-6px;margin-right:8px;filter:drop-shadow(0 0 4px rgba(255,88,0,0.5));" alt=""> Delivery
+                    </button>
+                    <div class="delivery-menu" id="deliveryMenu">
+                        <a class="platform-btn glovo" href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" rel="noopener" aria-label="Pedir GULA en Glovo"><img src="images/graficos/Diablito_sentado_1.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-5px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""> Pedir en Glovo</a>
+                        <a class="platform-btn uber" href="https://www.ubereats.com/es/search?q=gula" target="_blank" rel="noopener" aria-label="Pedir GULA en Uber Eats"><img src="images/graficos/Diablito_sentado_2.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-5px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""> Pedir en Uber Eats</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
+            <button class="filter-btn" onclick="filterProducts('burgers')">Burgers</button>
+            <button class="filter-btn" onclick="filterProducts('sliders')">Sliders</button>
+            <button class="filter-btn" onclick="filterProducts('sides')">Sides</button>
+            <button class="filter-btn" onclick="filterProducts('postres')">Postres</button>
+            <button class="filter-btn" onclick="filterProducts('combos')">Combos</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid"></div>
+
+        <!-- REVIEWS -->
+        <section class="reviews-section" style="margin: 5rem auto; max-width: 1200px; position: relative;">
+            <img src="images/graficos/Diablito_sentado_1.png" class="gula-deco" style="top:-20px;left:20px;animation:decoFloat 10s ease-in-out infinite;" alt="">
+            <img src="images/graficos/Diablito_sentado_2.png" class="gula-deco" style="bottom:-20px;right:20px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
+            <div style="text-align:center; margin-bottom: 2.5rem;">
+                <div style="font-family:'Akira Expanded',sans-serif; font-size: 0.7rem; letter-spacing: 4px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 0.6rem;">Lo que dice la CREW</div>
+                <h2 style="font-family:'Aveline',sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; letter-spacing: 1px;">Reseñas reales en <span style="color:var(--gula-orange)">Google</span> y <span style="color:var(--gula-orange)">Uber Eats</span></h2>
+            </div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem;">
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><img src="images/graficos/1.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""><span style="color:#888;font-size:0.8rem;">Google · Valencia</span></div>
+                    <div style="color: var(--gula-orange); margin-bottom: 10px; font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">5.0 / 5.0</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"La mejor smash burger que he probado en Valencia. La carne se nota de calidad y el pan está espectacular. Volveré seguro."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— María G.</p>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><img src="images/graficos/2.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""><span style="color:#888;font-size:0.8rem;">Uber Eats · Móstoles</span></div>
+                    <div style="color: var(--gula-orange); margin-bottom: 10px; font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">5.0 / 5.0</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"Llegó caliente, en tiempo y con sabor brutal. La Trufa Corp es una pasada. Mi nueva burger favorita a domicilio."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— Carlos L.</p>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><img src="images/graficos/1.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""><span style="color:#888;font-size:0.8rem;">Google · Cartagena</span></div>
+                    <div style="color: var(--gula-orange); margin-bottom: 10px; font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">5.0 / 5.0</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"Producto de verdad, sin trampas. El equipo es majo, el sitio tiene rollo y la relación calidad-precio es top. 100% recomendable."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— Sofía M.</p>
+                </div>
+                <div style="background: rgba(20,20,20,0.55); border: 1.5px solid rgba(255,88,0,0.2); border-radius: 18px; padding: 1.4rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><img src="images/graficos/2.png" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""><span style="color:#888;font-size:0.8rem;">Uber Eats · Sevilla</span></div>
+                    <div style="color: var(--gula-orange); margin-bottom: 10px; font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">5.0 / 5.0</div>
+                    <p style="color:#ddd;font-size:0.9rem;line-height:1.5;">"Pedido perfecto, packaging cuidado y burger jugosa. Se nota que les importa el detalle."</p>
+                    <p style="color:var(--gula-orange);font-size:0.78rem;margin-top:10px;font-weight:700;">— Adrián R.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- STORES MODAL -->
+    <div class="stores-modal" id="storesModal" onclick="closeStoresOutside(event)">
+        <div class="stores-content" onclick="event.stopPropagation()">
+            <div class="stores-header">
+                <h2>Nuestras tiendas</h2>
+                <button class="close-btn" onclick="closeStoresModal()">&#10005;</button>
+            </div>
+            <div class="stores-grid">
+                <div class="store-card">
+                    <h3>MÓSTOLES</h3>
+                    <p>C. Río Segura, 30<br><span style="color:#888;">28935 Móstoles, Madrid</span></p>
+                    <div class="store-actions">
+                        <a href="https://www.ubereats.com" target="_blank" class="btn-dark">Uber Eats</a>
+                        <a href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" class="btn-glovo">Glovo</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C.+R%C3%ADo+Segura+30+M%C3%B3stoles" target="_blank" class="btn-maps">Maps</a>
+                        <a href="tel:+34916123456" class="btn-call">Llama</a>
+                    </div>
+                </div>
+                <div class="store-card">
+                    <h3>VALENCIA</h3>
+                    <p>C/ de Cadis, 41<br><span style="color:#888;">L'Eixample, 46004 València</span></p>
+                    <div class="store-actions">
+                        <a href="https://www.ubereats.com" target="_blank" class="btn-dark">Uber Eats</a>
+                        <a href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" class="btn-glovo">Glovo</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C%2F+de+Cadis+41+Valencia" target="_blank" class="btn-maps">Maps</a>
+                        <a href="tel:+34963456789" class="btn-call">Llama</a>
+                    </div>
+                </div>
+                <div class="store-card">
+                    <h3>CARTAGENA</h3>
+                    <p>C. Jiménez de la Espada, 17<br><span style="color:#888;">30204 Cartagena, Murcia</span></p>
+                    <div class="store-actions">
+                        <a href="https://www.ubereats.com" target="_blank" class="btn-dark">Uber Eats</a>
+                        <a href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" class="btn-glovo">Glovo</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C.+Jim%C3%A9nez+de+la+Espada+17+Cartagena" target="_blank" class="btn-maps">Maps</a>
+                        <a href="tel:+34968321654" class="btn-call">Llama</a>
+                    </div>
+                </div>
+                <div class="store-card">
+                    <h3>SEVILLA</h3>
+                    <p>C. Chucena, s/n<br><span style="color:#888;">Edificio Alcaitán, 41006 Sevilla</span></p>
+                    <div class="store-actions">
+                        <a href="https://www.ubereats.com" target="_blank" class="btn-dark">Uber Eats</a>
+                        <a href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" class="btn-glovo">Glovo</a>
+                        <a href="https://www.google.com/maps/search/?api=1&query=C.+Chucena+Edificio+Alcait%C3%A1n+Sevilla" target="_blank" class="btn-maps">Maps</a>
+                        <a href="tel:+34954789123" class="btn-call">Llama</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-modal" id="cartModal" onclick="closeCartOutside(event)">
+        <div class="cart-content" onclick="event.stopPropagation()">
+            <div class="cart-header">
+                <h2>Tu Pedido</h2>
+                <button class="close-btn" onclick="closeCart()">&#10005;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+                    <img src="images/graficos/Diablito_sentado_1.png" style="width:60px;height:60px;object-fit:contain;opacity:0.5;margin-bottom:15px;filter:drop-shadow(0 0 8px rgba(255,88,0,0.2));" alt="">
+                    <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito esta vacio</p>
+                </div>
+            </div>
+            <div class="cart-summary" id="cartSummary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">0.00&#8364;</span>
+                </div>
+                <div class="summary-row" id="discountRow" style="display:none; color:#4CAF50;">
+                    <span>Descuento (<span id="discountPct"></span>%)</span>
+                    <span id="discountAmount">-0.00€</span>
+                </div>
+                <div class="summary-row">
+                    <span>Impuestos (21%)</span>
+                    <span id="taxes">0.00&#8364;</span>
+                </div>
+                <div class="summary-row">
+                    <span>Total</span>
+                    <span id="total">0.00&#8364;</span>
+                </div>
+            </div>
+
+            <div id="checkoutFlow" style="display:none; padding: 0 1.5rem;">
+                <!-- Club GULA Gate -->
+                <div class="club-gate" id="clubGate">
+                    <h3>Acceso Club GULA</h3>
+                    <p>Necesitas tu cuenta para completar la compra y acumular puntos en cada pedido.</p>
+                    <a href="CLUBGULA.html">Entrar al Club</a>
+                </div>
+                <div class="logged-user" id="loggedUser" style="display:none;">
+                    <img src="images/graficos/Diablito.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-5px;margin-right:6px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.4));" alt="">
+                    <span>Conectado como <strong id="userName">Usuario</strong></span>
+                </div>
+
+                <!-- Método dropdown -->
+                <div class="checkout-section">
+                    <button class="checkout-toggle" onclick="toggleAccordion('method')" id="methodToggle">
+                        <span>Método</span>
+                        <span class="label-value" id="methodValue">Seleccionar</span>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </button>
+                    <div class="checkout-body" id="methodBody">
+                        <div class="method-options">
+                            <div class="method-option" data-method="ubereats" onclick="selectMethod(this, 'Uber Eats', 'ubereats')">
+                                <img src="images/graficos/Diablito.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-6px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
+                                <span>Uber Eats</span>
+                            </div>
+                            <div class="method-option" data-method="glovo" onclick="selectMethod(this, 'Glovo', 'glovo')">
+                                <img src="images/graficos/Diablito_sentado_1.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-6px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
+                                <span>Glovo</span>
+                            </div>
+                            <div class="method-option" data-method="justeat" onclick="selectMethod(this, 'Just Eat', 'justeat')">
+                                <img src="images/graficos/Diablito_sentado_2.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-6px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
+                                <span>Just Eat</span>
+                            </div>
+                            <div class="method-option" data-method="takeaway" onclick="selectMethod(this, 'Para Llevar', 'takeaway')">
+                                <img src="images/graficos/1.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-6px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
+                                <span>Para Llevar</span>
+                            </div>
+                            <div class="method-option" data-method="dinein" onclick="selectMethod(this, 'En Sala', 'dinein')">
+                                <img src="images/graficos/2.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-6px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt="">
+                                <span>En Sala</span>
+                            </div>
+                        </div>
+                        <div class="payment-field" id="storeSelectField" style="display:none; margin-top:14px;">
+                            <label>Tienda</label>
+                            <select id="storeSelect">
+                                <option value="">Selecciona la tienda</option>
+                                <option value="mostoles">Móstoles — C. Río Segura, 30</option>
+                                <option value="valencia">Valencia — C/ de Cadis, 41</option>
+                                <option value="cartagena">Cartagena — C. Jiménez de la Espada, 17</option>
+                                <option value="sevilla">Sevilla — C. Chucena, Edificio Alcaitán</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos de pago dropdown -->
+                <div class="checkout-section">
+                    <button class="checkout-toggle" onclick="toggleAccordion('payment')" id="paymentToggle">
+                        <span>Datos de pago</span>
+                        <span class="label-value" id="paymentValue">Añadir</span>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </button>
+                    <div class="checkout-body" id="paymentBody">
+                        <div class="payment-field">
+                            <label>Titular de la tarjeta</label>
+                            <input type="text" id="cardHolder" placeholder="Nombre como aparece en la tarjeta" autocomplete="cc-name">
+                        </div>
+                        <div class="payment-field">
+                            <label>Número de tarjeta</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
+                        </div>
+                        <div class="payment-row">
+                            <div class="payment-field">
+                                <label>Vencimiento</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp">
+                            </div>
+                            <div class="payment-field">
+                                <label>CVC</label>
+                                <input type="text" id="cardCvc" placeholder="123" maxlength="4" autocomplete="cc-csc">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Código descuento dropdown -->
+                <div class="checkout-section">
+                    <button class="checkout-toggle" onclick="toggleAccordion('promo')" id="promoToggle">
+                        <span>Código descuento</span>
+                        <span class="label-value" id="promoValue">Añadir</span>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </button>
+                    <div class="checkout-body" id="promoBody">
+                        <div class="payment-field" style="margin-top:4px;">
+                            <label>Código promo Club GULA</label>
+                            <div style="display:flex;gap:8px;">
+                                <input type="text" id="promoInput" placeholder="BIENVENIDA-GULA-XX1234" style="flex:1;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+                                <button onclick="applyPromo()" style="background:var(--gula-orange);color:#000;border:none;padding:10px 18px;border-radius:10px;font-weight:900;cursor:pointer;white-space:nowrap;">Aplicar</button>
+                            </div>
+                            <div id="promoMessage" style="margin-top:8px;font-size:0.85rem;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="checkout-btn" id="checkoutBtn" style="display: none;" onclick="proceedToCheckout()">Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <script src="footer.js" defer></script>
+
+    <script>
+        const SUPABASE_URL = 'https://gblmjealpcyswcgjrhzk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdibG1qZWFscGN5c3djZ2pyaHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDQzNDQsImV4cCI6MjA5MjUyMDM0NH0.KdQC9ZWuSmayOkLGr7Rrcz9i1PtW2ieIL-ZVVm4s7cA';
+
+        async function supabaseRest(path, options = {}) {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    ...(options.headers || {})
+                }
+            });
+            if (!res.ok) throw new Error(await res.text());
+            const text = await res.text();
+            return text ? JSON.parse(text) : null;
+        }
+
+        let products = [];
+        let cart = [];
+
+        const PRODUCT_IMAGES = {
+            1: 'images/burger3.png',
+            2: 'images/burger4.png',
+            3: 'images/burger2.png',
+            4: 'images/burger-cheese-bacon.png',
+            5: 'images/burger-cheese.png',
+            6: 'images/burger-popes.png',
+            7: 'images/burger-spicy.png',
+            8: 'images/burger-sinner.png',
+            9: 'images/burger-trufa.png',
+            10: 'images/burger1.png',
+            11: 'images/slider-golden.png',
+            12: 'images/alitas.png',
+            13: 'images/fritas-bacon.png',
+            14: 'images/fritas1.png',
+            15: 'images/fritas-trufadas.png',
+            16: 'images/fritas2.png',
+            17: 'images/pollo-frito.png',
+            18: 'images/postre-brownie.png',
+            19: 'images/postre-cheesecake-fresa.png',
+            20: 'images/postre-lotus.png',
+            21: 'images/postre-oreo.png',
+            22: 'images/postre-zanahoria.png',
+            23: 'images/combo2.png',
+            24: 'images/combo1.png',
+            25: 'images/combo-sinner.png',
+            26: 'images/combo3.png'
+        };
+
+        function initializeProducts() {
+            products = [
+                { id: 1, title: 'BBK', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[1], description: 'Doble smash, queso cheddar, bacon bits', rating: 4.9 },
+                    { id: 2, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Pollo crujiente con salsas premium', rating: 4.8 },
+                { id: 3, title: 'Buffalo Ranch (Carne)', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Salsa buffalo con carne premium', rating: 4.7 },
+                { id: 4, title: 'Cheese Bacon', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[4], description: 'Queso cheddar y bacon crujiente', rating: 4.8 },
+                { id: 5, title: 'Cheeseburger', category: 'burgers', price: 11.90, image: PRODUCT_IMAGES[5], description: 'Clasico con queso derretido', rating: 4.6 },
+                { id: 6, title: "Pope's", category: 'burgers', price: 12.90, image: PRODUCT_IMAGES[6], description: 'Receta especial premium', rating: 4.7 },
+                { id: 7, title: 'Spicy V', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[7], description: 'Picante y vegetal, muy sabrosa', rating: 4.5 },
+                { id: 8, title: 'The Sinner', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[8], description: 'Pecadosamente deliciosa', rating: 4.9 },
+                { id: 9, title: 'The Trufa Corp', category: 'burgers', price: 14.90, image: PRODUCT_IMAGES[9], description: 'Salsa trufada premium', rating: 4.9 },
+                { id: 10, title: 'Trufa Corp Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[10], description: 'Pollo con salsa trufada', rating: 4.8 },
+                { id: 11, title: 'Golden Slider', category: 'sliders', price: 7.90, image: PRODUCT_IMAGES[11], description: 'Mini burger premium', rating: 4.7 },
+                { id: 12, title: 'Alitas', category: 'sides', price: 8.50, image: PRODUCT_IMAGES[12], description: 'Alitas de pollo barbacoa crujientes', rating: 4.6 },
+                { id: 13, title: 'Fritas Bacon & Queso', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[13], description: 'Patatas con bacon y queso', rating: 4.5 },
+                { id: 14, title: 'Fritas Buffalo Ranch', category: 'sides', price: 7.50, image: PRODUCT_IMAGES[14], description: 'Patatas fritas, salsa buffalo premium', rating: 4.7 },
+                { id: 15, title: 'Fritas Trufadas', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[15], description: 'Patatas crujientes con salsa trufa', rating: 4.8 },
+                { id: 16, title: 'Nuestras Fritas', category: 'sides', price: 3.40, image: PRODUCT_IMAGES[16], description: 'Patatas crujientes al punto de sal', rating: 4.5 },
+                { id: 17, title: 'Pollo Frito', category: 'sides', price: 9.90, image: PRODUCT_IMAGES[17], description: 'Pollo crujiente y jugoso', rating: 4.7 },
+                { id: 18, title: 'Brownie³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[18], description: 'Brownie en tarro. Capas de brownie y crema de cacao', rating: 4.9 },
+                { id: 19, title: 'Cheesecake de Fresa³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[19], description: 'Cheesecake con corazon de fresa y galleta crujiente', rating: 4.8 },
+                { id: 20, title: 'Lotus³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[20], description: 'Crema de Lotus y galleta Biscoff. Adictivo.', rating: 4.9 },
+                { id: 21, title: 'Oreo Cookie³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[21], description: 'Crema y galleta Oreo en capas', rating: 4.8 },
+                { id: 22, title: 'Carrot³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[22], description: 'Tarta de zanahoria con queso crema y crumble', rating: 4.7 },
+                { id: 23, title: 'Pleasure for Two', category: 'combos', price: 30.90, image: PRODUCT_IMAGES[23], description: '2 burgers + sides + bebidas + postres', rating: 4.9 },
+                { id: 24, title: 'Sin City', category: 'combos', price: 69.00, image: PRODUCT_IMAGES[24], description: '4 burgers + entrantes + bebidas + postres', rating: 5.0 },
+                { id: 25, title: 'Sinner Combo', category: 'combos', price: 14.90, image: PRODUCT_IMAGES[25], description: 'The Sinner + sides + bebida', rating: 4.7 },
+                { id: 26, title: 'The Golden Bite', category: 'combos', price: 20.00, image: PRODUCT_IMAGES[26], description: 'Burger premium + entrante + bebida', rating: 4.8 },
+            ];
+            renderProducts(products);
+        }
+
+        function renderProducts(productsToShow = products) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = productsToShow.map(product => {
+                const puntos = Math.round(product.price);
+                return `
+                <div class="product-card" data-category="${product.category}">
+                    <div class="product-image">
+                        <img src="${product.image || ''}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px 15px 0 0;" onerror="this.style.display='none'">
+                        <span class="product-badge">Premium</span>
+                        <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 5px 12px; border-radius: 15px; font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; font-weight: 900;">
+                            +${puntos} pts CREW
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">${product.category.toUpperCase()}</div>
+                        <div class="product-title">${product.title}</div>
+                        <div class="product-description">${product.description}</div>
+                        <div class="product-rating">
+                            <span class="rating-text" style="font-family:'Akira Expanded',sans-serif; color:var(--gula-orange); letter-spacing:1px;">${product.rating} / 5.0</span>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">${product.price.toFixed(2)}&#8364;</div>
+                            <button class="add-to-cart-btn" onclick="openStoresModal()" aria-label="Dónde pedir ${product.title}"><img src="images/graficos/Diablito.png" style="width:20px;height:20px;object-fit:contain;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""></button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function filterProducts(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const filtered = category === 'all' ? products : products.filter(p => p.category === category);
+            renderProducts(filtered);
+        }
+
+        function addToCart(productId) {
+            redirectToDelivery();
+            return;
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            posthog.capture('add_to_cart', { product: product.title, price: product.price });
+            
+            // Mostrar mensaje de puntos
+            const puntos = Math.round(product.price);
+            const totalCarrito = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const puntosTotales = Math.round(totalCarrito);
+            const puntosParaRecompensa = 50 - (puntosTotales % 50);
+            
+            showPointsToast(puntos, puntosParaRecompensa);
+        }
+        
+        function showPointsToast(puntosGanados, puntosFaltantes) {
+            const existingToast = document.querySelector('.points-toast');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'points-toast';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 20px;
+                background: linear-gradient(135deg, #FF5800, #FF7A29);
+                color: #000;
+                padding: 1rem 1.5rem;
+                border-radius: 15px;
+                font-family: 'Akira Expanded', sans-serif;
+                font-weight: 900;
+                font-size: 0.9rem;
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+                box-shadow: 0 10px 30px rgba(255, 88, 0, 0.4);
+            `;
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <img src="images/graficos/Diablito.png" style="width:20px;height:20px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.5));" alt="">
+                    <span>+${puntosGanados} pts CREW</span>
+                </div>
+                <div style="font-size: 0.75rem; opacity: 0.9; font-weight: 400;">
+                    Estás a ${puntosFaltantes} pts de una recompensa
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            const cartItems = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+                        <img src="images/graficos/Diablito_sentado_1.png" style="width:60px;height:60px;object-fit:contain;opacity:0.5;margin-bottom:15px;filter:drop-shadow(0 0 8px rgba(255,88,0,0.2));" alt="">
+                        <p style="font-size: 1.1rem; font-weight: 600;">Tu carrito esta vacio</p>
+                    </div>
+                `;
+                document.getElementById('cartSummary').style.display = 'none';
+                document.getElementById('checkoutBtn').style.display = 'none';
+                const flow = document.getElementById('checkoutFlow'); if (flow) flow.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item" style="animation: fadeInUp ${0.3 + index * 0.05}s ease;">
+                        <div class="cart-item-info">
+                            <h4>${item.title}</h4>
+                            <p>
+                                <span style="background: rgba(255, 88, 0, 0.2); padding: 4px 8px; border-radius: 8px; font-weight: 600;">
+                                    x${item.quantity}
+                                </span>
+                                <span style="margin-left: 10px; opacity: 0.7;">
+                                    ${item.price.toFixed(2)}&#8364; c/u
+                                </span>
+                            </p>
+                        </div>
+                        <div class="cart-item-price">${(item.price * item.quantity).toFixed(2)}&#8364;</div>
+                    </div>
+                `).join('');
+                
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const discount = appliedPromo ? subtotal * (appliedPromo.descuento / 100) : 0;
+                const discountedSubtotal = subtotal - discount;
+                const taxes = discountedSubtotal * 0.21;
+                const total = discountedSubtotal + taxes;
+
+                document.getElementById('subtotal').textContent = subtotal.toFixed(2) + '€';
+                const discountRow = document.getElementById('discountRow');
+                if (discountRow) {
+                    discountRow.style.display = discount > 0 ? 'flex' : 'none';
+                    document.getElementById('discountPct').textContent = appliedPromo ? appliedPromo.descuento : '';
+                    document.getElementById('discountAmount').textContent = '-' + discount.toFixed(2) + '€';
+                }
+                document.getElementById('taxes').textContent = taxes.toFixed(2) + '€';
+                document.getElementById('total').textContent = total.toFixed(2) + '€';
+                document.getElementById('cartSummary').style.display = 'block';
+                document.getElementById('checkoutBtn').style.display = 'block';
+                const flow = document.getElementById('checkoutFlow'); if (flow) { flow.style.display = 'block'; if (typeof refreshClubGate === 'function') refreshClubGate(); }
+            }
+        }
+
+        function openCart() {
+            showToast('Carrito propio pronto. De momento, el pecado va por Glovo o Uber Eats.');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function closeCartOutside(event) {
+            if (event.target === document.getElementById('cartModal')) {
+                closeCart();
+            }
+        }
+
+        // CHECKOUT STATE
+        let selectedMethod = null;
+        let selectedMethodKey = null;
+        let appliedPromo = null;
+
+        function toggleAccordion(which) {
+            const toggle = document.getElementById(which + 'Toggle');
+            const body = document.getElementById(which + 'Body');
+            const isOpen = body.classList.toggle('open');
+            toggle.classList.toggle('open', isOpen);
+        }
+
+        function selectMethod(el, label, key) {
+            document.querySelectorAll('.method-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMethod = label;
+            selectedMethodKey = key;
+            document.getElementById('methodValue').textContent = label;
+            const storeField = document.getElementById('storeSelectField');
+            // Tienda obligatoria para takeaway y dinein
+            storeField.style.display = (key === 'takeaway' || key === 'dinein') ? 'block' : 'none';
+        }
+
+        function getClubUser() {
+            try {
+                const raw = localStorage.getItem('currentUser') || localStorage.getItem('gula_club_user');
+                return raw ? JSON.parse(raw) : null;
+            } catch { return null; }
+        }
+
+        function refreshClubGate() {
+            const user = getClubUser();
+            const gate = document.getElementById('clubGate');
+            const logged = document.getElementById('loggedUser');
+            const displayName = user ? (user.nombre || user.name || user.email || '') : '';
+            if (user && displayName) {
+                gate.classList.add('hidden');
+                logged.style.display = 'flex';
+                document.getElementById('userName').textContent = displayName;
+            } else {
+                gate.classList.remove('hidden');
+                logged.style.display = 'none';
+            }
+        }
+
+        function showCheckoutFlow() {
+            document.getElementById('checkoutFlow').style.display = cart.length > 0 ? 'block' : 'none';
+            refreshClubGate();
+        }
+
+        function redirectToDelivery() {
+            showToast('Elige Glovo o Uber Eats arriba. Nosotros ponemos la gula.');
+            openDeliveryMenu();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openStoresModal() {
+            const modal = document.getElementById('storesModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeStoresModal() {
+            const modal = document.getElementById('storesModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeStoresOutside(event) {
+            if (event.target === document.getElementById('storesModal')) {
+                closeStoresModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeStoresModal();
+        });
+
+        function openDeliveryMenu() {
+            const menu = document.getElementById('deliveryMenu');
+            const button = document.querySelector('.platform-btn.delivery');
+            if (!menu || !button) return;
+            menu.classList.add('open');
+            button.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeDeliveryMenu() {
+            const menu = document.getElementById('deliveryMenu');
+            const button = document.querySelector('.platform-btn.delivery');
+            if (!menu || !button) return;
+            menu.classList.remove('open');
+            button.setAttribute('aria-expanded', 'false');
+        }
+
+        function toggleDeliveryMenu() {
+            const menu = document.getElementById('deliveryMenu');
+            if (!menu) return;
+            if (menu.classList.contains('open')) {
+                closeDeliveryMenu();
+            } else {
+                openDeliveryMenu();
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.delivery-dropdown');
+            if (dropdown && !dropdown.contains(event.target)) closeDeliveryMenu();
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closeDeliveryMenu();
+        });
+
+        async function proceedToCheckout() {
+            const user = getClubUser();
+            if (!user) {
+                alert('Necesitas acceder a tu Club GULA antes de completar la compra.');
+                window.location.href = 'CLUBGULA.html';
+                return;
+            }
+            if (!selectedMethodKey) {
+                alert('Selecciona un método de entrega.');
+                toggleAccordion('method');
+                return;
+            }
+            const needsStore = (selectedMethodKey === 'takeaway' || selectedMethodKey === 'dinein');
+            if (needsStore && !document.getElementById('storeSelect').value) {
+                alert('Selecciona la tienda donde recogerás o consumirás el pedido.');
+                return;
+            }
+            const needsCard = !['ubereats', 'glovo', 'justeat'].includes(selectedMethodKey);
+            if (needsCard) {
+                const holder = document.getElementById('cardHolder').value.trim();
+                const number = document.getElementById('cardNumber').value.trim();
+                const expiry = document.getElementById('cardExpiry').value.trim();
+                const cvc = document.getElementById('cardCvc').value.trim();
+                if (!holder || !number || !expiry || !cvc) {
+                    alert('Completa los datos de pago.');
+                    toggleAccordion('payment');
+                    return;
+                }
+            }
+
+            const subtotalBase = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = appliedPromo ? subtotalBase * (appliedPromo.descuento / 100) : 0;
+            const discountedSubtotal = subtotalBase - discount;
+            const finalTotal = discountedSubtotal * 1.21;
+            const earnedPts = Math.round(discountedSubtotal);
+
+            if (['ubereats', 'glovo', 'justeat'].includes(selectedMethodKey)) {
+                const urls = {
+                    ubereats: 'https://www.ubereats.com/es/search?q=gula',
+                    glovo: 'https://glovoapp.com/es/es/search/?query=gula',
+                    justeat: 'https://www.just-eat.es/busqueda?q=gula'
+                };
+                if (typeof posthog !== 'undefined') posthog.capture('checkout_redirect', { method: selectedMethodKey, total: finalTotal });
+                window.open(urls[selectedMethodKey], '_blank', 'noopener');
+                return;
+            }
+
+            if (typeof posthog !== 'undefined') posthog.capture('checkout_completed', { method: selectedMethodKey, total: finalTotal, items: cart.length });
+
+            if (user && user.id && earnedPts > 0) {
+                try {
+                    const members = await supabaseRest(`crew_members?select=id,puntos&member_code=eq.${encodeURIComponent(user.id)}&limit=1`);
+                    const member = members && members[0];
+                    if (member) {
+                        const newPuntos = (member.puntos || 0) + earnedPts;
+                        await supabaseRest(`crew_members?id=eq.${encodeURIComponent(member.id)}`, {
+                            method: 'PATCH',
+                            headers: { 'Prefer': 'return=minimal' },
+                            body: JSON.stringify({ puntos: newPuntos })
+                        });
+                        await supabaseRest('puntos_historial', {
+                            method: 'POST',
+                            headers: { 'Prefer': 'return=minimal' },
+                            body: JSON.stringify({
+                                member_id: member.id,
+                                puntos: earnedPts,
+                                motivo: 'pedido',
+                                metadata: { items: cart.map(i => ({ name: i.title, qty: i.quantity, price: i.price })), total: finalTotal, method: selectedMethodKey }
+                            })
+                        });
+                        await supabaseRest('pedidos', {
+                            method: 'POST',
+                            headers: { 'Prefer': 'return=minimal' },
+                            body: JSON.stringify({
+                                member_id: member.id,
+                                monto: Math.round(finalTotal * 100),
+                                moneda: 'eur',
+                                tipo: selectedMethodKey || 'marketplace',
+                                estado: 'paid',
+                                items: cart.map(i => ({ name: i.title, qty: i.quantity, price: i.price }))
+                            })
+                        });
+                        user.puntos = newPuntos;
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                    }
+                } catch (e) { console.warn('[ORDER POINTS]', e); }
+            }
+
+            if (appliedPromo) {
+                try {
+                    await supabaseRest(`promos?codigo=eq.${encodeURIComponent(appliedPromo.code)}`, {
+                        method: 'PATCH',
+                        headers: { 'Prefer': 'return=minimal' },
+                        body: JSON.stringify({ usado: true })
+                    });
+                } catch (e) { console.warn('[PROMO USE]', e); }
+                appliedPromo = null;
+                document.getElementById('promoValue').textContent = 'Añadir';
+                document.getElementById('promoMessage').textContent = '';
+            }
+
+            showOrderSuccess(finalTotal, earnedPts, user);
+            cart = [];
+            updateCartUI();
+            closeCart();
+        }
+
+        async function applyPromo() {
+            const code = document.getElementById('promoInput').value.trim().toUpperCase();
+            const msg = document.getElementById('promoMessage');
+            if (!code) { msg.style.color = '#f66'; msg.textContent = 'Introduce un código.'; return; }
+            try {
+                const data = await supabaseRest(`promos?select=codigo,descuento,usado,expires_at&codigo=eq.${encodeURIComponent(code)}&limit=1`);
+                const promo = data && data[0];
+                const isExpired = promo && promo.expires_at && new Date(promo.expires_at).getTime() < Date.now();
+                if (promo && !promo.usado && !isExpired) {
+                    appliedPromo = { code: promo.codigo, descuento: promo.descuento };
+                    msg.style.color = '#4CAF50';
+                    msg.textContent = `✓ Código aplicado: -${promo.descuento}% OFF`;
+                    document.getElementById('promoValue').textContent = `-${promo.descuento}%`;
+                    updateCartUI();
+                } else {
+                    appliedPromo = null;
+                    msg.style.color = '#f66';
+                    msg.textContent = 'Código no válido o expirado.';
+                    document.getElementById('promoValue').textContent = 'Añadir';
+                    updateCartUI();
+                }
+            } catch (e) {
+                msg.style.color = '#f66';
+                msg.textContent = 'Error al verificar el código.';
+            }
+        }
+
+        function showOrderSuccess(total, pts, user) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:10000;padding:20px;';
+            overlay.innerHTML = `
+                <div style="background:#111;border:2px solid #FF5800;border-radius:20px;padding:32px;max-width:400px;width:100%;text-align:center;">
+                    <div style="font-size:3rem;margin-bottom:12px">🔥</div>
+                    <h2 style="font-family:'Akira Expanded',sans-serif;color:#FF5800;margin-bottom:8px;letter-spacing:1px;">PEDIDO CONFIRMADO</h2>
+                    <p style="color:#aaa;font-size:0.9rem;margin-bottom:20px;">Total: <strong style="color:#fff">${total.toFixed(2)}€</strong></p>
+                    ${pts > 0 && user ? `
+                    <div style="background:rgba(255,88,0,0.12);border:1.5px solid rgba(255,88,0,0.4);border-radius:14px;padding:16px;margin-bottom:20px;">
+                        <div style="font-family:'Akira Expanded',sans-serif;color:#FF5800;font-size:1.5rem;">+${pts} PTS CREW</div>
+                        <div style="color:#ccc;font-size:0.82rem;margin-top:4px;">Puntos acreditados a tu cuenta</div>
+                        ${user.puntos ? `<div style="color:#fff;font-weight:700;margin-top:4px;font-size:0.9rem;">★ Total: ${user.puntos} pts</div>` : ''}
+                    </div>` : ''}
+                    <p style="color:#666;font-size:0.78rem;margin-bottom:20px;">Recibirás los detalles en el email de tu Club GULA.</p>
+                    <button onclick="this.closest('[style*=fixed]').remove()" style="background:#FF5800;color:#000;border:none;padding:14px;border-radius:12px;font-family:'Akira Expanded',sans-serif;font-size:0.9rem;cursor:pointer;width:100%;letter-spacing:1px;">ACEPTAR</button>
+                </div>`;
+            document.body.appendChild(overlay);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeProducts();
+            refreshClubGate();
+            
+            document.getElementById('searchBar').addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                const filtered = products.filter(p => 
+                    p.title.toLowerCase().includes(query) || 
+                    p.description.toLowerCase().includes(query)
+                );
+                renderProducts(filtered);
+            });
+        });
+    </script>
+<script>
+function toggleMobileNav() {
+    var nav = document.getElementById('mainNav');
+    var icon = document.getElementById('hamburgerIcon');
+    nav.classList.toggle('mobile-open');
+    icon.className = nav.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+}
+document.querySelectorAll('.nav-center a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        var nav = document.getElementById('mainNav');
+        nav.classList.remove('mobile-open');
+        var icon = document.getElementById('hamburgerIcon');
+        if (icon) icon.className = 'fas fa-bars';
+    });
+});
+</script>
+<script src="assets/js/cookie-consent.js"></script>
+</body>
+</html>

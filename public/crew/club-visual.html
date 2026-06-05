@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,14 +16,14 @@
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;}
 
-        /* ── CADA SLIDE ES UN VIEWPORT ── */
+        /* ── EACH SLIDE IS A VIEWPORT ── */
         .s{
             height:100vh; width:100%;
             display:flex; align-items:center; justify-content:center;
             position:relative; overflow:hidden;
             border-bottom:1px solid rgba(255,88,0,0.15);
         }
-        /* Marca de agua G */
+        /* G watermark */
         .s::after{
             content:'G'; font-family:'Aveline',sans-serif;
             font-size:55vw; color:rgba(255,88,0,0.04);
@@ -141,8 +141,9 @@
         .s3-title{font-family:'Akira',sans-serif;font-size:clamp(1.5rem,3vw,2.4rem);color:#fff;}
         .s3-title span{color:var(--o);}
         .levels{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-        .lv{border-radius:18px;padding:30px 22px;position:relative;overflow:hidden;}
+        .lv{border-radius:22px;padding:34px 22px;position:relative;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.35);transform:translateY(0);}
         .lv::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+        .lv::after{content:'';position:absolute;inset:auto -30px -45px auto;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04);filter:blur(2px);}
         .lv-neo{background:linear-gradient(160deg,rgba(255,88,0,.12),rgba(255,88,0,.03));border:1.5px solid rgba(255,88,0,.35);}
         .lv-neo::before{background:var(--o);}
         .lv-cr{background:linear-gradient(160deg,rgba(255,140,0,.14),rgba(255,88,0,.04));border:1.5px solid rgba(255,140,0,.4);}
@@ -156,9 +157,9 @@
         .lv-cr .lv-name{color:var(--crew);}
         .lv-hi .lv-name{color:var(--high);}
         .lv-fo .lv-name{color:var(--gold);}
-        .lv-pts{font-size:.68rem;color:rgba(255,255,255,.35);letter-spacing:1px;margin-bottom:22px;font-weight:600;}
-        .lv-perks{display:flex;flex-direction:column;gap:9px;}
-        .lv-perk{font-size:.8rem;color:rgba(255,255,255,.72);display:flex;align-items:flex-start;gap:9px;line-height:1.45;}
+        .lv-pts{display:none;}
+        .lv-perks{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
+        .lv-perk{font-size:.78rem;color:rgba(255,255,255,.76);display:flex;align-items:flex-start;gap:9px;line-height:1.45;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:9px 10px;}
         .lv-perk::before{content:'→';font-weight:900;flex-shrink:0;margin-top:1px;font-size:.75rem;}
         .lv-neo .lv-perk::before{color:var(--o);}
         .lv-cr .lv-perk::before{color:var(--crew);}
@@ -166,7 +167,7 @@
         .lv-fo .lv-perk::before{color:var(--gold);}
 
         /* ══════════════════════════
-           SLIDE 4 · PUNTOS
+           SLIDE 4 · POINTS
         ══════════════════════════ */
         #s4{background:radial-gradient(ellipse at 20% 80%,rgba(255,88,0,.08) 0%,transparent 55%);}
         .s4-head{margin-bottom:40px;}
@@ -174,21 +175,22 @@
         .s4-title{font-family:'Akira',sans-serif;font-size:clamp(1.5rem,3vw,2.4rem);color:#fff;}
         .s4-title span{color:var(--o);}
         .s4-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
-        .s4-block{background:#0f0f0f;border:1px solid rgba(255,88,0,.2);border-radius:18px;padding:28px;}
+        .s4-block{background:linear-gradient(145deg,rgba(18,18,18,.96),rgba(255,88,0,.055));border:1px solid rgba(255,88,0,.28);border-radius:24px;padding:30px;box-shadow:0 24px 80px rgba(255,88,0,.08);position:relative;overflow:hidden;}
+        .s4-block::after{content:'';position:absolute;right:-60px;top:-60px;width:160px;height:160px;border-radius:50%;background:rgba(255,88,0,.13);filter:blur(10px);}
         .s4-blk-title{font-family:'Akira',sans-serif;font-size:.65rem;letter-spacing:2px;color:var(--o);margin-bottom:20px;}
         .s4-formula{
-            background:linear-gradient(135deg,rgba(255,88,0,.2),rgba(255,88,0,.06));
+            background:linear-gradient(135deg,rgba(255,88,0,.36),rgba(255,140,66,.08));
             border:1.5px solid var(--o);border-radius:14px;
-            padding:22px;text-align:center;margin-bottom:18px;
+            padding:26px;text-align:center;margin-bottom:18px;box-shadow:0 0 36px rgba(255,88,0,.18);
         }
         .s4-big{font-family:'Akira',sans-serif;font-size:2.8rem;color:var(--o);line-height:1;margin-bottom:5px;}
         .s4-sub{font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:1px;}
-        .s4-ex{font-size:.78rem;color:rgba(255,255,255,.38);line-height:1.8;padding:14px;background:rgba(255,255,255,.02);border-radius:10px;}
+        .s4-ex{font-size:.8rem;color:rgba(255,255,255,.58);line-height:1.9;padding:16px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:14px;position:relative;z-index:1;}
         .s4-ex strong{color:var(--o);}
-        .s4-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);}
-        .s4-row:last-child{border-bottom:none;}
-        .s4-row-l{font-size:.85rem;color:rgba(255,255,255,.65);}
-        .s4-row-v{font-family:'Akira',sans-serif;font-size:.85rem;color:var(--gold);}
+        .s4-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.035);border-radius:14px;margin-bottom:9px;position:relative;z-index:1;}
+        .s4-row:last-child{margin-bottom:0;}
+        .s4-row-l{font-size:.84rem;color:rgba(255,255,255,.72);}
+        .s4-row-v{font-family:'Akira',sans-serif;font-size:.82rem;color:#000;background:linear-gradient(135deg,var(--gold),var(--o2));padding:6px 9px;border-radius:999px;box-shadow:0 0 16px rgba(255,215,0,.18);}
 
         /* ══════════════════════════
            SLIDE 5 · CARD
@@ -220,9 +222,9 @@
         .lc-hn{font-weight:900;font-size:1rem;color:#fff;}
         .lc-qr{width:54px;height:54px;background:#fff;border-radius:8px;padding:4px;display:flex;align-items:center;justify-content:center;}
         .lc-qr svg{width:100%;height:100%;}
-        .s5-feats{display:flex;flex-direction:column;gap:18px;text-align:left;max-width:280px;}
-        .s5-f{display:flex;gap:14px;align-items:flex-start;}
-        .s5-dot{width:9px;height:9px;border-radius:50%;background:var(--o);flex-shrink:0;margin-top:5px;box-shadow:0 0 10px rgba(255,88,0,.5);}
+        .s5-feats{display:flex;flex-direction:column;gap:18px;text-align:left;max-width:360px;}
+        .s5-f{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,rgba(255,88,0,.14),rgba(255,255,255,.03));border:1px solid rgba(255,88,0,.22);border-radius:18px;padding:18px;}
+        .s5-dot{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--gold) 18%,var(--o) 58%,#6b2400 100%);flex-shrink:0;margin-top:0;box-shadow:0 0 24px rgba(255,88,0,.55),inset 0 0 8px rgba(255,255,255,.35);}
         .s5-ft{font-weight:900;font-size:.9rem;color:#fff;margin-bottom:3px;}
         .s5-fd{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.55;}
     </style>
@@ -233,26 +235,26 @@
 <section class="s" id="s1">
     <div class="inner">
         <div class="s1-gula">GULA</div>
-        <div class="s1-sub">Club de fidelización · La CREW que come mejor</div>
+        <div class="s1-sub">Loyalty club · The CREW that eats better</div>
         <div class="s1-stats">
             <div>
                 <span class="s1-stat-n">4</span>
-                <span class="s1-stat-l">Niveles de membresía</span>
+                <span class="s1-stat-l">Membership tiers</span>
             </div>
             <div style="width:1px;height:50px;background:rgba(255,88,0,.3);align-self:center;"></div>
             <div>
                 <span class="s1-stat-n">€1 = 3</span>
-                <span class="s1-stat-l">Puntos por euro gastado</span>
+                <span class="s1-stat-l">Points per euro spent</span>
             </div>
             <div style="width:1px;height:50px;background:rgba(255,88,0,.3);align-self:center;"></div>
             <div>
                 <span class="s1-stat-n">20%</span>
-                <span class="s1-stat-l">OFF de bienvenida</span>
+                <span class="s1-stat-l">Welcome OFF</span>
             </div>
             <div style="width:1px;height:50px;background:rgba(255,88,0,.3);align-self:center;"></div>
             <div>
                 <span class="s1-stat-n">∞</span>
-                <span class="s1-stat-l">Recompensas disponibles</span>
+                <span class="s1-stat-l">Rewards available</span>
             </div>
         </div>
     </div>
@@ -262,8 +264,8 @@
 <section class="s" id="s2">
     <div class="inner">
         <div class="s2-header">
-            <div class="s2-kicker">Experiencia de miembro</div>
-            <div class="s2-h">Tu <span>dashboard</span> en vivo</div>
+            <div class="s2-kicker">Member experience</div>
+            <div class="s2-h">Your live <span>dashboard</span></div>
         </div>
         <div class="s2-wrap">
             <div class="phone">
@@ -274,30 +276,30 @@
                 </div>
                 <div class="ph-pts">
                     <div>
-                        <div class="ph-lbl">Puntos</div>
+                        <div class="ph-lbl">Points</div>
                         <div class="ph-pts-n">77</div>
                     </div>
                     <div>
-                        <div class="ph-lbl">Nivel</div>
+                        <div class="ph-lbl">Tier</div>
                         <div class="ph-badge">NEOPHYTE</div>
                     </div>
                 </div>
                 <div class="ph-prog">
-                    <div class="ph-prog-info">Te faltan <strong style="color:var(--o)">173 pts</strong> para CREW</div>
+                    <div class="ph-prog-info"><strong style="color:var(--o)">173 pts</strong> left to unlock CREW</div>
                     <div class="ph-bar"><div class="ph-bar-fill" style="width:31%"></div></div>
                     <div class="ph-bar-lbs"><span>0</span><span>250</span></div>
                 </div>
                 <div class="ph-mis">
-                    <div class="ph-mis-title">MISIÓN ACTIVA</div>
-                    <div class="ph-mis-text">Ven 2 veces esta semana</div>
+                    <div class="ph-mis-title">ACTIVE MISSION</div>
+                    <div class="ph-mis-text">Visit twice this week</div>
                     <div style="display:flex;align-items:center;gap:8px;margin-top:5px;">
                         <div class="ph-mis-badge">+60 pts</div>
-                        <span style="font-size:.65rem;color:rgba(255,255,255,.35)">Progreso: 1/2</span>
+                        <span style="font-size:.65rem;color:rgba(255,255,255,.35)">Progress: 1/2</span>
                     </div>
                 </div>
                 <div class="ph-vote">
-                    <div class="ph-vote-l">Decisiones de la CREW</div>
-                    <div class="ph-vote-q">¿Cuál será el próximo side?</div>
+                    <div class="ph-vote-l">CREW decisions</div>
+                    <div class="ph-vote-q">What should the next side be?</div>
                     <div class="ph-opt"><span style="min-width:95px;font-size:.65rem;">Mac and Cheese</span><div class="ph-opt-b"><div class="ph-opt-f" style="width:45%"></div></div><span class="ph-opt-p">45%</span></div>
                     <div class="ph-opt"><span style="min-width:95px;font-size:.65rem;">Bacon</span><div class="ph-opt-b"><div class="ph-opt-f" style="width:30%"></div></div><span class="ph-opt-p">30%</span></div>
                     <div class="ph-opt"><span style="min-width:95px;font-size:.65rem;">Cacio e Pepe</span><div class="ph-opt-b"><div class="ph-opt-f" style="width:25%"></div></div><span class="ph-opt-p">25%</span></div>
@@ -306,124 +308,124 @@
             <div class="s2-callouts">
                 <div class="s2-c">
                     <div class="s2-c-n">01</div>
-                    <div class="s2-c-t">Wallet de puntos en tiempo real</div>
-                    <div class="s2-c-d">Puntos actuales, nivel activo y progreso al siguiente — actualización automática.</div>
+                    <div class="s2-c-t">Real-time points wallet</div>
+                    <div class="s2-c-d">Current points, active tier and next-tier progress — updated automatically.</div>
                 </div>
                 <div class="s2-c">
                     <div class="s2-c-n">02</div>
-                    <div class="s2-c-t">Misiones semanales</div>
-                    <div class="s2-c-d">Retos que generan visitas recurrentes con puntos extra garantizados.</div>
+                    <div class="s2-c-t">Weekly missions</div>
+                    <div class="s2-c-d">Challenges that drive repeat visits with guaranteed bonus points.</div>
                 </div>
                 <div class="s2-c">
                     <div class="s2-c-n">03</div>
-                    <div class="s2-c-t">La CREW vota de verdad</div>
-                    <div class="s2-c-d">Nuevos productos, eventos y decisiones de marca elegidos por los miembros.</div>
+                    <div class="s2-c-t">The CREW actually votes</div>
+                    <div class="s2-c-d">New products, events and brand decisions chosen by members.</div>
                 </div>
                 <div class="s2-c">
                     <div class="s2-c-n">04</div>
-                    <div class="s2-c-t">Recompensas canjeables</div>
-                    <div class="s2-c-d">20% OFF bienvenida, 2x1 mensual, acceso privado y experiencias exclusivas.</div>
+                    <div class="s2-c-t">Redeemable rewards</div>
+                    <div class="s2-c-d">20% welcome OFF, monthly 2-for-1, private access and exclusive experiences.</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ══ 3 · 4 NIVELES ══════════════════════════════════════════ -->
+<!-- ══ 3 · 4 LEVELS ═══════════════════════════════════════════ -->
 <section class="s" id="s3">
     <div class="inner s3-wrap">
         <div class="s3-head">
-            <div class="s3-kicker">Sistema de niveles</div>
-            <div class="s3-title">Los 4 niveles de la <span>CREW</span></div>
+            <div class="s3-kicker">Tier system</div>
+            <div class="s3-title">The 4 <span>CREW</span> tiers</div>
         </div>
         <div class="levels">
             <div class="lv lv-neo">
                 <div class="lv-name">NEOPHYTE</div>
                 <div class="lv-pts">0 – 249 pts</div>
                 <div class="lv-perks">
-                    <div class="lv-perk">20% OFF bienvenida</div>
-                    <div class="lv-perk">WhatsApp Gula exclusivo</div>
-                    <div class="lv-perk">Dashboard de puntos</div>
-                    <div class="lv-perk">Misiones semanales</div>
-                    <div class="lv-perk">Puntos desde el día 1</div>
+                    <div class="lv-perk">20% welcome OFF</div>
+                    <div class="lv-perk">Private GULA WhatsApp</div>
+                    <div class="lv-perk">Points dashboard</div>
+                    <div class="lv-perk">Weekly missions</div>
+                    <div class="lv-perk">Points from day one</div>
                 </div>
             </div>
             <div class="lv lv-cr">
                 <div class="lv-name">CREW</div>
                 <div class="lv-pts">250 – 699 pts</div>
                 <div class="lv-perks">
-                    <div class="lv-perk">2x1 mensual fijo</div>
-                    <div class="lv-perk">Drops exclusivos semanales</div>
-                    <div class="lv-perk">Acceso anticipado a productos</div>
-                    <div class="lv-perk">Votación en decisiones reales</div>
-                    <div class="lv-perk">Eventos abiertos CREW</div>
+                    <div class="lv-perk">Monthly 2-for-1 reward</div>
+                    <div class="lv-perk">Weekly exclusive drops</div>
+                    <div class="lv-perk">Early product access</div>
+                    <div class="lv-perk">Real decision voting</div>
+                    <div class="lv-perk">Open CREW events and more</div>
                 </div>
             </div>
             <div class="lv lv-hi">
                 <div class="lv-name">HIGH CREW</div>
                 <div class="lv-pts">700 – 1199 pts</div>
                 <div class="lv-perks">
-                    <div class="lv-perk">Eventos privados y tastings</div>
-                    <div class="lv-perk">Menú secreto ampliado</div>
-                    <div class="lv-perk">Fast Pass en sala</div>
-                    <div class="lv-perk">Influencia real en la marca</div>
-                    <div class="lv-perk">Beneficios premium acumulados</div>
+                    <div class="lv-perk">Private events and tastings</div>
+                    <div class="lv-perk">Expanded secret menu</div>
+                    <div class="lv-perk">In-store Fast Pass</div>
+                    <div class="lv-perk">Real influence on the brand</div>
+                    <div class="lv-perk">Premium stacked perks and more</div>
                 </div>
             </div>
             <div class="lv lv-fo">
                 <div class="lv-name">FOUNDERS</div>
                 <div class="lv-pts">+1200 pts</div>
                 <div class="lv-perks">
-                    <div class="lv-perk"><strong style="color:var(--gold)">20% OFF de por vida</strong></div>
-                    <div class="lv-perk">Acceso directo a la marca</div>
-                    <div class="lv-perk">Experiencias top exclusivas</div>
-                    <div class="lv-perk">Charla con el founder</div>
-                    <div class="lv-perk">Identidad FOUNDERS permanente</div>
+                    <div class="lv-perk"><strong style="color:var(--gold)">Lifetime 20% OFF</strong></div>
+                    <div class="lv-perk">Direct access to the brand</div>
+                    <div class="lv-perk">Top-tier exclusive experiences</div>
+                    <div class="lv-perk">Founder talk</div>
+                    <div class="lv-perk">Permanent FOUNDERS identity and more</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ══ 4 · PUNTOS ═════════════════════════════════════════════ -->
+<!-- ══ 4 · POINTS ═════════════════════════════════════════════ -->
 <section class="s" id="s4">
     <div class="inner">
         <div class="s4-head">
-            <div class="s4-kicker">Motor de puntos</div>
-            <div class="s4-title">¿Cómo se <span>ganan</span> puntos?</div>
+            <div class="s4-kicker">Points engine</div>
+            <div class="s4-title">How do you <span>earn</span> points?</div>
         </div>
         <div class="s4-grid">
             <div class="s4-block">
-                <div class="s4-blk-title">Por consumo en sala</div>
+                <div class="s4-blk-title">In-store spend</div>
                 <div class="s4-formula">
                     <div class="s4-big">€1 = 3 pts</div>
-                    <div class="s4-sub">por cada euro gastado</div>
+                    <div class="s4-sub">for every euro spent</div>
                 </div>
                 <div class="s4-ex">
                     The Sinner Burger <strong>12,90€</strong> → <strong>+39 pts</strong><br>
-                    Fritas Trufadas <strong>9,50€</strong> → <strong>+29 pts</strong><br>
-                    Una visita media → <strong>≈ +60–80 pts</strong>
+                    Truffle Fries <strong>9,50€</strong> → <strong>+29 pts</strong><br>
+                    Average visit → <strong>≈ +60–80 pts</strong>
                 </div>
             </div>
             <div class="s4-block">
-                <div class="s4-blk-title">Por acciones sociales</div>
-                <div class="s4-row"><span class="s4-row-l">Registro en Club Gula</span><span class="s4-row-v">+22 pts</span></div>
-                <div class="s4-row"><span class="s4-row-l">Confirmar teléfono</span><span class="s4-row-v">+22 pts</span></div>
-                <div class="s4-row"><span class="s4-row-l">Seguir @thegulacorp</span><span class="s4-row-v">+50 pts</span></div>
-                <div class="s4-row"><span class="s4-row-l">Publicar un Reel</span><span class="s4-row-v">+40 pts</span></div>
-                <div class="s4-row"><span class="s4-row-l">Publicar una Story</span><span class="s4-row-v">+30 pts</span></div>
-                <div class="s4-row"><span class="s4-row-l">Repost de contenido</span><span class="s4-row-v">+20 pts</span></div>
-                <div class="s4-row"><span class="s4-row-l">Completar misión semanal</span><span class="s4-row-v">+60 pts</span></div>
+                <div class="s4-blk-title">Social actions</div>
+                <div class="s4-row"><span class="s4-row-l">Join Club GULA</span><span class="s4-row-v">+22 pts</span></div>
+                <div class="s4-row"><span class="s4-row-l">Verify phone number</span><span class="s4-row-v">+22 pts</span></div>
+                <div class="s4-row"><span class="s4-row-l">Follow @thegulacorp</span><span class="s4-row-v">+50 pts</span></div>
+                <div class="s4-row"><span class="s4-row-l">Post a Reel</span><span class="s4-row-v">+40 pts</span></div>
+                <div class="s4-row"><span class="s4-row-l">Post a Story</span><span class="s4-row-v">+30 pts</span></div>
+                <div class="s4-row"><span class="s4-row-l">Repost content</span><span class="s4-row-v">+20 pts</span></div>
+                <div class="s4-row"><span class="s4-row-l">Complete weekly mission</span><span class="s4-row-v">+60 pts</span></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ══ 5 · TARJETA ════════════════════════════════════════════ -->
+<!-- ══ 5 · CARD ═══════════════════════════════════════════════ -->
 <section class="s" id="s5">
     <div class="inner" style="text-align:center;">
-        <div class="s5-kicker">Tu identidad como miembro</div>
-        <div class="s5-title">La <span>tarjeta GULA</span></div>
+        <div class="s5-kicker">Your member identity</div>
+        <div class="s5-title">The <span>GULA card</span></div>
         <div class="s5-wrap">
             <div class="loyalty-card">
                 <div class="lc-top">
@@ -433,7 +435,7 @@
                 <div class="lc-code">GULA-DK2847</div>
                 <div class="lc-bot">
                     <div>
-                        <div class="lc-hl">Titular</div>
+                        <div class="lc-hl">Holder</div>
                         <div class="lc-hn">DAVID K.</div>
                     </div>
                     <div class="lc-qr">
@@ -453,29 +455,15 @@
                 <div class="s5-f">
                     <div class="s5-dot"></div>
                     <div>
-                        <div class="s5-ft">Apple Wallet &amp; Google Pay</div>
-                        <div class="s5-fd">Un tap y la tarjeta vive en el móvil. Sin app, sin fricción.</div>
+                        <div class="s5-ft">Wallet-ready identity</div>
+                        <div class="s5-fd">Apple Wallet / Google Pay card with a unique GULA code for instant in-store scans.</div>
                     </div>
                 </div>
                 <div class="s5-f">
                     <div class="s5-dot"></div>
                     <div>
-                        <div class="s5-ft">Código único GULA-XXXXXX</div>
-                        <div class="s5-fd">El staff lo escanea en sala para acreditar puntos al instante.</div>
-                    </div>
-                </div>
-                <div class="s5-f">
-                    <div class="s5-dot"></div>
-                    <div>
-                        <div class="s5-ft">Nivel visible en la tarjeta</div>
-                        <div class="s5-fd">NEOPHYTE → CREW → HIGH CREW → FOUNDERS</div>
-                    </div>
-                </div>
-                <div class="s5-f">
-                    <div class="s5-dot"></div>
-                    <div>
-                        <div class="s5-ft">Dashboard 24/7</div>
-                        <div class="s5-fd">Puntos, misiones y recompensas desde cualquier dispositivo.</div>
+                        <div class="s5-ft">Your CREW status, always live</div>
+                        <div class="s5-fd">Tier, points, missions and rewards synced from any device — no friction, all flex.</div>
                     </div>
                 </div>
             </div>

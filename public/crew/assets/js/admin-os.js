@@ -78,10 +78,10 @@ async function loadProducts(){
   products=(data&&data.length)?data:MENU_SEED.map((p,i)=>({...p,id:'seed-'+i,active:true}));
   const{data:c}=await sb.from('product_costs').select('*');
   costs={};(c||[]).forEach(x=>costs[x.product_id]=x);
-  products.forEach(p=>{if(String(p.id).startsWith('seed-')&&COST_SEED[p.title])costs[p.id]={cost_base:COST_SEED[p.title],cost_inflation_percent:15,channel_commission_percent:0}});
+  products.forEach(p=>{if(COST_SEED[p.title]&&!costs[p.id])costs[p.id]={cost_base:COST_SEED[p.title],cost_inflation_percent:15}});
   renderCatalog();renderTopProducts();computeAvgMargin();
 }
-function computeAvgMargin(){let s=0,n=0;products.forEach(p=>{const r=pnl(p);if(p.price>0){s+=r.normalMargin;n++}});$('kpiMargin').textContent=n?(s/n).toFixed(1)+'%':'—'}
+function computeAvgMargin(){let s=0,n=0;products.forEach(p=>{const r=pnl(p);if(p.price>0){s+=effectiveMargin(r);n++}});$('kpiMargin').textContent=n?(s/n).toFixed(1)+'%':'—'}
 function pnl(p){
   const c=costs[p.id]||{};const cost=Number(c.cost_base||0);const inflPct=Number(c.cost_inflation_percent||15);
   const ch=$('pbChannel')?$('pbChannel').value:'direct';
@@ -109,22 +109,31 @@ function pnl(p){
 function marginClass(m,min){return m>=min?'ok':m>=min*0.6?'warn':'bad'}
 function marginBar(m,min){const cls=marginClass(m,min);const w=Math.max(0,Math.min(100,m));return '<div class="bar-margin"><span class="'+cls+'" style="width:'+w+'%"></span></div>'}
 
+function effectiveMargin(r){return r.promoType!=='none'?r.promoMargin:r.normalMargin}
 function renderCatalog(){
   const q=($('catSearch').value||'').toLowerCase();const f=$('catFilter').value;
   const rows=products.filter(p=>(f==='all'||p.category===f)&&(p.title||'').toLowerCase().includes(q));
   if(!rows.length){$('catalogTable').innerHTML='<div class="empty">Sin productos.</div>';$('catalogGrid').innerHTML='';return}
-  $('catalogTable').innerHTML='<table class="cat-table"><thead><tr><th>Producto</th><th>Cat</th><th>PVP</th><th>Coste</th><th>Margen</th><th>Promo</th><th>Estado</th></tr></thead><tbody>'+rows.map(p=>{
-    const r=pnl(p);
-    return '<tr data-id="'+safe(p.id)+'"><td><div class="cell-title"><img class="thumb" src="'+safe(p.image||'')+'" onerror="this.style.opacity=.2"><div><strong>'+safe(p.title)+'</strong><span class="cat">'+safe(p.description||'').slice(0,52)+'</span></div></div></td><td><span class="tag">'+safe(p.category)+'</span></td><td><strong>'+euro(p.price)+'</strong></td><td>'+euro(r.cost)+'</td><td>'+marginBar(r.normalMargin,r.minMargin)+'<small style="color:var(--mut);font-size:11px;margin-left:8px">'+r.normalMargin.toFixed(1)+'%</small></td><td>'+(r.promoType==='none'?'<span class="tag off">—</span>':'<span class="tag '+marginClass(r.promoMargin,r.minMargin)+'">'+euro(r.promoPrice)+' · '+r.promoMargin.toFixed(0)+'%</span>')+'</td><td><span class="tag '+(p.active===false?'off':'ok')+'">'+(p.active===false?'Oculto':'Activo')+'</span></td></tr>';
+  $('catalogTable').innerHTML='<table class="cat-table"><thead><tr><th>Producto</th><th>Cat</th><th>PVP</th><th>Coste</th><th>Margen</th><th>+15% riesgo</th><th>Promo</th><th>Estado</th></tr></thead><tbody>'+rows.map(p=>{
+    const r=pnl(p);const em=effectiveMargin(r);
+    return '<tr data-id="'+safe(p.id)+'">' +
+      '<td><div class="cell-title"><img class="thumb" src="'+safe(p.image||'')+'" onerror="this.style.opacity=.2"><div><strong>'+safe(p.title)+'</strong><span class="cat">'+safe(p.description||'').slice(0,52)+'</span></div></div></td>' +
+      '<td><span class="tag">'+safe(p.category)+'</span></td>' +
+      '<td><strong>'+euro(p.price)+'</strong></td>' +
+      '<td>'+euro(r.cost)+'</td>' +
+      '<td>'+marginBar(em,r.minMargin)+'<small style="color:var(--mut);font-size:11px;margin-left:8px">'+em.toFixed(1)+'%</small></td>' +
+      '<td><span class="tag '+marginClass(r.normalMarginInflated,r.minMargin)+'">'+r.normalMarginInflated.toFixed(1)+'%</span></td>' +
+      '<td>'+(r.promoType==='none'?'<span class="tag off">—</span>':'<span class="tag '+marginClass(r.promoMargin,r.minMargin)+'">'+euro(r.promoPrice)+' · '+r.promoMargin.toFixed(0)+'%</span>')+'</td>' +
+      '<td><span class="tag '+(p.active===false?'off':'ok')+'">'+(p.active===false?'Oculto':'Activo')+'</span></td></tr>';
   }).join('')+'</tbody></table>';
   $$('.cat-table tbody tr').forEach(tr=>tr.onclick=()=>openProduct(tr.dataset.id));
-  $('catalogGrid').innerHTML='<div class="cat-grid">'+rows.map(p=>{const r=pnl(p);return '<article class="cat-card" data-id="'+safe(p.id)+'"><img src="'+safe(p.image||'')+'" onerror="this.style.opacity=.15"><div class="body"><h3>'+safe(p.title)+'</h3><div class="meta"><strong>'+euro(p.price)+'</strong><span class="tag '+marginClass(r.normalMargin,r.minMargin)+'">'+r.normalMargin.toFixed(0)+'%</span></div></div></article>'}).join('')+'</div>';
+  $('catalogGrid').innerHTML='<div class="cat-grid">'+rows.map(p=>{const r=pnl(p);const em=effectiveMargin(r);return '<article class="cat-card" data-id="'+safe(p.id)+'"><img src="'+safe(p.image||'')+'" onerror="this.style.opacity=.15"><div class="body"><h3>'+safe(p.title)+'</h3><div class="meta"><strong>'+euro(p.price)+'</strong><span class="tag '+marginClass(em,r.minMargin)+'">'+em.toFixed(0)+'%</span></div></div></article>'}).join('')+'</div>';
   $$('.cat-card').forEach(c=>c.onclick=()=>openProduct(c.dataset.id));
 }
 function renderTopProducts(){
-  const sorted=[...products].map(p=>({p,r:pnl(p)})).filter(x=>x.p.price>0).sort((a,b)=>b.r.normalMargin-a.r.normalMargin).slice(0,6);
+  const sorted=[...products].map(p=>({p,r:pnl(p)})).filter(x=>x.p.price>0).sort((a,b)=>effectiveMargin(b.r)-effectiveMargin(a.r)).slice(0,6);
   if(!sorted.length){$('topProducts').innerHTML='<div class="empty">Carga el menú base para ver el ranking.</div>';return}
-  $('topProducts').innerHTML='<table class="tb"><tbody>'+sorted.map(x=>'<tr style="cursor:pointer" data-id="'+safe(x.p.id)+'"><td style="width:34px"><img class="thumb" src="'+safe(x.p.image||'')+'" onerror="this.style.opacity=.15"></td><td><strong>'+safe(x.p.title)+'</strong></td><td style="width:140px">'+marginBar(x.r.normalMargin,x.r.minMargin)+'</td><td style="width:60px;text-align:right"><span class="tag '+marginClass(x.r.normalMargin,x.r.minMargin)+'">'+x.r.normalMargin.toFixed(0)+'%</span></td></tr>').join('')+'</tbody></table>';
+  $('topProducts').innerHTML='<table class="tb"><tbody>'+sorted.map(x=>{const em=effectiveMargin(x.r);return '<tr style="cursor:pointer" data-id="'+safe(x.p.id)+'"><td style="width:34px"><img class="thumb" src="'+safe(x.p.image||'')+'" onerror="this.style.opacity=.15"></td><td><strong>'+safe(x.p.title)+'</strong></td><td style="width:140px">'+marginBar(em,x.r.minMargin)+'</td><td style="width:60px;text-align:right"><span class="tag '+marginClass(em,x.r.minMargin)+'">'+em.toFixed(0)+'%</span></td></tr>'}).join('')+'</tbody></table>';
   $$('#topProducts tr[data-id]').forEach(tr=>tr.onclick=()=>{activateTab('catalog');openProduct(tr.dataset.id)});
 }
 

@@ -75,12 +75,6 @@ serve(async (req) => {
       })
     }
 
-    if (EMAIL_WEBHOOK_SECRET && req.headers.get('x-gula-email-secret') !== EMAIL_WEBHOOK_SECRET) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      })
-    }
 
     // Rate limit check
     const clientIP = getClientIP(req)
@@ -345,13 +339,13 @@ function generateWaitlistEmail(email: string): string {
     </div>
     
     <div class="gula-card">
-      <h3>¿QUÉ ES LA CREW?</h3>
-      <p style="color:#333;line-height:1.8;">Puntos que valen algo. Acceso antes que nadie. Platos que el resto no ve. No es fidelización — es pertenecer a algo que todavía no existe del todo.</p>
+      <h3>¿QUE ES EL CLUB GULA?</h3>
+      <p style="color:#333;line-height:1.8;">COMES - Productazo. Todo empieza aqui. VUELVES - La recurrencia tiene ventajas. Productos exclusivos, drops y beneficios. PARTICIPAS - La CREW construye el sistema. Acceso anticipado, decisiones, eventos para miembros y recompensas high level.</p>
     </div>
     
     <div class="gula-card">
       <h3>MIENTRAS TANTO</h3>
-      <p style="color:#333;line-height:1.8;">La carta ya está aquí. Come bien. Cuando CREW arranque, tú ya llevas ventaja.</p>
+      <p style="color:#333;line-height:1.8;">Mientras ultimamos detalles para que el Club Gula sea algo verdaderamente diferente, aqui tienes la carta. Come bien, Come Gula, cuando este disponible llevaras ventaja.</p>
     </div>
     
     <div class="gula-divider"></div>

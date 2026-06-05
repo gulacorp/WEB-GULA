@@ -13,6 +13,10 @@ DirectoryIndex index.html
 RewriteCond %{REQUEST_URI} ^/gulatemplate\.html$ [NC]
 RewriteRule ^gulatemplate\.html$ / [R=301,L]
 
+# Redirigir marketplace.html a marketplace-no-header.html
+RewriteCond %{REQUEST_URI} ^/marketplace\.html$ [NC]
+RewriteRule ^marketplace\.html$ /marketplace-no-header.html [R=301,L]
+
 # Seguridad básica
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"

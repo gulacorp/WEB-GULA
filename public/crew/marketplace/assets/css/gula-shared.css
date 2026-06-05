@@ -1,0 +1,164 @@
+/* GULA · Sistema compartido (botones nav + heat-haze + utilidades minimas) */
+
+/* ============ NAV BUTTONS — tamaño uniforme ============ */
+.nav-right{display:flex;gap:10px;align-items:center}
+.nav-right .nav-btn-outline,
+.nav-right .nav-btn-primary{
+  min-width:160px;
+  padding:11px 18px !important;
+  font-size:0.62rem !important;
+  letter-spacing:1px !important;
+  text-align:center;
+  box-sizing:border-box;
+  border-radius:999px !important;
+  font-family:'Akira Expanded',sans-serif !important;
+  font-weight:900 !important;
+  text-decoration:none;
+  text-transform:uppercase;
+  white-space:nowrap;
+  line-height:1;
+  transition:all 0.35s cubic-bezier(.22,1,.36,1);
+}
+.nav-right .nav-btn-outline{
+  background:transparent;
+  color:#FF5800;
+  border:1.5px solid #FF5800;
+}
+.nav-right .nav-btn-outline:hover{
+  background:#FF5800;
+  color:#000;
+  box-shadow:0 6px 20px rgba(255,88,0,0.25);
+}
+.nav-right .nav-btn-primary{
+  background:linear-gradient(135deg,#FF5800,#FF7A29);
+  color:#000;
+  border:1.5px solid #FF5800;
+}
+.nav-right .nav-btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 22px rgba(255,88,0,0.4);
+}
+@media(max-width:768px){
+  .nav-right{display:none !important}
+  nav.mobile-open .nav-right{display:flex !important;flex-direction:column;width:100%;order:4;padding:6px 8px 0;gap:10px}
+  .nav-right .nav-btn-outline,
+  .nav-right .nav-btn-primary{min-width:0;width:100%;justify-content:center}
+}
+
+/* ============ HEAT HAZE — sutil sensación de calor ============ */
+/* Apply by adding class="heat-haze" to a container. Animates a soft wavy distortion */
+@keyframes gulaHeatRise{
+  0%   { transform:translate3d(0,0,0) skewX(0deg); opacity:0.35 }
+  35%  { transform:translate3d(-1px,-8px,0) skewX(0.4deg); opacity:0.5 }
+  60%  { transform:translate3d(1px,-14px,0) skewX(-0.3deg); opacity:0.55 }
+  100% { transform:translate3d(0,-24px,0) skewX(0deg); opacity:0 }
+}
+.heat-haze{position:relative;isolation:isolate}
+.heat-haze::before{
+  /* warm radial bloom that breathes — feels like residual heat */
+  content:'';position:absolute;left:50%;bottom:-30%;
+  width:80%;height:60%;transform:translateX(-50%);
+  background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(255,120,30,0.18),rgba(255,88,0,0.06) 45%,transparent 70%);
+  filter:blur(28px);
+  z-index:0;pointer-events:none;
+  animation:gulaHeatBreathe 7s ease-in-out infinite;
+}
+.heat-haze::after{
+  /* upward shimmer columns — the air-distortion above flame */
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 6% 30% at 22% 100%,rgba(255,140,40,0.16),transparent 65%),
+    radial-gradient(ellipse 5% 25% at 48% 100%,rgba(255,120,30,0.14),transparent 70%),
+    radial-gradient(ellipse 7% 28% at 75% 100%,rgba(255,150,40,0.13),transparent 65%);
+  filter:blur(14px);
+  animation:gulaHeatShimmer 9s ease-in-out infinite;
+  mix-blend-mode:screen;
+}
+@keyframes gulaHeatBreathe{
+  0%,100% { transform:translateX(-50%) scale(1); opacity:0.85 }
+  50%     { transform:translateX(-50%) scale(1.07); opacity:1 }
+}
+@keyframes gulaHeatShimmer{
+  0%,100% { transform:translateY(0) scaleX(1); opacity:0.65 }
+  33%     { transform:translateY(-4px) scaleX(1.05); opacity:0.85 }
+  66%     { transform:translateY(-8px) scaleX(0.97); opacity:0.7 }
+}
+@media (prefers-reduced-motion: reduce){
+  .heat-haze::before,.heat-haze::after{animation:none}
+}
+
+/* Tiny heat wave above hero text — works in any hero */
+.heat-text{position:relative}
+.heat-text::after{
+  content:'';position:absolute;left:10%;right:10%;top:-12px;height:3px;
+  background:linear-gradient(90deg,transparent,rgba(255,120,30,0.45),rgba(255,200,80,0.6),rgba(255,120,30,0.45),transparent);
+  filter:blur(2px);
+  animation:gulaHeatRipple 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes gulaHeatRipple{
+  0%,100% { transform:translateX(0) scaleY(1); opacity:0.5 }
+  50%     { transform:translateX(8px) scaleY(1.2); opacity:0.9 }
+}
+
+/* ============ BLOG INLINE PHOTOS — blur ambient frame ============ */
+/* Activate by setting data-blur-frame="true" on the wrapper. JS in gula-atmosphere.js
+   reads the inner <img> and applies it as a blurred CSS background to the wrapper.
+   This lets us use object-fit:contain (no crop, no zoom, no quality loss)
+   while keeping a beautiful ambient frame. */
+[data-blur-frame]{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:#0a0a0a;
+}
+[data-blur-frame]::before{
+  content:'';
+  position:absolute;inset:-30px;
+  background-image:var(--blur-src);
+  background-size:cover;background-position:center;
+  filter:blur(38px) brightness(0.55) saturate(1.05);
+  transform:scale(1.1);
+  z-index:0;pointer-events:none;
+  opacity:0.85;
+}
+[data-blur-frame]::after{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,88,0,0.16),transparent 55%,rgba(0,0,0,0.45));
+  mix-blend-mode:soft-light;
+}
+[data-blur-frame] img{
+  position:relative !important;
+  z-index:2 !important;
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  max-height:520px !important;
+  object-fit:contain !important;
+  filter:contrast(1.06) saturate(0.92) !important;
+  transition:none !important;
+  transform:none !important;
+}
+[data-blur-frame]:hover img{transform:none !important;filter:contrast(1.06) saturate(0.92) !important}
+[data-blur-frame]::after{ z-index:1 !important }
+[data-blur-frame]::before{ z-index:0 !important }
+
+/* ============ CONFIRMATION TOAST ============ */
+.gula-toast{
+  position:fixed;left:50%;bottom:32px;transform:translate(-50%,120%);
+  background:rgba(20,20,20,0.96);backdrop-filter:blur(20px);
+  border:1px solid rgba(255,88,0,0.4);
+  color:#fff;padding:18px 28px;border-radius:999px;
+  font-family:'Akira Expanded',sans-serif;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(255,88,0,0.25);
+  z-index:99999;opacity:0;
+  transition:transform 0.6s cubic-bezier(.22,1,.36,1),opacity 0.4s ease;
+  display:flex;align-items:center;gap:12px;max-width:90vw;
+}
+.gula-toast.show{transform:translate(-50%,0);opacity:1}
+.gula-toast .check{
+  width:22px;height:22px;border-radius:50%;
+  background:#FF5800;color:#000;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.9rem;flex-shrink:0;
+}

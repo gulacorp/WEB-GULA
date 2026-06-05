@@ -232,7 +232,8 @@
                     <select id="channelSelect">
                         <option value="sala">Sala (0% comisión)</option>
                         <option value="uber">Uber Eats (30% comisión)</option>
-                        <option value="glovo">Glovo (32% comisión)</option>
+                        <option value="glovo">Glovo Delivery (25% comisión)</option>
+                        <option value="glovo_pickup">Glovo Pick Up (15% comisión)</option>
                         <option value="takeaway">Takeaway (0% comisión)</option>
                     </select>
                 </div>
@@ -242,6 +243,7 @@
                         <option value="none">Sin promoción</option>
                         <option value="percent">Porcentaje descuento</option>
                         <option value="fixed">Importe fijo descuento</option>
+                        <option value="uber_30off">Uber 30% OFF</option>
                         <option value="2x1">2x1</option>
                         <option value="3x2">3x2</option>
                     </select>
@@ -253,6 +255,13 @@
                 <div class="form-group">
                     <label>Margen Mínimo Deseado (%)</label>
                     <input type="number" id="minMargin" value="30" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label>Inflación de Coste</label>
+                    <select id="inflationRate">
+                        <option value="10">10%</option>
+                        <option value="15" selected>15%</option>
+                    </select>
                 </div>
                 <div class="actions">
                     <button class="btn" onclick="updateAllCalculations()">Actualizar</button>
@@ -269,7 +278,7 @@
                         <th>Producto</th>
                         <th>Categoría</th>
                         <th><span>Coste</span><span>Base</span></th>
-                        <th><span>Coste</span><span>Inflado</span><span>(+15%)</span></th>
+                        <th><span>Coste</span><span>Inflado</span><span id="inflationLabel">(+15%)</span></th>
                         <th><span>Precio</span><span>Venta</span></th>
                         <th>Comisión</th>
                         <th><span>Precio</span><span>Promo</span></th>
@@ -291,7 +300,7 @@
     </div>
 
     <script>
-        // Datos reales de GULA extraídos de PDFs
+        // Datos reales de GULA extraídos de PDFs (Escandallos_SKUs_Gula_INTERACTIVO.pdf)
         const productsData = [
             { id: 1, name: "BBK", category: "Burgers", basePrice: 13.90, cost: 4.31 },
             { id: 2, name: "Bohemian Chicken", category: "Burgers", basePrice: 13.90, cost: 4.90 },
@@ -303,20 +312,25 @@
             { id: 8, name: "The Sinner", category: "Burgers", basePrice: 13.90, cost: 4.33 },
             { id: 9, name: "The Trufa Corp", category: "Burgers", basePrice: 14.90, cost: 5.15 },
             { id: 10, name: "Trufa Corp Chicken", category: "Burgers", basePrice: 13.90, cost: 5.72 },
-            { id: 11, name: "Nuestras fritas", category: "Sides", basePrice: 3.40, cost: 0.57 },
-            { id: 12, name: "Fritas Trufadas", category: "Sides", basePrice: 6.50, cost: 1.33 },
-            { id: 13, name: "Fritas Bacon & Queso", category: "Sides", basePrice: 7.50, cost: 1.64 },
-            { id: 14, name: "Fritas Buffalo Ranch", category: "Sides", basePrice: 6.50, cost: 1.43 },
+            { id: 11, name: "Pleasure for Two", category: "Combos", basePrice: 31.90, cost: 69.00 },
+            { id: 12, name: "Sin City", category: "Combos", basePrice: 69.69, cost: 69.00 },
+            { id: 13, name: "Sinner Combo", category: "Combos", basePrice: 14.90, cost: 14.90 },
+            { id: 14, name: "The Golden Bite", category: "Combos", basePrice: 20.90, cost: 20.90 },
             { id: 15, name: "Alitas", category: "Sides", basePrice: 8.50, cost: 2.65 },
-            { id: 16, name: "Pollo Frito", category: "Sides", basePrice: 9.90, cost: 2.92 },
-            { id: 17, name: "Golden Slider", category: "Sliders", basePrice: 11.29, cost: 2.21 }
+            { id: 16, name: "Fritas Bacon & Queso", category: "Sides", basePrice: 6.50, cost: 1.43 },
+            { id: 17, name: "Fritas Buffalo Ranch", category: "Sides", basePrice: 7.50, cost: 1.64 },
+            { id: 18, name: "Fritas Trufadas", category: "Sides", basePrice: 6.50, cost: 1.33 },
+            { id: 19, name: "Nuestras fritas", category: "Sides", basePrice: 3.40, cost: 0.57 },
+            { id: 20, name: "Pollo Frito", category: "Sides", basePrice: 9.90, cost: 2.92 },
+            { id: 21, name: "Golden Slider", category: "Sliders", basePrice: 11.29, cost: 2.21 }
         ];
 
         // Configuración de canales
         const channelConfig = {
             sala: { commission: 0, name: "Sala" },
             uber: { commission: 30, name: "Uber Eats" },
-            glovo: { commission: 32, name: "Glovo" },
+            glovo: { commission: 25, name: "Glovo Delivery" },
+            glovo_pickup: { commission: 15, name: "Glovo Pick Up" },
             takeaway: { commission: 0, name: "Takeaway" }
         };
 
@@ -353,6 +367,7 @@
 
             document.getElementById('promoValue').addEventListener('input', updateAllCalculations);
             document.getElementById('minMargin').addEventListener('input', updateAllCalculations);
+            document.getElementById('inflationRate').addEventListener('change', updateAllCalculations);
         }
 
         function renderTable() {
@@ -373,6 +388,7 @@
             const promoType = currentPromoType;
             const promoValue = parseFloat(document.getElementById('promoValue').value) || 0;
             const minMargin = parseFloat(document.getElementById('minMargin').value) || 30;
+            const inflationRate = parseFloat(document.getElementById('inflationRate').value) || 15;
 
             productsData.forEach(product => {
                 const row = document.querySelector(`tr[data-product-id="${product.id}"]`);
@@ -390,8 +406,8 @@
                 const normalProfit = currentPrice - product.cost - commission;
                 const normalMargin = (normalProfit / currentPrice) * 100;
 
-                // Cálculos con coste inflado (+15%)
-                const inflatedCost = product.cost * 1.15;
+                // Cálculos con coste inflado (configurable)
+                const inflatedCost = product.cost * (1 + inflationRate / 100);
                 const normalProfitInflated = currentPrice - inflatedCost - commission;
                 const normalMarginInflated = (normalProfitInflated / currentPrice) * 100;
 
@@ -403,8 +419,9 @@
                 let promoMarginInflated = normalMarginInflated;
                 let unitsGivenAway = 0; // Unidades regaladas en la promo
 
-                if (promoType === 'percent') {
-                    promoPrice = currentPrice * (1 - promoValue / 100);
+                if (promoType === 'percent' || promoType === 'uber_30off') {
+                    const discountPercent = promoType === 'uber_30off' ? 30 : promoValue;
+                    promoPrice = currentPrice * (1 - discountPercent / 100);
                     const promoCommission = promoPrice * (config.commission / 100);
                     promoProfit = promoPrice - product.cost - promoCommission;
                     promoMargin = (promoProfit / promoPrice) * 100;
@@ -480,7 +497,7 @@
                     <td><strong>${product.name}</strong></td>
                     <td>${product.category}</td>
                     <td>€${product.cost.toFixed(2)}</td>
-                    <td style="background: #fff3cd; font-weight: 500;">€${inflatedCost.toFixed(2)}</td>
+                    <td style="background: #fff3cd; font-weight: 500;">€${inflatedCost.toFixed(2)} <span style="font-size: 10px; color: #666;">(+${inflationRate}%)</span></td>
                     <td>
                         <input type="number" class="price-input" id="${priceInputId}" value="${currentPrice.toFixed(2)}" step="0.10" onchange="updateAllCalculations()">
                     </td>
@@ -491,8 +508,8 @@
                     <td class="${lossPerPromo > 0 ? 'not-profitable' : 'profitable'}">${promoType === 'none' ? '-' : '€' + lossPerPromo.toFixed(2)}</td>
                     <td class="${normalMargin >= minMargin ? 'profitable' : 'not-profitable'}">${normalMargin.toFixed(1)}%</td>
                     <td class="${isProfitable ? 'profitable' : 'not-profitable'}">${promoType === 'none' ? '-' : promoMargin.toFixed(1) + '%'}</td>
-                    <td class="${normalMarginInflated >= minMargin ? 'profitable' : 'not-profitable'}" style="background: #fff3cd;">${normalMarginInflated.toFixed(1)}%</td>
-                    <td class="${promoMarginInflated >= minMargin ? 'profitable' : 'not-profitable'}" style="background: #fff3cd;">${promoType === 'none' ? '-' : promoMarginInflated.toFixed(1) + '%'}</td>
+                    <td class="${normalMarginInflated >= minMargin ? 'profitable' : 'not-profitable'}" style="background: #fff3cd;">${normalMarginInflated.toFixed(1)}% <span style="font-size: 10px;">(${inflationRate}%)</span></td>
+                    <td class="${promoMarginInflated >= minMargin ? 'profitable' : 'not-profitable'}" style="background: #fff3cd;">${promoType === 'none' ? '-' : promoMarginInflated.toFixed(1) + '%'} <span style="font-size: 10px;">(${inflationRate}%)</span></td>
                     <td>${promoType === 'none' ? '-' : (unitsToRecover > 0 ? Math.ceil(unitsToRecover) + ' ventas' : '0')}</td>
                     <td>
                         <span class="status-dot ${statusDotClass}"></span>
@@ -507,6 +524,7 @@
             const promoType = currentPromoType;
             const promoValue = parseFloat(document.getElementById('promoValue').value) || 0;
             const minMargin = parseFloat(document.getElementById('minMargin').value) || 30;
+            const inflationRate = parseFloat(document.getElementById('inflationRate').value) || 15;
 
             return productsData.map(product => {
                 const priceInput = document.getElementById(`price-${product.id}`);
@@ -514,7 +532,7 @@
                 const commission = currentPrice * (config.commission / 100);
                 const normalProfit = currentPrice - product.cost - commission;
                 const normalMargin = currentPrice > 0 ? (normalProfit / currentPrice) * 100 : 0;
-                const inflatedCost = product.cost * 1.15;
+                const inflatedCost = product.cost * (1 + inflationRate / 100);
                 const normalProfitInflated = currentPrice - inflatedCost - commission;
                 const normalMarginInflated = currentPrice > 0 ? (normalProfitInflated / currentPrice) * 100 : 0;
                 let promoPrice = currentPrice;
@@ -524,8 +542,9 @@
                 let promoMarginInflated = normalMarginInflated;
                 let unitsGivenAway = 0;
 
-                if (promoType === 'percent') {
-                    promoPrice = currentPrice * (1 - promoValue / 100);
+                if (promoType === 'percent' || promoType === 'uber_30off') {
+                    const discountPercent = promoType === 'uber_30off' ? 30 : promoValue;
+                    promoPrice = currentPrice * (1 - discountPercent / 100);
                     const promoCommission = promoPrice * (config.commission / 100);
                     promoProfit = promoPrice - product.cost - promoCommission;
                     promoMargin = promoPrice > 0 ? (promoProfit / promoPrice) * 100 : 0;
