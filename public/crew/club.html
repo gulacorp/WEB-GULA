@@ -833,6 +833,13 @@
             margin-right: auto;
         }
 
+        /* Closer style like contacto.html */
+        .closer{padding:100px 40px 130px;text-align:center;position:relative;overflow:hidden;max-width:780px;margin:0 auto}
+        .closer::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,88,0,0.4),transparent)}
+        .closer h2{font-family:'Aveline',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:1px;text-transform:uppercase;line-height:1;margin-bottom:22px}
+        .closer h2 .accent{color:var(--gula-orange);font-style:italic;text-shadow:0 0 30px rgba(255,88,0,0.4)}
+        .closer p{color:var(--text-secondary);font-size:1.05rem;line-height:1.75;font-weight:300;margin-bottom:36px;max-width:560px;margin-left:auto;margin-right:auto}
+
         .cta-btn {
             display: inline-block;
             background: linear-gradient(135deg, var(--gula-orange), #FF8C42);
@@ -1449,11 +1456,11 @@
                 <img src="images/gula-crew-sticker.png" alt="GULA fire">
             </div>
 
-            <div class="cta-section">
-                <h2>¿Listo para unirte?</h2>
+            <section class="closer reveal-up">
+                <h2>¿Listo para<br><span class="accent">unirte?</span></h2>
                 <p>Únete a miles de miembros que ya disfrutan de los beneficios de la CREW. El registro es gratuito y toma menos de un minuto.</p>
-                <a href="CLUBGULA.html#registro" class="cta-btn">Únete a la CREW</a>
-            </div>
+                <a href="CLUBGULA.html#registro" class="btn-pill primary">Únete a la CREW</a>
+            </section>
         </div>
     </section>
 

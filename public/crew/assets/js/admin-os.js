@@ -48,7 +48,7 @@ async function loadAll(){
   $('topProducts').innerHTML=skel(5);$('recentAudit').innerHTML=skel(6);$('checklist').innerHTML=skel(4);
   const[m,l,o]=await Promise.all([countTable('crew_members'),countTable('contactos'),countTable('pedidos')]);
   $('kpiMembers').textContent=m;$('kpiLeads').textContent=l;$('kpiOrders').textContent=o;
-  await Promise.all([loadMetrics(),loadProducts().then(loadCombos),loadBlocks(),loadClub(),loadOrders(),loadLeads(),loadMembers(),loadPromos(),loadConsents(),loadAudit(),loadChecklist()]);
+  await Promise.all([loadMetrics(),loadProducts().then(loadCombos),loadBlocks(),loadClub(),loadOrders(),loadLeads(),loadMembers(),loadPromos(),loadConsents(),loadAudit(),loadChecklist(),loadEvents(),loadEventsSummary(),loadPageViews()]);
 }
 
 async function loadMetrics(){
@@ -310,16 +310,21 @@ async function loadMembers(){const{data}=await sb.from('crew_members').select('*
 async function loadPromos(){const{data}=await sb.from('promos').select('*').order('created_at',{ascending:false}).limit(60);$('promosTable').innerHTML=tb(data,[{key:'codigo',label:'Código'},{key:'descuento',label:'Dto'},{key:'motivo',label:'Motivo'},{key:'usado',label:'Usado',render:r=>'<span class="tag '+(r.usado?'off':'ok')+'">'+(r.usado?'sí':'no')+'</span>'}])}
 async function loadConsents(){const{data}=await sb.from('consents').select('*').order('created_at',{ascending:false}).limit(60);$('consentsTable').innerHTML=tb(data,[{key:'created_at',label:'Fecha',render:r=>fmtDateTime(r.created_at)},{key:'source',label:'Origen'},{key:'email',label:'Email'},{key:'analytics',label:'A'},{key:'marketing',label:'M'}])}
 async function loadAudit(){const{data}=await sb.from('admin_audit_logs').select('*').order('created_at',{ascending:false}).limit(20);if(!data||!data.length){$('recentAudit').innerHTML='<div class="empty">Sin actividad reciente.</div>';return}$('recentAudit').innerHTML='<table class="tb"><tbody>'+data.map(r=>'<tr><td style="width:130px;color:var(--mut)">'+fmtDateTime(r.created_at)+'</td><td><span class="tag">'+safe(r.action)+'</span></td><td><strong>'+safe(r.entity)+'</strong></td><td style="color:var(--mut)">'+safe((r.admin_email||'').split('@')[0])+'</td></tr>').join('')+'</tbody></table>'}
+async function loadEvents(){const{data}=await sb.from('v_admin_analytics_events').select('*').order('created_at',{ascending:false}).limit(100);if(!data||!data.length){$('eventsTable').innerHTML='<div class="empty">Sin eventos registrados. Asegúrate de aplicar la migración supabase_008_analytics_events.sql</div>';return}$('eventsTable').innerHTML=tb(data,[{key:'created_at',label:'Fecha',render:r=>fmtDateTime(r.created_at)},{key:'event_name',label:'Evento',render:r=>'<span class="tag">'+safe(r.event_name)+'</span>'},{key:'page_path',label:'Página'},{key:'member_id',label:'Miembro',render:r=>r.member_id?'<span class="tag ok">Sí</span>':'<span class="tag off">Anónimo</span>'},{key:'properties',label:'Props',render:r=>'<small style="color:var(--mut)">'+JSON.stringify(r.properties||{}).slice(0,50)+'</small>'}])}
+async function loadEventsSummary(){const{data}=await sb.from('v_admin_analytics_summary').select('*');if(!data||!data.length){$('eventsSummaryTable').innerHTML='<div class="empty">Sin datos de eventos.</div>';return}$('eventsSummaryTable').innerHTML=tb(data,[{key:'event_name',label:'Evento'},{key:'total_events',label:'Total'},{key:'authenticated_events',label:'Auth'},{key:'anonymous_events',label:'Anónimo'},{key:'unique_users',label:'Usuarios únicos'},{key:'unique_members',label:'Miembros únicos'}])}
+async function loadPageViews(){const{data}=await sb.from('v_admin_page_views').select('*').limit(20);if(!data||!data.length){$('pageViewsTable').innerHTML='<div class="empty">Sin datos de page views.</div>';return}$('pageViewsTable').innerHTML=tb(data,[{key:'page_path',label:'Página'},{key:'page_views',label:'Views'},{key:'authenticated_views',label:'Auth'},{key:'unique_visitors',label:'Visitantes únicos'},{key:'unique_members',label:'Miembros únicos'}])}
 
 async function savePromo(e){e.preventDefault();const payload={codigo:$('promoCode').value.toUpperCase().trim(),descuento:Number($('promoDiscount').value),motivo:$('promoReason').value||'marketing',usado:$('promoUsed').value==='true'};const{error}=await sb.from('promos').upsert(payload,{onConflict:'codigo'});if(error){toast('Promo',error.message,'error');return}await audit('upsert','promos',payload);toast('Promo','Guardada','success');e.target.reset();loadPromos()}
 
 function populateConfig(){$('cfgUrl').textContent=SUPABASE_URL;$('cfgAnon').dataset.real=SUPABASE_ANON_KEY;$('cfgCallback').textContent=location.origin+'/crew/admin.html'}
 async function loadChecklist(){
   const tableBlocks=await tableExists('page_blocks');
+  const tableEvents=await tableExists('events');
   const items=[
     {k:'Auth admin',v:'<code>marketing@thegulacorp.com</code> presente en Auth → Users.',s:user?'ok':'warn'},
     {k:'SQL 005',v:'Ejecuta <code>supabase_005_admin_consent_email.sql</code>.',s:'ok'},
     {k:'SQL 006',v:'Ejecuta <code>supabase_006_cms_missions_costs.sql</code>.',s:tableBlocks?'ok':'warn'},
+    {k:'SQL 008',v:'Ejecuta <code>supabase_008_analytics_events.sql</code> para tracking.',s:tableEvents?'ok':'warn'},
     {k:'Edge function',v:'<code>supabase functions deploy send-email --project-ref gblmjealpcyswcgjrhzk</code>',s:'warn'},
     {k:'Resend DNS',v:'Verifica <code>thegulacorp.com</code> y cambia <code>FROM_EMAIL</code>.',s:'warn'},
     {k:'CMS keys',v:'Añade <code>data-cms-key</code> a HTML y pulsa <strong>Sincronizar</strong>.',s:'warn'}
@@ -335,7 +340,7 @@ function openCmdk(){$('cmdk').classList.remove('hidden');$('cmdkInput').value=''
 function closeCmdk(){$('cmdk').classList.add('hidden')}
 function renderCmdk(q){
   q=(q||'').toLowerCase();
-  const tabs=[['Overview','overview'],['Catálogo','catalog'],['Editor web','content'],['Club','club'],['Pedidos','orders'],['Delivery','delivery'],['Growth','growth'],['Sistema','settings']].map(([n,t])=>({label:n,cat:'Ir a',action:()=>activateTab(t)}));
+  const tabs=[['Overview','overview'],['Catálogo','catalog'],['Editor web','content'],['Club','club'],['Pedidos','orders'],['Delivery','delivery'],['Growth','growth'],['Analytics','analytics'],['Sistema','settings']].map(([n,t])=>({label:n,cat:'Ir a',action:()=>activateTab(t)}));
   const prods=products.filter(p=>!p._combo).map(p=>({label:p.title,cat:'Producto',action:()=>{activateTab('catalog');openProduct(p.id)}}));
   const cmbos=combos.map(c=>({label:c.name,cat:'Combo',action:()=>{activateTab('catalog');const p=products.find(x=>x._combo&&x._combo.id===c.id);if(p)openProduct(p.id)}}));
   const mis=clubItems.map(it=>({label:it.title||it.slug||'(sin título)',cat:'Club',action:()=>{activateTab('club');clubSel=it.id;renderClubList();renderClubForm()}}));
@@ -388,7 +393,7 @@ function bind(){
       if(e.key==='ArrowUp'){e.preventDefault();sel&&sel.classList.remove('sel');(all[idx-1]||all[all.length-1]).classList.add('sel')}
       if(e.key==='Enter'){e.preventDefault();sel&&sel.click()}
     }
-    if(e.altKey){const map={o:'overview',c:'catalog',e:'content',l:'club',p:'orders',g:'growth',',':'settings'};const t=map[e.key.toLowerCase()];if(t){e.preventDefault();activateTab(t)}}
+    if(e.altKey){const map={o:'overview',c:'catalog',e:'content',l:'club',p:'orders',g:'growth',a:'analytics',',':'settings'};const t=map[e.key.toLowerCase()];if(t){e.preventDefault();activateTab(t)}}
   });
   $('cmdkInput').oninput=e=>renderCmdk(e.target.value);
   document.querySelector('.cmdk-bg').onclick=closeCmdk;
@@ -600,3 +605,8 @@ function renderUberOrders(data){
     }).join('')
   }</tbody></table>`;
 }
+
+// Funciones globales para botones onclick en HTML
+window.loadEvents = loadEvents;
+window.loadEventsSummary = loadEventsSummary;
+window.loadPageViews = loadPageViews;

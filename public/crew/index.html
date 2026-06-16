@@ -1126,15 +1126,13 @@
             width: 110px; height: 110px;
             margin: 0 auto 0.8rem;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--gula-orange), #FF7A29);
             overflow: hidden;
-            padding: 8px;
+            padding: 0;
         }
         .cta-card .cta-icon img {
-            width: 90%;
-            height: 90%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .gula-icon {
@@ -2747,6 +2745,9 @@
     <section class="hero-impact" id="inicio">
         <img src="images/gula-burger-hero.png" alt="GULA" class="hero-impact-image">
         <div class="hero-impact-overlay"></div>
+        <div class="hero-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; max-width: 800px;">
+            <h1 style="font-family: 'Aveline', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; line-height: 1; color: var(--gula-orange); text-shadow: 0 0 30px rgba(255,88,0,0.5);">desliza y descubre nuestro universo</h1>
+        </div>
     </section>
 
     <section class="hero-content-section" id="bienvenida">
@@ -2766,21 +2767,21 @@
         </div>
         <div class="hero-content">
             <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-60px;right:-40px;animation:decoFloat 10s ease-in-out infinite;" alt="">
-            <h1>Bienvenido a <span class="orange">GULA</span></h1>
+            <h1>Bienvenido a <span style="color: var(--gula-orange);">GULA</span></h1>
             <p class="hero-subtitle">Esto empieza con una gran burger.<br>Pero puede ir mucho más allá.</p>
             <div class="hero-cta-trio">
                 <a href="marketplace.html" class="cta-card" data-tilt>
-                    <div class="cta-icon"><img src="images/graficos/Diablito.png" alt=""></div>
+                    <div class="cta-icon"><img src="images/IMG_4958.jpg" alt=""></div>
                     <div class="cta-label">Ver Carta</div>
                     <div class="cta-sub">Pide ahora</div>
                 </a>
                 <a href="club.html" class="cta-card" data-tilt>
-                    <div class="cta-icon"><img src="images/graficos/Diablito_sentado_1.png" alt=""></div>
+                    <div class="cta-icon"><img src="images/gula-crew-sticker.png" alt=""></div>
                     <div class="cta-label">El Sistema</div>
                     <div class="cta-sub">Pronto</div>
                 </a>
                 <a href="franquicias.html" class="cta-card" data-tilt>
-                    <div class="cta-icon"><img src="images/graficos/Diablito_sentado_2.png" alt=""></div>
+                    <div class="cta-icon"><img src="images/Screenshot 2026-06-13 at 18.16.40.png" alt=""></div>
                     <div class="cta-label">Abre tu GULA</div>
                     <div class="cta-sub">Franquicia</div>
                 </a>
@@ -2806,9 +2807,9 @@
                 <h3>Tu burger también <span>juega</span></h3>
                 <p>Club GULA convierte cada pedido en progreso: acumulas puntos, subes de nivel y desbloqueas recompensas, drops, eventos privados y ventajas reales. Es la forma de vivir GULA desde dentro y hacer que tu opinión cuente.</p>
                 <div class="club-flow">
-                    <div class="club-flow-card"><strong>COMES</strong><span>Cada pedido suma puntos a tu perfil.</span></div>
-                    <div class="club-flow-card"><strong>SUBES</strong><span>Pasas de Neophyte → Crew → High Crew → Founders.</span></div>
-                    <div class="club-flow-card"><strong>DECIDES</strong><span>La CREW vota productos, drops y experiencias.</span></div>
+                    <div class="club-flow-card"><strong>VUELVES</strong><span>Cada visita suma puntos a tu perfil.</span></div>
+                    <div class="club-flow-card"><strong>PARTICIPAS</strong><span>Pasas de Neophyte → Crew → High Crew → Founders.</span></div>
+                    <div class="club-flow-card"><strong>DECIDES</strong><span>La CREW vota productos, acceso a drops y experiencias.</span></div>
                 </div>
                 <a href="club.html" class="btn-pill primary magnetic">Club GULA pronto</a>
             </div>

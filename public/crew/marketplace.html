@@ -924,20 +924,18 @@
     </nav>
 
     <div class="marketplace-container" style="position: relative;">
-        <img src="images/graficos/Diablito_GULA_fantasma.png" class="gula-deco" style="top:-10px;right:10px;animation:decoFloat 10s ease-in-out infinite;" alt="">
-        <img src="images/graficos/Diablito.png" class="gula-deco" style="bottom:60px;left:10px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
         <div class="marketplace-header">
             <h1>Nuestra <span class="highlight">Carta</span></h1>
-            <p style="margin-top:1.5rem; font-family:'Akira Expanded',sans-serif; letter-spacing:2px; text-transform:uppercase; font-size:0.85rem;">La carta se contempla. El pecado, se encarga.</p>
-            <p style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.5rem;margin-bottom:20px; font-family:'Akira Expanded',sans-serif; letter-spacing:1.5px; text-transform:uppercase;">El carrito descansa. El pecado nunca duerme. ¿Dónde? Eso tú decides.</p>
+            <p style="margin-top:1.5rem; font-family:'Akira Expanded',sans-serif; letter-spacing:2px; text-transform:uppercase; font-size:0.85rem;">El club gula no es para todos, nuestras burgers tampoco.</p>
+            <p style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.5rem;margin-bottom:20px; font-family:'Akira Expanded',sans-serif; letter-spacing:1.5px; text-transform:uppercase;">Pruébalas y entenderás porque…</p>
             <div class="order-platforms">
                 <div class="delivery-dropdown">
                     <button class="platform-btn delivery" type="button" onclick="toggleDeliveryMenu()" aria-expanded="false" aria-controls="deliveryMenu">
-                        <img src="images/graficos/Diablito.png" style="width:28px;height:28px;object-fit:contain;vertical-align:-6px;margin-right:8px;filter:drop-shadow(0 0 4px rgba(255,88,0,0.5));" alt=""> Delivery
+                        Pedir Delivery
                     </button>
                     <div class="delivery-menu" id="deliveryMenu">
-                        <a class="platform-btn glovo" href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" rel="noopener" aria-label="Pedir GULA en Glovo"><img src="images/graficos/Diablito_sentado_1.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-5px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""> Pedir en Glovo</a>
-                        <a class="platform-btn uber" href="https://www.ubereats.com/es/search?q=gula" target="_blank" rel="noopener" aria-label="Pedir GULA en Uber Eats"><img src="images/graficos/Diablito_sentado_2.png" style="width:32px;height:32px;object-fit:contain;vertical-align:-5px;margin-right:8px;filter:drop-shadow(0 0 5px rgba(255,88,0,0.5));" alt=""> Pedir en Uber Eats</a>
+                        <a class="platform-btn glovo" href="https://glovoapp.com/es/es/search/?query=gula" target="_blank" rel="noopener" aria-label="Pedir GULA en Glovo">Pedir en Glovo</a>
+                        <a class="platform-btn uber" href="https://www.ubereats.com/es/search?q=gula" target="_blank" rel="noopener" aria-label="Pedir GULA en Uber Eats">Pedir en Uber Eats</a>
                     </div>
                 </div>
             </div>
@@ -956,8 +954,6 @@
 
         <!-- REVIEWS -->
         <section class="reviews-section" style="margin: 5rem auto; max-width: 1200px; position: relative;">
-            <img src="images/graficos/Diablito_sentado_1.png" class="gula-deco" style="top:-20px;left:20px;animation:decoFloat 10s ease-in-out infinite;" alt="">
-            <img src="images/graficos/Diablito_sentado_2.png" class="gula-deco" style="bottom:-20px;right:20px;animation:decoFloat 12s ease-in-out infinite reverse;" alt="">
             <div style="text-align:center; margin-bottom: 2.5rem;">
                 <div style="font-family:'Akira Expanded',sans-serif; font-size: 0.7rem; letter-spacing: 4px; color: var(--gula-orange); text-transform: uppercase; margin-bottom: 0.6rem;">Lo que dice la CREW</div>
                 <h2 style="font-family:'Aveline',sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; letter-spacing: 1px;">Reseñas reales en <span style="color:var(--gula-orange)">Google</span> y <span style="color:var(--gula-orange)">Uber Eats</span></h2>
@@ -1079,7 +1075,7 @@
                 <!-- Club GULA Gate -->
                 <div class="club-gate" id="clubGate">
                     <h3>Acceso Club GULA</h3>
-                    <p>Necesitas tu cuenta para completar la compra y acumular puntos en cada pedido.</p>
+                    <p>Necesitas tu cuenta para completar la compra.</p>
                     <a href="CLUBGULA.html">Entrar al Club</a>
                 </div>
                 <div class="logged-user" id="loggedUser" style="display:none;">
@@ -1239,19 +1235,19 @@
         function initializeProducts() {
             products = [
                 { id: 1, title: 'BBK', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[1], description: 'Doble smash, queso cheddar, bacon bits', rating: 4.9 },
-                    { id: 2, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Pollo crujiente con salsas premium', rating: 4.8 },
-                { id: 3, title: 'Buffalo Ranch (Carne)', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Salsa buffalo con carne premium', rating: 4.7 },
+                    { id: 2, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Pollo crujiente con salsas', rating: 4.8 },
+                { id: 3, title: 'Buffalo Ranch (Carne)', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Salsa buffalo con carne', rating: 4.7 },
                 { id: 4, title: 'Cheese Bacon', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[4], description: 'Queso cheddar y bacon crujiente', rating: 4.8 },
                 { id: 5, title: 'Cheeseburger', category: 'burgers', price: 11.90, image: PRODUCT_IMAGES[5], description: 'Clasico con queso derretido', rating: 4.6 },
-                { id: 6, title: "Pope's", category: 'burgers', price: 12.90, image: PRODUCT_IMAGES[6], description: 'Receta especial premium', rating: 4.7 },
+                { id: 6, title: "Pope's", category: 'burgers', price: 12.90, image: PRODUCT_IMAGES[6], description: 'Receta especial', rating: 4.7 },
                 { id: 7, title: 'Spicy V', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[7], description: 'Picante y vegetal, muy sabrosa', rating: 4.5 },
                 { id: 8, title: 'The Sinner', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[8], description: 'Pecadosamente deliciosa', rating: 4.9 },
-                { id: 9, title: 'The Trufa Corp', category: 'burgers', price: 14.90, image: PRODUCT_IMAGES[9], description: 'Salsa trufada premium', rating: 4.9 },
+                { id: 9, title: 'The Trufa Corp', category: 'burgers', price: 14.90, image: PRODUCT_IMAGES[9], description: 'Salsa trufada', rating: 4.9 },
                 { id: 10, title: 'Trufa Corp Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[10], description: 'Pollo con salsa trufada', rating: 4.8 },
-                { id: 11, title: 'Golden Slider', category: 'sliders', price: 7.90, image: PRODUCT_IMAGES[11], description: 'Mini burger premium', rating: 4.7 },
+                { id: 11, title: 'Golden Slider', category: 'sliders', price: 7.90, image: PRODUCT_IMAGES[11], description: 'Mini burger', rating: 4.7 },
                 { id: 12, title: 'Alitas', category: 'sides', price: 8.50, image: PRODUCT_IMAGES[12], description: 'Alitas de pollo barbacoa crujientes', rating: 4.6 },
                 { id: 13, title: 'Fritas Bacon & Queso', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[13], description: 'Patatas con bacon y queso', rating: 4.5 },
-                { id: 14, title: 'Fritas Buffalo Ranch', category: 'sides', price: 7.50, image: PRODUCT_IMAGES[14], description: 'Patatas fritas, salsa buffalo premium', rating: 4.7 },
+                { id: 14, title: 'Fritas Buffalo Ranch', category: 'sides', price: 7.50, image: PRODUCT_IMAGES[14], description: 'Patatas fritas, salsa buffalo', rating: 4.7 },
                 { id: 15, title: 'Fritas Trufadas', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[15], description: 'Patatas crujientes con salsa trufa', rating: 4.8 },
                 { id: 16, title: 'Nuestras Fritas', category: 'sides', price: 3.40, image: PRODUCT_IMAGES[16], description: 'Patatas crujientes al punto de sal', rating: 4.5 },
                 { id: 17, title: 'Pollo Frito', category: 'sides', price: 9.90, image: PRODUCT_IMAGES[17], description: 'Pollo crujiente y jugoso', rating: 4.7 },
@@ -1263,7 +1259,7 @@
                 { id: 23, title: 'Pleasure for Two', category: 'combos', price: 30.90, image: PRODUCT_IMAGES[23], description: '2 burgers + sides + bebidas + postres', rating: 4.9 },
                 { id: 24, title: 'Sin City', category: 'combos', price: 69.00, image: PRODUCT_IMAGES[24], description: '4 burgers + entrantes + bebidas + postres', rating: 5.0 },
                 { id: 25, title: 'Sinner Combo', category: 'combos', price: 14.90, image: PRODUCT_IMAGES[25], description: 'The Sinner + sides + bebida', rating: 4.7 },
-                { id: 26, title: 'The Golden Bite', category: 'combos', price: 20.00, image: PRODUCT_IMAGES[26], description: 'Burger premium + entrante + bebida', rating: 4.8 },
+                { id: 26, title: 'The Golden Bite', category: 'combos', price: 20.00, image: PRODUCT_IMAGES[26], description: 'Burger + entrante + bebida', rating: 4.8 },
             ];
             renderProducts(products);
         }
@@ -1271,15 +1267,10 @@
         function renderProducts(productsToShow = products) {
             const grid = document.getElementById('productsGrid');
             grid.innerHTML = productsToShow.map(product => {
-                const puntos = Math.round(product.price);
                 return `
                 <div class="product-card" data-category="${product.category}">
                     <div class="product-image">
                         <img src="${product.image || ''}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px 15px 0 0;" onerror="this.style.display='none'">
-                        <span class="product-badge">Premium</span>
-                        <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(135deg, #FF5800, #FF7A29); color: #000; padding: 5px 12px; border-radius: 15px; font-family: 'Akira Expanded', sans-serif; font-size: 0.75rem; font-weight: 900;">
-                            +${puntos} pts CREW
-                        </div>
                     </div>
                     <div class="product-content">
                         <div class="product-category">${product.category.toUpperCase()}</div>
@@ -1290,7 +1281,7 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price">${product.price.toFixed(2)}&#8364;</div>
-                            <button class="add-to-cart-btn" onclick="openStoresModal()" aria-label="Dónde pedir ${product.title}"><img src="images/graficos/Diablito.png" style="width:20px;height:20px;object-fit:contain;filter:drop-shadow(0 0 3px rgba(255,88,0,0.4));" alt=""></button>
+                            <button class="add-to-cart-btn" onclick="openStoresModal()" aria-label="Dónde pedir ${product.title}">Pedir</button>
                         </div>
                     </div>
                 </div>
@@ -1317,14 +1308,6 @@
             }
             updateCartUI();
             posthog.capture('add_to_cart', { product: product.title, price: product.price });
-            
-            // Mostrar mensaje de puntos
-            const puntos = Math.round(product.price);
-            const totalCarrito = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const puntosTotales = Math.round(totalCarrito);
-            const puntosParaRecompensa = 50 - (puntosTotales % 50);
-            
-            showPointsToast(puntos, puntosParaRecompensa);
         }
         
         function showPointsToast(puntosGanados, puntosFaltantes) {
@@ -1691,12 +1674,6 @@
                     <div style="font-size:3rem;margin-bottom:12px">🔥</div>
                     <h2 style="font-family:'Akira Expanded',sans-serif;color:#FF5800;margin-bottom:8px;letter-spacing:1px;">PEDIDO CONFIRMADO</h2>
                     <p style="color:#aaa;font-size:0.9rem;margin-bottom:20px;">Total: <strong style="color:#fff">${total.toFixed(2)}€</strong></p>
-                    ${pts > 0 && user ? `
-                    <div style="background:rgba(255,88,0,0.12);border:1.5px solid rgba(255,88,0,0.4);border-radius:14px;padding:16px;margin-bottom:20px;">
-                        <div style="font-family:'Akira Expanded',sans-serif;color:#FF5800;font-size:1.5rem;">+${pts} PTS CREW</div>
-                        <div style="color:#ccc;font-size:0.82rem;margin-top:4px;">Puntos acreditados a tu cuenta</div>
-                        ${user.puntos ? `<div style="color:#fff;font-weight:700;margin-top:4px;font-size:0.9rem;">★ Total: ${user.puntos} pts</div>` : ''}
-                    </div>` : ''}
                     <p style="color:#666;font-size:0.78rem;margin-bottom:20px;">Recibirás los detalles en el email de tu Club GULA.</p>
                     <button onclick="this.closest('[style*=fixed]').remove()" style="background:#FF5800;color:#000;border:none;padding:14px;border-radius:12px;font-family:'Akira Expanded',sans-serif;font-size:0.9rem;cursor:pointer;width:100%;letter-spacing:1px;">ACEPTAR</button>
                 </div>`;

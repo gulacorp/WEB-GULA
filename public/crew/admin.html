@@ -52,6 +52,7 @@
       <button class="nav" data-tab="orders"><i class="lu lu-receipt"></i><span>Pedidos</span><kbd>P</kbd></button>
       <button class="nav" data-tab="delivery"><i class="lu lu-truck"></i><span>Delivery</span><kbd>D</kbd></button>
       <button class="nav" data-tab="growth"><i class="lu lu-trending-up"></i><span>Growth</span><kbd>G</kbd></button>
+      <button class="nav" data-tab="analytics"><i class="lu lu-bar-chart-2"></i><span>Analytics</span><kbd>A</kbd></button>
       <button class="nav" data-tab="settings"><i class="lu lu-settings"></i><span>Sistema</span><kbd>,</kbd></button>
     </nav>
     <div class="side-foot">
@@ -307,6 +308,33 @@
           <div id="promosTable"></div>
         </article>
         <article class="card"><h2>Consentimientos</h2><div id="consentsTable"></div></article>
+      </div>
+    </section>
+
+    <!-- ============= ANALYTICS ============= -->
+    <section id="analytics" class="tab">
+      <header class="page-head">
+        <div><div class="page-eyebrow">Analytics</div><h1>Comportamiento de usuarios en tiempo real</h1></div>
+        <div class="row">
+          <button class="btn btn-ghost" onclick="loadEvents()"><i class="lu lu-refresh-cw"></i> Refrescar eventos</button>
+          <button class="btn btn-ghost" onclick="loadEventsSummary()"><i class="lu lu-refresh-cw"></i> Refrescar resumen</button>
+          <button class="btn btn-ghost" onclick="loadPageViews()"><i class="lu lu-refresh-cw"></i> Refrescar page views</button>
+        </div>
+      </header>
+
+      <div class="grid-2">
+        <article class="card" style="grid-column:1/-1">
+          <header class="card-head"><h2>Resumen de eventos</h2><span class="hint">Agregado por tipo de evento</span></header>
+          <div id="eventsSummaryTable"></div>
+        </article>
+        <article class="card" style="grid-column:1/-1">
+          <header class="card-head"><h2>Page views por ruta</h2><span class="hint">Tráfico por página</span></header>
+          <div id="pageViewsTable"></div>
+        </article>
+        <article class="card" style="grid-column:1/-1">
+          <header class="card-head"><h2>Últimos eventos (últimos 100)</h2><span class="hint">Flujo en tiempo real</span></header>
+          <div id="eventsTable"></div>
+        </article>
       </div>
     </section>
 
