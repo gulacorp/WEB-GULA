@@ -819,7 +819,7 @@
 
         .hero-content {
             max-width: 900px;
-            animation: fadeInUp 1s ease-out;
+            animation: fadeInUp 1.2s ease-out;
             z-index: 2;
             position: relative;
         }
@@ -866,7 +866,7 @@
             margin-bottom: 20px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            animation: slideInRight 0.8s ease-out 0.2s both;
+            animation: slideInRight 1s ease-out 0.3s both;
         }
 
         .hero h1 .orange {
@@ -883,7 +883,7 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
-            animation: fadeInUp 1s ease-out 0.4s both;
+            animation: fadeInUp 1.2s ease-out 0.5s both;
         }
 
         .hero-ctas {
@@ -891,7 +891,7 @@
             gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.6s both;
+            animation: fadeInUp 1.2s ease-out 0.7s both;
         }
 
         .primary-btn {
@@ -1787,48 +1787,27 @@
 
         .add-to-cart-btn {
             background: linear-gradient(135deg, var(--gula-orange) 0%, #FF7A29 100%);
-            color: var(--bg-dark);
+            color: #000;
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 0.85rem;
+            font-family: 'Akira Expanded', sans-serif;
             font-weight: 900;
-            font-size: 1.2rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 88, 0, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
-        }
-
-        .add-to-cart-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .add-to-cart-btn:hover::before {
-            width: 100px;
-            height: 100px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 5px 20px rgba(255, 88, 0, 0.2);
+            white-space: nowrap;
         }
 
         .add-to-cart-btn:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 40px rgba(255, 88, 0, 0.6), inset 0 0 25px rgba(255, 255, 255, 0.15), 0 10px 25px rgba(255, 88, 0, 0.4);
-        }
-
-        .add-to-cart-btn:active {
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 88, 0, 0.4);
         }
 
         .cart-modal {
@@ -3154,18 +3133,18 @@
 
         function initializeProducts() {
             products = [
-                { id: 1, title: 'The Trufa Corp Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[1], description: 'Pollo crujiente, queso cheddar, parmesano, salsa trufada', rating: 4.8 },
-                { id: 2, title: 'Buffalo Ranch', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Doble smash, queso cheddar, salsa buffalo', rating: 4.7 },
-                { id: 3, title: 'BBK', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Doble smash, queso cheddar, bacon bits', rating: 4.9 },
-                { id: 4, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[4], description: 'Pollo crujiente, queso cheddar, salsa queen', rating: 4.8 },
-                { id: 5, title: 'Alitas', category: 'entrantes', price: 8.50, image: PRODUCT_IMAGES[5], description: 'Alitas de pollo barbacoa crujientes', rating: 4.6 },
-                { id: 6, title: 'Fritas Buffalo Ranch', category: 'entrantes', price: 7.50, image: PRODUCT_IMAGES[6], description: 'Patatas fritas, salsa buffalo premium', rating: 4.7 },
-                { id: 7, title: 'Nuestras Fritas', category: 'entrantes', price: 3.40, image: PRODUCT_IMAGES[7], description: 'Patatas crujientes al punto de sal', rating: 4.5 },
+                { id: 1, title: 'The Trufa Corp Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[1], description: 'Pollo crujiente, queso cheddar, parmesano, salsa trufada, cebolla caramelizada y pan brioche.', rating: 4.8 },
+                { id: 2, title: 'Buffalo Ranch', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Doble smash, queso cheddar, salsa buffalo, salsa ranchera, pepinillo y pan brioche.', rating: 4.7 },
+                { id: 3, title: 'BBK', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Doble smash, queso cheddar, bacon bits, pepinillo, salsa BBK y pan brioche.', rating: 4.9 },
+                { id: 4, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[4], description: 'Pollo crujiente, queso cheddar, lechuga, tomate, salsa queen y pan brioche.', rating: 4.8 },
+                { id: 5, title: 'Alitas BBK', category: 'entrantes', price: 8.50, image: PRODUCT_IMAGES[5], description: 'Alitas de pollo barbacoa crujientes.', rating: 4.6 },
+                { id: 6, title: 'Fritas Buffalo Ranch', category: 'entrantes', price: 7.50, image: PRODUCT_IMAGES[6], description: 'Patatas Fritas, salsa Ranchera, salsa Buffalo, bacon bits, queso parmesano y pollo frito crujiente.', rating: 4.7 },
+                { id: 7, title: 'Nuestras fritas', category: 'entrantes', price: 3.40, image: PRODUCT_IMAGES[7], description: 'Patatas fritas crujientes al punto de sal.', rating: 4.5 },
                 { id: 8, title: 'Lotus³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[8], description: 'Crema de Lotus y galleta Biscoff. Adictivo.', rating: 4.9 },
                 { id: 9, title: 'Brownie³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[9], description: 'Brownie en tarro con crema de cacao', rating: 4.9 },
-                { id: 10, title: 'Sin City Combo', category: 'combos', price: 69.90, image: PRODUCT_IMAGES[10], description: '4 burgers + entrantes + bebidas + postres', rating: 5.0 },
-                { id: 11, title: 'Pleasure for 2', category: 'combos', price: 31.90, image: PRODUCT_IMAGES[11], description: '2 burgers + entrante + bebidas', rating: 4.9 },
-                { id: 12, title: 'Golden Bite', category: 'combos', price: 20.90, image: PRODUCT_IMAGES[12], description: 'Burger + entrante favorito', rating: 4.8 },
+                { id: 10, title: 'The Sin City Combo', category: 'combos', price: 69.90, image: PRODUCT_IMAGES[10], description: '4 burgers + 2 entrantes para compartir + 4 bebidas + 2 postres.', rating: 5.0 },
+                { id: 11, title: 'The Pleasure for 2 Combo', category: 'combos', price: 31.90, image: PRODUCT_IMAGES[11], description: '2 burgers + entrante para compartir + 2 bebidas.', rating: 4.9 },
+                { id: 12, title: 'The Golden Bite', category: 'combos', price: 20.90, image: PRODUCT_IMAGES[12], description: 'Elige tu burger combinado con uno de tus entrantes favoritos.', rating: 4.8 },
             ];
         }
 
@@ -3196,7 +3175,7 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price">${product.price.toFixed(2)}€</div>
-                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})"><img src="images/graficos/Diablito.png" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.5));" alt=""></button>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Pedir</button>
                         </div>
                     </div>
                 </div>
@@ -3222,7 +3201,7 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price">${product.price.toFixed(2)}€</div>
-                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})"><img src="images/graficos/Diablito.png" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 4px rgba(255,88,0,0.5));" alt=""></button>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Pedir</button>
                         </div>
                     </div>
                 </div>

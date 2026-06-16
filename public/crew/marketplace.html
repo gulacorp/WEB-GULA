@@ -386,21 +386,24 @@
             background: linear-gradient(135deg, var(--gula-orange) 0%, #FF7A29 100%);
             color: #000;
             border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+            padding: 12px 24px;
+            border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 0.85rem;
+            font-family: 'Akira Expanded', sans-serif;
             font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 5px 20px rgba(255, 88, 0, 0.2);
+            white-space: nowrap;
         }
 
         .add-to-cart-btn:hover {
-            transform: scale(1.15);
+            transform: translateY(-2px);
             box-shadow: 0 15px 40px rgba(255, 88, 0, 0.4);
         }
 
@@ -1234,32 +1237,32 @@
 
         function initializeProducts() {
             products = [
-                { id: 1, title: 'BBK', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[1], description: 'Doble smash, queso cheddar, bacon bits', rating: 4.9 },
-                    { id: 2, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Pollo crujiente con salsas', rating: 4.8 },
-                { id: 3, title: 'Buffalo Ranch (Carne)', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Salsa buffalo con carne', rating: 4.7 },
-                { id: 4, title: 'Cheese Bacon', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[4], description: 'Queso cheddar y bacon crujiente', rating: 4.8 },
-                { id: 5, title: 'Cheeseburger', category: 'burgers', price: 11.90, image: PRODUCT_IMAGES[5], description: 'Clasico con queso derretido', rating: 4.6 },
-                { id: 6, title: "Pope's", category: 'burgers', price: 12.90, image: PRODUCT_IMAGES[6], description: 'Receta especial', rating: 4.7 },
-                { id: 7, title: 'Spicy V', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[7], description: 'Picante y vegetal, muy sabrosa', rating: 4.5 },
-                { id: 8, title: 'The Sinner', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[8], description: 'Pecadosamente deliciosa', rating: 4.9 },
-                { id: 9, title: 'The Trufa Corp', category: 'burgers', price: 14.90, image: PRODUCT_IMAGES[9], description: 'Salsa trufada', rating: 4.9 },
-                { id: 10, title: 'Trufa Corp Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[10], description: 'Pollo con salsa trufada', rating: 4.8 },
-                { id: 11, title: 'Golden Slider', category: 'sliders', price: 7.90, image: PRODUCT_IMAGES[11], description: 'Mini burger', rating: 4.7 },
-                { id: 12, title: 'Alitas', category: 'sides', price: 8.50, image: PRODUCT_IMAGES[12], description: 'Alitas de pollo barbacoa crujientes', rating: 4.6 },
-                { id: 13, title: 'Fritas Bacon & Queso', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[13], description: 'Patatas con bacon y queso', rating: 4.5 },
-                { id: 14, title: 'Fritas Buffalo Ranch', category: 'sides', price: 7.50, image: PRODUCT_IMAGES[14], description: 'Patatas fritas, salsa buffalo', rating: 4.7 },
-                { id: 15, title: 'Fritas Trufadas', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[15], description: 'Patatas crujientes con salsa trufa', rating: 4.8 },
-                { id: 16, title: 'Nuestras Fritas', category: 'sides', price: 3.40, image: PRODUCT_IMAGES[16], description: 'Patatas crujientes al punto de sal', rating: 4.5 },
-                { id: 17, title: 'Pollo Frito', category: 'sides', price: 9.90, image: PRODUCT_IMAGES[17], description: 'Pollo crujiente y jugoso', rating: 4.7 },
+                { id: 1, title: 'BBK', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[1], description: 'Doble smash, queso cheddar, bacon bits, pepinillo, salsa BBK y pan brioche.', rating: 4.9 },
+                    { id: 2, title: 'Bohemian Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[2], description: 'Pollo crujiente, queso cheddar, lechuga, tomate, salsa queen y pan brioche.', rating: 4.8 },
+                { id: 3, title: 'Buffalo Ranch (Carne)', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[3], description: 'Doble smash, queso cheddar, salsa buffalo, salsa ranchera, pepinillo y pan brioche.', rating: 4.7 },
+                { id: 4, title: 'Cheese Bacon', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[4], description: 'Doble smash, queso cheddar, salsa bacon, bacon bits, pepinillo y pan brioche.', rating: 4.8 },
+                { id: 5, title: 'Cheese JR', category: 'burgers', price: 11.90, image: PRODUCT_IMAGES[5], description: 'Carne smash, queso cheddar, ketchup, mayonesa y pan brioche.', rating: 4.6 },
+                { id: 6, title: "Pope's", category: 'burgers', price: 12.90, image: PRODUCT_IMAGES[6], description: 'Doble smash, queso cheddar, pepinillo, cebolla encurtida, ketchup y mostaza.', rating: 4.7 },
+                { id: 7, title: 'Spicy V', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[7], description: 'Doble smash, queso cheddar, jalapeño, salsa chipotle, bacon bits y pan brioche.', rating: 4.5 },
+                { id: 8, title: 'The Sinner', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[8], description: 'Doble smash, queso cheddar, canónigos, tomate, salsa Queen y pan brioche.', rating: 4.9 },
+                { id: 9, title: 'The Trufa Corp', category: 'burgers', price: 14.90, image: PRODUCT_IMAGES[9], description: 'Doble smash, queso cheddar, parmesano, salsa trufada, cebolla caramelizada, huevo frito y pan brioche.', rating: 4.9 },
+                { id: 10, title: 'The Trufa Corp Chicken', category: 'burgers', price: 13.90, image: PRODUCT_IMAGES[10], description: 'Pollo crujiente, queso cheddar, parmesano, salsa trufada, cebolla caramelizada y pan brioche.', rating: 4.8 },
+                { id: 11, title: 'Golden Slider', category: 'sliders', price: 7.90, image: PRODUCT_IMAGES[11], description: 'Carne smash, queso cheddar salsa trufada, salsa BBK, cebolla caramelizada y pan brioche.', rating: 4.7 },
+                { id: 12, title: 'Alitas BBK', category: 'sides', price: 8.50, image: PRODUCT_IMAGES[12], description: 'Alitas de pollo barbacoa crujientes.', rating: 4.6 },
+                { id: 13, title: 'Fritas Bacon y Queso', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[13], description: 'Patatas Fritas, salsa Bacon, queso parmesano y bacon bits.', rating: 4.5 },
+                { id: 14, title: 'Fritas Buffalo Ranch', category: 'sides', price: 7.50, image: PRODUCT_IMAGES[14], description: 'Patatas Fritas, salsa Ranchera, salsa Buffalo, bacon bits, queso parmesano y pollo frito crujiente.', rating: 4.7 },
+                { id: 15, title: 'Fritas Trufadas', category: 'sides', price: 6.50, image: PRODUCT_IMAGES[15], description: 'Patatas Fritas, salsa trufada y queso parmesano.', rating: 4.8 },
+                { id: 16, title: 'Nuestras fritas', category: 'sides', price: 3.40, image: PRODUCT_IMAGES[16], description: 'Patatas fritas crujientes al punto de sal.', rating: 4.5 },
+                { id: 17, title: 'Pollo frito al estilo Gula', category: 'sides', price: 9.90, image: PRODUCT_IMAGES[17], description: 'Pechuga de pollo crujiente con salsa para dippear.', rating: 4.7 },
                 { id: 18, title: 'Brownie³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[18], description: 'Brownie en tarro. Capas de brownie y crema de cacao', rating: 4.9 },
                 { id: 19, title: 'Cheesecake de Fresa³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[19], description: 'Cheesecake con corazon de fresa y galleta crujiente', rating: 4.8 },
                 { id: 20, title: 'Lotus³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[20], description: 'Crema de Lotus y galleta Biscoff. Adictivo.', rating: 4.9 },
                 { id: 21, title: 'Oreo Cookie³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[21], description: 'Crema y galleta Oreo en capas', rating: 4.8 },
                 { id: 22, title: 'Carrot³', category: 'postres', price: 5.80, image: PRODUCT_IMAGES[22], description: 'Tarta de zanahoria con queso crema y crumble', rating: 4.7 },
-                { id: 23, title: 'Pleasure for Two', category: 'combos', price: 30.90, image: PRODUCT_IMAGES[23], description: '2 burgers + sides + bebidas + postres', rating: 4.9 },
-                { id: 24, title: 'Sin City', category: 'combos', price: 69.00, image: PRODUCT_IMAGES[24], description: '4 burgers + entrantes + bebidas + postres', rating: 5.0 },
-                { id: 25, title: 'Sinner Combo', category: 'combos', price: 14.90, image: PRODUCT_IMAGES[25], description: 'The Sinner + sides + bebida', rating: 4.7 },
-                { id: 26, title: 'The Golden Bite', category: 'combos', price: 20.00, image: PRODUCT_IMAGES[26], description: 'Burger + entrante + bebida', rating: 4.8 },
+                { id: 23, title: 'The Pleasure for 2 Combo', category: 'combos', price: 30.90, image: PRODUCT_IMAGES[23], description: '2 burgers + entrante para compartir + 2 bebidas.', rating: 4.9 },
+                { id: 24, title: 'The Sin City Combo', category: 'combos', price: 69.00, image: PRODUCT_IMAGES[24], description: '4 burgers + 2 entrantes para compartir + 4 bebidas + 2 postres.', rating: 5.0 },
+                { id: 25, title: 'The Sinner Combo', category: 'combos', price: 14.90, image: PRODUCT_IMAGES[25], description: 'Precio variable en función de burger elegida. Burger + nuestras fritas + bebida.', rating: 4.7 },
+                { id: 26, title: 'The Golden Bite', category: 'combos', price: 20.00, image: PRODUCT_IMAGES[26], description: 'Elige tu burger combinado con uno de tus entrantes favoritos.', rating: 4.8 },
             ];
             renderProducts(products);
         }
