@@ -35,7 +35,7 @@
 
         /* NAVBAR — estándar único */
         nav{position:fixed;top:0;width:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(20px);border-bottom:2px solid var(--border-color);padding:0 28px;z-index:1000;display:flex;justify-content:space-between;align-items:center;height:72px;box-shadow:0 8px 32px rgba(255,88,0,0.1);overflow:hidden}
-        nav::before{content:'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G';position:absolute;left:0;top:50%;transform:translateY(-50%);font-family:'Aveline',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,88,0,0.08);white-space:nowrap;letter-spacing:20px;animation:slideHorizontal 20s linear infinite;z-index:-1;pointer-events:none}
+        nav::before{content:'GULA G GULA G GULA G GULA G GULA G GULA G GULA G GULA G';position:absolute;left:0;top:50%;transform:translateY(-50%);font-family:'Aveline',sans-serif;font-size:2rem;font-weight:900;color:rgba(255,88,0,0.08);white-space:nowrap;letter-spacing:0px;animation:slideHorizontal 20s linear infinite;z-index:-1;pointer-events:none}
         @keyframes slideHorizontal{0%{transform:translateY(-50%) translateX(0)}100%{transform:translateY(-50%) translateX(-50%)}}
         .nav-logo{font-family:'Aveline',sans-serif;font-size:1.8rem;font-weight:900;color:var(--gula-orange);letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all 0.3s ease}
         .nav-logo:hover{transform:scale(1.05);text-shadow:0 0 20px rgba(255,88,0,0.5)}
